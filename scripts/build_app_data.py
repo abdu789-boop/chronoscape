@@ -5,7 +5,7 @@ level: tier-1 sources apply only inside narrow authority windows, so only the
 intervals overlapping those windows need splitting and clipping. Everywhere
 else the arbitration-corrected tier-2 skeleton passes through untouched.
 
-Outputs (app/data/):
+Outputs (docs/data/):
   polities.json  [{n name, f from, t to, a area_km2, s source, tier, g geometry}]
   years.json     sorted years where the map changes (the slider's snap targets)
   cities.json    Reba/Chandler-Modelski cities with population time series
@@ -25,7 +25,7 @@ import resolve as R
 
 ROOT = R.ROOT
 RAW = os.path.join(ROOT, "data/raw")
-OUT = os.path.join(ROOT, "app/data")
+OUT = os.path.join(ROOT, "docs/data")
 SIMPLIFY_DEG = 0.08          # ~9 km at the equator; this viewer is continental
 COORD_DECIMALS = 3
 GEOD = Geod(ellps="WGS84")

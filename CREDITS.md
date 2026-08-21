@@ -1,7 +1,7 @@
 # Sources and credits
 
 This project draws borders, cities and coastlines from other people's work. The
-derived files in `app/data/` are built from the sources below.
+derived files in `docs/data/` are built from the sources below.
 
 ## Polity borders
 
@@ -33,15 +33,15 @@ Public domain. https://www.naturalearthdata.com/
 ## Consulted but not redistributed
 
 **historical-basemaps** (aourednik) is GPL-3.0 and is used only as a tier-3
-cross-check: it is never drawn and never ships in `app/data/`. It is not
+cross-check: it is never drawn and never ships in `docs/data/`. It is not
 included in this repository.
 
 ---
 
 ## Licensing of this repository
 
-- **Code** (`scripts/`, `app/index.html`): MIT, see LICENSE.
-- **Derived data** (`app/data/`): **ODbL 1.0**. It contains geometry derived
+- **Code** (`scripts/`, `docs/index.html`): MIT, see LICENSE.
+- **Derived data** (`docs/data/`): **ODbL 1.0**. It contains geometry derived
   from AWMC's ODbL database, and ODbL's share-alike terms carry over to any
   derived database that is publicly used.
 

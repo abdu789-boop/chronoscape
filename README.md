@@ -6,7 +6,7 @@ change. Equal Earth and globe projections.
 ## Run it
 
 ```bash
-python3 -m http.server 8451 --directory app
+python3 -m http.server 8451 --directory docs
 ```
 
 Then open http://localhost:8451. (In Claude Code: the `histmap` launch config.)
@@ -36,9 +36,9 @@ polity claims the ground.
       ne_110m_admin_0_boundary_lines_land.json   modern borders, reference only
       reba/        Reba/Chandler-Modelski city populations, 3700 BCE–2000 CE
     scripts/
-      build_app_data.py   raw sources -> app/data/*.json
+      build_app_data.py   raw sources -> docs/data/*.json
       render_slice.py     static PNG renders for source comparison
-    app/           the viewer (vanilla JS + d3, no build step)
+    docs/          the viewer (served by GitHub Pages) (vanilla JS + d3, no build step)
     renders/       static comparison renders
 
 ## Rebuilding the viewer data
@@ -47,7 +47,7 @@ polity claims the ground.
 .venv/bin/python scripts/build_app_data.py
 ```
 
-Produces `app/data/polities.json` (12k features, simplified to ~9 km),
+Produces `docs/data/polities.json` (12k features, simplified to ~9 km),
 `years.json` (522 years where the map changes — the slider's snap targets),
 `polity_index.json` (1403 polities: lifespan, peak year and area, inferred
 predecessors and successors, and modern countries covered at peak), and

@@ -4,7 +4,7 @@
     {
       "name": "histmap",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8451", "--directory", "/Users/abdushaikh/Documents/historical-map/app"],
+      "runtimeArgs": ["-m", "http.server", "8451", "--directory", "/Users/abdushaikh/Documents/historical-map/docs"],
       "port": 8451
     }
   ]
