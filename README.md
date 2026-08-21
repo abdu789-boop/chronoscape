@@ -1,5 +1,7 @@
 # Chronoscape — interactive historical world map
 
+**Live: https://abdu789-boop.github.io/chronoscape/**
+
 Scrub a time slider from 3400 BCE to 2026 CE and watch polity borders and cities
 change. Equal Earth and globe projections.
 
@@ -20,6 +22,34 @@ click to pin it, and click the maximum-extent line to jump there.
 **Modern borders** cycles off -> over -> under: present-day country lines drawn
 above the historical fills, or beneath them so they show through only where no
 polity claims the ground.
+
+## Publishing
+
+GitHub Pages serves `docs/` from `main`. There is no build step and no Actions
+workflow — push to main and the site updates within a minute or two.
+
+To ship an improvement:
+
+```bash
+.venv/bin/python scripts/build_app_data.py   # regenerate docs/data/
+git add -A && git commit -m "..." && git push
+```
+
+The first load is ~9.7 MB gzipped, nearly all of it `polities.json`; it caches
+after that. Note `polities.json` is ~32 MB uncommitted, so every rebuild adds
+another ~32 MB blob to git history. If the repo gets uncomfortably large, squash
+history or move the data to a release asset.
+
+Working on a fresh machine:
+
+```bash
+./scripts/fetch_sources.sh                   # re-downloads ~1.5 GB of sources
+python3 -m venv .venv
+.venv/bin/pip install geopandas matplotlib pyogrio shapely pyyaml pandas pyproj
+```
+
+Licensing is covered in CREDITS.md: the code is MIT, and `docs/data` is ODbL
+because it contains AWMC-derived geometry.
 
 ## Layout
 
