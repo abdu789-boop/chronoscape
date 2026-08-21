@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "histmap",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8451", "--directory", "/Users/abdushaikh/Documents/historical-map/app"],
+      "port": 8451
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+# Source precedence registry
+# ---------------------------------------------------------------------------
+# tier 1  regional specialist — authoritative inside its declared domain
+# tier 2  global skeleton     — the default answer everywhere else
+# tier 3  tiebreak / cross-check — NEVER drawn; only reported as disagreement
+# tier ~  reference layers    — not polity borders; excluded from resolution
+#
+# `authority.years` is the window in which a source's geometry is taken as
+# truth. Snapshot sources get narrow windows on purpose: an extent map is
+# evidence about the moment it depicts, not about the century around it.
+#
+# `wikidata` is the id used for cross-source identity joins. It is whatever id
+# Cliopatria uses for that polity, so the join actually lands.
+# ---------------------------------------------------------------------------
+
+meta:
+  root: data/raw
+  slice_bbox: [-12, 20, 65, 50]     # Mediterranean + Near East vertical slice
+
+sources:
+
+  # ---------------- tier 1: regional specialists ----------------
+
+  - id: awmc_persian_extent
+    title: AWMC — Achaemenid Empire, maximum extent
+    provider: Ancient World Mapping Center (Barrington Atlas lineage)
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/persian_extent/extent_of_the_persian_empire.geojson
+    polity: Achaemenid Empire
+    wikidata: Q389688
+    authority:
+      years: [-513, -486]
+      bbox: [-12, 20, 80, 50]
+    note: >
+      Maximum-extent map (Darius I, incl. Thrace and the Indus). Deliberately
+      NOT authoritative outside Darius' reign: applying it later would deny the
+      loss of Thrace/Macedon after 479 and the Egyptian revolts.
+
+  - id: awmc_alexander
+    title: AWMC — Empire of Alexander at his death
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/alexanders_empire/alexanders_empire.geojson
+    polity: Macedonian Empire
+    wikidata: Q83958
+    authority:
+      years: [-325, -323]
+      bbox: [-12, 20, 80, 50]
+    note: Maximum extent, 323 BCE. Window kept to the last campaign years only.
+
+  - id: awmc_roman_bce60
+    title: AWMC — Roman Republic, 60 BCE
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/roman_empire_bce_60/roman_empire_bce_60.geojson
+    polity: Roman Republic
+    wikidata: Q175881
+    authority:
+      years: [-70, -59]
+      bbox: [-12, 20, 65, 50]
+    note: Ends at 59 BCE — Caesar's Gallic conquests (58–50) invalidate it after that.
+
+  - id: awmc_roman_117
+    title: AWMC — Roman Empire, 117 CE
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/roman_empire_ce_117_extent/roman_empire_ce_117_extent.geojson
+    polity: Roman Empire
+    wikidata: Q12544
+    authority:
+      years: [114, 117]
+      bbox: [-12, 20, 65, 50]
+    note: >
+      Trajan's maximum. Narrow window on purpose — Hadrian abandoned the
+      Mesopotamian provinces in 118, so this geometry is wrong by 119.
+
+  - id: awmc_roman_200
+    title: AWMC — Roman Empire, 200 CE
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/roman_empire_ce_200_extent/roman_empire_ce_200_extent.geojson
+    polity: Roman Empire
+    wikidata: Q12544
+    authority:
+      years: [190, 235]
+      bbox: [-12, 20, 65, 50]
+    note: Severan-era borders, stable enough to carry the window.
+
+  - id: awmc_hasmonean
+    title: AWMC — Hasmonean Kingdom
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/hasmonean/hasmonean_kingdom.geojson
+    polity: Hasmonean Kingdom
+    wikidata: null
+    authority:
+      years: [-103, -76]
+      bbox: [33, 29, 37, 34]
+    note: Greatest extent under Alexander Jannaeus.
+
+  - id: awmc_herod
+    title: AWMC — Kingdom of Herod the Great
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_union
+    role: extent
+    path: geodata/Cultural-Data/political_shading/herod/herods_kingdom.geojson
+    polity: Herodian Kingdom
+    wikidata: null
+    authority:
+      years: [-37, -4]
+      bbox: [33, 29, 37, 34]
+    note: Herod's reign, 37–4 BCE.
+
+  # internal_lines sources draw subdivisions INSIDE a parent fill —
+  # the Achaemenid-style sub-polity treatment chosen for this project.
+  - id: awmc_roman_provinces_200
+    title: AWMC — Roman provincial boundaries, 200 CE
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_lines
+    role: internal_lines
+    path: geodata/Cultural-Data/political_shading/roman_empire_ce_200_provinces/roman_empire_ce_200_provinces.geojson
+    parent_polity: Roman Empire
+    parent_wikidata: Q12544
+    authority:
+      years: [190, 235]
+      bbox: [-12, 20, 65, 50]
+
+  - id: awmc_roman_provinces_diocletian
+    title: AWMC — Roman provinces after Diocletian
+    provider: Ancient World Mapping Center
+    tier: 1
+    grade: A
+    format: awmc_lines
+    role: internal_lines
+    path: "geodata/Cultural-Data/political_shading/roman_empire_provinces post_diocletian/roman_empire_provinces post_diocletian.geojson"
+    parent_polity: Roman Empire
+    parent_wikidata: Q12544
+    authority:
+      years: [293, 395]
+      bbox: [-12, 20, 65, 50]
+
+  # ---------------- tier 2: global skeleton ----------------
+
+  - id: cliopatria
+    title: Cliopatria (Seshat Global History Databank)
+    provider: Seshat / Scientific Data 2025
+    tier: 2
+    grade: B+
+    format: cliopatria
+    role: extent
+    path: cliopatria/cliopatria_polities_only.geojson
+    authority:
+      years: [-3400, 2024]
+      bbox: [-180, -90, 180, 90]
+    note: >
+      Peer-reviewed, historian-corrected, validated ~90% against independent
+      Seshat area estimates. Coarse during fast conquests — see arbitration log.
+
+  # ---------------- tier 3: tiebreak only ----------------
+
+  - id: historical_basemaps
+    title: historical-basemaps (aourednik)
+    provider: community
+    tier: 3
+    grade: C+
+    format: histbasemaps
+    role: extent
+    use: tiebreak            # never rendered; reported as disagreement only
+    path: historical-basemaps/geojson
+    authority:
+      years: [-10000, 2010]
+      bbox: [-180, -90, 180, 90]
+    note: Solo-maintained, continental scale, known geometry defects.
+
+  # ---------------- reference layers (not polity borders) ----------------
+
+  - id: awmc_shoreline
+    title: AWMC ancient shoreline
+    tier: ~
+    role: basemap
+    path: Physical Data/shoreline/shoreline.geojson
+
+  - id: pleiades
+    title: Pleiades ancient places
+    tier: ~
+    role: places
+    path: pleiades/pleiades-places-latest.csv
+
+  - id: reba
+    title: Reba/Chandler-Modelski city populations
+    tier: ~
+    role: places
+    path: reba/

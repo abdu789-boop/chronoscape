@@ -1,0 +1,12 @@
+# Source data: 1.5 GB, re-downloadable via scripts/fetch_sources.sh
+data/raw/
+
+# Local environment
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Generated reports. Note these can quote names from historical-basemaps,
+# which is GPL-3.0 — keeping them out avoids mixing that into this repo.
+out/

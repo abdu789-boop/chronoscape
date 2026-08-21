@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chronoscape</title>
+<style>
+  :root { --bg:#0e1420; --panel:#1a2332; --ink:#e8e4d8; --accent:#d4a24e; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:Georgia,serif; overflow:hidden; }
+  #map { display:block; cursor:grab; }
+  #map.dragging { cursor:grabbing; }
+  #hud { position:fixed; top:14px; left:18px; pointer-events:none; }
+  #year { font-size:44px; font-weight:bold; color:var(--accent); text-shadow:0 1px 4px #000; }
+  #card { margin-top:6px; width:322px; max-height:calc(100vh - 200px); overflow-y:auto; background:rgba(20,28,42,.94); border:1px solid #3a4a63;
+    border-radius:6px; padding:11px 13px; pointer-events:auto; box-shadow:0 6px 22px #0009; }
+  #card[hidden] { display:none; }
+  #card-name { font-size:19px; font-weight:bold; color:var(--accent); margin-bottom:7px; line-height:1.2; }
+  #card .row { display:flex; justify-content:space-between; gap:10px; font-size:13px;
+    padding:2px 0; color:#b9c4d6; }
+  #card .row b { color:var(--ink); font-weight:normal; text-align:right; }
+  #card-peak { display:block; width:100%; margin-top:9px; padding:6px 8px; font-family:inherit;
+    font-size:13px; text-align:left; color:var(--ink); background:#22304a;
+    border:1px solid #3f5271; border-radius:4px; cursor:pointer; }
+  #card-peak:hover { background:var(--accent); color:#1a1408; border-color:var(--accent); }
+  #card-note { margin-top:7px; font-size:11px; color:#7d8ba3; }
+  #card .sect { margin-top:9px; border-top:1px solid #2c3a52; padding-top:7px; }
+  #card .sect h4 { font-size:11px; font-weight:normal; letter-spacing:.06em;
+    text-transform:uppercase; color:#7d8ba3; margin-bottom:4px; }
+  #card .lst { font-size:12.5px; color:var(--ink); line-height:1.45; }
+  #card .lst .pct { color:#8fa1bb; font-size:11px; }
+  #card .lst .none { color:#6b7891; font-style:italic; }
+  #controls { position:fixed; top:16px; right:18px; display:flex; gap:8px; }
+  #hint { position:fixed; right:18px; bottom:84px; font-size:12px; color:#7d8ba3; text-align:right; }
+  #controls button { background:var(--panel); color:var(--ink); border:1px solid #3a4a63;
+    padding:6px 14px; font-family:inherit; font-size:14px; cursor:pointer; border-radius:4px; }
+  #controls button.active { background:var(--accent); color:#1a1408; border-color:var(--accent); }
+  #timeline { position:fixed; left:0; right:0; bottom:0; height:74px; background:linear-gradient(#0000,#000a 40%);
+    padding:10px 26px 0; user-select:none; }
+  #track { position:relative; height:26px; cursor:pointer; }
+  #track-line { position:absolute; top:12px; left:0; right:0; height:3px; background:#4a5a75; border-radius:2px; }
+  .tick { position:absolute; top:6px; width:1px; height:14px; background:#5a6a85; }
+  .tick-label { position:absolute; top:26px; transform:translateX(-50%); font-size:11px; color:#8a97ad; white-space:nowrap; }
+  #thumb { position:absolute; top:2px; width:14px; height:22px; background:var(--accent); border-radius:3px;
+    transform:translateX(-50%); box-shadow:0 0 8px #000; }
+</style>
+</head>
+<body>
+<canvas id="map"></canvas>
+<div id="hud">
+  <div id="year"></div>
+  <div id="card" hidden>
+    <div id="card-name"></div>
+    <div class="row"><span id="card-arealabel">Extent</span><b id="card-area"></b></div>
+    <div class="row"><span>Existed</span><b id="card-life"></b></div>
+    <button id="card-peak"></button>
+    <div class="sect" id="sect-pred"><h4>Formed from</h4><div class="lst" id="card-pred"></div></div>
+    <div class="sect" id="sect-succ"><h4>Succeeded by</h4><div class="lst" id="card-succ"></div></div>
+    <div class="sect" id="sect-ctry"><h4>Territory today</h4><div class="lst" id="card-ctry"></div></div>
+    <div id="card-note"></div>
+  </div>
+</div>
+<div id="controls">
+  <button id="btn-flat" class="active">Equal Earth</button>
+  <button id="btn-globe">Globe</button>
+  <button id="btn-borders">Modern borders: off</button>
+  <button id="btn-reset">Reset view</button>
+</div>
+<div id="hint">scroll to zoom · drag to pan · ← → to step year</div>
+<div id="timeline"><div id="track"><div id="track-line"></div><div id="thumb"></div></div></div>
+<script src="lib/d3.v7.min.js"></script>
+<script>
+const canvas = d3.select('#map').node();
+const ctx = canvas.getContext('2d');
+let W, H;
+
+// ---- piecewise timeline scale (log-ish: modern era stretched) ----
+const KNOT_YEARS = [-3400, -1000, 1, 1000, 1500, 1800, 2026];
+const KNOT_POS   = [0, .13, .32, .52, .67, .8, 1];
+const yearToPos = d3.scaleLinear().domain(KNOT_YEARS).range(KNOT_POS);
+const posToYear = d3.scaleLinear().domain(KNOT_POS).range(KNOT_YEARS);
+
+let polities = [], years = [], cities = [], land = null, borders = null;
+let polityIndex = {}, pinnedKey = null, cardKey = null;
+let bordersMode = 'off';        // off -> over -> under
+let curYear = -3400, snapshot = [];
+let projMode = 'flat';
+let projection, path;
+let rotation = [0, 0], zoomK = 1, panX = 0, panY = 0;
+const centroidCache = new Map();
+
+function fmtYear(y) { return y < 0 ? (-y) + ' BCE' : y + ' CE'; }
+
+function polityColor(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+  return `hsla(${h % 360},${45 + h % 25}%,${42 + (h >> 4) % 18}%,0.72)`;
+}
+
+function setupProjection() {
+  const base = projMode === 'flat' ? d3.geoEqualEarth() : d3.geoOrthographic();
+  projection = base.fitExtent([[10, 10], [W - 10, H - 80]], { type: 'Sphere' });
+  projection.scale(projection.scale() * zoomK);
+  if (projMode === 'globe') projection.rotate(rotation);
+  else projection.translate([projection.translate()[0] + panX, projection.translate()[1] + panY]);
+  path = d3.geoPath(projection, ctx);
+}
+
+function setYear(y) {
+  // snap to nearest data-change year
+  const i = d3.bisectLeft(years, y);
+  const prev = years[Math.max(0, i - 1)], next = years[Math.min(years.length - 1, i)];
+  curYear = (y - prev <= next - y) ? prev : next;
+  snapshot = polities.filter(p => p.f <= curYear && p.t >= curYear)
+                     .sort((a, b) => b.a - a.a);
+  d3.select('#year').text(fmtYear(curYear));
+  d3.select('#thumb').style('left', (yearToPos(curYear) * 100) + '%');
+  refreshCard();
+  render();
+}
+
+function cityPopAt(c, y) {
+  const s = c.s;
+  if (y < s[0][0] - 100 || y > s[s.length - 1][0] + 50) return 0;
+  if (y <= s[0][0]) return s[0][1];
+  if (y >= s[s.length - 1][0]) return s[s.length - 1][1];
+  let i = 1;
+  while (s[i][0] < y) i++;
+  const [y0, p0] = s[i - 1], [y1, p1] = s[i];
+  const t = (y - y0) / (y1 - y0);
+  return Math.exp(Math.log(p0) * (1 - t) + Math.log(p1) * t);   // log-space interp
+}
+
+function render() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#0e1420';
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.beginPath(); path({ type: 'Sphere' });
+  ctx.fillStyle = '#16283c'; ctx.fill();
+
+  ctx.beginPath(); path(land);
+  ctx.fillStyle = '#2a2f38'; ctx.fill();
+  ctx.strokeStyle = '#3d4654'; ctx.lineWidth = .5; ctx.stroke();
+
+  // underlay: modern borders sit beneath the historical fills, so they show
+  // through only where no polity covers the ground
+  if (bordersMode === 'under') drawModernBorders(0.55);
+
+  for (const p of snapshot) {
+    ctx.beginPath(); path(p.g);
+    ctx.fillStyle = polityColor(p.n); ctx.fill();
+    ctx.strokeStyle = 'rgba(10,10,14,0.85)'; ctx.lineWidth = .8; ctx.stroke();
+  }
+
+  // overlay: drawn above the fills, always visible
+  if (bordersMode === 'over') drawModernBorders(0.4);
+
+  // ---- labels: polities first (primary structure), then cities; no overlaps ----
+  const placed = [];
+  const claim = (x0, y0, x1, y1) => {
+    if (x0 < 2 || x1 > W - 2 || y0 < 2 || y1 > H - 82) return false;   // keep text on screen
+    for (const b of placed) {
+      if (x0 < b[2] && x1 > b[0] && y0 < b[3] && y1 > b[1]) return false;
+    }
+    placed.push([x0, y0, x1, y1]);
+    return true;
+  };
+
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  let drawn = 0;
+  for (const p of snapshot) {
+    if (drawn >= 26) break;
+    const c = labelPoint(p);
+    if (!visible(c)) continue;
+    const pt = projection(c);
+    if (!pt || pt[0] < 0 || pt[0] > W || pt[1] < 0 || pt[1] > H - 80) continue;
+
+    const size = Math.max(10, Math.min(17, 9 + Math.log10(p.a || 1)));
+    ctx.font = `bold ${size}px Georgia`;
+    const w = ctx.measureText(p.n).width, h = size;
+
+    // don't label a polity too small on screen to carry its own name
+    const b = path.bounds(p.g);
+    const screenW = b[1][0] - b[0][0], screenH = b[1][1] - b[0][1];
+    if (screenW < w * 0.45 && screenH < h * 2.5) continue;
+
+    if (!claim(pt[0] - w / 2 - 2, pt[1] - h / 2 - 2, pt[0] + w / 2 + 2, pt[1] + h / 2 + 2)) continue;
+    ctx.fillStyle = 'rgba(0,0,0,0.75)';
+    ctx.fillText(p.n, pt[0] + 1, pt[1] + 1);
+    ctx.fillStyle = '#f0ead8';
+    ctx.fillText(p.n, pt[0], pt[1]);
+    drawn++;
+  }
+
+  // cities: importance-gated by interpolated population at the current year
+  const live = [];
+  for (const c of cities) {
+    const pop = cityPopAt(c, curYear);
+    if (pop > 0) live.push([c, pop]);
+  }
+  live.sort((a, b) => b[1] - a[1]);
+  const top = live.slice(0, 90);
+  const dots = [];
+  for (const [c, pop] of top) {
+    const coord = [c.lo, c.la];
+    if (!visible(coord)) continue;
+    const pt = projection(coord);
+    if (!pt || pt[0] < 0 || pt[0] > W || pt[1] < 0 || pt[1] > H - 80) continue;
+    const r = Math.max(1.5, Math.min(6, Math.log10(pop) - 2.2));
+    ctx.beginPath(); ctx.arc(pt[0], pt[1], r, 0, 7);
+    ctx.fillStyle = '#f5d98a'; ctx.fill();
+    ctx.strokeStyle = '#00000090'; ctx.lineWidth = .7; ctx.stroke();
+    dots.push([c, pt, r]);
+  }
+  ctx.font = '11px Georgia'; ctx.textAlign = 'left';
+  let cityLabels = 0;
+  for (const [c, pt, r] of dots) {
+    if (cityLabels >= 22) break;
+    const w = ctx.measureText(c.n).width;
+    const x = pt[0] + r + 3;
+    if (!claim(x - 1, pt[1] - 6, x + w + 1, pt[1] + 6)) continue;
+    ctx.fillStyle = 'rgba(0,0,0,0.85)'; ctx.fillText(c.n, x + 1, pt[1] + 1);
+    ctx.fillStyle = '#e8d9a8'; ctx.fillText(c.n, x, pt[1]);
+    cityLabels++;
+  }
+  ctx.textAlign = 'center';
+}
+
+// Present-day country boundaries, purely for orientation. Deliberately a cool
+// desaturated grey-blue so it never reads as part of the warm historical
+// palette, and solid rather than dashed - dashes are reserved for the disputed
+// -border convention this project plans to use.
+function drawModernBorders(alpha) {
+  if (!borders) return;
+  ctx.beginPath();
+  path(borders);
+  ctx.strokeStyle = `rgba(176,196,222,${alpha})`;
+  ctx.lineWidth = 0.7;
+  ctx.stroke();
+}
+
+// Anchor a label at the centroid of the polity's LARGEST piece — a multipolygon
+// centroid for a far-flung empire often lands in open ocean.
+function labelPoint(p) {
+  if (p.lp) return p.lp;            // chosen at build time: largest piece that
+  const key = p.n + '|' + p.f;      // another polity is not sitting on
+  let c = centroidCache.get(key);
+  if (c) return c;
+  c = d3.geoCentroid(p.g);
+  centroidCache.set(key, c);
+  return c;
+}
+
+function visible(coord) {
+  if (projMode !== 'globe') return true;
+  const r = projection.rotate();
+  return d3.geoDistance(coord, [-r[0], -r[1]]) < Math.PI / 2;
+}
+
+// ---- interaction ----
+function resize() {
+  W = innerWidth; H = innerHeight;
+  canvas.width = W * devicePixelRatio; canvas.height = H * devicePixelRatio;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  setupProjection(); render();
+}
+window.addEventListener('resize', resize);
+
+let dragging = false, last = null;
+let pressAt = null;
+canvas.addEventListener('pointerdown', e => {
+  dragging = true; last = [e.clientX, e.clientY]; pressAt = [e.clientX, e.clientY];
+  canvas.classList.add('dragging');
+});
+canvas.addEventListener('pointerup', e => {
+  // a press that did not travel is a click, not a drag
+  if (!pressAt) return;
+  const moved = Math.hypot(e.clientX - pressAt[0], e.clientY - pressAt[1]);
+  pressAt = null;
+  if (moved > 4) return;
+  const p = polityAt(e.clientX, e.clientY);
+  if (p && p.k !== pinnedKey) { pinnedKey = p.k; showCard(p); }
+  else { pinnedKey = null; p ? showCard(p) : showCard(null); }
+});
+window.addEventListener('pointerup', () => { dragging = false; canvas.classList.remove('dragging'); });
+window.addEventListener('pointercancel', () => { dragging = false; scrubbing = false; });
+window.addEventListener('blur', () => { dragging = false; scrubbing = false; });
+window.addEventListener('pointermove', e => {
+  // a pointerup can be missed (released off-window, cancelled gesture); without
+  // this guard the map keeps panning or the timeline keeps scrubbing forever
+  if ((dragging || scrubbing) && !(e.buttons & 1)) { dragging = false; scrubbing = false; }
+  if (dragging) {
+    const dx = e.clientX - last[0], dy = e.clientY - last[1];
+    last = [e.clientX, e.clientY];
+    if (projMode === 'globe') {
+      rotation[0] += dx * 0.25 / zoomK; rotation[1] -= dy * 0.25 / zoomK;
+      rotation[1] = Math.max(-90, Math.min(90, rotation[1]));
+    } else { panX += dx; panY += dy; }
+    setupProjection(); render();
+  } else hover(e);
+});
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const anchor = projMode === 'flat' && projection.invert
+    ? projection.invert([e.clientX, e.clientY]) : null;
+  zoomK = Math.max(0.8, Math.min(40, zoomK * Math.pow(1.0015, -e.deltaY)));
+  setupProjection();
+  if (anchor && !isNaN(anchor[0])) {          // keep the point under the cursor fixed
+    const after = projection(anchor);
+    if (after) { panX += e.clientX - after[0]; panY += e.clientY - after[1]; setupProjection(); }
+  }
+  render();
+}, { passive: false });
+
+// snapshot is sorted largest-first, so scanning backwards returns the SMALLEST
+// polity under the cursor - otherwise an empire always wins over the enclave.
+function polityAt(x, y) {
+  if (!projection.invert) return null;
+  const coord = projection.invert([x, y]);
+  if (!coord || isNaN(coord[0])) return null;
+  if (projMode === 'globe' && !visible(coord)) return null;
+  for (let i = snapshot.length - 1; i >= 0; i--) {
+    if (d3.geoContains(snapshot[i].g, coord)) return snapshot[i];
+  }
+  return null;
+}
+
+function fmtArea(a) {
+  if (!a) return '—';
+  return a >= 1e6 ? (a / 1e6).toFixed(2) + 'M km²' : a.toLocaleString() + ' km²';
+}
+
+function fmtLife(e) {
+  if (!e) return '—';
+  const notes = [];
+  if (e.tstart) notes.push('begins before the record');
+  if (e.tend) notes.push('still current');
+  return fmtYear(e.first) + ' – ' + fmtYear(e.last)
+       + (notes.length ? '  (' + notes.join('; ') + ')' : '');
+}
+
+function showCard(p) {
+  const card = d3.select('#card');
+  if (!p) { card.attr('hidden', true); cardKey = null; return; }
+  cardKey = p.k;
+  const e = polityIndex[p.k];
+  card.attr('hidden', null);
+  d3.select('#card-name').text(p.n);
+  d3.select('#card-arealabel').text('Extent in ' + fmtYear(curYear));
+  d3.select('#card-area').text(fmtArea(p.a));
+  d3.select('#card-life').text(fmtLife(e));
+  const peak = d3.select('#card-peak');
+  if (e && e.peak_year !== undefined) {
+    peak.attr('hidden', null)
+        .text('▸ Maximum extent: ' + fmtYear(e.peak_year) + ' · ' + fmtArea(e.peak_area))
+        .on('click', () => { pinnedKey = p.k; setYear(e.peak_year); });
+  } else peak.attr('hidden', true);
+  fillList('#card-pred', e && e.pred, 'no earlier polity recorded here');
+  fillList('#card-succ', e && e.succ, 'no later polity recorded here');
+  fillList('#card-ctry', e && e.countries, 'no modern overlap recorded');
+
+  d3.select('#card-note').text(pinnedKey ? 'pinned — click the map to release'
+                                         : 'click a polity to pin this card');
+}
+
+// pct means share of that polity's ground for pred/succ, and share of the modern
+// country's area for the territory list - two different questions, same shape
+function fillList(sel, rows, emptyText) {
+  const box = d3.select(sel);
+  box.selectAll('*').remove();
+  if (!rows || !rows.length) {
+    box.append('span').attr('class', 'none').text(emptyText);
+    return;
+  }
+  rows.forEach(([name, pct], i) => {
+    if (i) box.append('span').text(' · ');
+    box.append('span').text(name);
+    box.append('span').attr('class', 'pct').text(' ' + pct + '%');
+  });
+}
+
+// keep a pinned card's numbers current as the year changes under it
+function refreshCard() {
+  if (!cardKey) return;
+  const p = snapshot.find(f => f.k === cardKey);
+  if (p) showCard(p); else if (!pinnedKey) showCard(null);
+}
+
+let hoverT = 0;
+function hover(e) {
+  if (pinnedKey) return;
+  const now = performance.now();
+  if (now - hoverT < 60) return;
+  hoverT = now;
+  const p = polityAt(e.clientX, e.clientY);
+  if (p) showCard(p);
+}
+
+// ---- timeline ----
+const track = d3.select('#track');
+function trackYear(e) {
+  const rect = track.node().getBoundingClientRect();
+  const frac = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  return Math.round(posToYear(frac));
+}
+let scrubbing = false;
+track.on('pointerdown', e => { scrubbing = true; setYear(trackYear(e)); });
+window.addEventListener('pointermove', e => {
+  if (scrubbing && (e.buttons & 1)) setYear(trackYear(e));
+});
+window.addEventListener('pointerup', () => { scrubbing = false; });
+
+for (const y of [-3000, -1500, -500, 1, 500, 1000, 1500, 1800, 2000]) {
+  const x = (yearToPos(y) * 100) + '%';
+  track.append('div').attr('class', 'tick').style('left', x);
+  track.append('div').attr('class', 'tick-label').style('left', x).text(y < 0 ? -y + ' BCE' : y);
+}
+
+// ---- projection buttons ----
+d3.select('#btn-flat').on('click', () => switchProj('flat'));
+d3.select('#btn-globe').on('click', () => switchProj('globe'));
+function switchProj(m) {
+  projMode = m;
+  d3.select('#btn-flat').classed('active', m === 'flat');
+  d3.select('#btn-globe').classed('active', m === 'globe');
+  setupProjection(); render();
+}
+function setBordersMode(m) {          // keeps state and button label in sync
+  bordersMode = m;
+  d3.select('#btn-borders')
+    .text('Modern borders: ' + m)
+    .classed('active', m !== 'off');
+  render();
+}
+d3.select('#btn-borders').on('click', () => {
+  setBordersMode(bordersMode === 'off' ? 'over'
+               : bordersMode === 'over' ? 'under' : 'off');
+});
+
+d3.select('#btn-reset').on('click', () => {
+  zoomK = 1; panX = 0; panY = 0; rotation = [0, 0];
+  setupProjection(); render();
+});
+
+// arrow keys step through the snap years one change at a time
+window.addEventListener('keydown', e => {
+  if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+  e.preventDefault();
+  const i = years.indexOf(curYear);
+  const j = e.key === 'ArrowLeft' ? i - 1 : i + 1;
+  if (j >= 0 && j < years.length) setYear(years[j]);
+});
+
+// d3 spherical winding: any ring enclosing >half the sphere is wound wrong — reverse it.
+function rewindGeom(g) {
+  const fix = rings => {
+    for (const ring of rings) {
+      if (d3.geoArea({ type: 'Polygon', coordinates: [ring] }) > 2 * Math.PI) ring.reverse();
+    }
+  };
+  if (g.type === 'Polygon') fix(g.coordinates);
+  else if (g.type === 'MultiPolygon') g.coordinates.forEach(fix);
+  return g;
+}
+function rewindAny(obj) {
+  if (obj.type === 'FeatureCollection') obj.features.forEach(f => rewindGeom(f.geometry));
+  else if (obj.type === 'Feature') rewindGeom(obj.geometry);
+  else rewindGeom(obj);
+  return obj;
+}
+
+// ---- load ----
+const v = '?v=' + Date.now();   // local tool: always take the freshest build
+Promise.all([
+  d3.json('data/land.json' + v), d3.json('data/polities.json' + v),
+  d3.json('data/years.json' + v), d3.json('data/cities.json' + v),
+  d3.json('data/borders.json' + v), d3.json('data/polity_index.json' + v),
+]).then(([landD, pol, yrs, cit, bord, pidx]) => {
+  polityIndex = pidx;
+  land = rewindAny(landD); polities = pol; years = yrs; cities = cit;
+  borders = bord;          // LineStrings: no winding fix needed
+  polities.forEach(p => rewindGeom(p.g));
+  resize();
+  setYear(-450);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# Cross-source name reconciliation.
+# Sources name the same polity differently, which otherwise shows up as false
+# disagreement in the tier-3 tiebreak report and as a missed identity join
+# between tiers. Canonical name -> variants seen in the wild.
+# Long-term this is World Historical Gazetteer's job; this file is the stopgap.
+
+Carthage: [Carthaginian Empire, Carthaginians, Punic Empire]
+Etruscans: [Etrurians, Etruria, Etrurian League]
+Kingdom of Kush: [Meroe, Meroitic Kingdom, Kush, Nubia]
+Roman Kingdom: [Rome]
+Roman Republic: [Rome, Roman Republic (Republic)]
+Roman Empire: [Rome, Imperium Romanum]
+Achaemenid Empire: [Persian Empire, Persia, Achaemenids]
+Macedonian Empire: [Macedon, Kingdom of Macedon, Argead Empire, Empire of Alexander]
+Cimmerian Bosporus: [Bosporan Kingdom, Bosporian Kingdom]
+Greek City-States: [Greek city-states, Hellenic city-states]
+Ptolemaic Kingdom: [Ptolemaic Egypt, Ptolemies]
+Seleucid Empire: [Seleucids, Seleucid Kingdom]
+Parthian Empire: [Parthia, Arsacid Empire]
