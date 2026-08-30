@@ -35,6 +35,16 @@ NE=https://raw.githubusercontent.com/martynafford/natural-earth-geojson/master
 [ -f ne_110m_admin_0_boundary_lines_land.json ] || curl -sL -o ne_110m_admin_0_boundary_lines_land.json $NE/110m/cultural/ne_110m_admin_0_boundary_lines_land.json
 [ -f ne_50m_admin_0_countries.json ]         || curl -sL -o ne_50m_admin_0_countries.json         $NE/50m/cultural/ne_50m_admin_0_countries.json
 
+echo "==> OWID long-run population (CC BY 4.0) — world totals and per-country"
+[ -f owid_population_historical.csv ] || curl -sL -o owid_population_historical.csv \
+  "https://ourworldindata.org/grapher/population.csv?v=1&csvType=full&useColumnShortNames=true"
+
+echo "==> Anthromes 12K land-use grid (CC0) — spreads population within countries"
+if [ ! -d anthromes ]; then
+  curl -sL -o anthromes12k.zip "https://dataverse.harvard.edu/api/access/datafile/3647930"
+  mkdir -p anthromes && (cd anthromes && unzip -oq ../anthromes12k.zip)
+fi
+
 echo
 echo "Done. Now: python3 -m venv .venv && .venv/bin/pip install geopandas matplotlib pyogrio shapely pyyaml pandas pyproj"
 echo "Then:     .venv/bin/python scripts/build_app_data.py"

@@ -10,6 +10,7 @@ Outputs (docs/data/):
   years.json     sorted years where the map changes (the slider's snap targets)
   cities.json    Reba/Chandler-Modelski cities with population time series
 """
+import csv
 import json
 import math
 import os
@@ -180,9 +181,11 @@ def build_polities():
         })
         kept.append(r)
 
+    add_population(kept)
     label_points(kept)
     for f, r in zip(feats, kept):
         f["lp"] = r.lp
+        f["p0"], f["p1"] = int(r.p0), int(r.p1)
     index = build_index(kept)
     add_succession(index, kept)
     add_modern_countries(index)
@@ -376,27 +379,121 @@ def add_succession(index, records):
     print(f"succession: computed for {n} polities")
 
 
+_CTY = {}
+
+
+def _countries():
+    """Natural Earth countries, cached: geometry, display name and ISO code."""
+    if not _CTY:
+        with open(os.path.join(RAW, "ne_50m_admin_0_countries.json")) as fh:
+            gj = json.load(fh)
+        names, geoms, isos = [], [], []
+        for f in gj["features"]:
+            pr = f["properties"]
+            nm = pr.get("ADMIN") or pr.get("NAME")
+            if not nm or nm == "Antarctica" or not f.get("geometry"):
+                continue
+            g = R.valid(shape(f["geometry"])).simplify(0.05, preserve_topology=True)
+            if g.is_empty:
+                continue
+            names.append(nm)
+            geoms.append(g)
+            iso = pr.get("ISO_A3")
+            isos.append(iso if iso and iso != "-99" else pr.get("ADM0_A3"))
+        _CTY.update(names=names, geoms=geoms, isos=isos, tree=STRtree(geoms))
+    return _CTY
+
+
+def load_population():
+    """OWID long-run population (CC BY 4.0), world series plus per-country."""
+    path = os.path.join(RAW, "owid_population_historical.csv")
+    world, by_code = [], {}
+    with open(path) as fh:
+        for row in csv.DictReader(fh):
+            try:
+                y, v = int(row["year"]), float(row["population_historical"])
+            except (ValueError, TypeError):
+                continue
+            code = row["code"]
+            if row["entity"] == "World":
+                world.append([y, v])
+            elif code and not code.startswith("OWID"):
+                by_code.setdefault(code, []).append([y, v])
+    world.sort()
+    for v in by_code.values():
+        v.sort()
+    return world, by_code
+
+
+def pop_at(series, year):
+    """Interpolate in log space - population grows multiplicatively, so a
+    straight line between two millennia would badly understate the middle."""
+    if not series:
+        return 0.0
+    if year <= series[0][0]:
+        return series[0][1]
+    if year >= series[-1][0]:
+        return series[-1][1]
+    lo, hi = 0, len(series) - 1
+    while hi - lo > 1:
+        mid = (lo + hi) // 2
+        if series[mid][0] <= year:
+            lo = mid
+        else:
+            hi = mid
+    (y0, p0), (y1, p1) = series[lo], series[hi]
+    if y1 == y0:
+        return p0
+    t = (year - y0) / (y1 - y0)
+    if p0 > 0 and p1 > 0:
+        return math.exp(math.log(p0) * (1 - t) + math.log(p1) * t)
+    return p0 + (p1 - p0) * t
+
+
+def add_population(records):
+    """Estimate every polity's population for its start and end year.
+
+    A polity's share of a country is measured by population *weight* from the
+    Anthromes land-use grid, not by area — see scripts/popgrid.py. The land-use
+    distribution is taken from the slice nearest each record's midpoint, then
+    priced at the country populations of its first and last year, so a long
+    record still tracks growth across its span.
+    """
+    import popgrid as PG
+
+    world, by_code = load_population()
+    c = _countries()
+    geoms, isos = c["geoms"], c["isos"]
+
+    def pop_of(i, year):
+        code = isos[i]
+        return pop_at(by_code[code], year) if code in by_code else 0.0
+
+    # year order keeps each land-use slice loaded exactly once
+    order = sorted(records, key=lambda r: (r.from_year + r.to_year) // 2)
+    for n, r in enumerate(order):
+        mid = (r.from_year + r.to_year) // 2
+        try:
+            inside, tot = PG.weight_by_country(r.sgeom, mid, geoms)
+            r.p0 = PG.population_from(inside, tot, r.from_year, pop_of)
+            r.p1 = PG.population_from(inside, tot, r.to_year, pop_of)
+        except Exception:
+            r.p0 = r.p1 = 0.0
+        if n and n % 3000 == 0:
+            print(f"    population: {n}/{len(order)} records")
+
+    with open(f"{OUT}/population.json", "w") as fh:
+        json.dump({"world": [[y, int(v)] for y, v in world]}, fh,
+                  separators=(",", ":"))
+    print(f"population: estimated for {len(records)} records; "
+          f"world series {len(world)} points")
+
+
 def add_modern_countries(index):
     """Which present-day countries a polity covered at its greatest extent,
     ranked by how much ground it took in each."""
-    path = os.path.join(RAW, "ne_50m_admin_0_countries.json")
-    if not os.path.exists(path):
-        print("modern countries: source missing, skipped")
-        return
-    with open(path) as fh:
-        gj = json.load(fh)
-    names, geoms = [], []
-    for f in gj["features"]:
-        nm = f["properties"].get("ADMIN") or f["properties"].get("NAME")
-        if not nm or nm == "Antarctica" or not f.get("geometry"):
-            continue
-        g = R.valid(shape(f["geometry"])).simplify(0.05, preserve_topology=True)
-        if g.is_empty:
-            continue
-        names.append(nm)
-        geoms.append(g)
-    tree = STRtree(geoms)
-
+    c = _countries()
+    names, geoms, tree = c["names"], c["geoms"], c["tree"]
     for k, e in index.items():
         if k == "_span":
             continue

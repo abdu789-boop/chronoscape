@@ -25,6 +25,24 @@ https://github.com/AWMC/geodata
 *Four Thousand Years of Urban Growth* and George Modelski's *World Cities*.
 Licensed **CC BY 4.0**, via figshare.
 
+## Population
+
+**Our World in Data**, long-run population series (world and per country,
+10000 BCE onward), itself built on HYDE 3.x, Gapminder and the UN.
+Licensed **CC BY 4.0**. https://ourworldindata.org/population-growth
+
+**Anthromes 12K** — Ellis et al., Harvard Dataverse doi:10.7910/DVN/G0QDNQ.
+Released **CC0** (public domain). A 5-arc-minute land-use classification for 73
+time slices from 10000 BCE, derived from HYDE.
+
+Per-polity populations here are *estimates derived* from these two, not figures
+anyone published. A country's population for the year is spread across its cells
+in proportion to the population density implied by each cell's anthrome class,
+and a polity is credited with the cells it covered. Using land use rather than
+raw area is what makes the estimate defensible: the Ming held about half of
+China's area but 89% of its people, and Rome held the Nile rather than Egypt's
+Western Desert.
+
 ## Basemap
 
 **Natural Earth** — land polygons and present-day country boundary lines.
