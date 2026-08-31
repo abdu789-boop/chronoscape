@@ -55,7 +55,6 @@
     <div id="card-name"></div>
     <div class="row"><span id="card-arealabel">Extent</span><b id="card-area"></b></div>
     <div class="row"><span>Existed</span><b id="card-life"></b></div>
-    <div class="row"><span id="card-poplabel">Population</span><b id="card-pop"></b></div>
     <button id="card-peak"></button>
     <div class="sect" id="sect-pred"><h4>Formed from</h4><div class="lst" id="card-pred"></div></div>
     <div class="sect" id="sect-succ"><h4>Succeeded by</h4><div class="lst" id="card-succ"></div></div>
@@ -110,13 +109,6 @@ function worldPopAt(y) {
   let lo = 0, hi = worldPop.length - 1;
   while (hi - lo > 1) { const m = (lo + hi) >> 1; (worldPop[m][0] <= y ? lo = m : hi = m); }
   return logLerp(y, worldPop[lo][0], worldPop[lo][1], worldPop[hi][0], worldPop[hi][1]);
-}
-
-// A polity's geometry is fixed within a record, so its population moves only as
-// the underlying countries' do - interpolating between the record's endpoints.
-function polityPopAt(p, y) {
-  if (p.p0 === undefined) return 0;
-  return p.f === p.t ? p.p0 : logLerp(y, p.f, p.p0, p.t, p.p1);
 }
 
 function fmtPop(n) {
@@ -228,16 +220,6 @@ function render() {
     ctx.fillStyle = '#f0ead8';
     ctx.fillText(p.n, pt[0], pt[1]);
 
-    const pop = polityPopAt(p, curYear);
-    if (pop >= 1000) {
-      ctx.font = `${Math.max(9, size - 4)}px Georgia`;
-      const py = pt[1] + size * 0.86;
-      ctx.fillStyle = 'rgba(0,0,0,0.7)';
-      ctx.fillText(fmtPop(pop), pt[0] + 1, py + 1);
-      ctx.fillStyle = '#c8bfa4';
-      ctx.fillText(fmtPop(pop), pt[0], py);
-      placed.push([pt[0] - 20, py - 6, pt[0] + 20, py + 6]);
-    }
     drawn++;
   }
 
@@ -399,9 +381,6 @@ function showCard(p) {
   d3.select('#card-arealabel').text('Extent in ' + fmtYear(curYear));
   d3.select('#card-area').text(fmtArea(p.a));
   d3.select('#card-life').text(fmtLife(e));
-  const pop = polityPopAt(p, curYear), wp = worldPopAt(curYear);
-  d3.select('#card-poplabel').text('Population (est.)');
-  d3.select('#card-pop').text(pop >= 1 ? fmtPop(pop) + (wp ? '  ·  ' + (100 * pop / wp).toFixed(1) + '% of world' : '') : '—');
   const peak = d3.select('#card-peak');
   if (e && e.peak_year !== undefined) {
     peak.attr('hidden', null)

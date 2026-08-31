@@ -181,11 +181,10 @@ def build_polities():
         })
         kept.append(r)
 
-    add_population(kept)
+    write_world_population()
     label_points(kept)
     for f, r in zip(feats, kept):
         f["lp"] = r.lp
-        f["p0"], f["p1"] = int(r.p0), int(r.p1)
     index = build_index(kept)
     add_succession(index, kept)
     add_modern_countries(index)
@@ -404,89 +403,33 @@ def _countries():
     return _CTY
 
 
-def load_population():
-    """OWID long-run population (CC BY 4.0), world series plus per-country."""
-    path = os.path.join(RAW, "owid_population_historical.csv")
-    world, by_code = [], {}
-    with open(path) as fh:
-        for row in csv.DictReader(fh):
-            try:
-                y, v = int(row["year"]), float(row["population_historical"])
-            except (ValueError, TypeError):
-                continue
-            code = row["code"]
-            if row["entity"] == "World":
-                world.append([y, v])
-            elif code and not code.startswith("OWID"):
-                by_code.setdefault(code, []).append([y, v])
-    world.sort()
-    for v in by_code.values():
-        v.sort()
-    return world, by_code
+def write_world_population():
+    """World population by year, straight from OWID's long-run series.
 
-
-def pop_at(series, year):
-    """Interpolate in log space - population grows multiplicatively, so a
-    straight line between two millennia would badly understate the middle."""
-    if not series:
-        return 0.0
-    if year <= series[0][0]:
-        return series[0][1]
-    if year >= series[-1][0]:
-        return series[-1][1]
-    lo, hi = 0, len(series) - 1
-    while hi - lo > 1:
-        mid = (lo + hi) // 2
-        if series[mid][0] <= year:
-            lo = mid
-        else:
-            hi = mid
-    (y0, p0), (y1, p1) = series[lo], series[hi]
-    if y1 == y0:
-        return p0
-    t = (year - y0) / (y1 - y0)
-    if p0 > 0 and p1 > 0:
-        return math.exp(math.log(p0) * (1 - t) + math.log(p1) * t)
-    return p0 + (p1 - p0) * t
-
-
-def add_population(records):
-    """Estimate every polity's population for its start and end year.
-
-    A polity's share of a country is measured by population *weight* from the
-    Anthromes land-use grid, not by area — see scripts/popgrid.py. The land-use
-    distribution is taken from the slice nearest each record's midpoint, then
-    priced at the country populations of its first and last year, so a long
-    record still tracks growth across its span.
+    Per-polity estimates were built here and then rolled back; see git history
+    at 5c15486 for the land-use-weighted implementation and its validation.
     """
-    import popgrid as PG
-
-    world, by_code = load_population()
-    c = _countries()
-    geoms, isos = c["geoms"], c["isos"]
-
-    def pop_of(i, year):
-        code = isos[i]
-        return pop_at(by_code[code], year) if code in by_code else 0.0
-
-    # year order keeps each land-use slice loaded exactly once
-    order = sorted(records, key=lambda r: (r.from_year + r.to_year) // 2)
-    for n, r in enumerate(order):
-        mid = (r.from_year + r.to_year) // 2
-        try:
-            inside, tot = PG.weight_by_country(r.sgeom, mid, geoms)
-            r.p0 = PG.population_from(inside, tot, r.from_year, pop_of)
-            r.p1 = PG.population_from(inside, tot, r.to_year, pop_of)
-        except Exception:
-            r.p0 = r.p1 = 0.0
-        if n and n % 3000 == 0:
-            print(f"    population: {n}/{len(order)} records")
-
+    world = load_population()
     with open(f"{OUT}/population.json", "w") as fh:
         json.dump({"world": [[y, int(v)] for y, v in world]}, fh,
                   separators=(",", ":"))
-    print(f"population: estimated for {len(records)} records; "
-          f"world series {len(world)} points")
+    print(f"population: world series {len(world)} points")
+
+
+def load_population():
+    """OWID long-run world population (CC BY 4.0)."""
+    path = os.path.join(RAW, "owid_population_historical.csv")
+    world = []
+    with open(path) as fh:
+        for row in csv.DictReader(fh):
+            if row["entity"] != "World":
+                continue
+            try:
+                world.append([int(row["year"]), float(row["population_historical"])])
+            except (ValueError, TypeError):
+                continue
+    world.sort()
+    return world
 
 
 def add_modern_countries(index):

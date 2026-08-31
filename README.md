@@ -19,8 +19,7 @@ Hover a polity for its card — extent this year, lifespan, maximum extent, the
 states it formed from and was succeeded by, and the modern countries its peak
 territory covered;
 click to pin it, and click the maximum-extent line to jump there.
-World population for the current year sits under the year readout, and each
-labelled polity carries an estimated population beneath its name.
+World population for the current year sits under the year readout.
 **Modern borders** cycles off -> over -> under: present-day country lines drawn
 above the historical fills, or beneath them so they show through only where no
 polity claims the ground.
@@ -89,53 +88,20 @@ Areas are true geodesic km² computed from resolved geometry, not from a source'
 own figure — a polity clipped against a tier-1 envelope is smaller than its
 source claims, and tier-1 features carry no area figure at all.
 
-## Population estimates
+## World population
 
-World population comes straight from Our World in Data's long-run series
-(CC BY 4.0), which reaches back to 10000 BCE.
+The figure under the year comes straight from Our World in Data's long-run
+series (CC BY 4.0), which reaches back to 10000 BCE: 44.6M at 3000 BCE, 503M in
+1500, 8.09B in 2023.
 
-Per-polity population is **derived, not sourced** — nobody publishes populations
-for 1,544 historical polities. The estimate spreads each country's population
-over the ground people actually occupied, using the Anthromes 12K land-use grid
-(CC0), a 5-arc-minute classification for 73 time slices from 10000 BCE that is
-itself derived from HYDE's population reconstruction:
-
-1. Every grid cell gets a density weight from its anthrome class — urban,
-   villages, croplands, rangelands, wildlands and so on.
-2. Each country's population that year is shared out across its cells in
-   proportion to those weights, so only the *ratios* between classes matter and
-   absolute density errors cancel.
-3. A polity is credited with the cells it covered.
-
-The land-use distribution is taken from the slice nearest each record's
-midpoint, then priced at the country populations of its first and last year, so
-a long record still tracks growth across its span. Weights are aggregated into
-blocks of 4×4 cells for speed; total weight is preserved exactly.
-
-**Why not just use area shares?** That was the first implementation, and
-validation killed it. Crediting a polity with a flat share of each country's
-area put Han China at 25M against a census of ~57M, and the Ming at 37M. The
-land-use weighting fixes both, because the Ming held roughly half of China's
-area but 89% of its people.
-
-Checked against figures we could falsify:
-
-| polity | year | estimate | published |
-|---|---|---|---|
-| Roman Empire | 117 | 44.7M | 45–70M |
-| Han Dynasty | 2 | 50.8M | ~57M (census) |
-| Qing Dynasty | 1800 | 333M | ~330M |
-| Ottoman Empire | 1600 | 31.4M | ~28M |
-| Mongol Empire | 1279 | 113M | ~100M |
-| Achaemenid Empire | 500 BCE | 16.7M | 17–35M (debated) |
-
-Ming China comes out at 88M against the ~160M sometimes quoted. That gap is a
-disagreement between sources, not an error here: OWID/HYDE put China's 1600
-population at 98M, and the Ming held 89% of it. Ming population estimates
-genuinely range from ~60M (official registers, thought to undercount) to ~200M.
-
-These remain estimates with wide error bars, and they do not sum to the world
-total — polities overlap in the data (see OQ-6) and much of the map is unclaimed.
+**Per-polity population estimates were built and rolled back.** They are not in
+the map. The implementation and its validation are in git history at 5c15486 if
+they are ever wanted: it spread each country's population across the Anthromes
+12K land-use grid and credited a polity with the cells it held, which validated
+well (Rome 117 CE 44.7M against a published 45-70M; Han 2 CE 50.8M against a
+~57M census; Qing 1800 333M against ~330M). It was removed because a derived
+per-polity number carries error bars too wide to sit under a state's name as
+though it were a fact.
 
 ## Source precedence
 
