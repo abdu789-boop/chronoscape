@@ -1,168 +1,81 @@
-# Chronoscape — interactive historical world map
+# Chronoscape
 
 **Live: https://abdu789-boop.github.io/chronoscape/**
 
-Scrub a time slider from 3400 BCE to 2026 CE and watch polity borders and cities
-change. Equal Earth and globe projections.
+An interactive map of political history. Drag a slider from 3400 BCE to today and
+watch polities appear, expand, fragment and vanish, with their cities rising and
+falling alongside them. Equal Earth projection or a globe.
 
-## Run it
+## The objective
+
+Most historical maps present a single confident line and leave you no way to ask
+where it came from. This project sets out to build the opposite: a map that is
+**explicit about whose version of the past it is drawing**, and that records the
+reasoning wherever sources disagree.
+
+Rendering is the easy half. The hard half is epistemic — no single dataset covers
+five thousand years, the good ones contradict each other, and much of what a map
+must draw was never a border in the first place. So the project treats source
+disagreement as a first-class problem rather than something to smooth over: every
+drawn feature names the source that produced it, every editorial correction is
+recorded with its evidence, and the questions we have deliberately *not* answered
+are written down as openly as the ones we have.
+
+It is a personal project, built for curiosity rather than publication.
+
+## What exists today
+
+- **A working viewer** — timeline scrubbing that snaps to the 522 years where the
+  map actually changes, Equal Earth and globe projections, cursor-anchored zoom,
+  a hover card per polity (extent, lifespan, maximum extent with a jump link,
+  inferred predecessors and successors, modern countries covered), world
+  population, cities gated by population, and a modern-borders reference layer.
+- **A precedence engine** that resolves 5 sources into one map and records which
+  source produced every feature.
+- **An arbitration log** of editorial corrections, each carrying its reasoning
+  and evidence.
+- **A validation harness** — 46 checks that a rebuild still satisfies everything
+  the documentation claims.
+- **An ontology specification** for modelling vassals, provinces and unions,
+  which is **designed but not implemented**.
+
+## See it in 60 seconds
 
 ```bash
-python3 -m http.server 8451 --directory docs
+python3 -m http.server 8451 --directory docs   # then open localhost:8451
 ```
 
-Then open http://localhost:8451. (In Claude Code: the `histmap` launch config.)
+No build step, no dependencies, no data fetch. `docs/` is the whole site and its
+data is committed.
 
-Controls: scrub or click the timeline, arrow keys step one historical change at a
-time, scroll to zoom (anchored on the cursor), drag to pan or rotate the globe.
-Hover a polity for its card — extent this year, lifespan, maximum extent, the
-states it formed from and was succeeded by, and the modern countries its peak
-territory covered;
-click to pin it, and click the maximum-extent line to jump there.
-World population for the current year sits under the year readout.
-**Modern borders** cycles off -> over -> under: present-day country lines drawn
-above the historical fills, or beneath them so they show through only where no
-polity claims the ground.
+## Reading order
 
-## Publishing
+Each document states its own objective and assumes the one before it.
 
-GitHub Pages serves `docs/` from `main`. There is no build step and no Actions
-workflow — push to main and the site updates within a minute or two.
+| # | Document | Answers |
+|---|---|---|
+| 1 | **[ARCHITECTURE.md](ARCHITECTURE.md)** | How raw sources become the map, and where to change things |
+| 2 | **[METHOD.md](METHOD.md)** | How the project decides what is true when sources disagree |
+| 3 | **[ONTOLOGY.md](ONTOLOGY.md)** | How polities and their relationships are modelled — **spec, not built** |
+| 4 | **[arbitration/](arbitration/)** | The editorial decisions made, and those deliberately left open |
+| 5 | **[BACKLOG.md](BACKLOG.md)** | What comes next, and what was tried and rejected |
+| 6 | **[CREDITS.md](CREDITS.md)** | Sources, and the licence obligations they carry |
 
-To ship an improvement:
+If you are picking this project up cold, read ARCHITECTURE and METHOD before
+changing anything. METHOD in particular encodes decisions that look arbitrary
+until you know what went wrong without them.
 
-```bash
-.venv/bin/python scripts/build_app_data.py   # regenerate docs/data/
-git add -A && git commit -m "..." && git push
-```
-
-The first load is ~9.7 MB gzipped, nearly all of it `polities.json`; it caches
-after that. Note `polities.json` is ~32 MB uncommitted, so every rebuild adds
-another ~32 MB blob to git history. If the repo gets uncomfortably large, squash
-history or move the data to a release asset.
-
-Working on a fresh machine:
+## Working on it
 
 ```bash
-./scripts/fetch_sources.sh                   # re-downloads ~1.5 GB of sources
 python3 -m venv .venv
-.venv/bin/pip install geopandas matplotlib pyogrio shapely pyyaml pandas pyproj
+.venv/bin/pip install -r requirements.txt    # pinned: the build needs Shapely 2.x
+./scripts/fetch_sources.sh                   # ~1.5 GB of source data, re-runnable
+.venv/bin/python scripts/build_app_data.py   # regenerate docs/data, ~10 minutes
+.venv/bin/python scripts/validate.py         # 46 checks; must pass before pushing
+git add -A && git commit -m "..." && git push # live in a minute or two
 ```
 
-Licensing is covered in CREDITS.md: the code is MIT, and `docs/data` is ODbL
-because it contains AWMC-derived geometry.
-
-## Layout
-
-    sources/
-      registry.yaml       every source: tier, grade, spatial+temporal authority
-      aliases.yaml        cross-source name reconciliation
-    arbitration/
-      decisions.jsonl     machine-applied editorial decisions, with reasoning
-      OPEN_QUESTIONS.md   decisions deliberately not yet made
-    data/raw/      source data, as downloaded (not modified)
-      cliopatria/  Cliopatria polity polygons — the global skeleton
-      geodata/     AWMC / Barrington Atlas — classical-world authority layers
-      pleiades/    Pleiades ancient places
-      ne_110m_admin_0_boundary_lines_land.json   modern borders, reference only
-      reba/        Reba/Chandler-Modelski city populations, 3700 BCE–2000 CE
-    scripts/
-      build_app_data.py   raw sources -> docs/data/*.json
-      render_slice.py     static PNG renders for source comparison
-    docs/          the viewer (served by GitHub Pages) (vanilla JS + d3, no build step)
-    renders/       static comparison renders
-
-## Rebuilding the viewer data
-
-```bash
-.venv/bin/python scripts/build_app_data.py
-```
-
-Produces `docs/data/polities.json` (12k features, simplified to ~9 km),
-`years.json` (522 years where the map changes — the slider's snap targets),
-`polity_index.json` (1403 polities: lifespan, peak year and area, inferred
-predecessors and successors, and modern countries covered at peak), and
-`cities.json` (1719 cities with population time series).
-
-Areas are true geodesic km² computed from resolved geometry, not from a source's
-own figure — a polity clipped against a tier-1 envelope is smaller than its
-source claims, and tier-1 features carry no area figure at all.
-
-## World population
-
-The figure under the year comes straight from Our World in Data's long-run
-series (CC BY 4.0), which reaches back to 10000 BCE: 44.6M at 3000 BCE, 503M in
-1500, 8.09B in 2023.
-
-**Per-polity population estimates were built and rolled back.** They are not in
-the map. The implementation and its validation are in git history at 5c15486 if
-they are ever wanted: it spread each country's population across the Anthromes
-12K land-use grid and credited a polity with the cells it held, which validated
-well (Rome 117 CE 44.7M against a published 45-70M; Han 2 CE 50.8M against a
-~57M census; Qing 1800 333M against ~330M). It was removed because a derived
-per-polity number carries error bars too wide to sit under a state's name as
-though it were a fact.
-
-## Source precedence
-
-Regional specialist -> Cliopatria -> historical-basemaps (tiebreak) -> manual
-arbitration. This is implemented, not aspirational: `scripts/resolve.py` is the
-engine and `build_app_data.py` runs it into the viewer's data.
-
-Rules the engine enforces:
-
-- A higher tier clips a lower one; a source is never clipped by its own tier.
-- Where tier 1 and tier 2 describe **the same polity**, tier 1 replaces it
-  outright. Clipping instead would leave a halo of the weaker source's geometry
-  around the stronger one.
-- Where they describe **different** polities, the lower-tier neighbour is merely
-  clipped: it loses the contested ground and keeps the rest.
-- A tier-1 source only clips inside its own declared `authority.bbox`.
-- Tier 3 is never drawn. It is compared against the result and reported as
-  disagreement, which is how it earns the name "tiebreak".
-- Every output feature carries `s` (source id) and `tier`. Provenance lives in
-  the data and is deliberately not shown on the map.
-
-Authority windows are narrow on purpose: AWMC's 117 CE map is trusted only for
-114-117, because Hadrian abandoned the Mesopotamian provinces in 118.
-
-Audit any set of years:
-
-```bash
-.venv/bin/python scripts/resolve.py 117 200 --slice --report out/conflicts.json
-```
-
-Measured tier1-vs-tier2 agreement in the slice (IoU): Rome 117 CE 0.76,
-Rome 200 CE 0.80, Alexander's empire 323 BCE 0.79 and 0.76.
-
-Editorial decisions live in `arbitration/decisions.jsonl` and are applied by the
-engine, each carrying its reasoning and evidence. Decisions we have deliberately
-NOT made are in `arbitration/OPEN_QUESTIONS.md` — most importantly OQ-1, that
-sub-polities are currently erased by their own parent, which is the concrete
-case the polity ontology has to solve.
-
-## Known data defects
-
-- Cliopatria labels Alexander's conquests "Ptolemaic Kingdom" from 331 BCE,
-  ~8 years before the Ptolemies existed. Fast-conquest decades are coarse.
-- AWMC `political_shading` layers are maximum-extent, not year-specific.
-- Cliopatria freezes colonial extents after independence: the French Fifth
-  Republic is one 1961–2023 record still holding Algeria, and the Kingdom of
-  Great Britain keeps its Arabian holdings from 1956 to 2023. A 1900–2024 sweep
-  found 36 polity pairs overlapping by =>30% of the smaller. Only some are
-  defects — others are occupations (USA in Japan/Korea/Iraq) or unions (Syria
-  and the UAR), which the ontology models as relations. See OQ-6. Labels no
-  longer anchor to ground another polity occupies, so the visible symptom is
-  fixed; the geometry is not.
-- Cliopatria reuses some Wikidata ids across unrelated polities — 115 of 1400
-  ids name more than one state. Q175881 is both the ancient Roman Republic and
-  the 1799 revolutionary one, Q41137 is both Assyria and Syria, Q555994 is both
-  Aq Qoyunlu and the Zhou-era state of Lu. Grouping records on those ids fuses
-  distinct states into one polity with an absurd lifespan (Roman Republic,
-  500 BCE – 1799 CE), so `build_app_data.py` trusts an id only when it names
-  exactly one polity and falls back to the alias-normalised name otherwise.
-- Cliopatria carries 1722 umbrella records that duplicate the geometry of the
-  entities they contain, e.g. "(Phoenician Empire)" repeating Phoenicia's exact
-  35130 km2. The precise test is a non-empty `Components` field, which occurs
-  iff the name is parenthesised. Suppressed by ARB-002. Note these are NOT the
-  same set as `Type == RELATION`, which covers only 385 of them.
+Run every command from the repository root. `data/raw/` (the sources) and
+`.venv/` are deliberately not committed; `docs/data/` (the built map) is, so the
+site works without a rebuild.

@@ -1,7 +1,21 @@
 # Backlog
 
-Features wanted, with what each actually needs. Feasibility notes are from
-measured tests, not estimates.
+**Objective** — record what is wanted next, what it actually needs, and what was
+tried and rejected, so nobody re-runs an investigation that already has an answer.
+
+**Read after** [METHOD.md](METHOD.md). Feasibility notes here are from measured
+tests, not estimates; where something was rejected, the measurement that killed
+it is given.
+
+## The one big item
+
+**Implement the polity ontology.** [ONTOLOGY.md](ONTOLOGY.md) is designed and
+unbuilt, and it is the prerequisite for most of what remains: sub-polities being
+erased by their overlords (OQ-1), the annexation dispute (OQ-3), dependency
+tinting, and the continuity signal the label rule needs. Everything below is
+smaller than this.
+
+---
 
 ---
 
@@ -172,3 +186,40 @@ predecessor is the Achaemenid Empire, so inheritance would move Macedon's label
 to Persia. Distinguishing a continuation from a conquest is precisely the
 `continues` versus `succeeds` distinction in ONTOLOGY.md. Fix this when those
 edges land.
+
+---
+
+## Built, validated, and rolled back — per-polity population
+
+Recorded so the investigation is not repeated. Full implementation and its
+validation are in git history at **5c15486**.
+
+The request was a population figure per polity, shown under each state's name and
+in the hover card. It was built twice.
+
+**First attempt — area shares.** Credit each polity a share of every modern
+country it covered, proportional to *area*. Validation killed it: Han China came
+out at 25M against a census of ~57M, the Ming at 37M against estimates upwards of
+100M. The assumption that population is spread evenly within a country is simply
+false — the Ming held about half of China's area but 89% of its people.
+
+**Second attempt — land-use weighting.** Spread each country's population across
+the Anthromes 12K grid (Harvard Dataverse, CC0), whose classes derive from HYDE
+and so encode where people actually lived, then credit a polity with the cells it
+held. This validated well:
+
+| polity | year | estimate | published |
+|---|---|---|---|
+| Roman Empire | 117 | 44.7M | 45–70M |
+| Han Dynasty | 2 | 50.8M | ~57M (census) |
+| Qing Dynasty | 1800 | 333M | ~330M |
+| Ottoman Empire | 1600 | 31.4M | ~28M |
+
+**Rolled back anyway**, by decision: a derived per-polity number carries error
+bars too wide to sit under a state's name as though it were a fact. World
+population — which *is* sourced, from OWID — was kept.
+
+Worth knowing if it is ever revived: Ming China came out at 88M against a
+frequently quoted ~160M, and that gap is a source disagreement rather than an
+error. Ming covers 89.4% of China's population weight, and OWID/HYDE put China's
+1600 population at 98.1M. Ming estimates genuinely span 60M to 200M.

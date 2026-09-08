@@ -200,7 +200,7 @@ sources:
     title: AWMC ancient shoreline
     tier: ~
     role: basemap
-    path: Physical Data/shoreline/shoreline.geojson
+    path: geodata/Physical Data/shoreline/shoreline.geojson
 
   - id: pleiades
     title: Pleiades ancient places

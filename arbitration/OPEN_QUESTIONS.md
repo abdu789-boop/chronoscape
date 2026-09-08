@@ -1,7 +1,16 @@
 # Open arbitration items
 
-Decisions we have not made. Each needs a human call; the engine has the
-mechanism ready but will not guess. Resolved items move to `decisions.jsonl`.
+**Objective** — record the historiographical decisions this project has
+deliberately *not* made, with the evidence for each, so a successor inherits the
+question rather than an unexplained silence.
+
+**Read after** [METHOD.md](METHOD.md) §4, which explains how arbitration works
+and where resolved decisions live.
+
+Each item needs a human call. In most cases the engine already has the mechanism
+and simply will not guess, because a blanket rule would be wrong in cases already
+identified here. Resolved items move to `decisions.jsonl` and become code the
+build applies.
 
 ---
 

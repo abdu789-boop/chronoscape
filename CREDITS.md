@@ -1,7 +1,13 @@
 # Sources and credits
 
-This project draws borders, cities and coastlines from other people's work. The
-derived files in `docs/data/` are built from the sources below.
+**Objective** — name every dataset the map is built from, and state the licence
+obligations each carries, since publishing turned those obligations from academic
+into binding.
+
+**Read after** [METHOD.md](METHOD.md), which explains how these sources are
+ranked against each other. This document covers provenance and licensing only.
+
+The derived files in `docs/data/` are built from the sources below.
 
 ## Polity borders
 
@@ -31,17 +37,10 @@ Licensed **CC BY 4.0**, via figshare.
 10000 BCE onward), itself built on HYDE 3.x, Gapminder and the UN.
 Licensed **CC BY 4.0**. https://ourworldindata.org/population-growth
 
-**Anthromes 12K** — Ellis et al., Harvard Dataverse doi:10.7910/DVN/G0QDNQ.
-Released **CC0** (public domain). A 5-arc-minute land-use classification for 73
-time slices from 10000 BCE, derived from HYDE.
-
-Per-polity populations here are *estimates derived* from these two, not figures
-anyone published. A country's population for the year is spread across its cells
-in proportion to the population density implied by each cell's anthrome class,
-and a polity is credited with the cells it covered. Using land use rather than
-raw area is what makes the estimate defensible: the Ming held about half of
-China's area but 89% of its people, and Rome held the Nile rather than Egypt's
-Western Desert.
+Only the **world total** is used, taken directly from the source with no
+derivation of our own. Per-polity population estimates were built and then rolled
+back; they relied on a further dataset (Anthromes 12K, CC0) that the project no
+longer ships or depends on. See BACKLOG.md, and git history at 5c15486.
 
 ## Basemap
 

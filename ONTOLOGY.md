@@ -1,7 +1,30 @@
 # Polity ontology
 
-What counts as a polity, how polities relate, and what the map draws as a
-result. Decisions here are binding on the schema; open items are at the bottom.
+> ## ⚠ STATUS: SPECIFICATION — NOT IMPLEMENTED
+>
+> **Nothing in this document exists in the code.** No `subject_of` edge, no
+> render root, no `polity_class`, no dependency tinting. Grep the repository for
+> any term below and you will find nothing; the map today treats every polity as
+> a flat sovereign competitor.
+>
+> This is a design agreed in advance of building it, so that the data model is
+> settled before anyone writes the migration. Read it as "what the map should
+> become", never as "how the map works". For how the map actually works, see
+> [ARCHITECTURE.md](ARCHITECTURE.md).
+
+**Objective** — settle what counts as a polity, how polities relate to one
+another, and what the map should draw as a result, before any of it is built.
+
+**Read after** [METHOD.md](METHOD.md), whose §8 lists the uncertainties this
+model is meant to resolve. **Read before** attempting the migration — several
+decisions below were forced by measured failures, recorded in
+[arbitration/OPEN_QUESTIONS.md](arbitration/OPEN_QUESTIONS.md).
+
+**Why it matters:** this is the largest single piece of unbuilt work in the
+project. It is what would fix sub-polities being erased by their overlords
+(OQ-1), dissolve the annexation-versus-distinct-polity dispute (OQ-3), enable the
+dependency tinting chosen in §3, and give the label rule the continuity signal it
+needs for cases like Estado Novo.
 
 ---
 
