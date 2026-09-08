@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Redesign benchmark renderer</title>
+<style>html,body,#stage{margin:0;width:100%;height:100%;overflow:hidden}canvas{display:block;touch-action:none}</style>
+<div id="stage"><canvas id="map"></canvas></div><script src="../lib/d3.v7.min.js"></script>
+<script type="module">
+import { register } from './runner.js';
+import { createMap } from '../js/map.js';
+import { loadAtlas } from '../js/data.js';
+const map = createMap(document.getElementById('map'));
+map.setTheme('dark');
+const atlas = await loadAtlas({ onBase: data => map.setData(data) });
+map.setData({ land: atlas.land, borders: atlas.borders });
+let count = 0;
+register({ id:'redesign', years:atlas.years,
+  year(year) { const rows=atlas.snapshot(year); count=rows.length; map.setSnapshot(rows,atlas.cityEntries(year)); return count; },
+  camera(view) { map.setView(view); return count; }
+});
+</script></html>

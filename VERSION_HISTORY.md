@@ -1,5 +1,37 @@
 # Version history
 
+## UI redesign
+
+Implemented the atlas redesign in the requested order: readability, speed,
+aesthetics, and modernization. This entry records the implementation scope;
+publishing is a separate step.
+
+- Replaced the floating detail card with an explorer and structured sidebar,
+  responsive bottom sheet, extent chart, aligned percentages, inference labels,
+  clear selection outlines, and explicit zoom/maximum-extent actions.
+- Added search across eras, exact-year BCE/CE entry, timeline windows, map-change
+  stepping and playback, explicit layers, keyboard controls, help, and view links.
+  The whole-history slider snaps to data changes; narrower windows and direct
+  entry allow individual years. Navigation ends at the dataset's 2024 boundary.
+- Introduced coordinated light/dark themes, sans-serif controls, restrained atlas
+  typography, curated territorial colors, multiline labels with halos, and
+  viewport-aware city display.
+- Split the viewer into native ES modules. Data URLs use content fingerprints;
+  the build regenerates them automatically. Progressive basemap loading, a
+  parsing/winding worker, bounded year caches, frame scheduling, reusable canvas
+  layers, and projected paths reduce repeated work.
+
+Historical data, source precedence, arbitration, and ontology implementation
+status remain unchanged. The full geometry download is still required; there is
+no era sharding or WebGL conversion. See [QA_REPORT.md](QA_REPORT.md) for validation and the rendering measurement
+method.
+
+Validation commands are `node --test tests/*.test.mjs`,
+`python3 scripts/validate.py --quick`, and
+`python3 scripts/update_data_versions.py --check`. The full historical validator
+remains required after data builds. See [ARCHITECTURE.md](ARCHITECTURE.md) for
+module ownership and [README.md](README.md) for local startup.
+
 ## Baseline before the UI redesign
 
 - **Git tag:** `pre-ui-redesign` (annotated, local).
@@ -45,7 +77,8 @@ a floating polity detail card, Equal Earth and globe views, modern-border
 controls, and a bottom timeline. See the documents at the tagged commit for the
 exact architecture, methodology, and backlog that accompanied this version.
 
-The UI improvement suggestions are proposals, not implemented features. The
-baseline also retains existing behavior and limitations, including timestamped
-data URLs that prevent normal cache reuse across visits. Saving this version
-is not a new validation or performance benchmark.
+At this baseline the UI improvement suggestions were still proposals. The
+snapshot retains the original behavior and limitations, including timestamped
+data URLs that prevent normal cache reuse across visits. The implementation
+above does not change the saved tag. Saving the baseline itself was not a new
+validation or performance benchmark.

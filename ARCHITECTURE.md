@@ -21,7 +21,7 @@ data/raw/           5 source datasets, ~1.5 GB, never modified, never committed
     v
 docs/data/*.json    the built map, ~32 MB, committed
     |
-    |  docs/index.html             vanilla JS + d3, no build step
+    |  docs/index.html + js/       native ES modules + D3/Canvas, no frontend build
     v
 GitHub Pages        serves docs/ from main
 ```
@@ -38,6 +38,7 @@ ARCHITECTURE.md           this file — how it works
 METHOD.md                 how the project decides what is true
 ONTOLOGY.md               the polity model (specification, NOT implemented)
 BACKLOG.md                what is next, and what was tried and rejected
+VERSION_HISTORY.md       original viewer snapshot and redesign scope
 CREDITS.md                sources and licence obligations
 LICENSE                   MIT for code; docs/data is ODbL (see CREDITS)
 requirements.txt          pinned — the build needs Shapely 2.x semantics
@@ -54,16 +55,26 @@ scripts/
   fetch_sources.sh        re-download every source dataset
   resolve.py              the precedence engine + a year-auditing CLI
   build_app_data.py       raw sources -> docs/data/*.json
-  validate.py             46 checks that a rebuild still holds
+  update_data_versions.py SHA256 cache fingerprints for published JSON
+  validate.py             checks that a rebuild still holds
   render_slice.py         static PNG renders for comparing sources by eye
 
 docs/                     the site GitHub Pages serves
-  index.html              the entire viewer
+  index.html              semantic application shell and controls
+  style.css               atlas themes, layout, responsive bottom sheet
+  js/app.js               sidebar, search, timeline, playback, coordination
+  js/map.js               projections, canvas layers, labels, pointer gestures
+  js/data.js              loading, interpolation, search, cached snapshots
+  js/data-worker.js       historical JSON parsing and geometry winding
+  js/data-version.js      generated data cache fingerprints
+  js/state.js             URL state and timeline math
+  js/package.json         ES module declaration for Node-based tests
   lib/d3.v7.min.js        vendored
   data/*.json             the built map
 
 data/raw/                 sources, gitignored (fetch_sources.sh restores them)
 renders/                  static comparison images
+tests/*.test.mjs           native Node viewer tests; no npm dependencies
 ```
 
 ## 3. The pipeline, stage by stage
@@ -101,15 +112,21 @@ Runs in stages. Each is independent and prints a progress line:
 | index | lifespan and peak extent per polity | seconds |
 | succession | infers predecessors and successors geometrically | ~3 min |
 | modern countries | which countries each polity covered at peak | ~1 min |
+| cache fingerprints | hashes all seven published JSON files after a successful build | seconds |
 
 Roughly ten minutes end to end. `--skip-cities` skips the (unchanging) city
 rebuild.
 
 ### `scripts/validate.py`
-46 assertions covering the built data, the arbitration decisions, the tier-1
+Assertions covering the built data, the arbitration decisions, the tier-1
 windows, the label-placement regressions, the derived index facts, and source
 agreement. Run it after every build. Checks needing `data/raw/` are skipped, not
 failed, on a fresh clone.
+
+`python3 scripts/validate.py --quick` explicitly omits raw-source checks.
+`node --test tests/*.test.mjs` checks viewer data behavior, state/timeline math,
+and map interaction/rendering invariants. The tests also verify that committed
+data fingerprints match the actual bytes.
 
 ## 4. Data contracts
 
@@ -134,7 +151,8 @@ Field names are short because `polities.json` is 32 MB.
 and `succ` as `[name, percent]` pairs, and `countries` covered at peak. The
 special key `_span` holds the dataset's own year range.
 
-**`years.json`** — the 522 years where the map changes; the slider's snap targets.
+**`years.json`** — 522 change boundaries, including a terminal 2025 boundary.
+Navigation uses only nonzero years inside the dataset span, 3400 BCE–2024 CE.
 
 **`cities.json`** — 1,719 cities with population time series, driving which
 appear at a given year.
@@ -145,23 +163,55 @@ appear at a given year.
 
 ## 5. The viewer
 
-`docs/index.html` is the whole application: vanilla JS with vendored d3, no
-framework and no build step. Worth knowing before editing it:
+The shell and stylesheet load native ES modules with vendored D3. A simple HTTP
+server is enough; direct `file://` loading is unsuitable for modules and fetch.
 
-- **Draw order** is sphere, land, modern borders (if underlaid), polity fills,
-  modern borders (if overlaid), polity labels, city dots, city labels.
-- **Label placement** uses one shared collision system. Every label claims a
-  rectangle; anything that would overlap an existing claim, or fall off-screen,
-  is dropped rather than drawn. Polities claim before cities.
-- **Label anchors are precomputed** in the build, not derived at render time.
-  The rule is subtle and was arrived at by fixing real bugs — see METHOD §6.
-- **Hit-testing prefers the smallest polity** under the cursor (the snapshot is
-  sorted largest-first and scanned backwards), and rejects the globe's far side.
-- **Geometry must be rewound on load.** Cliopatria's polygons use the opposite
-  winding order from d3's spherical convention; without `rewindGeom` every fill
-  inverts and floods the globe.
-- **Pointer state is guarded.** A missed `pointerup` used to leave the map
-  panning or the timeline scrubbing forever; both now check `e.buttons`.
+**Reading and navigation.** `app.js` coordinates search across all polity
+identities, an explorer, and a persistent detail panel. Details include the
+selected year's mapped area, a stepped extent chart, a maximum-extent jump,
+inferred relationships, and an expandable list of present-day countries. The
+country percentages explain their denominator; relationship labels identify
+geometric inference. A selected polity can remain selected in a year when it is
+not mapped, with that absence stated explicitly. On narrow screens the sidebar
+becomes a bottom sheet. System sans-serif text supports controls and facts;
+serif display text retains the atlas identity.
+
+**Loading and caching.** `data.js` fetches seven same-origin JSON files in
+parallel. Land and modern borders can render before historical geometry is
+ready. A dedicated worker streams, parses, and rewinds the large polity file;
+download progress reports actual bytes and uses an unknown total when a
+compressed response prevents a reliable denominator. A worker-unavailable
+fallback yields between winding batches. Fetch/parse errors lead to an explicit
+retry. Snapshots and city rankings each use a 32-year LRU cache; panning does not
+recompute population interpolation. Search indexes identity names and their
+record aliases, folds accents, and marks activity from actual record intervals.
+
+Each data URL carries the first 16 hexadecimal characters of its SHA256 digest.
+`scripts/update_data_versions.py` generates `js/data-version.js` automatically
+after a successful data build. Run it directly after individual data replacements;
+`--check` verifies without writing. Unchanged files keep the same cache key.
+
+**Rendering.** `map.js` schedules at most one pending animation frame and tracks
+what needs redrawing. It reuses a basemap canvas, a filled-scene canvas, projected
+`Path2D` shapes and bounds, and measured label text. Hover/selection outlines do
+not repaint all territory fills. Camera or year changes rebuild the necessary
+projection data. Canvas resolution follows display density up to a 2× cap.
+Draw order is sphere/graticule/land, underlaid borders, polity fills, overlaid
+borders, city dots, selection outlines, and labels.
+
+**Selection and input.** Hit-testing first rejects out-of-bounds projected
+features, then tests spherical containment from smallest territory to largest.
+The globe rejects its far side and points outside its visible disc. Pointer
+capture, cancellation, and lost-button handling protect drag state; touch supports
+pinch zoom. Search and native controls offer keyboard routes to selection,
+layers, dates, and playback. With the canvas focused, arrows pan, `+`/`-` zoom,
+and Home resets; otherwise arrows navigate map changes. Focus indicators, named
+controls, status messages, and reduced-motion styles are implemented; this is
+not a claim of a complete accessibility audit.
+
+**State.** `state.js` validates and serializes year, polity, projection, camera,
+layers, and timeline scope in the URL fragment. Copy-link sharing preserves that
+view. The theme preference uses local storage with a fallback when unavailable.
 
 ## 5a. Algorithms worth knowing before you change them
 
@@ -182,33 +232,47 @@ rather than a precedence remnant (METHOD §6).
 pixels, so the slider is piecewise linear over knots:
 
 ```
-years     -3400   -1000      1     1000    1500    1800    2026
+years     -3400   -1000      1     1000    1500    1800    2024
 position    0      .13      .32     .52     .67     .80    1.00
 ```
 
-4,400 BCE-to-CE years occupy the first third; the last two centuries get a fifth
-of the bar.
+The years before 1 CE occupy roughly the first third; the last two centuries get
+a fifth of the bar.
 
-**Year snapping.** The slider snaps to the nearest of the 522 years where the map
-actually changes (binary search, then whichever neighbour is closer), so every
-step of the slider produces a visible difference rather than dead travel.
+**Year selection.** The whole-history slider snaps by binary search to the
+nearest valid change boundary, choosing the earlier one on a tie. Direct year
+entry and 1,000/500/100/25-year timeline windows permit individual years inside
+recorded intervals. The previous/next controls and playback use change boundaries.
+Year entry accepts BCE/BC, CE/AD, and negative notation; there is no year zero.
+The upper bound is 2024, not the current calendar year or the terminal 2025
+boundary in `years.json`.
 
 **City visibility.** A city's population at the current year is interpolated in
 log space from its Reba series, and it is considered alive from 100 years before
-its first data point to 50 years after its last. The 90 largest living cities get
-dots (radius `log10(pop) - 2.2`, clamped 1.5–6 px); the 22 largest that survive
-label collision get names.
+its first data point to 50 years after its last. Population ranking is cached by
+year. The renderer culls off-screen cities before applying a viewport-sized
+budget and a 13px density grid, so zooming into a region can reveal local cities.
+Dot radius is `log10(pop) - 2.5`, clamped to 1.8–4.5px. Names share the polity
+label collision system.
 
-**Polity colour.** A stable hash of the polity's name maps to HSL — same name,
-same colour, in every year and every session, with no palette to maintain. Note
-this is a placeholder for the agreed design in which successor states inherit
-their predecessor's colour, which needs the ontology's continuity edges.
+**Polity colour.** A stable identity-key hash selects from a curated palette for
+each theme. This keeps colors consistent across years without implying a
+historical relationship. Neighboring territories may still share a color;
+adjacency-aware allocation and successor color inheritance are not implemented.
+The latter needs the ontology's continuity edges.
 
 **Label placement.** One shared collision system; every label claims a rectangle
 and anything overlapping an existing claim, or falling off-screen, is dropped.
-Polities claim before cities. At most 26 polity labels and 22 city labels. Anchors
-themselves are precomputed in the build — see METHOD §6 for that rule, which is
-subtler than it looks.
+The selected polity has first priority, then other visible territories ranked by
+projected area, then cities. Long polity names can split over two lines and text
+halos improve contrast. The old global limits of 26 polity labels and 22 city
+names belong to the saved baseline. Anchors are still precomputed by the build
+(METHOD §6); the redesign does not change their historical interpretation.
+
+**Geometry winding.** Input polygons use the opposite winding order from D3's
+spherical convention. Every ring whose spherical area exceeds half the globe is
+reversed on load, preserving the baseline convention. Skipping this would invert
+fills. The worker changes where that computation runs, not its result.
 
 ## 6. Saved baseline and publishing
 
@@ -218,13 +282,15 @@ The viewer before the UI redesign is preserved by tag `pre-ui-redesign`
 how to run it alongside a newer viewer without changing the active checkout.
 
 
-GitHub Pages serves `docs/` from `main`. No Actions workflow — deliberately, since
-the account's token lacks the `workflow` scope. Push to main and the site updates
-in a minute or two.
+GitHub Pages serves `docs/` from `main`; the redesign keeps that static deployment
+model. There is no frontend bundling or npm installation step. Committing or
+publishing a redesign is a separate action from implementing it.
 
-The documented first-load payload is ~9.7 MB gzipped, almost entirely
-`polities.json`. The saved baseline appends `Date.now()` to every data URL, so
-normal cache reuse across page loads is defeated; versioned asset URLs are a
-proposed speed improvement. Note
-that each rebuild adds another ~32 MB blob to git history; if the repo grows
-uncomfortable, squash or move the data to a release asset.
+The full `polities.json` remains approximately 32 MB uncompressed. The redesign
+does not change generated data, split it by era, or introduce WebGL. Worker
+processing and reusable cache keys reduce repeated main-thread/network work;
+they do not eliminate the first full geometry download. The baseline used a new
+`Date.now()` URL on every visit. No comparative timing claim is made here.
+
+Each data rebuild adds another large blob to Git history; moving generated data
+to release assets remains an option if repository growth becomes a problem.

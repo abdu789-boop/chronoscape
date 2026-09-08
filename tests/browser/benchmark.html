@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Chronoscape · renderer benchmark</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{font:15px/1.55 system-ui,sans-serif;margin:28px auto;padding:0 24px;max-width:1060px;color:#253830;background:#f3f4ee}h1{font-size:26px;margin:0 0 8px}p{max-width:1000px}button{font:inherit;padding:9px 18px;border:1px solid #7d9082;border-radius:5px;background:#fff;cursor:pointer}button:disabled{opacity:.5}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;margin:20px 0}th,td{padding:10px;text-align:right;border-bottom:1px solid #ced6cc}th:first-child,td:first-child{text-align:left}small{color:#5c6d61}pre{font-size:12px;white-space:pre-wrap;max-height:260px;overflow:auto;background:#e8ece4;padding:14px}.frames{display:flex;gap:20px;flex-wrap:wrap}.frame-wrap{width:500px;height:320px;overflow:hidden;border:1px solid #b4c1b6}iframe{border:0;width:1000px;height:640px;transform:scale(.5);transform-origin:0 0}
+</style>
+<h1>Chronoscape renderer benchmark</h1>
+<p>Compares the saved <code>pre-ui-redesign</code> Canvas renderer with the current renderer at the same 1000 × 640 CSS pixels, projection, historical data, camera coordinates, and raster density. Both use dark colors, labels, and cities; modern borders are off.</p>
+<p><strong>Measures main-thread preparation + drawing CPU.</strong> Network, JSON loading, worker startup, animation-frame waiting, browser paint, and GPU completion are excluded. This is not a load-time or frame-rate benchmark. Product controls are excluded from both. Each pair alternates execution order; two animation frames separate samples.</p>
+<button id="run" disabled>Run benchmark</button> <span id="status" role="status">Loading both datasets…</span>
+<table><thead><tr><th>Workload</th><th>Samples each</th><th>Baseline median</th><th>Redesign median</th><th>Baseline / redesign</th></tr></thead><tbody id="results"></tbody></table>
+<p id="summary"></p><details><summary>Measurement details and raw results</summary><p>Year tests retain each implementation’s real temporal caches. “First pass” uses 24 distinct years; “revisit” repeats those years in reverse. Camera tests hold the latest common year constant and use 40 distinct pan/zoom views. Baseline projection fit and clipping are aligned with the redesign for comparable geography; its original rendering and city/label algorithms remain intact. Baseline’s historical bottom-80px label exclusion and global label limits remain part of that renderer. Redesign uses its actual regional labels and caches. The two implementations therefore perform different useful work; inspect draw-only and preparation figures below before interpreting ratios.</p><pre id="details">Waiting for a run.</pre></details>
+<div class="frames"><section><h2>Saved baseline</h2><div class="frame-wrap"><iframe id="baseline" src="baseline.generated.html" title="Baseline rendering"></iframe></div></section><section><h2>Redesign</h2><div class="frame-wrap"><iframe id="redesign" src="redesign.html" title="Redesign rendering"></iframe></div></section></div>
+<script type="module">
+const status=document.getElementById('status'), run=document.getElementById('run');
+const ready={}, pending=new Map(); let serial=0;
+window.addEventListener('message', event=>{
+  if(event.origin!==location.origin || event.data?.qa!=='chronoscape') return;
+  const id=['baseline','redesign'].find(id=>document.getElementById(id).contentWindow===event.source);
+  if(!id) return;
+  if(event.data.ready===id){ready[id]=event.data;if(ready.baseline&&ready.redesign){run.disabled=false;status.textContent='Ready. Keep this tab visible during the run.';}}
+  const item=pending.get(event.data.request);
+  if(item){pending.delete(event.data.request);clearTimeout(item.timer);event.data.error?item.reject(new Error(event.data.error)):item.resolve(event.data.result);}
+});
+function send(id,action,value){return new Promise((resolve,reject)=>{
+  const request=++serial;
+  const timer=setTimeout(()=>{pending.delete(request);reject(new Error('Sample timed out. Keep the benchmark tab visible.'));},15000);
+  pending.set(request,{resolve,reject,timer});document.getElementById(id).contentWindow.postMessage({qa:'chronoscape',request,action,value},location.origin);
+});}
+const median=values=>{const s=[...values].sort((a,b)=>a-b);return(s[Math.floor((s.length-1)/2)]+s[Math.floor(s.length/2)])/2;};
+const stats=rows=>Object.fromEntries(['prep','draw','total'].map(key=>[key,{median:median(rows.map(r=>r[key])),p90:[...rows].sort((a,b)=>a[key]-b[key])[Math.ceil(rows.length*.9)-1][key]}]));
+run.addEventListener('click',async()=>{
+  run.disabled=true;document.getElementById('results').replaceChildren();document.getElementById('summary').textContent='';
+  try{
+    if(ready.baseline.width!==ready.redesign.width||ready.baseline.height!==ready.redesign.height||ready.baseline.dpr!==ready.redesign.dpr)throw new Error('Viewport or raster density mismatch. No comparison made.');
+    const common=ready.baseline.years.filter(y=>ready.redesign.years.includes(y)&&y>=-3400&&y<=2024&&y!==0);
+    if(!common.length)throw new Error('No shared years in the product span.');
+    const years=[...new Set(Array.from({length:24},(_,i)=>common[Math.round(i*(common.length-1)/23)]))];
+    const home={projection:'flat',zoom:1,panX:0,panY:0,rotation:[0,0]};
+    for(const id of ['baseline','redesign']){await send(id,'camera',home);for(const y of [-450,1000,common.at(-1)])await send(id,'year',common.reduce((a,b)=>Math.abs(a-y)<Math.abs(b-y)?a:b));}
+    const report={timestamp:new Date().toISOString(),userAgent:navigator.userAgent,viewport:{width:ready.baseline.width,height:ready.baseline.height,dpr:ready.baseline.dpr},dataYears:{first:common[0],last:common.at(-1),commonCount:common.length,firstPassYears:years,cameraYear:common.at(-1)},notes:'CPU only; RAF waiting, network and paint excluded. Different labeling/caching algorithms are intentional.',workloads:[]};
+    const workloads=[['First-pass year updates','year',years],['Revisited year updates','year',[...years].reverse()],['Camera movement','camera',Array.from({length:40},(_,i)=>({projection:'flat',zoom:1.1+Math.sin(i/39*Math.PI)*3.5,panX:Math.sin(i*.18)*280,panY:Math.cos(i*.18)*125,rotation:[0,0]}))]];
+    for(const [name,action,values] of workloads){
+      if(action==='camera')for(const id of ['baseline','redesign']){const initial=await send(id,'year',common.at(-1));if(initial.count<=0)throw new Error('Camera workload has no active historical geometry. No camera comparison made.');}
+      const samples={baseline:[],redesign:[]};
+      for(const [i,value] of values.entries()){
+        status.textContent=`${name}: ${i+1} / ${values.length}`;
+        for(const id of i%2?['redesign','baseline']:['baseline','redesign'])samples[id].push(await send(id,action,value));
+        if(samples.baseline[i].count!==samples.redesign[i].count)throw new Error('Active geometry counts differ. No fair comparison can be reported.');
+        if(action==='camera'&&samples.baseline[i].count<=0)throw new Error('Camera sample unexpectedly has no active geometry.');
+      }
+      const baseline=stats(samples.baseline),redesign=stats(samples.redesign),ratio=baseline.total.median/redesign.total.median;
+      report.workloads.push({name,values,baseline,redesign,ratio,samples});
+      const row=document.createElement('tr');for(const text of [name,values.length,baseline.total.median.toFixed(2)+' ms',redesign.total.median.toFixed(2)+' ms',ratio.toFixed(2)+'×']){const cell=document.createElement('td');cell.textContent=text;row.append(cell);}document.getElementById('results').append(row);
+    }
+    window.__benchmarkResult=report;console.log('CHRONOSCAPE_BENCHMARK',report);console.table(report.workloads.map(w=>({workload:w.name,baseline_ms:w.baseline.total.median,redesign_ms:w.redesign.total.median,ratio:w.ratio})));
+    document.getElementById('details').textContent=JSON.stringify(report,null,2);
+    document.getElementById('summary').textContent='Run complete. A ratio above 1 means the redesign submitted less CPU work; below 1 means it took more. This single run does not establish a general speedup. Repeat to assess noise and inspect the two maps for comparable output.';
+    status.textContent='Complete.';
+  }catch(error){status.textContent=error.message;console.error(error);}finally{run.disabled=false;}
+});
+</script></html>

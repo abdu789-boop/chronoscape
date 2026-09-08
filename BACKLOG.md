@@ -7,17 +7,38 @@ tried and rejected, so nobody re-runs an investigation that already has an answe
 tests, not estimates; where something was rejected, the measurement that killed
 it is given.
 
-## UI redesign baseline
+## UI redesign — implemented
 
 Before UI work, the existing version was preserved as `pre-ui-redesign` at
 commit `108468a7d158409ab11a9d31b41c70da4b46e1d1`. See
 [VERSION_HISTORY.md](VERSION_HISTORY.md) for how to inspect or run it.
 
-The requested UI improvement priorities are **readability, speed, aesthetics,
-and modernization**, in that order. The suggested sidebar, label improvements,
-search, year entry, timeline redesign, and caching/rendering optimizations are
-proposals; they have not been implemented by this checkpoint. The ontology work
-below remains a separate data-model concern.
+The priorities were **readability, speed, aesthetics, and modernization**, in
+that order. The current viewer implements:
+
+- An explorer/detail sidebar, mobile bottom sheet, aligned fact lists, explicit
+  inference labels and percentage meanings, an extent chart, maximum-extent and
+  zoom actions, and clear selection outlines.
+- Search across all eras, exact BCE/CE year entry, narrower timeline windows,
+  previous/next map changes, playback, and a visible 2024 dataset endpoint.
+- A light/dark atlas design, sans-serif controls and facts, curated polity
+  palettes, multiline map labels with halos, and city selection by viewport.
+- Stable data fingerprints generated after builds, progressive basemap loading,
+  a worker for the large JSON parse/winding pass, bounded year caches, batched
+  animation frames, cached canvas layers and projected paths.
+- Native ES modules, semantic controls, keyboard/search navigation, pinch
+  gestures, explicit layer choices, help, retry states, and shareable view URLs.
+
+The whole-history slider still snaps to map-change years; direct entry and
+zoomed windows allow individual years. Source data and historical methodology
+are unchanged. This implementation entry does not assert a deployment or a
+measured speedup; see [ARCHITECTURE.md](ARCHITECTURE.md) for mechanisms and tests.
+
+Remaining UI/performance work should start from measurements: era-based geometry
+loading, adjacency-aware colors, and a WebGL renderer are not implemented.
+Successor color inheritance still needs the ontology. The original floating
+card, dense global label limits, and timestamped data requests remain inspectable
+at the baseline tag rather than describing the current UI.
 
 ## The one big item
 
@@ -29,21 +50,19 @@ smaller than this.
 
 ---
 
----
+## F1 — Polity details: archived implementation notes
 
-## F1 — Polity hover tooltip
-
-Hovering a state shows a panel with its details. Five parts, very different costs.
+These notes record the original August 2026 implementation and investigations.
+The redesign presents the resulting facts in a selected-polity sidebar; hover
+now provides a brief name/area preview. METHOD remains authoritative for the
+current derivations.
 
 ### F1a. Size of the state at the hovered year  ✅ DONE 2026-08-19
 
-`a` (km²) already rides on every feature. Two correctness fixes first:
-
-- Cliopatria's `Area` is the source's own figure, computed **before** precedence
-  clipping. A polity clipped against a tier-1 envelope would report a size larger
-  than what is drawn. Area must be recomputed from resolved geometry.
-- Tier-1 features currently use a crude `deg² × 12365` proxy. Real km² needs an
-  equal-area projection (Mollweide/ESRI:54009) at build time.
+The original proposal required replacing source areas and a crude tier-1
+`deg² × 12365` proxy. The shipped solution computes geodesic area from resolved
+geometry (`pyproj.Geod`), so precedence-clipped territories report the area
+actually represented. `a` (km²) rides on every feature; see METHOD §6a.
 
 ### F1b. Origin and end years  ✅ DONE 2026-08-19
 
@@ -55,9 +74,10 @@ rather than asserting a false date.
 
 ### F1c. Predecessor and successor states  ✅ DONE 2026-08-19
 
-Not present in any source, and the ontology's `succeeds`/`continues` edges are
-still unimplemented. But it can be inferred geometrically: take a polity's final
-extent, look at the following year, and rank whoever overlaps it. Measured:
+Not present in any source, and the ontology's `succeeds`/`continues` edges remain
+unimplemented. The initial experiment used a polity's final extent, looked at the
+following year, and ranked whoever overlapped it. These historical measurements
+preceded the corrections described below:
 
 | polity | inferred successors |
 |---|---|
@@ -99,21 +119,21 @@ most fun.
 
 ### F1e. Modern countries covered at maximum extent  ✅ DONE 2026-08-19
 
-`ne_110m_admin_0_countries.json` (708 KB, free) intersected with the polity's
-maximum-extent geometry at build time, stored as a ranked list with percentages.
-Use 50m rather than 110m if small states (Lebanon, Kuwait, Montenegro) get lost
-at 110m resolution.
+The initial proposal considered `ne_110m_admin_0_countries.json`; the shipped
+build uses Natural Earth 50m to retain small states. It intersects the maximum
+extent at build time and stores a ranked list of countries with percentages.
 
 ### Shipped in the first F1 pass
 
-`app/data/polity_index.json` — 1403 distinct polities keyed by the same identity
-the precedence engine matches on (wikidata, else alias-normalised name), each
-with lifespan, peak year, peak area and dataset-edge truncation flags. Areas are
+The first index (`app/data/polity_index.json`, now `docs/data/polity_index.json`)
+contained 1,403 distinct polities, before later identity corrections. Entries used
+the engine's identity key (wikidata, else alias-normalised name) and carried
+lifespan, peak year, peak area and dataset-edge truncation flags. Areas are
 now true geodesic km² (`pyproj.Geod`) computed from **resolved** geometry.
 
-The card shows extent at the hovered year, lifespan, and a clickable maximum-
-extent line that jumps the slider. Hovering updates it; clicking a polity pins
-it; the pinned card stays live as the year changes under it.
+The original card showed extent at the hovered year, lifespan, and a clickable
+maximum-extent line. Hovering updated it; clicking pinned it while the year
+changed. These interaction notes describe the original viewer, not the sidebar.
 
 Spot-checks: Rome peaks 118 CE at 5.26M km², Achaemenids 513 BCE at 5.73M
 (Darius I), Mongol Empire 1279 at 27.44M, and Mongolia is flagged "still
@@ -124,12 +144,13 @@ tier-1 AWMC geometry is in force, while the peak line points at 118 CE / 5.26M
 from Cliopatria — the two sources disagree about Rome's area by ~13%, so "maximum
 extent" lands the year *after* the tier-1 window ends. Honest, but worth knowing.
 
-### What F1 needs beyond data
+### F1 interaction follow-through
 
-The viewer's hover is currently a single line of text driven by `d3.geoContains`
-over the snapshot. A real tooltip needs a hit-test that prefers the *smallest*
-polity under the cursor, a positioned panel that avoids screen edges, and a
-sensible dismissal rule. This is the "future interaction phase" deferred at v1.
+The originally deferred interaction work is implemented: hit-testing prefers
+the smallest polity, the brief hover preview stays within the map, and a click
+or keyboard search result opens persistent details. The sidebar has explicit
+deselection and zoom controls and distinguishes a selected polity that is not
+mapped in the current year.
 
 ---
 
@@ -143,14 +164,15 @@ feature in the backlog and probably the highest orientation value: it answers
 Draw it in a neutral desaturated tone so it never competes with polity colour,
 and keep it off by default so the historical map stays the subject.
 
-**Shipped.** `app/data/borders.json` (186 LineStrings, 107 KB). One button cycles
-off -> over -> under. Rendered in a cool grey-blue at low alpha, deliberately
-solid rather than dashed: dashes are reserved for the disputed-border convention
-this project plans to adopt, so the reference layer must not pre-empt it.
+**Shipped.** `docs/data/borders.json` (186 LineStrings, 107 KB). The original
+viewer cycled off → over → under with one button. The redesign provides explicit
+Hidden / Above territories / Below territories choices in Layers. Reference
+lines remain subdued and solid; the planned disputed-border convention is still
+unimplemented.
 
 ---
 
-## Suggested order
+## Original feature sequence — completed
 
 1. ~~**F2**~~ — done.
 2. ~~**F1a/F1b/F1d + equal-area fix**~~ — done.
@@ -185,12 +207,14 @@ By the same rule Rome's home is Latium.
 Anchors are precomputed per record as `lp`, which also removed the runtime
 `geoCentroid` work. The underlying geometry defect is untouched — see OQ-6.
 
-**Still misplaced: Estado Novo, labelled over Angola.** This is the hard variant
-and it needs the ontology, not a better heuristic. Every Estado Novo record from
+**Original follow-up investigation: Estado Novo over Angola.** This exposed the
+hard variant in the original anchor heuristic. Every Estado Novo record from
 1926 to 1975 is ~2.2M km² — Portugal plus Angola and Mozambique — and the only
 smaller ones are the stale 6,892 km² Cabinda fragments. The regime never existed
 without its empire in this dataset, so no "smallest record" rule can locate
-Portugal.
+Portugal under that original rule. The later 1% peak-area floor and complete
+current anchor rule are documented in METHOD §6; the UI redesign does not alter
+that rule.
 
 The obvious fix, inheriting home from the predecessor (Estado Novo formed from
 the Portuguese Republic at 100%), is unsafe in general: the Macedonian Empire's

@@ -10,3 +10,6 @@ __pycache__/
 # Generated reports. Note these can quote names from historical-basemaps,
 # which is GPL-3.0 — keeping them out avoids mixing that into this repo.
 out/
+
+# Locally prepared browser benchmark; sources live in tests/browser/.
+docs/qa/

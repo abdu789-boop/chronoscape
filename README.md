@@ -1,8 +1,8 @@
 # Chronoscape
 
-**Live: https://abdu789-boop.github.io/chronoscape/**
+**Live site: [Chronoscape](https://abdu789-boop.github.io/chronoscape/)**
 
-An interactive map of political history. Drag a slider from 3400 BCE to today and
+An interactive map of political history. Travel from 3400 BCE to 2024 CE and
 watch polities appear, expand, fragment and vanish, with their cities rising and
 falling alongside them. Equal Earth projection or a globe.
 
@@ -25,27 +25,38 @@ It is a personal project, built for curiosity rather than publication.
 
 ## What exists today
 
-- **A working viewer** — timeline scrubbing that snaps to the 522 years where the
-  map actually changes, Equal Earth and globe projections, cursor-anchored zoom,
-  a hover card per polity (extent, lifespan, maximum extent with a jump link,
-  inferred predecessors and successors, modern countries covered), world
-  population, cities gated by population, and a modern-borders reference layer.
+- **A redesigned atlas** — a collapsible explorer and detail sidebar (a bottom
+  sheet on phones), readable facts and aligned percentages, territory-over-time
+  charts, strong selection outlines, and light/dark themes. Search across all
+  historical polities or select a territory to explore its mapped extent,
+  lifespan, maximum extent, inferred relationships, and territory today.
+- **Precise time navigation** — enter any year in the dataset using BCE/CE,
+  BC/AD, or a negative number; year zero is rejected. The whole-history slider
+  snaps to map-change years, while narrower timeline windows allow individual
+  years. Previous/next change buttons and playback follow the source chronology.
+- **A responsive map** — Equal Earth and globe views, pointer-anchored zoom,
+  pinch gestures, explicit city/label/border layers, keyboard controls, and
+  shareable links containing year, selection, camera, and layers. City sizes and
+  the world population estimate follow the historical population series.
+- **Less repeated work** — content-versioned data URLs, progressive basemap
+  loading, a geometry worker, cached year snapshots and city rankings, and
+  frame-scheduled rendering with reusable canvas layers and projected paths.
 - **A precedence engine** that resolves 5 sources into one map and records which
   source produced every feature.
 - **An arbitration log** of editorial corrections, each carrying its reasoning
   and evidence.
-- **A validation harness** — 46 checks that a rebuild still satisfies everything
-  the documentation claims.
+- **Validation** for data and historical invariants, plus Node tests for viewer
+  data access, dates, URL state, timeline navigation, and map behavior.
 - **An ontology specification** for modelling vassals, provinces and unions,
   which is **designed but not implemented**.
 
 ## Saved version before the UI redesign
 
-The current viewer is preserved at Git tag `pre-ui-redesign`, commit
+The original viewer is preserved at Git tag `pre-ui-redesign`, commit
 `108468a7d158409ab11a9d31b41c70da4b46e1d1`. See
 [VERSION_HISTORY.md](VERSION_HISTORY.md) for its scope and instructions to inspect
-or run it in a separate checkout. This is a local snapshot; the live site is
-unchanged.
+or run it in a separate checkout. The redesign keeps its historical datasets and
+methodology. Implementation history and a live deployment are separate records.
 
 ## See it in 60 seconds
 
@@ -53,8 +64,9 @@ unchanged.
 python3 -m http.server 8451 --directory docs   # then open localhost:8451
 ```
 
-No build step, no dependencies, no data fetch. `docs/` is the whole site and its
-data is committed.
+No frontend build or package installation is needed. `docs/` contains the whole
+site, vendored D3, and committed JSON data; the browser loads that data from the
+same server. Serve it over HTTP rather than opening `index.html` as a file.
 
 ## Reading order
 
@@ -75,15 +87,33 @@ until you know what went wrong without them.
 
 ## Working on it
 
+For interface changes, use a recent Node.js runtime with the built-in test runner:
+
+```bash
+node --test tests/*.test.mjs
+python3 scripts/validate.py --quick
+python3 scripts/update_data_versions.py --check
+```
+
+See [QA_REPORT.md](QA_REPORT.md) for validation coverage and browser checks.
+There is no npm install step. The quick validator skips checks requiring raw
+sources; run the full validator after a data rebuild and before publishing.
+
+To rebuild the historical data:
+
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt    # pinned: the build needs Shapely 2.x
 ./scripts/fetch_sources.sh                   # ~1.5 GB of source data, re-runnable
-.venv/bin/python scripts/build_app_data.py   # regenerate docs/data, ~10 minutes
-.venv/bin/python scripts/validate.py         # 46 checks; must pass before pushing
-git add -A && git commit -m "..." && git push # live in a minute or two
+.venv/bin/python scripts/build_app_data.py   # data and cache fingerprints, ~10 minutes
+.venv/bin/python scripts/validate.py         # must pass before pushing
 ```
 
 Run every command from the repository root. `data/raw/` (the sources) and
 `.venv/` are deliberately not committed; `docs/data/` (the built map) is, so the
 site works without a rebuild.
+
+The build refreshes `docs/js/data-version.js` automatically. After independently
+replacing a file in `docs/data/`, run `python3 scripts/update_data_versions.py`
+before serving or publishing it. Publishing still uses the existing GitHub Pages
+configuration serving `docs/` from `main`.

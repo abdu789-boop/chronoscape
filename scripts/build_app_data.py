@@ -23,6 +23,7 @@ from shapely.strtree import STRtree
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import resolve as R
+from update_data_versions import update_data_versions
 
 ROOT = R.ROOT
 RAW = os.path.join(ROOT, "data/raw")
@@ -523,3 +524,4 @@ if __name__ == "__main__":
     build_polities()
     if "--skip-cities" not in sys.argv:
         build_cities()
+    update_data_versions()
