@@ -7,6 +7,18 @@ tried and rejected, so nobody re-runs an investigation that already has an answe
 tests, not estimates; where something was rejected, the measurement that killed
 it is given.
 
+## UI redesign baseline
+
+Before UI work, the existing version was preserved as `pre-ui-redesign` at
+commit `108468a7d158409ab11a9d31b41c70da4b46e1d1`. See
+[VERSION_HISTORY.md](VERSION_HISTORY.md) for how to inspect or run it.
+
+The requested UI improvement priorities are **readability, speed, aesthetics,
+and modernization**, in that order. The suggested sidebar, label improvements,
+search, year entry, timeline redesign, and caching/rendering optimizations are
+proposals; they have not been implemented by this checkpoint. The ontology work
+below remains a separate data-model concern.
+
 ## The one big item
 
 **Implement the polity ontology.** [ONTOLOGY.md](ONTOLOGY.md) is designed and

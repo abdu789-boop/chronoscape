@@ -210,12 +210,21 @@ Polities claim before cities. At most 26 polity labels and 22 city labels. Ancho
 themselves are precomputed in the build — see METHOD §6 for that rule, which is
 subtler than it looks.
 
-## 6. Publishing
+## 6. Saved baseline and publishing
+
+The viewer before the UI redesign is preserved by tag `pre-ui-redesign`
+(commit `108468a7d158409ab11a9d31b41c70da4b46e1d1`).
+[VERSION_HISTORY.md](VERSION_HISTORY.md) explains the snapshot's contents and
+how to run it alongside a newer viewer without changing the active checkout.
+
 
 GitHub Pages serves `docs/` from `main`. No Actions workflow — deliberately, since
 the account's token lacks the `workflow` scope. Push to main and the site updates
 in a minute or two.
 
-First load is ~9.7 MB gzipped, almost entirely `polities.json`, then cached. Note
+The documented first-load payload is ~9.7 MB gzipped, almost entirely
+`polities.json`. The saved baseline appends `Date.now()` to every data URL, so
+normal cache reuse across page loads is defeated; versioned asset URLs are a
+proposed speed improvement. Note
 that each rebuild adds another ~32 MB blob to git history; if the repo grows
 uncomfortable, squash or move the data to a release asset.

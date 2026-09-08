@@ -39,6 +39,14 @@ It is a personal project, built for curiosity rather than publication.
 - **An ontology specification** for modelling vassals, provinces and unions,
   which is **designed but not implemented**.
 
+## Saved version before the UI redesign
+
+The current viewer is preserved at Git tag `pre-ui-redesign`, commit
+`108468a7d158409ab11a9d31b41c70da4b46e1d1`. See
+[VERSION_HISTORY.md](VERSION_HISTORY.md) for its scope and instructions to inspect
+or run it in a separate checkout. This is a local snapshot; the live site is
+unchanged.
+
 ## See it in 60 seconds
 
 ```bash
