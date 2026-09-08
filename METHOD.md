@@ -145,7 +145,9 @@ exactly the four khanates; Western Rome into Visigoths, Vandals, Ostrogoths and
 Burgundians. Percentages are always shown, and the lists never claim to be
 exhaustive — fragmented collapses are only partly captured.
 
-**Label anchors** are the subtlest rule in the project, and exist because of two
+**Label anchors** (algorithm: home piece must be ≥1% of the polity's largest
+piece; a piece counts as occupied when ≥50% of it is covered by other polities
+active during that record's interval) are the subtlest rule in the project, and exist because of two
 reported bugs with *different* causes. Anchoring a label to a polity's largest
 piece put "French Fifth Republic" over Algeria and "Kingdom of Great Britain"
 over Oman. The first was a data defect (France still holds Algeria in the data
@@ -164,7 +166,55 @@ attributes to Estado Novo until 2023, 29 years after the regime fell.
 
 `scripts/validate.py` asserts both reported bugs stay fixed across nine years.
 
-## 7. Known defects in the sources
+## 6a. The derived facts, precisely
+
+§6 gives the reasoning; this section gives the computation, including every
+threshold, so a successor can judge or change them rather than reverse-engineer
+them from code.
+
+### Area
+
+Geodesic area on the WGS84 ellipsoid (`pyproj.Geod.geometry_area_perimeter`) of
+the **resolved, pre-simplification** geometry. Cliopatria's own `Area` field
+agrees to within 0.003%, so the recomputation is not correcting the source — it
+corrects *us*, because clipped polities are smaller than their source claims and
+tier-1 features carry no area at all.
+
+### Predecessors and successors
+
+For polity P with lifespan `first..last`:
+
+```
+predecessors = who occupies P's peak-extent geometry in year (first - 1)
+successors   = who occupies P's peak-extent geometry in year (last  + 1)
+```
+
+- Candidates are all records whose interval covers that year, excluding P itself.
+- Overlap is measured as **share of P's own geometry**, not of the candidate's.
+- Floor **3%**, keep the **top 6**, ranked by share.
+- Both use the **peak** geometry (§6) and **pre-clip** geometry (§6).
+- Empty when P touches the dataset edge, since the answer is unknowable there.
+
+Percentages rarely sum to 100 and are not meant to: a fragmented collapse is only
+partly captured, which is why the map always shows the figure.
+
+### Territory covered today
+
+The peak-extent geometry is intersected with Natural Earth 50m country polygons.
+Each hit reports the **percentage of that country** the polity covered; the list
+is ranked by **absolute overlap area** (so large territories lead rather than
+micro-states at 100%), filtered at **≥3%**, truncated at **14** entries.
+Antarctica is excluded.
+
+### World population
+
+Taken from OWID directly — 261 points from 10000 BCE to 2023, no derivation. The
+viewer interpolates **in log space** between adjacent points, because population
+grows multiplicatively; a straight line between two millennia understates
+everything in between. The same log interpolation drives city sizes.
+
+Per-polity population is deliberately absent; see BACKLOG.md for the two
+implementations, their validation, and why the feature was withdrawn.
 
 These are properties of the data, not bugs in the code. They are documented
 because a successor will otherwise rediscover them the hard way.

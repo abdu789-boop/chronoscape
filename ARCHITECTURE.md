@@ -163,6 +163,53 @@ framework and no build step. Worth knowing before editing it:
 - **Pointer state is guarded.** A missed `pointerup` used to leave the map
   panning or the timeline scrubbing forever; both now check `e.buttons`.
 
+## 5a. Algorithms worth knowing before you change them
+
+**Interval splitting at authority windows.** When a tier-1 window `[y0, y1]`
+overlaps a tier-2 record, the record is cut into up to three spans — `from..y0-1`,
+`max(from,y0)..min(to,y1)`, `y1+1..to`. Only the middle span is subject to tier-1;
+the outer spans pass through untouched. This is why the build produces 12,108
+features from 12,043 source records, and why `years.json` gained snap points at
+window edges.
+
+**Geometry processing.** Simplified with `preserve_topology` at 0.08° (~9 km at
+the equator — this is a continental-scale viewer), coordinates rounded to 3
+decimals. Two separate simplified copies are kept per record: the drawn geometry
+and an unclipped one, because succession must be asked of a polity's real extent
+rather than a precedence remnant (METHOD §6).
+
+**Timeline scale.** Linear time would crush the era with the most data into a few
+pixels, so the slider is piecewise linear over knots:
+
+```
+years     -3400   -1000      1     1000    1500    1800    2026
+position    0      .13      .32     .52     .67     .80    1.00
+```
+
+4,400 BCE-to-CE years occupy the first third; the last two centuries get a fifth
+of the bar.
+
+**Year snapping.** The slider snaps to the nearest of the 522 years where the map
+actually changes (binary search, then whichever neighbour is closer), so every
+step of the slider produces a visible difference rather than dead travel.
+
+**City visibility.** A city's population at the current year is interpolated in
+log space from its Reba series, and it is considered alive from 100 years before
+its first data point to 50 years after its last. The 90 largest living cities get
+dots (radius `log10(pop) - 2.2`, clamped 1.5–6 px); the 22 largest that survive
+label collision get names.
+
+**Polity colour.** A stable hash of the polity's name maps to HSL — same name,
+same colour, in every year and every session, with no palette to maintain. Note
+this is a placeholder for the agreed design in which successor states inherit
+their predecessor's colour, which needs the ontology's continuity edges.
+
+**Label placement.** One shared collision system; every label claims a rectangle
+and anything overlapping an existing claim, or falling off-screen, is dropped.
+Polities claim before cities. At most 26 polity labels and 22 city labels. Anchors
+themselves are precomputed in the build — see METHOD §6 for that rule, which is
+subtler than it looks.
+
 ## 6. Publishing
 
 GitHub Pages serves `docs/` from `main`. No Actions workflow — deliberately, since
