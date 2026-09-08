@@ -1,5 +1,5 @@
 import { loadAtlas, fmtYear, fmtArea, fmtPop, nearestYear, parseYear } from './data.js';
-import { createMap } from './map.js';
+import { createMap, getPolityColor } from './map.js';
 import { clamp, yearToPosition, positionToYear, timelineWindow, readHash, writeHash } from './state.js';
 
 const $ = id => document.getElementById(id);
@@ -32,6 +32,10 @@ function persist(immediate = false) {
 }
 function applyTheme() {
   document.documentElement.dataset.theme = theme;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#17191b' : '#f6f4ee');
+  for (const mark of document.querySelectorAll('[data-polity-key]')) {
+    mark.style.setProperty('--swatch', getPolityColor(mark.dataset.polityKey, theme));
+  }
   $('theme-toggle').setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
   $('theme-toggle').setAttribute('aria-pressed', String(theme === 'dark'));
   $('theme-toggle').title = theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme';
@@ -79,10 +83,12 @@ function deselect() {
   persist();
 }
 
-function makePlace(entry, caption, action) {
+function makePlace(entry, caption, action, key = entry.k || entry.n || entry.name) {
   const button = document.createElement('button');
   button.type = 'button'; button.className = 'place-row';
   const mark = document.createElement('span'); mark.className = 'place-swatch'; mark.setAttribute('aria-hidden', 'true');
+  mark.dataset.polityKey = key;
+  mark.style.setProperty('--swatch', getPolityColor(key, theme));
   const copy = document.createElement('span'); copy.className = 'place-copy';
   const title = document.createElement('strong'); title.textContent = entry.n || entry.name;
   const sub = document.createElement('small'); sub.textContent = caption;
@@ -111,7 +117,7 @@ function populateFeatured() {
     const found = Object.entries(atlas.index).find(([, e]) => e.n === name);
     if (!found) continue;
     const [key, e] = found;
-    box.append(makePlace(e, 'At its greatest extent · ' + fmtYear(e.peak_year), () => selectPolity(key, { peak: true, focus: true })));
+    box.append(makePlace(e, 'Maximum recorded extent · ' + fmtYear(e.peak_year), () => selectPolity(key, { peak: true, focus: true }), key));
   }
 }
 
@@ -473,7 +479,7 @@ async function boot() {
     atlas = await loadAtlas({
       onBase(data) { map.setData(data); },
       onProgress(info) {
-        $('loading-message').textContent = info.message || 'Opening the atlas…';
+        $('loading-message').textContent = info.message || 'Loading map data…';
         if (info.total && info.loaded) { $('loading-progress').max = info.total; $('loading-progress').value = info.loaded; }
         else $('loading-progress').removeAttribute('value');
       },
@@ -484,7 +490,6 @@ async function boot() {
     map.setSelected(state.selected);
     current = []; populateFeatured(); setYear(state.year);
     $('loading-status').hidden = true; $('search').disabled = false;
-    $('search').placeholder = 'Find a polity or empire…';
     if (state.selected) openSidebar();
     // Apply a shared camera only after initial layout/data have settled.
     map.setView(readHash(location.hash));

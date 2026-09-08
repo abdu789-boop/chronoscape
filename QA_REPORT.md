@@ -4,13 +4,32 @@ The reference version is Git tag `pre-ui-redesign`
 (`108468a7d158409ab11a9d31b41c70da4b46e1d1`). This report covers the interface
 redesign; it does not revalidate the underlying historical sources.
 
+## Typography, text, and dark-theme refinement
+
+Follow-up to the initial redesign at `ee4339a`. Checked the updated map in light
+and dark modes at world and regional zoom, including a selected Ottoman Empire
+in 1572 CE. Inspected the 375 × 812 mobile detail sheet and help dialog; restored
+the browser viewport after verification. The new font renders in both Canvas
+labels and the detail heading. The 49,256-byte WOFF2 is served locally.
+
+Dark mode uses neutral charcoal surfaces, slate/sage territories, white text,
+and a mint selection outline. Date/count and legend backgrounds maintain text
+contrast over territory fills. Sidebar swatches update to match the map palette
+when the theme changes. In-app text was audited across HTML and JavaScript;
+headings, loading messages, help, and controls now contain facts or instructions.
+
+The historical data validation and benchmark measurements below belong to the
+initial redesign; this styling refinement does not claim a new performance
+benchmark. Historical JSON files remain unchanged.
+
 ## Automated checks
 
-- `node --test tests/*.test.mjs`: 21 tests passed under Node 24.19.0.
+- `node --test tests/*.test.mjs`: 23 tests passed under Node 24.19.0.
   Coverage includes BCE/CE parsing, nonexistent year zero, interval boundaries,
   population interpolation, temporal search, cache eviction, data fingerprints,
   progressive loading and HTTP failures, URL validation, time-window bounds,
-  map hit testing, globe clipping, pointer cancellation, and shared cameras.
+  map hit testing, globe clipping, pointer cancellation, shared cameras, and
+  late font loading without geometry recomputation or post-disposal frames.
 - `scripts/validate.py --quick`: 43 historical/data checks passed, none failed;
   one group requiring raw sources was skipped as intended by `--quick`.
 - `python3 scripts/update_data_versions.py --check`: passed.

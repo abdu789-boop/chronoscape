@@ -3,12 +3,18 @@ const d3 = globalThis.d3;
 const SPHERE = { type: 'Sphere' };
 const PALETTES = {
   light: ['#aac4b1', '#d2b78e', '#b1bdce', '#c8a7a3', '#b0bba0', '#c9b5ce', '#a6c6c8', '#d3c8a0', '#c1beb4', '#d6ad88', '#a4b7a0', '#b2aec9', '#bdc7a5', '#a3bfbd', '#d1bec2', '#bac4d0', '#c1c69d', '#d0b6a4'],
-  dark: ['#506c60', '#796744', '#4a6179', '#805b60', '#687347', '#725f77', '#476e73', '#7a7152', '#676e70', '#886446', '#5b7250', '#656084', '#64704e', '#527574', '#795f68', '#5b6b7e', '#737245', '#806857'],
+  dark: ['#526d61', '#637889', '#737b74', '#496777', '#738473', '#5b7378', '#687767', '#7a858d', '#4e665e', '#627f8d', '#7e867c', '#566b7e', '#607c6c', '#6f7d85', '#788c82', '#526a70', '#66796e', '#718694'],
 };
 const THEMES = {
   light: { background: '#edf0ec', ocean: '#e4ecec', land: '#e5e0d2', coast: '#b8beb4', grid: '#c6d5d3', border: '#687b87', boundary: '#5b645b', ink: '#243933', halo: '#f8f5e8', oceanInk: '#748d91', city: '#344e46', cityHalo: '#faf8ed', selected: '#2f493e', selectedHalo: '#fffdf2', hover: '#445f52' },
-  dark: { background: '#172124', ocean: '#1c2b31', land: '#353d3b', coast: '#566362', grid: '#334950', border: '#a5bcc5', boundary: '#263330', ink: '#f4eedc', halo: '#27312c', oceanInk: '#91a8ad', city: '#e7d2a0', cityHalo: '#26332e', selected: '#f0d59b', selectedHalo: '#182925', hover: '#e0e5cf' },
+  dark: { background: '#111315', ocean: '#141719', land: '#343a3b', coast: '#626b6c', grid: '#2a3032', border: '#bbc7cb', boundary: '#202729', ink: '#f4f7f5', halo: '#18201f', oceanInk: '#a8b5b9', city: '#d5e6e5', cityHalo: '#1a2323', selected: '#d4f1e4', selectedHalo: '#151a19', hover: '#edf4f1' },
 };
+export function getPolityColor(key, theme = 'light') {
+  let hash = 2166136261;
+  for (const character of String(key)) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619) >>> 0;
+  const palette = PALETTES[theme] || PALETTES.light;
+  return palette[hash % palette.length];
+}
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const finite = value => value !== null && value !== '' && Number.isFinite(Number(value));
 
@@ -39,6 +45,13 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
   function requestDraw() {
     if (!destroyed && !frameId) frameId = requestAnimationFrame(frame);
   }
+
+  // Canvas does not repaint when a web font arrives. Remeasure collision boxes
+  // and redraw labels, while retaining the expensive projected geometry.
+  document.fonts?.load('500 16px "Space Grotesk"').then(() => {
+    if (destroyed) return;
+    labelMetrics.clear(); needsDraw = true; requestDraw();
+  }).catch(() => {}); // System sans remains readable if the font is unavailable.
 
   function invalidateView(notify = true) {
     setupProjection();
@@ -106,10 +119,7 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
   function colorFor(polity) {
     const key = `${themeName}:${polity.k || polity.n}`;
     if (!colors.has(key)) {
-      let hash = 2166136261;
-      for (const character of String(polity.k || polity.n)) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619) >>> 0;
-      const palette = PALETTES[themeName];
-      colors.set(key, palette[hash % palette.length]);
+      colors.set(key, getPolityColor(polity.k || polity.n, themeName));
     }
     return colors.get(key);
   }
@@ -216,14 +226,14 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     sceneDirty = false;
   }
 
-  function metrics(text, size, serif = true) {
-    const key = `${serif ? 's' : 'u'}:${size}:${text}`;
+  function metrics(text, size, polityLabel = true) {
+    const key = `${polityLabel ? 'p' : 'u'}:${size}:${text}`;
     if (labelMetrics.has(key)) return labelMetrics.get(key);
-    const font = serif ? `600 ${size}px Georgia, serif` : `500 ${size}px system-ui, sans-serif`;
+    const font = polityLabel ? `500 ${size}px "Space Grotesk", system-ui, sans-serif` : `500 ${size}px system-ui, sans-serif`;
     ctx.font = font;
     let lines = [text];
     const words = text.split(/\s+/);
-    if (serif && text.length > 20 && words.length > 1) {
+    if (polityLabel && text.length > 20 && words.length > 1) {
       let best = Infinity;
       for (let i = 1; i < words.length; i++) {
         const trial = [words.slice(0, i).join(' '), words.slice(i).join(' ')];
@@ -270,7 +280,7 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
       point = positions.find(candidate => claim([candidate[0] - label.width / 2 - padding, candidate[1] - label.height / 2 - padding, candidate[0] + label.width / 2 + padding, candidate[1] + label.height / 2 + padding]));
       if (!point) continue;
       ctx.font = label.font;
-      ctx.strokeStyle = theme.halo; ctx.lineWidth = selected ? 5 : 3.5;
+      ctx.strokeStyle = theme.halo; ctx.lineWidth = selected ? 3.5 : 2.5;
       ctx.fillStyle = theme.ink;
       label.lines.forEach((line, i) => {
         const y = point[1] + (i - (label.lines.length - 1) / 2) * (size + 3);

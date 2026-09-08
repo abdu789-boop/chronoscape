@@ -174,7 +174,9 @@ country percentages explain their denominator; relationship labels identify
 geometric inference. A selected polity can remain selected in a year when it is
 not mapped, with that absence stated explicitly. On narrow screens the sidebar
 becomes a bottom sheet. System sans-serif text supports controls and facts;
-serif display text retains the atlas identity.
+self-hosted Space Grotesk at medium weight is used for polity labels and detail
+headings. All interface text must be informative or instructive; slogans and
+promotional descriptions are excluded.
 
 **Loading and caching.** `data.js` fetches seven same-origin JSON files in
 parallel. Land and modern borders can render before historical geometry is
@@ -197,7 +199,11 @@ what needs redrawing. It reuses a basemap canvas, a filled-scene canvas, project
 not repaint all territory fills. Camera or year changes rebuild the necessary
 projection data. Canvas resolution follows display density up to a 2× cap.
 Draw order is sphere/graticule/land, underlaid borders, polity fills, overlaid
-borders, city dots, selection outlines, and labels.
+borders, city dots, selection outlines, and labels. The Space Grotesk variable
+WOFF2 is served from `docs/fonts/`, with a system sans-serif fallback and no
+external font request. Once the font loads, the renderer clears measured label
+metrics, recomputes collision boxes, and schedules a redraw. Existing geometry,
+projected paths, and filled canvas layers remain cached.
 
 **Selection and input.** Hit-testing first rejects out-of-bounds projected
 features, then tests spherical containment from smallest territory to largest.
@@ -256,16 +262,22 @@ Dot radius is `log10(pop) - 2.5`, clamped to 1.8–4.5px. Names share the polity
 label collision system.
 
 **Polity colour.** A stable identity-key hash selects from a curated palette for
-each theme. This keeps colors consistent across years without implying a
-historical relationship. Neighboring territories may still share a color;
-adjacency-aware allocation and successor color inheritance are not implemented.
-The latter needs the ontology's continuity edges.
+each theme. The shared `getPolityColor(key, theme)` function supplies both map
+fills and sidebar swatches; changing themes updates existing swatches as well as
+the map. Dark mode combines charcoal/gray interface surfaces with subdued slate
+and sage territory colors, a mint selection outline, and stronger contrast
+between the map and surrounding interface. Identity colors stay consistent
+across years without implying a historical relationship. Neighboring territories
+may still share a color; adjacency-aware allocation and successor color
+inheritance are not implemented. The latter needs the ontology's continuity edges.
 
 **Label placement.** One shared collision system; every label claims a rectangle
 and anything overlapping an existing claim, or falling off-screen, is dropped.
 The selected polity has first priority, then other visible territories ranked by
-projected area, then cities. Long polity names can split over two lines and text
-halos improve contrast. The old global limits of 26 polity labels and 22 city
+projected area, then cities. Long polity names can split over two lines. Polity
+labels use medium-weight Space Grotesk with thin text halos for contrast; font
+loading refreshes their measured widths before collision decisions. The old
+global limits of 26 polity labels and 22 city
 names belong to the saved baseline. Anchors are still precomputed by the build
 (METHOD §6); the redesign does not change their historical interpretation.
 

@@ -47,6 +47,16 @@ longer ships or depends on. See BACKLOG.md, and git history at 5c15486.
 **Natural Earth** — land polygons and present-day country boundary lines.
 Public domain. https://www.naturalearthdata.com/
 
+## Typeface
+
+**Space Grotesk** — Copyright 2020 The Space Grotesk Project Authors.
+The variable WOFF2 is self-hosted at
+`docs/fonts/space-grotesk-variable.woff2` (49,256 bytes), from the
+[official font distribution](https://github.com/floriankarsten/space-grotesk/tree/master/fonts/woff2).
+It is licensed under the **SIL Open Font License 1.1**; the copyright notice and
+complete license are included in
+[docs/fonts/OFL-Space-Grotesk.txt](docs/fonts/OFL-Space-Grotesk.txt).
+
 ## Consulted but not redistributed
 
 **historical-basemaps** (aourednik) is GPL-3.0 and is used only as a tier-3
@@ -57,7 +67,10 @@ included in this repository.
 
 ## Licensing of this repository
 
-- **Code** (`scripts/`, `docs/index.html`): MIT, see LICENSE.
+- **Code** (`scripts/`, `docs/index.html`, `docs/style.css`, `docs/js/`): MIT,
+  see LICENSE.
+- **Font** (`docs/fonts/`): SIL Open Font License 1.1, as described above;
+  the repository's MIT code license does not replace the font license.
 - **Derived data** (`docs/data/`): **ODbL 1.0**. It contains geometry derived
   from AWMC's ODbL database, and ODbL's share-alike terms carry over to any
   derived database that is publicly used.

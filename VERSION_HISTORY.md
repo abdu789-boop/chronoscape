@@ -1,5 +1,30 @@
 # Version history
 
+## Typography, factual text, and dark-theme refinement
+
+The initial UI redesign remains preserved at commit `ee4339a`. This refinement
+updates its presentation without changing historical data or navigation behavior.
+
+- Polity labels and detail headings use self-hosted Space Grotesk at medium
+  weight. Thinner map text halos preserve contrast without adding the appearance
+  of heavy lettering.
+- Removed slogans, promotional descriptions, and decorative flavor text from
+  the interface. **All app text must remain informative or instructive**; this
+  is a persistent product requirement for future changes.
+- Dark mode uses charcoal and gray interface surfaces, subdued slate and sage
+  territory colors, and a mint selection outline. The map has stronger contrast
+  against the surrounding interface.
+- Sidebar swatches use the same identity-based palette as the map and update
+  immediately when the theme changes. Browser theme color follows the active
+  theme.
+- Font loading remeasures label collision boxes and requests a redraw while
+  retaining cached map geometry. The font is served locally with the app; no
+  external font service is required.
+
+See [CREDITS.md](CREDITS.md) for font attribution and its SIL Open Font License,
+[ARCHITECTURE.md](ARCHITECTURE.md) for rendering behavior, and
+[QA_REPORT.md](QA_REPORT.md) for validation.
+
 ## UI redesign
 
 Implemented the atlas redesign in the requested order: readability, speed,

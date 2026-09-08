@@ -193,3 +193,27 @@ test('keyboard controls affect the focused canvas without hijacking page keys', 
   near(map.getView().panX, 0); near(map.getView().zoom, 1);
   map.destroy();
 });
+
+test('late font loading remeasures labels without rebuilding geometry', async () => {
+  let finishFont, measurements = 0;
+  document.fonts = { load: () => new Promise(resolve => { finishFont = resolve; }) };
+  const canvas = new Canvas(), map = createMap(canvas);
+  canvas.context.measureText = text => { measurements++; return { width: text.length * 7 }; };
+  map.setSnapshot([polity('Empire', 30, 10000)]); flush();
+  const before = measurements, paths = pathCount;
+  assert.ok(before > 0, 'fallback text was measured');
+  finishFont([]); await Promise.resolve(); flush();
+  assert.ok(measurements > before, 'loaded font invalidates cached collision boxes');
+  assert.equal(pathCount, paths, 'font loading retains projected territory paths');
+  map.destroy();
+  delete document.fonts;
+});
+
+test('font completion after disposal does not schedule a new frame', async () => {
+  let finishFont;
+  document.fonts = { load: () => new Promise(resolve => { finishFont = resolve; }) };
+  const map = createMap(new Canvas()); flush(); map.destroy();
+  finishFont([]); await Promise.resolve();
+  assert.equal(frames.size, 0);
+  delete document.fonts;
+});
