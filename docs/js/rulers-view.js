@@ -160,7 +160,6 @@ export function createRulersView({ onRetry } = {}) {
         ? 'Complete within the stated scope; independently cross-checked.'
         : result.rulers.length ? 'Partial succession list.'
           : 'Succession list awaiting verification.';
-      $('detail-ruler-note').textContent = error || loading ? '' : [result.scope, result.note].filter(Boolean).join(' ');
       const list = $('detail-ruler-list'); list.replaceChildren(); rows.clear();
       $('detail-ruler-roster').hidden = result.rulers.length === 0;
       $('detail-ruler-roster').open = false;

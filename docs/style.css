@@ -567,7 +567,6 @@ dialog p { font-size: 13px; line-height: 1.75; color: var(--muted); }
 .ruler-dates { display: block; font-size: 13px; line-height: 1.6; color: var(--muted); font-variant-numeric: tabular-nums; }
 .ruler-active { display: block; font-size: 12px; color: var(--accent); margin-top: 5px; }
 .ruler-status { display: inline-block; font-size: 11px; color: var(--muted); margin-top: 4px; }
-.ruler-explanation summary { color: var(--muted); cursor: pointer; min-height: 32px; padding-top: 9px; font-size: 12px; }
 /* Evidence floats above the list and never adds height to a ruler row. */
 .ruler-trigger { display: block; width: 100%; padding: 10px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: help; border-radius: 3px; }
 .ruler-trigger:hover { background: var(--paper); }

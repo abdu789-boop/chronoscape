@@ -1,5 +1,10 @@
 # Version history
 
+## Ruler panel cleanup — 2026-09-09
+
+- Removed “About this list.” The current-ruler summary, succession list and
+  tooltip behavior remain unchanged.
+
 ## Compact ruler lists — 2026-09-09
 
 - Ruler rows show only the name, title and reign dates. Evidence, uncertainty
