@@ -52,3 +52,24 @@ Structured Wikidata content is CC0; no assumption is made about the license of
 underlying references. Cached API JSON is raw input under `data/raw/rulers`;
 discovery and extracted candidate records are source-audit outputs, not accepted
 application data.
+
+## Broad import adapter
+
+`fetch_ruler_office_holders.py` additionally queries person/office identity pairs
+for explicit historical offices. Generic offices such as king or mayor are not
+used to reverse-map people into a polity. The query does not supply reign dates:
+the adapter fetches original JSON and reads the matching P39 position statements.
+`prepare_ruler_wikidata.py` emits `wikidata-extracted.json` with exact identity
+and office routing, original calendars/precision, revisions and snapshot receipts.
+It holds unknown endpoints, coarse dates, qualified positions, incompatible
+regime spans and known traditional/claimant cases for review. Names and lifespan
+dates cannot create a tenure.
+
+Wikidata JSON uses historical signed years: **-0001 means 1 BCE**, with no year
+zero. Its RDF/SPARQL date convention differs, so RDF dates are not reused as if
+they were JSON dates. [Official date documentation](https://www.wikidata.org/wiki/Help:Dates#Years_BC).
+
+These normalized candidates still require the independent source-level samples
+and conflict checks in `prepare_ruler_broad_import.py`; the raw candidate inventory
+does not claim acceptance or complete rosters. See `accuracy-report.json` for the
+published collection and `broad-import.json` for sample denominators and limits.

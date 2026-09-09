@@ -85,9 +85,21 @@ its source and locator. Source-level samples do not certify every imported row.
   Office of India, and Nelson Mandela Foundation** provide the official or
   institutional sample benchmarks linked from the relevant assertions.
 
-Wikidata (**CC0**) and source Wikipedia links are used as identity/source leads.
-No Wikidata ruler assertions were downloaded for this revision. They are not
-treated as accepted data or as independent confirmation of one another.
+- **Wikipedia contributors**, polity articles and linked succession tables,
+  supply additional dated records after declared sample checks. Each imported
+  observation links to its article and records the inspected snapshot. These
+  adaptations normalize dates, map jurisdictions and select factual ruler
+  fields; attribution and **CC BY-SA 4.0** are retained for Wikipedia-derived
+  material. See [Wikipedia's reuse terms](https://en.wikipedia.org/wiki/Wikipedia:Copyrights).
+- **Wikidata contributors**, structured **CC0** officeholder statements. The
+  import retains statement IDs, revisions, original dates and source hashes.
+  Explicit office relationships and dated positions supply records; generic
+  titles and unresolved jurisdiction or status conflicts are excluded.
+
+Wikipedia and Wikidata share one publication lineage for these checks. They
+cannot independently corroborate one another. Where a Wikipedia table compares
+named scholarly chronologies, its alternatives are displayed as disputed;
+the underlying books are not represented as independently inspected sources.
 
 Exact acquisition URLs, versions, hashes, lineage and sampling results are in
 [`sources/rulers/`](sources/rulers/) and [`docs/data/RULERS.md`](docs/data/RULERS.md).

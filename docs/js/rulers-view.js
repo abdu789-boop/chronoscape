@@ -78,7 +78,7 @@ export function createRulersView({ onRetry } = {}) {
           row.append(element('span', 'history-item-note', `Separate tenure · source dates: ${claim.sourceDates.from} to ${claim.sourceDates.to}`));
         }
         if (claim.uncertainty?.reason) row.append(element('span', 'history-item-note', claim.uncertainty.reason));
-        if (claim.uncertainty?.alternatives?.length) row.append(element('span', 'history-item-note', `Alternative dates: ${claim.uncertainty.alternatives.map(item => `${fmtYear(item.from)}–${fmtYear(item.to)}`).join('; ')}`));
+        if (claim.uncertainty?.alternatives?.length) row.append(element('span', 'history-item-note', `Alternative dates: ${claim.uncertainty.alternatives.map(item => `${item.label ? `${item.label}: ` : ''}${fmtYear(item.from)}–${fmtYear(item.to)}`).join('; ')}`));
         if (claim.note) row.append(element('span', 'history-item-note', claim.note));
         const evidence = element('details', 'ruler-evidence');
         evidence.append(element('summary', '', 'Sources and checks'));
@@ -95,10 +95,17 @@ export function createRulersView({ onRetry } = {}) {
         rows.set(claim.id, row); list.append(row);
       }
       const sourceBox = $('detail-ruler-sources'); sourceBox.replaceChildren();
+      const links = data?.polities?.[key]?.research?.links || [];
+      const wikipedia = links.find(link => /^https:\/\/en\.wikipedia\.org\/wiki\//.test(link.url || ''));
+      if (wikipedia) {
+        const p = element('p', 'history-sources polity-wikipedia');
+        p.append(sourceLink({ ...wikipedia, title: `${wikipedia.title} on Wikipedia ↗` }));
+        sourceBox.append(p);
+      }
       if (!result.rulers.length) {
-        const links = data?.polities?.[key]?.research?.links || [];
-        if (links.length) sourceBox.append(element('p', 'history-note', 'Source leads under review; no ruler claims from them are accepted yet.'));
-        for (const link of links.slice(0, 4)) {
+        const leads = links.filter(link => link !== wikipedia).slice(0, 3);
+        if (leads.length) sourceBox.append(element('p', 'history-note', 'Source leads under review; no ruler claims from them are accepted yet.'));
+        for (const link of leads) {
           const p = element('p', 'history-sources'); p.append(sourceLink(link)); sourceBox.append(p);
         }
       }

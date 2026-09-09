@@ -52,6 +52,27 @@ test('audit input fingerprints match the compared source artifacts', () => {
   }
 });
 
+test('known new conflicts cannot leave the previously published version labelled settled', () => {
+  const reference = a => JSON.stringify([a.sourceId, a.sourceRecordId, a.locator]);
+  const conflicts = new Map();
+  for (const input of report.inputs) {
+    for (const row of read(input.path).conflicts || []) {
+      const assertions = row.claim?.assertions || [row.observed, row.againstObserved].filter(Boolean);
+      for (const assertion of assertions) {
+        const key = reference(assertion);
+        conflicts.set(key, [...(conflicts.get(key) || []), ...assertions.filter(a => a !== assertion)]);
+      }
+    }
+  }
+  for (const polity of Object.values(data.polities)) for (const claim of polity.rulers) {
+    const contrary = claim.assertions.flatMap(a => conflicts.get(reference(a)) || []).filter(peer =>
+      peer.personKey === claim.personKey && peer.polityKey === claim.polityKey
+      && data.sources[peer.sourceId]?.admission === 'passed'
+      && ['from', 'to'].some(field => Number.isInteger(peer[field]) && Number.isInteger(claim[field]) && peer[field] !== claim[field]));
+    if (contrary.length) assert.equal(assessRuler(claim, data.sources).status, 'disputed', claim.id);
+  }
+});
+
 test('every published imported observation points to a recorded source snapshot fingerprint', () => {
   const receipts = new Map();
   for (const input of report.inputs) for (const receipt of input.receipts || []) {

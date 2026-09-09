@@ -16,6 +16,7 @@ from pathlib import Path
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 
 import resolve as R
 
@@ -135,15 +136,24 @@ def fetch_entities(ids, entities, receipts, limit):
             break
         batch = pending[offset:offset + 50]
         parameters = {'action': 'wbgetentities', 'ids': '|'.join(batch),
-                      'props': 'labels|descriptions|claims|sitelinks', 'languages': 'en',
+                      'props': 'labels|aliases|descriptions|claims|sitelinks', 'languages': 'en',
                       'sitefilter': 'enwiki', 'format': 'json', 'maxlag': '5'}
         url = API + '?' + urllib.parse.urlencode(parameters)
         path = CACHE / ('batch-' + hashlib.sha256('|'.join(batch).encode()).hexdigest()[:20] + '.json')
         print(f'Fetching {offset + 1}..{offset + len(batch)} of {len(pending)} missing entities', flush=True)
         request = urllib.request.Request(url, headers={'User-Agent': USER_AGENT, 'Accept': 'application/json'})
-        with urllib.request.urlopen(request, timeout=40) as response:
-            content = response.read()
-            data = json.loads(content)
+        for attempt in range(4):
+            try:
+                with urllib.request.urlopen(request, timeout=40) as response:
+                    content = response.read()
+                    data = json.loads(content)
+                break
+            except urllib.error.HTTPError as error:
+                if error.code not in (429, 502, 503, 504) or attempt == 3:
+                    raise
+                delay = max(30, int(error.headers.get('Retry-After', '30'))) if error.code == 429 else 5 * (attempt + 1)
+                print(f'HTTP {error.code}; respecting a {delay}s retry delay', flush=True)
+                time.sleep(delay)
         if 'error' in data:
             raise RuntimeError(str(data['error']))
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -155,7 +165,7 @@ def fetch_entities(ids, entities, receipts, limit):
         for qid, entity in data.get('entities', {}).items():
             entities[qid] = entity
             receipts[qid] = receipt
-        time.sleep(0.1)
+        time.sleep(2)
 
 
 def entity_id(statement):

@@ -13,6 +13,22 @@ The 90% threshold is an editorial admission rule, **not a confidence percentage*
 
 This source-level route supersedes any implication below that every displayed row needs two independent confirmations. It does not weaken the meaning of the individually cross-checked or complete-roster labels.
 
+### Explicit comparative chronologies in sampled references
+
+A reference that passed source-level sampling may also reproduce a table with
+different named published chronologies. These entries may display as **Disputed
+chronology**, without claiming independent reconciliation of the underlying
+publications. This narrow route requires `basis: published-comparative-chronology`,
+at least two differently named chronology assertions from the same inspected
+table snapshot, their source record IDs and locators, and every differing date
+alternative retained. The UI displays the alternatives and never marks one as
+definite activity. It is not available for ordinary conflicting imports, inferred
+uncertainty, or unsupported legendary/historicality labels. The executed example
+is the Parthian comparative table; attribution remains to Wikipedia contributors,
+the reference actually inspected, rather than asserting that its cited books
+were independently read. Tests enforce the sampled admission, snapshot, named
+column and retained-alternative requirements.
+
 Scope: rulers only, for every polity identity in `docs/data/polity_index.json`. A successful parser, plausible chronology, or passing schema test is not evidence of historical accuracy. Source discovery, claim verification, and completeness are separate outcomes.
 
 ## What the current index actually contains

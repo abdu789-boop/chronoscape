@@ -197,6 +197,12 @@ indexes; timeline changes preserve the roster's DOM, expansion and scroll.
 `scripts/build_rulers.mjs` builds the independent ruler collection from committed
 extracted evidence. It applies individual corroboration or explicit sampled-source
 admission, retains source/version/record provenance, and emits the coverage audit.
+The broad adapters cache polity pages, follow scoped succession lists and explicit
+Wikidata offices, then normalize dated records. A separate comparison adapter
+selects repeatable source samples, holds unresolved conflicts, consolidates
+duplicate tenures and records replacements of censored observations. The public
+builder verifies each extraction fingerprint before accepting the result.
+Wikipedia article links remain visible above the selected polity's roster.
 See `sources/rulers/policy.md` and `docs/data/RULERS.md` for the acceptance rules.
 
 Each data URL carries the first 16 hexadecimal characters of its SHA256 digest.

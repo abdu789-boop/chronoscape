@@ -18,7 +18,7 @@ for (const [key, entry] of Object.entries(index)) {
   if (key === '_span') continue;
   const discovered = discovery.polities[key];
   if (!discovered) throw new Error(`Missing source discovery ${key}`);
-  const links = (discovered.sourceCandidates || []).map(source => ({ title: source.title || `${source.kind}: ${source.entityId}`, url: source.url }));
+  const links = (discovered.sourceCandidates || []).map(source => ({ kind: source.kind, title: source.title || `${source.kind}: ${source.entityId}`, url: source.url }));
   data.polities[key] = {
     name: entry.n, scope: 'Sovereign rulers or political leaders of this specific polity.',
     coverage: 'unverified', note: 'A verified succession list is not yet available. Missing records are a research gap, not evidence of an absence of rulers.',
@@ -29,13 +29,25 @@ for (const [key, entry] of Object.entries(index)) {
 
 const observed = assertion => Object.fromEntries(['personKey', 'polityKey', 'role', 'from', 'to', 'precision', 'calendar', 'ongoing', 'asOf'].filter(key => assertion[key] !== undefined).map(key => [key, assertion[key]]));
 const candidates = [];
+const conflictReferences = new Map();
+const assertionReference = assertion => JSON.stringify([assertion.sourceId, assertion.sourceRecordId, assertion.locator]);
 const profileOverrides = {};
-for (const family of ['china', 'classical', 'modern', 'reference-import']) {
+for (const family of ['china', 'classical', 'modern', 'reference-import', 'broad-import']) {
   const filename = `sources/rulers/${family}.json`;
   if (!exists(filename)) continue;
   const input = read(filename);
-  Object.assign(profileOverrides, input.profileOverrides || {});
+  for (const [key, override] of Object.entries(input.profileOverrides || {})) {
+    const previous = profileOverrides[key] || {};
+    profileOverrides[key] = { ...previous, ...override,
+      crosswalk: [previous.crosswalk, override.crosswalk].filter(Boolean).join(' ') };
+  }
   report.inputs.push({ path: filename, sha256: crypto.createHash('sha256').update(fs.readFileSync(path.join(root, filename))).digest('hex'), receipts: input.receipts || [] });
+  for (const fingerprint of input.inputFingerprints || []) {
+    const file = fingerprint.file || fingerprint.path;
+    const actual = crypto.createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex');
+    if (actual !== fingerprint.sha256) throw new Error(`Stale compared input ${file}; regenerate ${filename}.`);
+    report.inputs.push({ path: file, sha256: actual, receipts: [] });
+  }
   for (const [id, source] of Object.entries(input.sources || {})) {
     if (data.sources[id]) throw new Error(`Duplicate source ID ${id}`);
     data.sources[id] = { ...source, admission: 'candidate', checks: [] };
@@ -44,6 +56,12 @@ for (const family of ['china', 'classical', 'modern', 'reference-import']) {
   for (const conflict of input.conflicts || []) {
     report.withheld.push({ family, ...conflict });
     const assertions = conflict.claim?.assertions || [conflict.observed, conflict.againstObserved].filter(Boolean);
+    for (const assertion of assertions) {
+      const reference = assertionReference(assertion);
+      const existing = conflictReferences.get(reference) || [];
+      existing.push(...assertions.filter(peer => peer !== assertion));
+      conflictReferences.set(reference, existing);
+    }
     for (const a of assertions) for (const b of assertions) {
       if (a === b || !data.sources[a.sourceId] || !data.sources[b.sourceId]) continue;
       if (data.sources[a.sourceId].lineage === data.sources[b.sourceId].lineage) continue;
@@ -67,10 +85,25 @@ for (const family of ['china', 'classical', 'modern', 'reference-import']) {
         againstSourceId: b.sourceId, againstRecordId: b.sourceRecordId, againstLocator: b.locator,
         outcome: 'matched', observed: observed(a), againstObserved: observed(b) });
     }
-    candidates.push({ claim, family });
+    // A source sample can compare a reign already published by another adapter.
+    // Keep its checks without adding a duplicate roster row.
+    if (!claim.checksOnly) candidates.push({ claim, family });
   }
   const paired = new Set((input.matched || []).map(claim => claim.id));
   for (const claim of input.imports || []) if (!paired.has(claim.id)) candidates.push({ claim, family });
+}
+
+// New contradictory evidence must also reach an older published claim. Holding
+// only the new row would leave the old version misleadingly labelled settled.
+for (const { claim } of candidates) {
+  const additions = (claim.assertions || []).flatMap(assertion => conflictReferences.get(assertionReference(assertion)) || []);
+  for (const peer of additions) {
+    if (peer.polityKey !== claim.polityKey || peer.personKey !== claim.personKey) continue;
+    if (!['from', 'to'].some(field => Number.isInteger(peer[field]) && Number.isInteger(claim[field]) && peer[field] !== claim[field])) continue;
+    const assertion = { ...peer, role: claim.role };
+    if (!(claim.assertions || []).some(old => assertionReference(old) === assertionReference(assertion)
+      && old.from === assertion.from && old.to === assertion.to)) claim.assertions.push(assertion);
+  }
 }
 
 // Counterpart checks must all exist before assessments run.
@@ -87,6 +120,23 @@ for (const { claim, family } of candidates) {
   polity.research.status = 'partial-independent-corroboration';
   polity.sourceIds = [...new Set([...polity.sourceIds, ...assessment.sourceIds])];
   report.accepted.push({ id: claim.id, polityKey: claim.polityKey, status: assessment.status });
+}
+
+report.superseded = [];
+for (const polity of Object.values(data.polities)) for (const replacement of [...polity.rulers]) {
+  for (const id of replacement.supersedes || []) {
+    const previous = polity.rulers.find(claim => claim.id === id);
+    if (!previous) continue;
+    const cutoffs = previous.assertions.filter(a => a.ongoing && Number.isInteger(a.asOf)).map(a => a.asOf);
+    if (previous.personKey !== replacement.personKey || previous.from !== replacement.from
+      || previous.to !== null || !cutoffs.length || !Number.isInteger(replacement.to)
+      || cutoffs.some(asOf => asOf > replacement.to) || !replacement.supersessionNote) {
+      throw new Error(`Invalid replacement of a censored tenure: ${id}`);
+    }
+    polity.rulers = polity.rulers.filter(claim => claim.id !== id);
+    report.accepted = report.accepted.filter(claim => claim.id !== id);
+    report.superseded.push({ id, replacement: replacement.id, reason: replacement.supersessionNote });
+  }
 }
 
 for (const [key, override] of Object.entries(profileOverrides)) {

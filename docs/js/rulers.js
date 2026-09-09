@@ -105,6 +105,23 @@ function classificationEvidence(claim, sources, index) {
     && evidence.polityKey === claim.polityKey && text(evidence.locator) && text(evidence.text));
 }
 
+function comparativeChronologyEvidence(claim, extracted, sources, index) {
+  if (claim.uncertainty?.basis !== 'published-comparative-chronology') return [];
+  return array(claim.uncertainty.evidence).filter(evidence => {
+    if (evidence.classification !== 'disputed' || evidence.personKey !== claim.personKey
+      || evidence.polityKey !== claim.polityKey || !text(evidence.text) || !text(evidence.locator)
+      || sources[evidence.sourceId]?.kind !== 'reference' || !index.sampledIds.has(evidence.sourceId)) return false;
+    const records = array(evidence.sourceRecordIds);
+    if (records.length < 2 || new Set(records).size !== records.length) return false;
+    const observations = records.map(id => extracted.find(a => a.sourceId === evidence.sourceId && a.sourceRecordId === id));
+    if (observations.some(a => !a || !text(a.chronology) || !a.imported
+      || !text(evidence.snapshot?.path) || !/^[a-f0-9]{64}$/i.test(evidence.snapshot?.sha256 || '')
+      || a.snapshot?.path !== evidence.snapshot.path || a.snapshot?.sha256 !== evidence.snapshot.sha256)) return false;
+    return new Set(observations.map(a => a.chronology)).size === observations.length
+      && new Set(observations.map(a => JSON.stringify([a.from, a.to]))).size > 1;
+  });
+}
+
 /** Cross-reference extracted facts. This does not authenticate the external pages. */
 export function assessRuler(claim, sources = {}) {
   return assessWithIndex(claim, sources, evidenceIndex(sources));
@@ -136,11 +153,13 @@ function assessWithIndex(claim, sources, index) {
     const alternatives = array(claim.uncertainty?.alternatives);
     const retained = new Set(alternatives.map(alternative => JSON.stringify([alternative?.from, alternative?.to]))).size > 1
       && alternatives.every(alternative => alternative && extracted.some(assertion => sameDates(alternative, assertion)))
-      && [...supporting, ...contrary].every(assertion => alternatives.some(alternative => sameDates(alternative, assertion)));
-    if (kind === 'disputed' && classification.length && retained) {
+      && [...supporting, ...sampled, ...contrary].every(assertion => alternatives.some(alternative => sameDates(alternative, assertion)));
+    const comparative = comparativeChronologyEvidence(claim, extracted, sources, index);
+    if (kind === 'disputed' && (classification.length || comparative.length) && retained) {
       result.accepted = true;
-      result.sourceIds = [...new Set([...result.sourceIds, ...classification.map(evidence => evidence.sourceId)])];
-      result.reasons.push('Scholarly sources document a dispute; the alternative tenures are retained.');
+      result.sourceIds = [...new Set([...result.sourceIds, ...classification.map(evidence => evidence.sourceId), ...comparative.map(evidence => evidence.sourceId)])];
+      result.reasons.push(classification.length ? 'Scholarly sources document a dispute; the alternative tenures are retained.'
+        : 'The sample-checked reference explicitly compares named chronologies. Their different dates are retained; the underlying publications were not independently reconciled.');
     } else result.reasons.push('Contradictory tenure evidence needs a scholarly assessment and retained alternatives.');
     return result;
   }
@@ -185,6 +204,11 @@ function assessWithIndex(claim, sources, index) {
 }
 
 const tenureKey = entry => JSON.stringify([entry.personKey, entry.role, entry.from, entry.to]);
+
+function sourceDay(value) {
+  const match = typeof value === 'string' && value.match(/^[+-]?\d{4}-(\d{2})-(\d{2})(?:T00:00:00Z)?$/);
+  return match && Number(match[1]) > 0 && Number(match[2]) > 0 ? `${match[1]}-${match[2]}` : null;
+}
 
 function completeRoster(polity, sources, index) {
   const check = polity?.rosterCheck;
@@ -267,8 +291,8 @@ export function getRulers(data, key, selectedYear) {
     result.rulers.push({ ...claim, assessment, active, possiblyActive });
   }
   result.rulers.sort((a, b) => (a.from ?? Infinity) - (b.from ?? Infinity)
-    || (/^\d{4}-\d{2}-\d{2}$/.test(a.sourceDates?.from || '') && /^\d{4}-\d{2}-\d{2}$/.test(b.sourceDates?.from || '')
-      ? a.sourceDates.from.localeCompare(b.sourceDates.from) : 0)
+    || (sourceDay(a.sourceDates?.from) && sourceDay(b.sourceDates?.from)
+      ? sourceDay(a.sourceDates.from).localeCompare(sourceDay(b.sourceDates.from)) : 0)
     || (a.to ?? Infinity) - (b.to ?? Infinity) || (a.sequence ?? Infinity) - (b.sequence ?? Infinity) || a.name.localeCompare(b.name));
   if (result.coverage === 'complete' && !completeRoster(polity, sources, evidence)) result.coverage = result.rulers.length ? 'partial' : 'unverified';
   return result;

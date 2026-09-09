@@ -137,7 +137,7 @@ test('absence of a date in an admitted source is not evidence contradicting a kn
   assert.equal(assessRuler(claim, sources).status, 'corroborated');
 });
 
-test('a date dispute is publishable only with scholarly assessment and all supported alternatives', () => {
+test('ordinary conflicting sources need scholarly assessment and all supported alternatives', () => {
   const { claim, sources, data, polity } = fixture();
   claim.assertions.push(...addPair(sources, 'c', 'd', observed({ from: -2 })));
   polity.sourceIds.push('c', 'd');
@@ -318,6 +318,57 @@ function sampledFixture(total = 10, conflicts = 0) {
   const data = { schemaVersion: 1, sources, polities: { [polityKey]: { name: 'Synthetic polity', scope: 'Sovereigns', coverage: 'partial', note: 'Synthetic sample evidence.', rulers: [claim], sourceIds: ['a'], research: { status: 'source-reviewed' } } } };
   return { sources, claim, data };
 }
+
+function comparativeFixture() {
+  const result = sampledFixture();
+  const { sources, claim } = result;
+  sources.a.kind = 'reference';
+  claim.assertions[0].chronology = 'Synthetic chronology A';
+  claim.assertions.push({ ...structuredClone(claim.assertions[0]), from: 11,
+    sourceRecordId: 'a:alternate-column', chronology: 'Synthetic chronology B' });
+  claim.uncertainty = { kind: 'disputed', basis: 'published-comparative-chronology',
+    reason: 'Synthetic table explicitly compares two named chronologies.',
+    alternatives: [{ from: 10, to: 20, label: 'Synthetic chronology A' }, { from: 11, to: 20, label: 'Synthetic chronology B' }],
+    evidence: [{ sourceId: 'a', sourceRecordIds: claim.assertions.map(a => a.sourceRecordId),
+      personKey: claim.personKey, polityKey, classification: 'disputed', locator: 'a:table3:row7',
+      text: 'Synthetic named-column comparison, not an inferred disagreement.', snapshot: structuredClone(claim.assertions[0].snapshot) }] };
+  return result;
+}
+
+test('a sample-checked reference can display its explicitly compared chronologies as disputed', () => {
+  const { claim, sources, data } = comparativeFixture();
+  const result = assessRuler(claim, sources);
+  assert.equal(result.accepted, true);
+  assert.equal(result.status, 'disputed');
+  const ruler = getRulers(data, polityKey, 10).rulers[0];
+  assert.equal(ruler.active, false);
+  assert.equal(ruler.possiblyActive, true);
+  assert.match(result.reasons.join(' '), /not independently reconciled/);
+});
+
+test('the comparative-reference exception requires sampled admission and every named column and date', () => {
+  for (const change of [
+    ({ claim }) => { delete claim.uncertainty.basis; },
+    ({ sources }) => { delete sources.a.review; },
+    ({ claim }) => { claim.assertions[1].chronology = claim.assertions[0].chronology; },
+    ({ claim }) => { claim.assertions[1].snapshot.sha256 = 'b'.repeat(64); },
+    ({ claim }) => { claim.uncertainty.evidence[0].sourceRecordIds = ['missing:1', 'missing:2']; },
+    ({ claim }) => { claim.uncertainty.alternatives = [{ from: 11, to: 20 }, { from: 12, to: 20 }]; },
+  ]) {
+    const state = comparativeFixture(); change(state);
+    assert.equal(assessRuler(state.claim, state.sources).accepted, false);
+  }
+});
+
+test('same-year source terms sort by signed JSON dates while preserving separate episodes', () => {
+  const { claim, sources, data } = sampledFixture();
+  claim.from = claim.to = 20;
+  Object.assign(claim.assertions[0], { from: 20, to: 20 });
+  const early = { ...structuredClone(claim), id: 'early', sourceDates: { from: '+0020-02-03T00:00:00Z', to: '+0020-05-05T00:00:00Z' } };
+  const later = { ...structuredClone(claim), id: 'later', sourceDates: { from: '+0020-05-05T00:00:00Z', to: '+0020-10-12T00:00:00Z' } };
+  data.polities[polityKey].rulers = [later, early];
+  assert.deepEqual(getRulers(data, polityKey, 20).rulers.map(r => r.id), ['early', 'later']);
+});
 
 test('sample review requires five distinct inspected records and includes failures in its denominator', () => {
   for (const [count, conflicts, accepted] of [[4, 0, false], [5, 0, true], [10, 1, true], [10, 2, false]]) {

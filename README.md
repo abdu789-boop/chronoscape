@@ -47,7 +47,7 @@ It is a personal project, built for curiosity rather than publication.
 - **Validation** for data and historical invariants, plus Node tests for viewer
   data access, dates, URL state, timeline navigation, and map behavior.
 - **Sourced ruler lists** — the selected polity has a dated succession list,
-  source links and separate labels for individually cross-checked records,
+  a persistent Wikipedia article link, source links and separate labels for individually cross-checked records,
   records from sources checked by sample, and approximate dates. Coverage is
   partial: every atlas identity has a source-discovery record, but many do not
   yet have accepted rulers. See [the ruler data guide](docs/data/RULERS.md).

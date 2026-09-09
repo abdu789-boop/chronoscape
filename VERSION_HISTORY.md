@@ -1,5 +1,23 @@
 # Version history
 
+## Broader ruler imports and persistent Wikipedia links — 2026-09-09
+
+- Expanded accepted ruler coverage from 287 to 806 of 1,544 polities,
+  and from 3,130 to 10,933 dated reign records. Lists remain partial.
+- Added sampled Wikipedia succession tables and infobox records, Wikidata dated
+  officeholder statements, and additional explicit reference crosswalks.
+- Preserved named alternative Parthian chronologies, repeated accessions,
+  source dates and evidence links. Withheld unresolved identity, office and
+  ordinary date conflicts; consolidated inspected alternate names.
+- Kept each polity's Wikipedia article visible above populated ruler lists.
+  Polity shortcuts, languages and religions remain absent.
+- Validation: 84 JavaScript tests, 23 parser/normalization tests,
+  46 full historical checks and 12 desktop/mobile browser checks passed.
+  Evidence rebuilds and data cache fingerprints passed.
+
+Source and sampling limits are recorded in [the ruler guide](docs/data/RULERS.md)
+and [the ruler QA record](sources/rulers/QA.md).
+
 ## Sourced ruler lists and atlas simplification — 2026-09-09
 
 - Added dated ruler lists with source links, individual cross-check labels,
