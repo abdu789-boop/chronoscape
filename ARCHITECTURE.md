@@ -294,9 +294,10 @@ The viewer before the UI redesign is preserved by tag `pre-ui-redesign`
 how to run it alongside a newer viewer without changing the active checkout.
 
 
-GitHub Pages serves `docs/` from `main`; the redesign keeps that static deployment
-model. There is no frontend bundling or npm installation step. Committing or
-publishing a redesign is a separate action from implementing it.
+GitHub Pages serves `docs/` from `main`; viewer revision `032bc9a` was published
+through that configuration on 2026-09-08 (UTC). There is no frontend bundling or
+npm installation step. Local commits do not deploy until pushed to `main`;
+GitHub Pages build/deployment status and the public site must then be checked.
 
 The full `polities.json` remains approximately 32 MB uncompressed. The redesign
 does not change generated data, split it by era, or introduce WebGL. Worker

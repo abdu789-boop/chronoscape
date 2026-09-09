@@ -7,7 +7,7 @@ tried and rejected, so nobody re-runs an investigation that already has an answe
 tests, not estimates; where something was rejected, the measurement that killed
 it is given.
 
-## UI redesign — implemented
+## UI redesign — published
 
 Before UI work, the existing version was preserved as `pre-ui-redesign` at
 commit `108468a7d158409ab11a9d31b41c70da4b46e1d1`. See
@@ -31,8 +31,10 @@ that order. The current viewer implements:
 
 The whole-history slider still snaps to map-change years; direct entry and
 zoomed windows allow individual years. Source data and historical methodology
-are unchanged. This implementation entry does not assert a deployment or a
-measured speedup; see [ARCHITECTURE.md](ARCHITECTURE.md) for mechanisms and tests.
+are unchanged. Viewer revision `032bc9a` was published on 2026-09-08 (UTC),
+including the Space Grotesk labels, factual interface text, and charcoal dark
+theme. See [QA_REPORT.md](QA_REPORT.md) for release checks and the scoped
+rendering comparison, and [ARCHITECTURE.md](ARCHITECTURE.md) for mechanisms.
 
 Remaining UI/performance work should start from measurements: era-based geometry
 loading, adjacency-aware colors, and a WebGL renderer are not implemented.

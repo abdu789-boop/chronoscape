@@ -1,8 +1,8 @@
 # UI redesign verification
 
 The reference version is Git tag `pre-ui-redesign`
-(`108468a7d158409ab11a9d31b41c70da4b46e1d1`). This report covers the interface
-redesign; it does not revalidate the underlying historical sources.
+(`108468a7d158409ab11a9d31b41c70da4b46e1d1`). This report records interface
+verification and release checks for published viewer revision `032bc9a`.
 
 ## Typography, text, and dark-theme refinement
 
@@ -10,7 +10,7 @@ Follow-up to the initial redesign at `ee4339a`. Checked the updated map in light
 and dark modes at world and regional zoom, including a selected Ottoman Empire
 in 1572 CE. Inspected the 375 × 812 mobile detail sheet and help dialog; restored
 the browser viewport after verification. The new font renders in both Canvas
-labels and the detail heading. The 49,256-byte WOFF2 is served locally.
+labels and the detail heading. The 49,256-byte WOFF2 is self-hosted with the app.
 
 Dark mode uses neutral charcoal surfaces, slate/sage territories, white text,
 and a mint selection outline. Date/count and legend backgrounds maintain text
@@ -18,9 +18,9 @@ contrast over territory fills. Sidebar swatches update to match the map palette
 when the theme changes. In-app text was audited across HTML and JavaScript;
 headings, loading messages, help, and controls now contain facts or instructions.
 
-The historical data validation and benchmark measurements below belong to the
-initial redesign; this styling refinement does not claim a new performance
-benchmark. Historical JSON files remain unchanged.
+The benchmark measurements below belong to the initial redesign at `ee4339a`;
+the styling refinement was not re-benchmarked. Automated checks were rerun before
+publishing `032bc9a`. Historical JSON files remain unchanged.
 
 ## Automated checks
 
@@ -30,8 +30,9 @@ benchmark. Historical JSON files remain unchanged.
   progressive loading and HTTP failures, URL validation, time-window bounds,
   map hit testing, globe clipping, pointer cancellation, shared cameras, and
   late font loading without geometry recomputation or post-disposal frames.
-- `scripts/validate.py --quick`: 43 historical/data checks passed, none failed;
-  one group requiring raw sources was skipped as intended by `--quick`.
+- `.venv/bin/python scripts/validate.py`: all 46 historical/data checks passed
+  before publishing, with no failures or skips, including the raw-source checks.
+  The quick run also passed 43 checks and skipped its raw-source group as intended.
 - `python3 scripts/update_data_versions.py --check`: passed.
 - Published historical JSON files are byte-for-byte unchanged from the saved
   baseline. No source precedence, arbitration, or ontology rules changed.
@@ -42,7 +43,10 @@ operations. Actual Canvas output and interaction were also inspected in-browser.
 ## Browser checks
 
 Checked in the Codex Chromium browser on macOS at desktop and mobile sizes,
-including 1440 × 900, 375 × 812, and 320 × 568 CSS pixels.
+including 1440 × 900, 375 × 812, and 320 × 568 CSS pixels. After the
+[successful GitHub Pages deployment](https://github.com/abdu789-boop/chronoscape/actions/runs/34177477259),
+the public site loaded the redesigned interface and historical data. Dark mode
+was checked again at 375 × 812 CSS pixels on that public deployment.
 
 - Polity selection, zoom-to-territory and maximum-extent jumps.
 - Keyboard search, selection from another era, and dismissing results.
@@ -59,9 +63,9 @@ including 1440 × 900, 375 × 812, and 320 × 568 CSS pixels.
 - Map labels reserve space for overlaid controls. Time-axis labels are culled
   when they would collide at narrow widths.
 
-The light interface's primary/secondary text contrast is approximately
-13.6:1 / 5.0:1; dark primary/secondary text is approximately 12.0:1 / 7.4:1.
-These are checks of the main text/background pairs, not a full accessibility
+Primary/secondary text contrast against the panel background is approximately
+13.6:1 / 5.0:1 in light mode (`#fbfaf6`) and 14.1:1 / 8.5:1 in dark mode
+(`#202325`). These checks cover the panel text/background pairs, not a full accessibility
 conformance audit or a physical-device touch test.
 
 ## Reproducing rendering measurements

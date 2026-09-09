@@ -2,8 +2,11 @@
 
 ## Typography, factual text, and dark-theme refinement
 
-The initial UI redesign remains preserved at commit `ee4339a`. This refinement
-updates its presentation without changing historical data or navigation behavior.
+Viewer revision `032bc9a` was published to [Chronoscape](https://abdu789-boop.github.io/chronoscape/)
+on 2026-09-08 (UTC). The [GitHub Pages deployment](https://github.com/abdu789-boop/chronoscape/actions/runs/34177477259)
+succeeded from `main` → `docs/`. The initial UI redesign remains preserved at
+commit `ee4339a`; this refinement updates its presentation without changing
+historical data or navigation behavior.
 
 - Polity labels and detail headings use self-hosted Space Grotesk at medium
   weight. Thinner map text halos preserve contrast without adding the appearance
@@ -18,7 +21,7 @@ updates its presentation without changing historical data or navigation behavior
   immediately when the theme changes. Browser theme color follows the active
   theme.
 - Font loading remeasures label collision boxes and requests a redraw while
-  retaining cached map geometry. The font is served locally with the app; no
+  retaining cached map geometry. The font is self-hosted with the app; no
   external font service is required.
 
 See [CREDITS.md](CREDITS.md) for font attribution and its SIL Open Font License,
@@ -28,8 +31,8 @@ See [CREDITS.md](CREDITS.md) for font attribution and its SIL Open Font License,
 ## UI redesign
 
 Implemented the atlas redesign in the requested order: readability, speed,
-aesthetics, and modernization. This entry records the implementation scope;
-publishing is a separate step.
+aesthetics, and modernization. Implemented at `ee4339a` and published with the
+typography and dark-theme refinement at `032bc9a`.
 
 - Replaced the floating detail card with an explorer and structured sidebar,
   responsive bottom sheet, extent chart, aligned percentages, inference labels,
@@ -54,7 +57,7 @@ method.
 Validation commands are `node --test tests/*.test.mjs`,
 `python3 scripts/validate.py --quick`, and
 `python3 scripts/update_data_versions.py --check`. The full historical validator
-remains required after data builds. See [ARCHITECTURE.md](ARCHITECTURE.md) for
+remains required after data builds and before publishing. See [ARCHITECTURE.md](ARCHITECTURE.md) for
 module ownership and [README.md](README.md) for local startup.
 
 ## Baseline before the UI redesign
@@ -70,9 +73,9 @@ module ownership and [README.md](README.md) for local startup.
   and generated local reports. They are not required to run the saved viewer;
   rebuilding data requires the setup described in README.
 
-This is a Git snapshot, not a separate hosted deployment. Creating it does not
-change the live site. The tag must be pushed explicitly if a remote copy is
-wanted; it has not been published as part of this save.
+The annotated tag remains local; the baseline commit is retained in published
+`main` history. There is no separate hosted deployment of the baseline. On a
+fresh clone without the local tag, use the full commit hash in the commands below.
 
 ### Inspect or run the saved version
 

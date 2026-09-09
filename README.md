@@ -1,10 +1,9 @@
 # Chronoscape
 
-**Live site: [Chronoscape](https://abdu789-boop.github.io/chronoscape/)**
+**Live site: [Chronoscape](https://abdu789-boop.github.io/chronoscape/)** — viewer revision `032bc9a`, published 2026-09-08 (UTC).
 
-An interactive map of political history. Travel from 3400 BCE to 2024 CE and
-watch polities appear, expand, fragment and vanish, with their cities rising and
-falling alongside them. Equal Earth projection or a globe.
+An interactive atlas of historical territories, cities, and world population
+estimates from 3400 BCE to 2024 CE, with Equal Earth and globe projections.
 
 ## The objective
 
@@ -56,9 +55,10 @@ The original viewer is preserved at Git tag `pre-ui-redesign`, commit
 `108468a7d158409ab11a9d31b41c70da4b46e1d1`. See
 [VERSION_HISTORY.md](VERSION_HISTORY.md) for its scope and instructions to inspect
 or run it in a separate checkout. The redesign keeps its historical datasets and
-methodology. Implementation history and a live deployment are separate records.
+methodology. The published redesign and saved revisions are recorded in
+[VERSION_HISTORY.md](VERSION_HISTORY.md).
 
-## See it in 60 seconds
+## Run locally
 
 ```bash
 python3 -m http.server 8451 --directory docs   # then open localhost:8451
@@ -67,6 +67,8 @@ python3 -m http.server 8451 --directory docs   # then open localhost:8451
 No frontend build or package installation is needed. `docs/` contains the whole
 site, vendored D3, and committed JSON data; the browser loads that data from the
 same server. Serve it over HTTP rather than opening `index.html` as a file.
+For mobile access, open the live site above; a `localhost` link only works on
+the computer running that server.
 
 ## Reading order
 
