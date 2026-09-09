@@ -49,6 +49,9 @@ No dates come from a ruler's lifespan, and reigns are never clipped to fit the m
 
 The viewer runs entirely from committed local JSON. A polity's Wikipedia article
 is linked above its succession list, including when ruler records are available.
+Each roster entry displays only the name, title and reign dates. Hover, keyboard
+focus or tap opens a floating panel with verification status, chronology notes,
+alternative dates and source links; Escape or the close button dismisses it.
 Source and acquisition gaps remain distinct from a historical absence of rulers.
 The app makes no live external source requests and contains no language or
 religion feature.

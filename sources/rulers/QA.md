@@ -3,6 +3,21 @@
 Implementation checks were recorded before publication. Release history is
 maintained in `VERSION_HISTORY.md` and Git.
 
+## Compact list UI follow-up
+
+The compact-list change leaves all ruler records and their acceptance statuses
+unchanged. Only names, titles and reign dates occupy roster rows. Verification
+status, activity notes, uncertain chronologies, alternative dates and clickable
+sources are available in one floating panel on hover, focus or tap. Unknown end
+dates display `?`; the source observation cutoff remains in the detail panel.
+
+- All 84 JavaScript tests passed.
+- All 15 checks in `scripts/qa_rulers.cjs` passed, including compact row contents,
+  hover-to-source navigation, focus and Escape without polity deselection,
+  outside-click/close dismissal, true mobile touch input and viewport fit.
+- Desktop, mobile and open-tooltip screenshots were visually inspected.
+- Historical data was unchanged; full geometry validation was not repeated.
+
 ## Current coverage
 
 - 1,544 exact atlas keys have coverage and source-discovery records.
@@ -52,7 +67,7 @@ claimants remain held for review. The source's last observation of an ongoing
 term is replaced only when a later explicit end matches the person, accession
 and office; this closes the previous Obama and Turnbull cutoff records.
 
-## Checks performed
+## Broader import checks performed
 
 - `node --test tests/*.test.mjs`: **84 passed**. Includes adversarial
   evidence checks, source sampling, provenance fingerprints, exact atlas-key

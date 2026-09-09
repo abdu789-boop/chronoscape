@@ -1,5 +1,14 @@
 # Version history
 
+## Compact ruler lists — 2026-09-09
+
+- Ruler rows show only the name, title and reign dates. Evidence, uncertainty
+  notes, alternative chronologies and source links move into a floating panel
+  available on hover, keyboard focus or tap.
+- The panel supports Escape, outside-click dismissal and mobile viewport sizing.
+  Polity Wikipedia links remain visible; ruler data is unchanged.
+- Validation: 84 JavaScript tests and 15 desktop/mobile browser checks passed.
+
 ## Broader ruler imports and persistent Wikipedia links — 2026-09-09
 
 - Expanded accepted ruler coverage from 287 to 806 of 1,544 polities,
