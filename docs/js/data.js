@@ -156,6 +156,32 @@ function dataURL(name) {
   return url.href;
 }
 
+function freezeEvidence(value) {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    for (const child of Object.values(value)) freezeEvidence(child);
+    Object.freeze(value);
+  }
+  return value;
+}
+
+export async function loadRulers(signal, { timeoutMs = 15000 } = {}) {
+  const controller = new AbortController();
+  const abort = () => controller.abort(signal?.reason);
+  let timedOut = false;
+  if (signal?.aborted) abort();
+  else signal?.addEventListener('abort', abort, { once: true });
+  const timer = setTimeout(() => { timedOut = true; controller.abort(); }, timeoutMs);
+  try {
+    return freezeEvidence(await fetchJSON('rulers', controller.signal));
+  } catch (error) {
+    if (timedOut) throw new Error('Ruler records took too long to download. Please retry.', { cause: error });
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener('abort', abort);
+  }
+}
+
 async function fetchJSON(name, signal) {
   let response;
   try { response = await fetch(dataURL(name), { signal }); }
@@ -229,7 +255,7 @@ async function fetchPolities(signal, onProgress) {
 }
 
 /** Fetch once with content-versioned URLs; the caller can retry after an error. */
-export async function loadAtlas({ onProgress = () => {}, onBase = () => {} } = {}) {
+export async function loadAtlas({ onProgress = () => {}, onBase = () => {}, onRulers = () => {} } = {}) {
   const controller = new AbortController();
   const signal = controller.signal;
   onProgress({ phase: 'loading', loaded: 0, total: null, message: 'Loading the atlas…' });
@@ -240,11 +266,21 @@ export async function loadAtlas({ onProgress = () => {}, onBase = () => {} } = {
         onBase({ land, borders });
         return { land, borders };
       });
+    // Start the optional request alongside the map, without waiting for it.
+    const context = loadRulers(signal)
+      .then(rulers => ({ rulers, rulersError: null }))
+      .catch(error => ({ rulers: null, rulersError: error.message }));
     const [baseData, polities, years, cities, index, population] = await Promise.all([
       base, fetchPolities(signal, onProgress), fetchJSON('years', signal), fetchJSON('cities', signal),
       fetchJSON('polity_index', signal), fetchJSON('population', signal),
     ]);
     const atlas = createAtlas({ ...baseData, polities, years, cities, index, worldPop: population?.world || [] });
+    Object.assign(atlas, { rulers: null, rulersError: null, rulersLoading: true });
+    atlas.rulersReady = context.then(result => {
+      Object.assign(atlas, result, { rulersLoading: false });
+      onRulers(atlas);
+      return atlas.rulers;
+    });
     onProgress({ phase: 'ready', loaded: null, total: null, message: 'Atlas ready' });
     return atlas;
   } catch (error) {

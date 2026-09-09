@@ -1,6 +1,6 @@
 # Chronoscape
 
-**Live site: [Chronoscape](https://abdu789-boop.github.io/chronoscape/)** — viewer revision `032bc9a`, published 2026-09-08 (UTC).
+**Live site: [Chronoscape](https://abdu789-boop.github.io/chronoscape/)** — see [VERSION_HISTORY.md](VERSION_HISTORY.md) for release notes.
 
 An interactive atlas of historical territories, cities, and world population
 estimates from 3400 BCE to 2024 CE, with Equal Earth and globe projections.
@@ -46,6 +46,11 @@ It is a personal project, built for curiosity rather than publication.
   and evidence.
 - **Validation** for data and historical invariants, plus Node tests for viewer
   data access, dates, URL state, timeline navigation, and map behavior.
+- **Sourced ruler lists** — the selected polity has a dated succession list,
+  source links and separate labels for individually cross-checked records,
+  records from sources checked by sample, and approximate dates. Coverage is
+  partial: every atlas identity has a source-discovery record, but many do not
+  yet have accepted rulers. See [the ruler data guide](docs/data/RULERS.md).
 - **An ontology specification** for modelling vassals, provinces and unions,
   which is **designed but not implemented**.
 
@@ -95,6 +100,7 @@ For interface changes, use a recent Node.js runtime with the built-in test runne
 node --test tests/*.test.mjs
 python3 scripts/validate.py --quick
 python3 scripts/update_data_versions.py --check
+node scripts/build_rulers.mjs --check
 ```
 
 See [QA_REPORT.md](QA_REPORT.md) for validation coverage and browser checks.
@@ -119,3 +125,9 @@ The build refreshes `docs/js/data-version.js` automatically. After independently
 replacing a file in `docs/data/`, run `python3 scripts/update_data_versions.py`
 before serving or publishing it. Publishing still uses the existing GitHub Pages
 configuration serving `docs/` from `main`.
+
+Ruler imports are independent of the geometry build. `sources/rulers/` contains
+the extracted evidence, sample comparisons, source-discovery inventory and
+coverage report. Rebuild the public ruler file with `node scripts/build_rulers.mjs`,
+then refresh cache fingerprints. This requires no network when the committed
+evidence files are present. The browser never queries Wikidata or other sources.

@@ -66,7 +66,6 @@
           <h1>Historical polities</h1>
           <p class="intro">Coverage: 3400 BCE–2024 CE.</p>
           <div class="explore-instruction"><svg class="icon"><use href="#icon-focus"/></svg><span>Search by name or select a territory.</span></div>
-          <section class="sidebar-section featured-section" aria-labelledby="featured-heading"><div class="section-heading"><h2 id="featured-heading">Polity shortcuts</h2></div><div id="featured-list" class="place-list"></div></section>
           <section class="sidebar-section visible-section" aria-labelledby="visible-heading"><div class="section-heading"><h2 id="visible-heading">Largest mapped polities</h2><span class="tiny-marker" aria-hidden="true"></span></div><div id="visible-list" class="place-list"></div></section>
           <p class="sidebar-footnote">Boundaries and dates are approximate. Unmapped areas indicate gaps in the dataset.</p>
         </section>
@@ -77,6 +76,15 @@
           <p id="detail-period" class="detail-period"></p>
           <div class="detail-stat"><span id="detail-area-label" class="eyebrow">Territory in this year</span><strong id="detail-area"></strong></div>
           <div class="detail-actions"><button id="detail-focus" class="primary-button"><svg class="icon"><use href="#icon-focus"/></svg>Zoom to territory</button><button id="detail-peak" class="secondary-button">Go to maximum extent<svg class="icon"><use href="#icon-arrow"/></svg></button></div>
+          <div id="detail-history-error" class="history-error" role="status" hidden></div>
+          <section class="sidebar-section history-section" aria-labelledby="rulers-heading">
+            <div class="section-heading"><h2 id="rulers-heading">Rulers</h2><span id="detail-ruler-year" class="small-caption"></span></div>
+            <p id="detail-ruler-current" class="ruler-current"></p>
+            <p id="detail-ruler-coverage" class="history-coverage"></p>
+            <details class="ruler-explanation"><summary>About this list</summary><p id="detail-ruler-note" class="history-note"></p></details>
+            <details id="detail-ruler-roster" class="ruler-roster"><summary><span id="detail-ruler-count">Succession list</span><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></summary><p class="history-note">Reigns are shown by year; more than one ruler may appear in a transition year.</p><ol id="detail-ruler-list" class="ruler-list" tabindex="0" aria-label="Rulers in chronological order"></ol></details>
+            <div id="detail-ruler-sources"></div>
+          </section>
           <section class="sidebar-section extent-section"><div class="section-heading"><h2>Territory over time</h2><span class="small-caption">km²</span></div><svg id="detail-chart" class="extent-chart" viewBox="0 0 280 100" role="img" aria-label="Territory area over time"></svg><p id="detail-chart-caption" class="chart-caption"></p></section>
           <section class="sidebar-section"><div class="section-heading"><h2>Formed from</h2><span class="inferred-label" title="Inferred from overlap between historical territories">Inferred</span></div><p class="chart-caption relation-explanation">Share of its peak territory held before it appeared.</p><div id="detail-pred" class="relation-list"></div></section>
           <section class="sidebar-section"><div class="section-heading"><h2>Succeeded by</h2><span class="inferred-label" title="Inferred from overlap between historical territories">Inferred</span></div><p class="chart-caption relation-explanation">Share of its peak territory held after its last record. These inferred lists are not exhaustive.</p><div id="detail-succ" class="relation-list"></div></section>

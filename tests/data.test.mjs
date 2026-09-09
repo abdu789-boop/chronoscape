@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { createAtlas, fmtArea, fmtPop, fmtYear, loadAtlas, nearestYear, parseYear } from '../docs/js/data.js';
+import { createAtlas, fmtArea, fmtPop, fmtYear, loadAtlas, loadRulers, nearestYear, parseYear } from '../docs/js/data.js';
 import { DATA_VERSIONS } from '../docs/js/data-version.js';
 
 const records = [
@@ -107,7 +107,7 @@ test('versioned request fingerprints match all published data files', async () =
     const bytes = await readFile(new URL(`../docs/data/${name}.json`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex').slice(0, 16), fingerprint, name);
   }
-  assert.equal(Object.keys(DATA_VERSIONS).length, 7);
+  assert.equal(Object.keys(DATA_VERSIONS).length, 8);
 });
 
 test('loading exposes the basemap before historical geometry and uses stable URLs', async () => {
@@ -118,6 +118,7 @@ test('loading exposes the basemap before historical geometry and uses stable URL
   const fixture = {
     land: { type: 'FeatureCollection', features: [] }, borders: { type: 'MultiLineString', coordinates: [] },
     polities: [], years: [-500, 1], cities: [], polity_index: {}, population: { world: [[1, 100]] },
+    rulers: { schemaVersion: 1, sources: {}, polities: {} },
   };
   globalThis.fetch = async url => {
     const parsed = new URL(url);
@@ -134,7 +135,10 @@ test('loading exposes the basemap before historical geometry and uses stable URL
     const atlas = await loading;
     assert.equal(atlas.population(1), 100);
     assert.ok(events.indexOf('base') < events.indexOf('ready'));
-    assert.equal(calls.length, 7);
+    assert.equal(calls.length, 8);
+    await atlas.rulersReady;
+    assert.deepEqual(atlas.rulers, fixture.rulers);
+    assert.equal(atlas.rulersError, null);
     for (const url of calls) assert.match(url.searchParams.get('v'), /^[0-9a-f]{16}$/);
   } finally { globalThis.fetch = oldFetch; }
 });
@@ -144,5 +148,90 @@ test('HTTP errors name the failed resource and allow an explicit retry', async (
   globalThis.fetch = async () => ({ ok: false, status: 503 });
   try {
     await assert.rejects(loadAtlas(), /Could not load .*HTTP 503.*retry/);
+  } finally { globalThis.fetch = oldFetch; }
+});
+
+test('ruler records failures leave map data available and can be retried separately', async () => {
+  const oldFetch = globalThis.fetch;
+  const fixture = {
+    land: { type: 'FeatureCollection', features: [] }, borders: { type: 'MultiLineString', coordinates: [] },
+    polities: [], years: [1], cities: [], polity_index: {}, population: { world: [[1, 100]] },
+  };
+  globalThis.fetch = async url => {
+    const name = new URL(url).pathname.split('/').at(-1).replace('.json', '');
+    return name === 'rulers' ? { ok: false, status: 503 } : { ok: true, json: async () => fixture[name] };
+  };
+  try {
+    const atlas = await loadAtlas();
+    assert.equal(atlas.population(1), 100);
+    await atlas.rulersReady;
+    assert.equal(atlas.rulers, null);
+    assert.match(atlas.rulersError, /rulers.*503/);
+    const details = { schemaVersion: 1, sources: {}, polities: {} };
+    globalThis.fetch = async url => {
+      assert.match(new URL(url).pathname, /rulers\.json$/);
+      return { ok: true, json: async () => details };
+    };
+    assert.deepEqual(await loadRulers(), details);
+  } finally { globalThis.fetch = oldFetch; }
+});
+
+test('a delayed ruler download does not block the map and updates its existing atlas when ready', async () => {
+  const oldFetch = globalThis.fetch;
+  let releaseRulers;
+  const gate = new Promise(resolve => { releaseRulers = resolve; });
+  const fixture = {
+    land: { type: 'FeatureCollection', features: [] }, borders: { type: 'MultiLineString', coordinates: [] },
+    polities: records, years: [1], cities: [], polity_index: {}, population: { world: [[1, 100]] },
+    rulers: { schemaVersion: 1, sources: { sample: { checks: [] } }, polities: {} },
+  };
+  const updates = [];
+  globalThis.fetch = async url => {
+    const name = new URL(url).pathname.split('/').at(-1).replace('.json', '');
+    if (name === 'rulers') await gate;
+    return { ok: true, json: async () => fixture[name] };
+  };
+  let watchdog;
+  try {
+    const loading = loadAtlas({ onRulers: atlas => updates.push(atlas) });
+    const atlas = await Promise.race([loading, new Promise((_, reject) => {
+      watchdog = setTimeout(() => reject(new Error('Map waited for optional rulers')), 1000);
+    })]);
+    clearTimeout(watchdog);
+    assert.equal(atlas.population(1), 100);
+    assert.ok(atlas.search('roman', 1).length, 'map search works before rulers arrive');
+    assert.equal(atlas.rulersLoading, true);
+    assert.equal(atlas.rulers, null);
+    assert.equal(atlas.rulersError, null);
+    assert.deepEqual(updates, []);
+    releaseRulers();
+    assert.equal(await atlas.rulersReady, fixture.rulers);
+    assert.equal(atlas.rulersLoading, false);
+    assert.equal(atlas.rulers, fixture.rulers);
+    assert.deepEqual(updates, [atlas], 'callback receives the same atlas exactly once after settlement');
+    assert.ok(Object.isFrozen(atlas.rulers.sources.sample.checks), 'source indexes can reuse immutable evidence');
+  } finally {
+    clearTimeout(watchdog); releaseRulers(); globalThis.fetch = oldFetch;
+  }
+});
+
+test('ruler timeout aborts only its request and allows a fresh independent retry', async () => {
+  const oldFetch = globalThis.fetch;
+  const parent = new AbortController();
+  let requestSignal;
+  globalThis.fetch = async (_url, { signal }) => {
+    requestSignal = signal;
+    return new Promise((_, reject) => signal.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }));
+  };
+  try {
+    await assert.rejects(loadRulers(parent.signal, { timeoutMs: 10 }), /too long.*retry/);
+    assert.equal(requestSignal.aborted, true);
+    assert.equal(parent.signal.aborted, false, 'optional timeout never aborts the map controller');
+    const details = { sources: {}, polities: {} };
+    globalThis.fetch = async (_url, { signal }) => {
+      assert.equal(signal.aborted, false);
+      return { ok: true, json: async () => details };
+    };
+    assert.equal(await loadRulers(parent.signal), details);
   } finally { globalThis.fetch = oldFetch; }
 });

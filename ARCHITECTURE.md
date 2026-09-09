@@ -65,6 +65,8 @@ docs/                     the site GitHub Pages serves
   js/app.js               sidebar, search, timeline, playback, coordination
   js/map.js               projections, canvas layers, labels, pointer gestures
   js/data.js              loading, interpolation, search, cached snapshots
+  js/rulers.js            source admission, sampled/individual checks, dated roster selection
+  js/rulers-view.js       ruler panel, evidence links, coverage and uncertainty labels
   js/data-worker.js       historical JSON parsing and geometry winding
   js/data-version.js      generated data cache fingerprints
   js/state.js             URL state and timeline math
@@ -178,7 +180,7 @@ self-hosted Space Grotesk at medium weight is used for polity labels and detail
 headings. All interface text must be informative or instructive; slogans and
 promotional descriptions are excluded.
 
-**Loading and caching.** `data.js` fetches seven same-origin JSON files in
+**Loading and caching.** `data.js` fetches seven core same-origin JSON files in
 parallel. Land and modern borders can render before historical geometry is
 ready. A dedicated worker streams, parses, and rewinds the large polity file;
 download progress reports actual bytes and uses an unknown total when a
@@ -187,6 +189,15 @@ fallback yields between winding batches. Fetch/parse errors lead to an explicit
 retry. Snapshots and city rankings each use a 32-year LRU cache; panning does not
 recompute population interpolation. Search indexes identity names and their
 record aliases, folds accents, and marks activity from actual record intervals.
+
+The optional eighth file, `rulers.json`, loads independently with a separate
+15-second timeout and retry. `atlas.rulersReady` and `onRulers` update the open
+panel without delaying the map. Its immutable source registry caches comparison
+indexes; timeline changes preserve the roster's DOM, expansion and scroll.
+`scripts/build_rulers.mjs` builds the independent ruler collection from committed
+extracted evidence. It applies individual corroboration or explicit sampled-source
+admission, retains source/version/record provenance, and emits the coverage audit.
+See `sources/rulers/policy.md` and `docs/data/RULERS.md` for the acceptance rules.
 
 Each data URL carries the first 16 hexadecimal characters of its SHA256 digest.
 `scripts/update_data_versions.py` generates `js/data-version.js` automatically

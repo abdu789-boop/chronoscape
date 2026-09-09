@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "scope": "Independent broad ruler references; publication and data sampling, not exhaustive individual verification",
+  "datasets": [
+    {
+      "source": "archigos-4.1",
+      "acquiredRecords": 3409,
+      "sourcePolities": 189,
+      "sampleMatches": 7,
+      "sampleConflicts": 0,
+      "samplePrecision": "year",
+      "sampleSelection": "United States 1869 and both Cleveland terms; Britain 1979; India 1947; South Africa 1994; Australia 1975. Includes restoration, parliamentary executives, presidential executives and decolonization-era tenure.",
+      "limitations": [
+        "The source identifies effective primary leaders, not all simultaneous heads of state or monarchs.",
+        "Current leaders are right-censored at the source's 2015 observation boundary; this is not their exit date.",
+        "The sample checks establish only year agreement, not exact-day accuracy or comprehensive authority disputes.",
+        "Swiss rotating presidency entries are withheld pending a collective-government model.",
+        "No explicit open-data licence was found on the author-hosted download page; it requests scholarly attribution."
+      ]
+    },
+    {
+      "source": "islamic-atlas",
+      "acquiredRecords": 830,
+      "sourcePolities": 186,
+      "sampleMatches": 9,
+      "sampleConflicts": 1,
+      "samplePrecision": "year",
+      "sampleSelection": "Abu Bakr, Muawiya I, Ahmad ibn Tulun, the first Fatimid caliph, Saladin, Suleyman I, Timur, Ismail I, Nadir Shah and Mahmud of Ghazna, checked against the Met's Department of Islamic Art chronology.",
+      "limitations": [
+        "This is a 2026 derivative attributed to Bosworth, not a machine-readable edition released by Bosworth's publisher.",
+        "Roster depth is selective and uneven; 186 dynasty identities do not imply 186 complete rosters.",
+        "Mahmud is 997–1030 in the CSV and 998–1030 in the Met chronology. This record is withheld.",
+        "Some source rows compress interrupted Mamluk and other reigns. These cannot be displayed as continuous tenure and are withheld.",
+        "Enrichment has observed errors, including a father-to-son succession label for Abu Bakr; narrative, succession and demographic enrichment is excluded.",
+        "Met authorship is institutional and separate from the compilers, but its underlying bibliography is not stated on the list. This is publication-level corroboration, not proof of independent medieval primary attestations.",
+        "The source repository declares CC BY-SA 4.0. GitHub files were used after Zenodo returned HTTP 504; snapshot hashes identify the actual acquired version."
+      ]
+    },
+    {
+      "source": "uk-parliament-regnal-years",
+      "acquiredRecords": 12,
+      "persons": 10,
+      "sourcePolities": 3,
+      "status": "Official extraction retained separately; not sample-admitted to the broad import",
+      "url": "https://api.parliament.uk/regnal-years/reigns",
+      "note": "George III has separate Great Britain, Ireland and United Kingdom jurisdiction rows. Source uses Open Parliament Licence."
+    }
+  ],
+  "otherSourcesInvestigated": [
+    {
+      "title": "Cuneiform Digital Library Initiative rulers catalogue",
+      "url": "https://cdli.earth/rulers",
+      "advertisedRecords": 529,
+      "acquiredRecords": 100,
+      "status": "Not a regnal chronology: acquired JSON contains ruler names and catalogue date references, without absolute reign bounds or polity affiliations. Not counted as ruler-date corroboration."
+    },
+    {
+      "title": "Keywood and Baten, Elite violence and elite numeracy in Europe from 500 to 1900 CE",
+      "url": "https://doi.org/10.1007/s11698-020-00206-1",
+      "advertisedRecords": 4066,
+      "status": "Paper inspected; no downloadable individual ruler data located. Underlying Morby/Bosworth/Eisner lineage must be distinguished from independent confirmation."
+    },
+    {
+      "title": "Political Leaders through Time / H-DATA",
+      "url": "https://journals.sagepub.com/doi/10.1177/00220027241293395",
+      "status": "Article explicitly combines Archigos with new pre-1875 and additional head-of-state/government coding. Cannot count the whole dataset as an independent Archigos check. No email form submitted."
+    },
+    {
+      "title": "Rulers.org",
+      "url": "https://rulers.org/",
+      "status": "Not bulk-acquired: terms expressly prohibit automated queries without advance permission."
+    },
+    {
+      "title": "World Statesmen",
+      "url": "https://worldstatesmen.org/NEW.html",
+      "status": "Not bulk-acquired: site asks academic/private users to request reuse permission."
+    }
+  ],
+  "crosswalkPolicy": "Explicit dynasty aliases or exact country-name matching after removing formal state prefixes, followed by temporal disambiguation. Dates are not clipped. Ambiguous identities, unresolved bounds and identified office/branch mismatches remain in the unresolved inventory. British continuation under the atlas's Great Britain identity is an explicit scope override documented in reference-import.json."
+}

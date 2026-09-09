@@ -1,5 +1,20 @@
 # Version history
 
+## Sourced ruler lists and atlas simplification — 2026-09-09
+
+- Added dated ruler lists with source links, individual cross-check labels,
+  sampled-source labels, approximate dates and explicit partial coverage.
+- Included 3,130 reign records across 287 polities and source-discovery/coverage
+  records for all 1,544 atlas identities. Remaining ruler lists are data gaps;
+  no roster is claimed complete.
+- Removed polity shortcuts and omitted the proposed language/religion features.
+- Ruler data loads independently of the map, with a separate timeout and retry.
+- Validation: 69 automated tests, 46 full historical checks and 10 desktop/mobile
+  browser checks passed. Cache fingerprints and evidence rebuild checks passed.
+
+Source and validation details are in [the ruler guide](docs/data/RULERS.md) and
+[the ruler QA record](sources/rulers/QA.md).
+
 ## Typography, factual text, and dark-theme refinement
 
 Viewer revision `032bc9a` was published to [Chronoscape](https://abdu789-boop.github.io/chronoscape/)

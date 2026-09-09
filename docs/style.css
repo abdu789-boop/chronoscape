@@ -129,7 +129,6 @@ kbd { display: inline-flex; min-width: 23px; height: 24px; padding: 0 6px; justi
 .explore-instruction { display: flex; align-items: center; gap: 10px; margin: 24px 0 30px; padding: 13px 12px; background: var(--paper); border: 1px solid var(--border); border-radius: 6px; font-size: 11px; color: var(--muted); line-height: 1.55; }
 .explore-instruction .icon { color: var(--accent); width: 19px; height: 19px; }
 .sidebar-section { border-top: 1px solid var(--border); margin-top: 25px; padding-top: 19px; }
-.featured-section { border-top: 0; margin-top: 0; padding-top: 0; }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
 .section-heading h2 { font-size: 13px; }
 .section-heading .small-caption { font-size: 10px; }
@@ -546,4 +545,32 @@ dialog p { font-size: 13px; line-height: 1.75; color: var(--muted); }
 
 .relation-explanation { margin: -3px 0 10px; }
 .legend-unmapped { width: 10px; height: 10px; border: 1px solid var(--border-strong); background: var(--land); border-radius: 2px; }
+
+/* Independently dated historical context in the atlas panel. */
+.history-section .section-heading { flex-wrap: wrap; }
+.ruler-current { font-size: 15px; line-height: 1.6; }
+.history-note, .history-sources { font-size: 13px; line-height: 1.6; color: var(--muted); margin: 9px 0; }
+.history-sources { overflow-wrap: anywhere; }
+.history-sources a { color: var(--accent); text-underline-offset: 3px; }
+.history-coverage { color: var(--muted); font-size: 13px; margin-top: 8px; }
+.history-coverage:empty { display: none; }
+.history-name { display: block; font-size: 15px; line-height: 1.45; font-weight: 500; overflow-wrap: anywhere; }
+.history-item-note { display: block; color: var(--muted); font-size: 13px; line-height: 1.5; margin-top: 3px; }
+.ruler-roster { margin-top: 14px; }
+.ruler-roster summary { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; cursor: pointer; list-style: none; font-size: 14px; }
+.ruler-roster summary::-webkit-details-marker { display: none; }
+.ruler-roster summary .icon { width: 16px; height: 16px; }
+.ruler-roster[open] summary .icon { transform: rotate(90deg); }
+.ruler-list { max-height: 26rem; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; margin-top: 4px; }
+.ruler-row { padding: 11px 10px; border-left: 2px solid var(--border); margin-bottom: 3px; }
+.ruler-row.active { border-left-color: var(--accent); background: var(--paper); }
+.ruler-dates { display: block; font-size: 13px; line-height: 1.6; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ruler-active { display: block; font-size: 12px; color: var(--accent); margin-top: 5px; }
+.ruler-status { display: inline-block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.ruler-explanation summary { color: var(--muted); cursor: pointer; min-height: 32px; padding-top: 9px; font-size: 12px; }
+.ruler-evidence { margin-top: 6px; }
+.ruler-evidence summary { min-height: 32px; font-size: 12px; color: var(--accent); justify-content: flex-start; }
+.ruler-evidence summary::before { content: '+'; margin-right: 5px; }
+.ruler-evidence[open] summary::before { content: '−'; }
+.history-error { margin-top: 20px; }
 @media (max-width: 1000px) { .unmapped-legend { display: none !important; } }

@@ -1,5 +1,6 @@
-import { loadAtlas, fmtYear, fmtArea, fmtPop, nearestYear, parseYear } from './data.js';
+import { loadAtlas, loadRulers, fmtYear, fmtArea, fmtPop, nearestYear, parseYear } from './data.js';
 import { createMap, getPolityColor } from './map.js';
+import { createRulersView } from './rulers-view.js';
 import { clamp, yearToPosition, positionToYear, timelineWindow, readHash, writeHash } from './state.js';
 
 const $ = id => document.getElementById(id);
@@ -14,6 +15,25 @@ const storage = {
   set(key, value) { try { localStorage.setItem(key, value); } catch {} },
 };
 let theme = storage.get('chronoscape-theme') === 'dark' ? 'dark' : 'light';
+let rulersRetryPending = false;
+const updateRulers = createRulersView({
+  async onRetry() {
+    if (!atlas || rulersRetryPending || atlas.rulersLoading) return;
+    rulersRetryPending = true;
+    atlas.rulersLoading = true;
+    const button = $('detail-history-error').querySelector('button');
+    if (button) { button.disabled = true; button.textContent = 'Loading ruler records…'; }
+    updateDetail();
+    try { atlas.rulers = await loadRulers(); atlas.rulersError = null; }
+    catch (error) { atlas.rulersError = error.message; announce('Ruler records could not be loaded. Please retry.'); }
+    finally {
+      rulersRetryPending = false;
+      atlas.rulersLoading = false;
+      if (button) { button.disabled = false; button.textContent = 'Retry ruler records'; }
+      updateDetail();
+    }
+  },
+});
 
 function announce(message) {
   $('toast').textContent = message;
@@ -110,17 +130,6 @@ function updateVisible() {
     const p = document.createElement('p'); p.className = 'empty-state'; p.textContent = 'No polities are mapped for this year.'; box.append(p);
   }
 }
-function populateFeatured() {
-  const names = ['Roman Empire', 'Achaemenid Empire', 'Mongol Empire', 'Han Dynasty', 'Ottoman Empire'];
-  const box = $('featured-list'); box.replaceChildren();
-  for (const name of names) {
-    const found = Object.entries(atlas.index).find(([, e]) => e.n === name);
-    if (!found) continue;
-    const [key, e] = found;
-    box.append(makePlace(e, 'Maximum recorded extent · ' + fmtYear(e.peak_year), () => selectPolity(key, { peak: true, focus: true }), key));
-  }
-}
-
 function fillRelations(id, rows, emptyText) {
   const box = $(id); box.replaceChildren();
   if (!rows?.length) {
@@ -181,6 +190,7 @@ function updateDetail() {
   $('detail-area').textContent = present.length ? fmtArea(area) : 'Not recorded';
   $('detail-focus').disabled = !present.length;
   $('detail-peak').textContent = `Go to maximum extent · ${fmtYear(e.peak_year)}`;
+  updateRulers(atlas.rulers, key, state.year, atlas.rulersError, atlas.rulersLoading);
   if (selectedChartKey !== key) {
     selectedChartKey = key;
     drawExtentChart(atlas.byKey.get(key) || [], e);
@@ -449,7 +459,7 @@ $('share-button').addEventListener('click', async () => {
 });
 document.addEventListener('keydown', e => {
   if ($('help-dialog').open) return;
-  const editing = /INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName) || e.target.isContentEditable;
+  const editing = e.target.closest?.('input, select, textarea, button, summary, a[href], [tabindex]:not(canvas)') || e.target.isContentEditable;
   if (e.key === 'Escape') {
     const overlayOpen = !$('search-results').hidden || !$('layers-panel').hidden;
     closeSearch(); $('layers-panel').hidden = true; $('layers-toggle').setAttribute('aria-expanded', 'false');
@@ -478,6 +488,11 @@ async function boot() {
   try {
     atlas = await loadAtlas({
       onBase(data) { map.setData(data); },
+      onRulers(loadedAtlas) {
+        // A cached response may settle before the await assigns atlas. Boot
+        // renders that state; a later response refreshes the current selection.
+        if (atlas === loadedAtlas) updateDetail();
+      },
       onProgress(info) {
         $('loading-message').textContent = info.message || 'Loading map data…';
         if (info.total && info.loaded) { $('loading-progress').max = info.total; $('loading-progress').value = info.loaded; }
@@ -488,7 +503,7 @@ async function boot() {
     if (!atlas.byKey.has(state.selected)) state.selected = null;
     map.setData({ land: atlas.land, borders: atlas.borders });
     map.setSelected(state.selected);
-    current = []; populateFeatured(); setYear(state.year);
+    current = []; setYear(state.year);
     $('loading-status').hidden = true; $('search').disabled = false;
     if (state.selected) openSidebar();
     // Apply a shared camera only after initial layout/data have settled.

@@ -47,6 +47,51 @@ longer ships or depends on. See BACKLOG.md, and git history at 5c15486.
 **Natural Earth** — land polygons and present-day country boundary lines.
 Public domain. https://www.naturalearthdata.com/
 
+## Ruler chronology
+
+The ruler collection is independent of the geometry database. Names, office
+scope and regnal years are extracted as factual records; original prose and
+source documents are not published as part of the viewer. Each assertion names
+its source and locator. Source-level samples do not certify every imported row.
+
+- **Goemans, Gleditsch and Chiozza**, *Archigos: A Data Set on Leaders
+  1875–2015*, version 4.1; see their 2009 *Journal of Peace Research* article,
+  46(2), 269–283. [Author-hosted data and codebook](https://www.rochester.edu/college/faculty/hgoemans/data.htm).
+  Effective primary political leaders, not every ceremonial monarch. Public
+  research download; no explicit open-data licence was found on that page.
+- **Hüseyin Gökalp and Ali Çetinkaya**, *Islamic Civilization Atlas*,
+  [publisher-linked repository](https://github.com/alicetinkaya76/islamic-civilization-atlas)
+  and [Zenodo record](https://zenodo.org/records/18824469), drawing on C. E.
+  Bosworth's *The New Islamic Dynasties*. The repository declares **CC BY-SA 4.0**.
+  Adaptations here normalize dates, map atlas identities, select ruler-only
+  fields and exclude unresolved entries. These derived records retain CC BY-SA
+  4.0; unrelated records and MIT application code are separate materials.
+- **中国皇帝統計 (Emperor Statistics)**, compiled by kotenbu135,
+  [source repository](https://github.com/kotenbu135/emperor-stats), data **CC BY 4.0**.
+  Only independently corroborated emperor-name and reign-year records are used.
+- **David K. Jordan**, [Table of Chinese Imperial Reigns](https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn10-u.html),
+  University of California, San Diego. Factual chronology used for comparisons;
+  conflicting years are retained in the audit and withheld from settled claims.
+- **The Metropolitan Museum of Art**, Department of Greek and Roman Art and
+  Department of Medieval Art and The Cloisters, *Heilbrunn Timeline of Art
+  History*: [Roman emperors](https://www.metmuseum.org/toah/hd/roru/hd_roru.htm),
+  [Byzantine rulers](https://www.metmuseum.org/toah/hd/byru/hd_byru.htm), and
+  [Islamic rulers](https://www.metmuseum.org/toah/hd/isru/hd_isru.htm).
+  Factual regnal chronology; no artwork or article prose is included in the app.
+- **De Imperatoribus Romanis**, [Imperial Index](https://roman-emperors.sites.luc.edu/impindex.htm),
+  and **Livius / Encyclopaedia Iranica**, cited individually in the source
+  registry, provide independent classical chronology comparisons.
+- **US National Archives, Australian Prime Ministers Centre, Prime Minister's
+  Office of India, and Nelson Mandela Foundation** provide the official or
+  institutional sample benchmarks linked from the relevant assertions.
+
+Wikidata (**CC0**) and source Wikipedia links are used as identity/source leads.
+No Wikidata ruler assertions were downloaded for this revision. They are not
+treated as accepted data or as independent confirmation of one another.
+
+Exact acquisition URLs, versions, hashes, lineage and sampling results are in
+[`sources/rulers/`](sources/rulers/) and [`docs/data/RULERS.md`](docs/data/RULERS.md).
+
 ## Typeface
 
 **Space Grotesk** — Copyright 2020 The Space Grotesk Project Authors.
@@ -71,7 +116,8 @@ included in this repository.
   see LICENSE.
 - **Font** (`docs/fonts/`): SIL Open Font License 1.1, as described above;
   the repository's MIT code license does not replace the font license.
-- **Derived data** (`docs/data/`): **ODbL 1.0**. It contains geometry derived
+- **Derived geometry data** (`docs/data/`, excluding the independent ruler
+  collection `rulers.json`): **ODbL 1.0**. It contains geometry derived
   from AWMC's ODbL database, and ODbL's share-alike terms carry over to any
   derived database that is publicly used.
 

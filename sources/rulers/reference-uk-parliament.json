@@ -1,0 +1,403 @@
+{
+  "schemaVersion": 1,
+  "sources": {
+    "uk-parliament-regnal-years": {
+      "title": "UK Parliament — Reigns",
+      "authors": [
+        "UK Parliament"
+      ],
+      "url": "https://api.parliament.uk/regnal-years/reigns",
+      "lineage": "uk-parliament-regnal-years",
+      "scope": "Twelve reign/jurisdiction entries for ten monarchs from George III onward, separating Great Britain, Ireland and the United Kingdom.",
+      "reuse": "Open Parliament Licence",
+      "reviewStatus": "official-source-extraction-only",
+      "snapshots": [
+        {
+          "path": "data/raw/rulers/uk-reigns.csv",
+          "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+          "sha256": "60dc8f0b3af3fb509583c189c66254b3453b8fb925c5ab4d94410ae56f0b4eb9",
+          "retrievedAt": "2026-09-09T01:53:51.249871+00:00"
+        }
+      ]
+    }
+  },
+  "records": [
+    {
+      "id": "uk-parliament:csv-row-2",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-2",
+      "name": "George III",
+      "polity": {
+        "name": "Kingdom of Great Britain",
+        "sourceId": "kingdomofgreatbritain"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1760-10-25",
+        "year": 1760,
+        "precision": "day",
+        "date": "1760-10-25"
+      },
+      "to": {
+        "raw": "1801-01-01",
+        "year": 1801,
+        "precision": "day",
+        "date": "1801-01-01"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 2
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-3",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-3",
+      "name": "George III",
+      "polity": {
+        "name": "Kingdom of Ireland",
+        "sourceId": "kingdomofireland"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1760-10-25",
+        "year": 1760,
+        "precision": "day",
+        "date": "1760-10-25"
+      },
+      "to": {
+        "raw": "1801-01-01",
+        "year": 1801,
+        "precision": "day",
+        "date": "1801-01-01"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 3
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-4",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-4",
+      "name": "George III",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1801-01-01",
+        "year": 1801,
+        "precision": "day",
+        "date": "1801-01-01"
+      },
+      "to": {
+        "raw": "1820-01-29",
+        "year": 1820,
+        "precision": "day",
+        "date": "1820-01-29"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 4
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-5",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-5",
+      "name": "George IV",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1820-01-29",
+        "year": 1820,
+        "precision": "day",
+        "date": "1820-01-29"
+      },
+      "to": {
+        "raw": "1830-06-26",
+        "year": 1830,
+        "precision": "day",
+        "date": "1830-06-26"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 5
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-6",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-6",
+      "name": "William IV",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1830-06-26",
+        "year": 1830,
+        "precision": "day",
+        "date": "1830-06-26"
+      },
+      "to": {
+        "raw": "1837-06-20",
+        "year": 1837,
+        "precision": "day",
+        "date": "1837-06-20"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 6
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-7",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-7",
+      "name": "Victoria",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1837-06-20",
+        "year": 1837,
+        "precision": "day",
+        "date": "1837-06-20"
+      },
+      "to": {
+        "raw": "1901-01-22",
+        "year": 1901,
+        "precision": "day",
+        "date": "1901-01-22"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 7
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-8",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-8",
+      "name": "Edward VII",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1901-01-22",
+        "year": 1901,
+        "precision": "day",
+        "date": "1901-01-22"
+      },
+      "to": {
+        "raw": "1910-05-06",
+        "year": 1910,
+        "precision": "day",
+        "date": "1910-05-06"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 8
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-9",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-9",
+      "name": "George V",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1910-05-06",
+        "year": 1910,
+        "precision": "day",
+        "date": "1910-05-06"
+      },
+      "to": {
+        "raw": "1936-01-20",
+        "year": 1936,
+        "precision": "day",
+        "date": "1936-01-20"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 9
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-10",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-10",
+      "name": "Edward VIII",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1936-01-20",
+        "year": 1936,
+        "precision": "day",
+        "date": "1936-01-20"
+      },
+      "to": {
+        "raw": "1936-12-11",
+        "year": 1936,
+        "precision": "day",
+        "date": "1936-12-11"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 10
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-11",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-11",
+      "name": "George VI",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1936-12-11",
+        "year": 1936,
+        "precision": "day",
+        "date": "1936-12-11"
+      },
+      "to": {
+        "raw": "1952-02-06",
+        "year": 1952,
+        "precision": "day",
+        "date": "1952-02-06"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 11
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-12",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-12",
+      "name": "Elizabeth II",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "1952-02-06",
+        "year": 1952,
+        "precision": "day",
+        "date": "1952-02-06"
+      },
+      "to": {
+        "raw": "2022-09-08",
+        "year": 2022,
+        "precision": "day",
+        "date": "2022-09-08"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 12
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    },
+    {
+      "id": "uk-parliament:csv-row-13",
+      "source": "uk-parliament-regnal-years",
+      "sourceRecordId": "csv-row-13",
+      "name": "Charles III",
+      "polity": {
+        "name": "United Kingdom",
+        "sourceId": "unitedkingdom"
+      },
+      "office": "Monarch",
+      "from": {
+        "raw": "2022-09-08",
+        "year": 2022,
+        "precision": "day",
+        "date": "2022-09-08"
+      },
+      "to": {
+        "raw": "",
+        "year": null,
+        "precision": "unknown"
+      },
+      "locator": {
+        "url": "https://api.parliament.uk/regnal-years/reigns.csv",
+        "csvRecordNumber": 13
+      },
+      "flags": [
+        "official-regnal-year-scope",
+        "atlas-polity-match-unreviewed"
+      ]
+    }
+  ],
+  "coverage": {
+    "recordCount": 12,
+    "sourcePolityCount": 3,
+    "atlasMatchesReviewed": 0,
+    "completeAtlasRostersClaimed": 0
+  }
+}

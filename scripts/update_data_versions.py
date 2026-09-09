@@ -14,12 +14,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_NAMES = (
-    "borders", "cities", "land", "polities", "polity_index", "population", "years",
+    "borders", "cities", "land", "polities", "polity_index", "rulers", "population", "years",
 )
 
 
 def manifest_text(root=ROOT):
-    """Hash all seven required files before producing any output."""
+    """Hash all required files before producing any output."""
     versions = {}
     for name in DATA_NAMES:
         digest = hashlib.sha256()
@@ -45,7 +45,7 @@ def update_data_versions(root=ROOT, check=False):
     if current != text:
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(text, encoding="utf-8")
-    print("data cache: fingerprints current for 7 published files")
+    print(f"data cache: fingerprints current for {len(DATA_NAMES)} published files")
     return True
 
 
