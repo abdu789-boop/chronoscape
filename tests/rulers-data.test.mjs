@@ -56,6 +56,7 @@ test('known new conflicts cannot leave the previously published version labelled
   const reference = a => JSON.stringify([a.sourceId, a.sourceRecordId, a.locator]);
   const conflicts = new Map();
   for (const input of report.inputs) {
+    if (!input.path.endsWith('.json')) continue;
     for (const row of read(input.path).conflicts || []) {
       const assertions = row.claim?.assertions || [row.observed, row.againstObserved].filter(Boolean);
       for (const assertion of assertions) {

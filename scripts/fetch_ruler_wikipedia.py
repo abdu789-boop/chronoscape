@@ -260,6 +260,9 @@ def unlinked_name(cell):
 
 def infer_role(section, headers, default):
     combined = ' '.join(headers) + ' ' + section
+    # A shared section title does not make every monarch a regent.
+    if re.search(r'\bmonarchs?\b', combined, re.I) and re.search(r'\bregents?\b', combined, re.I):
+        return 'Sovereign'
     for pattern, role in [(r'prime ministers?|peshwas?', 'Prime minister'), (r'presidents?', 'President'),
                           (r'regents?', 'Regent'), (r'emperors?|khagans?', 'Emperor'), (r'sultans?', 'Sultan'),
                           (r'grand dukes?', 'Grand duke'), (r'kings?|queens?|monarchs?', 'Monarch')]:
@@ -305,6 +308,13 @@ def table_records(document, polity_key, url, receipt, scope=None, dedicated=Fals
                 header_at = i; break
         if header_at is None: continue
         labels = [text(cell).lower() for cell in rows[header_at]]
+        # Some prime-minister tables also contain the reigning emperor and his
+        # dates. Until their multi-row office headers are explicitly supported,
+        # do not read that contextual column as the prime minister's tenure.
+        if any('prime minister' in value for value in labels) and any(re.search(r'\b(emperor|monarch)\b', value) for value in labels):
+            skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number,
+                            'reason': 'Mixed executive and monarch columns require explicit office-column mapping'})
+            continue
         name_columns = [i for i, value in enumerate(labels) if re.search(r'\b(name|monarch|emperor|ruler|king|queen|sultan|shah|khan|president|pharaoh)\b', value) and not re.search(r'father|mother|parent|spouse|portrait|image|dynast|vice president', value)]
         reign_columns = [i for i, value in enumerate(labels) if re.search(r'\b(reign|regnal dates|ruled|in office|term|tenure)\b', value) and not re.search(r'birth|death|dynast', value)]
         if name_columns and not reign_columns and dedicated and any('birth' in value for value in labels) and any('death' in value for value in labels): reign_columns = [name_columns[0]]

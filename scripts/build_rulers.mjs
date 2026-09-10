@@ -6,6 +6,7 @@ import crypto from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { assessRuler, validateRulers } from '../docs/js/rulers.js';
+import { applyIdentityAudit } from './ruler_identity_merge.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = file => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
@@ -137,6 +138,27 @@ for (const polity of Object.values(data.polities)) for (const replacement of [..
     report.accepted = report.accepted.filter(claim => claim.id !== id);
     report.superseded.push({ id, replacement: replacement.id, reason: replacement.supersessionNote });
   }
+}
+
+// The audit sees all accepted rows before any display consolidation. This makes
+// regeneration independent of the previously published, already-deduplicated file.
+const auditInput = JSON.stringify(data, null, 2) + '\n';
+const auditOutput = process.argv.find(arg => arg.startsWith('--audit-input='));
+if (auditOutput) {
+  fs.writeFileSync(auditOutput.slice('--audit-input='.length), auditInput);
+  console.log('Wrote unconsolidated ruler audit input.');
+  process.exit(0);
+}
+{
+  const file = 'sources/rulers/identity-audit.json', audit = read(file);
+  if (audit.inputSha256 !== crypto.createHash('sha256').update(auditInput).digest('hex')) throw new Error('Stale ruler identity audit; regenerate from --audit-input.');
+  report.inputs.push({path:file, sha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex'), receipts:[]});
+  for (const input of audit.inputFingerprints) {
+    const actual = crypto.createHash('sha256').update(fs.readFileSync(path.join(root,input.path))).digest('hex');
+    if (actual !== input.sha256) throw new Error('Stale identity evidence: ' + input.path);
+    report.inputs.push({...input, receipts:[]});
+  }
+  applyIdentityAudit(data, report, audit);
 }
 
 for (const [key, override] of Object.entries(profileOverrides)) {

@@ -103,6 +103,11 @@ the underlying books are not represented as independently inspected sources.
 
 Exact acquisition URLs, versions, hashes, lineage and sampling results are in
 [`sources/rulers/`](sources/rulers/) and [`docs/data/RULERS.md`](docs/data/RULERS.md).
+Canonical Wikipedia redirect/page metadata and Wikidata person labels, aliases
+and sitelinks are cached separately for identity consolidation. Wikipedia names
+retain the Wikipedia attribution above; Wikidata structured data is CC0.
+These identity lookups do not supply or independently corroborate reign dates.
+Consolidated entries retain each original source observation and its locator.
 
 ## Typeface
 

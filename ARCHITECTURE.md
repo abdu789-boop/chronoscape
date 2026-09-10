@@ -202,6 +202,13 @@ Wikidata offices, then normalize dated records. A separate comparison adapter
 selects repeatable source samples, holds unresolved conflicts, consolidates
 duplicate tenures and records replacements of censored observations. The public
 builder verifies each extraction fingerprint before accepting the result.
+A final identity audit resolves canonical person IDs and inspected aliases across
+all source families. `audit_ruler_duplicates.py` produces a reproducible plan from
+the builder's unconsolidated `--audit-input` output. `ruler_identity_merge.mjs`
+applies it without rewriting original assertions or source admission checks.
+Removed display rows survive in `mergedEvidence`, exposed through the existing
+tooltip. Audit input and implementation fingerprints prevent stale plans from
+being published after imports change.
 Wikipedia article links remain visible above the selected polity's roster.
 See `sources/rulers/policy.md` and `docs/data/RULERS.md` for the acceptance rules.
 

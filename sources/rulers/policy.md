@@ -160,6 +160,17 @@ Report at least these separate counts: atlas keys inventoried; identities resolv
 
 ## Accuracy tests must challenge evidence, not declarations
 
+The cross-source identity audit establishes a person through canonical page/ID
+metadata, unique exact recorded aliases, or a documented inspected crosswalk
+before considering dates. Exact-name normalization preserves regnal numerals;
+ambiguous names and equal years cannot establish identity. Title equivalents
+outside ordinary translation/formatting rules require a polity-specific review.
+Different offices and day-dated separate terms cannot be bridged by a generic
+leader title or a year-only observation. Every consolidated row keeps original
+source observations; consolidation must not fabricate a reciprocal comparison,
+erase uncertainty, or upgrade a source-reviewed row to corroborated. Newly
+identified overlapping chronology/scope conflicts remain held for review.
+
 Required adversarial fixture scenarios for the agreed comparator schema:
 
 * A Wikidata statement, Wikipedia page, and mirror in one lineage cannot satisfy independent corroboration.

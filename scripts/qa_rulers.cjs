@@ -37,7 +37,7 @@ async function assertPopupFitsViewport(page) {
     await page.waitForFunction(() => document.querySelector('.ruler-row'));
     assert.equal(await page.locator('.polity-wikipedia a').getAttribute('href'), 'https://en.wikipedia.org/wiki/Tang_dynasty');
     await page.locator('#detail-ruler-roster > summary').click();
-    assert.match(await page.locator('#detail-ruler-current').innerText(), /Xuán/);
+    assert.match(await page.locator('#detail-ruler-current').innerText(), /Xuán|Xuanzong/);
     await assertCompactRows(page);
     await page.evaluate(() => {
       window.qaRuler = document.querySelector('.ruler-row');
@@ -106,6 +106,23 @@ async function assertPopupFitsViewport(page) {
     await tooltip.locator('.ruler-tooltip-close').click();
     await tooltip.waitFor({ state: 'hidden' });
 
+    await page.goto(base + '#year=1650&polity=wd%3AQ33296');
+    await page.waitForFunction(() => document.querySelector('#detail-name').textContent.includes('Mughal') && document.querySelectorAll('.ruler-row').length > 0);
+    await page.locator('#detail-ruler-roster > summary').click();
+    await assertCompactRows(page);
+    const shahJahan = page.locator('.ruler-trigger').filter({ has: page.locator('.history-name').filter({ hasText: /^Shah Jahan$/ }) });
+    assert.equal(await shahJahan.count(), 1);
+    assert.match(await shahJahan.innerText(), /1,?628.*1,?658/);
+    assert.match(await page.locator('#detail-ruler-current').innerText(), /Shah Jahan/);
+    await shahJahan.click();
+    await tooltip.waitFor({ state: 'visible' });
+    assert.match(await tooltip.innerText(), /Also recorded as/);
+    assert.match(await tooltip.innerText(), /Shihab|Shihāb/);
+    assert.ok(await tooltip.locator('a').count() >= 3, 'Merged source observations remain reachable');
+    await assertPopupFitsViewport(page);
+    await page.screenshot({ path: output + '/mughal.png' });
+    await tooltip.locator('.ruler-tooltip-close').click();
+
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     mobile.on('pageerror', error => errors.push(error.message));
     await mobile.goto(base + '#year=-91&polity=wd%3AQ1986139');
@@ -144,6 +161,8 @@ async function assertPopupFitsViewport(page) {
     assert.equal(await page.locator('.ruler-dates').filter({ hasText: /^Caliph/ }).count(), 0);
     assert.deepEqual(errors, []);
     const report = { passed: true, checks: ['ruler selection', 'year updates preserve roster and tooltip DOM', 'keyboard expansion preserves paused playback', 'compact rows contain only name, title, and reign dates', 'hover tooltip retains reachable source links', 'keyboard focus opens tooltip and Escape preserves polity selection', 'outside click and close button dismiss tooltip', 'Wikipedia links with and without rulers', 'mobile tap opens tooltip within viewport and outside tap dismisses it', 'sample-reviewed source label in tooltip', 'expanded Parthian list with disputed chronology and named alternative dates in tooltip', 'unverified coverage', 'polity shortcuts removed', 'search selection and expanded Ottoman list', 'no page errors'], screenshots: ['desktop.png', 'mobile.png', 'parthian.png', 'mobile-tooltip.png'] };
+    report.checks.push('Shah Jahan appears once with original aliases and sources in tooltip');
+    report.screenshots.push('mughal.png');
     fs.writeFileSync(output + '/report.json', JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report));
   } finally { await browser.close(); }

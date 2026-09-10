@@ -3,6 +3,42 @@
 Implementation checks were recorded before publication. Release history is
 maintained in `VERSION_HISTORY.md` and Git.
 
+## Duplicate-identity audit
+
+The audit covers all 10,930 accepted source rows after removing three incorrectly
+extracted Japanese emperor-as-prime-minister records (10,933 before that fix).
+It processes all 1,544 atlas keys, including the 806 with ruler data.
+
+- Consolidated 1,339 redundant rows across 267 polities, using canonical Wikipedia
+  redirects/IDs, Wikidata IDs, recorded aliases and inspected name/title mappings.
+- Shah Jahan's Islamic Atlas record `175-003`, `Mughal_emperors:table-1:row-8`
+  and `Mughal_Empire:table-3:row-6` now form one 1628–1658 entry (`wd:Q83672`).
+  Akbar and Aurangzeb similarly have one entry per reign. Humayun's restorations
+  and Shah Jahan II and III remain separate.
+- All 1,471 repeated year-interval groups are recorded in `identity-audit.json`.
+  The 116 remaining groups with unresolved person keys were reviewed for alias
+  candidates and retained: equal years do not identify a person. They include
+  short successive terms, different officeholders and unresolved source identities.
+- Eleven newly recognized overlapping chronology/scope conflict pairs cause 24
+  observations, including their exact duplicate versions, to be withheld. These
+  are not resolved by majority voting or by clipping dates to polity bounds.
+- Original observations, notes and assertions survive in `mergedEvidence`; no
+  source review is upgraded to independent corroboration by an identity lookup.
+  Approximate dates remain approximate. Canonical article names override two
+  visibly inconsistent Wikidata display labels through the recorded review.
+- Fixed mixed executive/emperor table handling and stopped a shared “monarchs
+  and regents” section heading from labelling every monarch a regent.
+
+Validation: 91 JavaScript tests, 35 Python identity/parser tests, 46 full historical
+checks, and 16 desktop/mobile browser checks passed. The full identity audit and
+public builder reproduce offline. All 176 identity acquisition receipts match
+cached raw-response hashes. Mughal and mobile tooltip screenshots were visually
+inspected; aliases and all three Shah Jahan source links fit the existing popup.
+
+This checks duplicate identity handling across the imported collection. It does
+not independently verify every historical date, establish completeness, or
+resolve every ambiguous name, jurisdiction or source claim.
+
 ## Compact list UI follow-up
 
 The compact-list change leaves all ruler records and their acceptance statuses
@@ -21,14 +57,14 @@ dates display `?`; the source observation cutoff remains in the detail panel.
 ## Current coverage
 
 - 1,544 exact atlas keys have coverage and source-discovery records.
-- 806 keys contain 10,933 accepted reign records; 738 have no accepted roster.
-- 280 reign records are individually cross-checked; 10,305 carry the sampled-source
-  status; 327 retain approximate dates and 21 display disputed chronologies.
+- 806 keys contain 9,567 accepted reign records; 738 have no accepted roster.
+- 276 reign records are individually cross-checked; 8,946 carry the sampled-source
+  status; 324 retain approximate dates and 21 display disputed chronologies.
 - No roster is claimed complete. Major polities also have omissions.
-- 182 compared/candidate records are withheld by the public builder. Additional
+- 206 compared/candidate records are withheld by the public builder. Additional
   held or unresolved acquisition rows remain in the adapter audits; this is not
   a count of all missing historical rulers.
-- New extraction artifacts contain 4,374 Wikipedia observations across 525
+- New extraction artifacts contain 4,371 Wikipedia observations across 525
   polities, 3,154 Wikidata observations across 259 and 594 additional reference
   observations across 88. These overlap and are not additive coverage totals.
 

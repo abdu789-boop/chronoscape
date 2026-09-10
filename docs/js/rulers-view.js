@@ -184,12 +184,15 @@ export function createRulersView({ onRetry } = {}) {
           if (detail.uncertainty?.reason) panel.append(element('p', 'history-note', detail.uncertainty.reason));
           if (detail.uncertainty?.alternatives?.length) panel.append(element('p', 'history-note', `Alternative dates: ${detail.uncertainty.alternatives.map(item => `${item.label ? `${item.label}: ` : ''}${fmtYear(item.from)}–${fmtYear(item.to)}`).join('; ')}`));
           if (detail.note) panel.append(element('p', 'history-note', detail.note));
+          if (detail.aliases?.length) panel.append(element('p', 'history-note', `Also recorded as: ${detail.aliases.join('; ')}`));
           panel.append(element('p', 'history-note', detail.assessment.reasons.join(' ')));
           const seen = new Set();
-          for (const assertion of detail.assertions || []) {
+          const evidence = [...(detail.assertions || []), ...(detail.mergedEvidence || []).flatMap(record => record.assertions || [])];
+          for (const assertion of evidence) {
             const source = sources[assertion.sourceId];
-            if (!source || seen.has(assertion.sourceId)) continue;
-            seen.add(assertion.sourceId);
+            const key = JSON.stringify([assertion.sourceId, assertion.sourceRecordId, assertion.locator]);
+            if (!source || seen.has(key)) continue;
+            seen.add(key);
             const p = element('p', 'history-sources'); p.append(sourceLink(source, assertion.locator));
             p.append(document.createTextNode(` · record ${assertion.sourceRecordId}`)); panel.append(p);
           }

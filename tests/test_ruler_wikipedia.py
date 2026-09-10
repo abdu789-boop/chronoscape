@@ -22,6 +22,18 @@ def infobox(role, cells):
 
 
 class WikipediaExtractionTests(unittest.TestCase):
+    def test_mixed_prime_minister_and_emperor_columns_are_not_confused(self):
+        doc = html.fromstring('<div><h2>Prime ministers</h2><table class="wikitable">'
+                              '<tr><th>Prime minister Office</th><th>Term of office</th><th>Emperor Reign</th></tr>'
+                              '<tr><td>Example minister</td><td>1911–1912</td><td>Taishō r. 1912–1926</td></tr></table></div>')
+        rows, skipped = W.table_records(doc, 'test', 'https://example.org/list', RECEIPT, dedicated=True)
+        self.assertEqual(rows, [])
+        self.assertIn('office-column mapping', skipped[0]['reason'])
+
+    def test_shared_monarchs_and_regents_heading_does_not_assert_regency(self):
+        self.assertEqual(W.infer_role('Monarchs and regents / House of Bernadotte', ['Name', 'Reign'], 'Sovereign'), 'Sovereign')
+        self.assertEqual(W.infer_role('Regents', ['Name', 'Reign'], 'Sovereign'), 'Regent')
+
     def test_shared_year_is_not_day_of_month(self):
         # List_of_Roman_emperors: Otho and Vitellius share their end year.
         self.assertEqual(W.dates('15 January – 16 April 69')[:2], (69, 69))

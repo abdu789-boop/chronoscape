@@ -1,5 +1,17 @@
 # Version history
 
+## Ruler identity audit — 2026-09-09
+
+- Removed 1,339 duplicate ruler rows across 267 polities. Canonical identities and
+  inspected aliases consolidate Shah Jahan, Akbar, Aurangzeb and other duplicated
+  reigns while preserving restorations and distinct offices.
+- Retained original source observations and aliases in tooltips. Corrected mixed
+  table-column/title extraction; withheld 24 newly identified conflicting records.
+- The published collection now has 9,567 reigns across 806 polities. Lists remain
+  partial; this audit does not certify every historical claim.
+- Validation: 91 JavaScript tests, 35 Python tests, 46 historical checks and
+  16 desktop/mobile browser checks passed; identity and public builds reproduce.
+
 ## Ruler panel cleanup — 2026-09-09
 
 - Removed “About this list.” The current-ruler summary, succession list and

@@ -61,11 +61,34 @@ religion feature.
 From the repository root:
 
 ```sh
+node scripts/build_rulers.mjs --audit-input=/tmp/ruler-audit-input.json
+python3 scripts/audit_ruler_duplicates.py --input /tmp/ruler-audit-input.json
 node scripts/build_rulers.mjs
 python3 scripts/update_data_versions.py
 node --test tests/*.test.mjs
 node scripts/build_rulers.mjs --check
 ```
+
+The identity audit runs on every accepted source record, before display merging.
+`identity-evidence.json` records canonical Wikipedia pages, redirects and Wikidata
+IDs; `identity-review.json` records inspected name and title equivalences.
+`identity-audit.json` records every merge, retained same-year group and conflict.
+Canonical identity is established before comparing tenure dates. Different
+people, distinct offices and separately dated restorations are not merged just
+because their calendar years match. Unresolved identity candidates stay separate.
+
+Consolidated rows retain all original observations in `mergedEvidence`; aliases
+and source links remain in the tooltip. Source checks and original assertions
+are not rewritten, and identity metadata never counts as independent verification
+of reign dates. Approximate dates remain approximate. New overlapping chronology
+or scope disagreements are withheld for review under the existing policy.
+
+`fetch_ruler_identities.py --download` acquires identity metadata with hashed
+receipts and resumable cached API batches. Without `--download`, it only reads
+cached responses. Normal builds use committed evidence, make no network requests,
+and reject stale audit inputs. This is a duplicate-identity audit of the imported
+records, not an independent historical verification of every ruler or a claim
+that the lists are complete.
 
 The builder recomputes comparisons and acceptance from committed evidence files.
 Source adapters are `compare_ruler_china.py`, `compare_ruler_classical.py`,

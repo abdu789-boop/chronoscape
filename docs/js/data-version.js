@@ -5,7 +5,7 @@ export const DATA_VERSIONS = Object.freeze({
   "land": "6c8b289fed7495ab",
   "polities": "e824f93c800b848c",
   "polity_index": "c22b30203e421f52",
-  "rulers": "474fa4620655eaa2",
+  "rulers": "164dca1183633ba8",
   "population": "8836e05d5515bb20",
   "years": "f1279898e8cc7bc0"
 });
