@@ -22,8 +22,8 @@ comparisons, fingerprint checks and benchmark preparation. See the
 [handoff](../../handoff.md) for evidence. This is a documentation/dependency
 update; existing app code, normalized evidence and public data are unchanged.
 
-Remaining transfer actions: push/share the requested handover commit in the
-delivered checkout, provide repository/Pages access to a publishing developer, and transfer
+Remaining transfer actions: provide a checkout containing `732117f` and subsequent
+handover updates, provide repository/Pages access to a publishing developer, and transfer
 the ignored raw ruler cache if their remit includes original-source extraction.
 Fresh geometry-source downloads are not pinned to the inspected snapshot.
 Ruler lists remain partial, ontology remains unbuilt, and editorial questions

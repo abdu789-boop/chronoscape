@@ -85,10 +85,11 @@ licensing record; application code and all datasets do not share a single licenc
   were manually acquired text extractions; no one-command bootstrap reconstructs
   every inspected snapshot. Source URLs/hashes in committed evidence describe
   provenance but do not contain the missing raw bytes.
-- **Transfer existing work:** push or otherwise share the handover commit,
-  including this documentation and
+- **Transfer existing work:** the handover package is recorded in commit
+  `732117f`, including this documentation and
   `workstreams/maintenance/chats/2026-09-29__developer-handover/`.
-  The user's follow-up requests a local commit; pushing is still pending. Do not transfer `.venv/`;
+  Include that commit and subsequent handover updates in the developer's checkout.
+  Do not transfer `.venv/`;
   recreate it. `out/`, `docs/qa/` and raw downloads are ignored local artifacts.
 
 ## Release and recovery

@@ -7,7 +7,7 @@ state/index pointers. Corrected setup dependencies, ruler validation/rebuild
 instructions, browser QA setup, benchmark baseline recovery and OQ-1's pending
 implementation status. Preserved historical QA reports and added a current
 verification section with durable logs/screenshots. No application/data changes.
-The user's follow-up requests a local commit of the handover package; remote
-sharing remains a separate step.
+The handover package was committed as `732117f`. The user's subsequent “push”
+request authorizes sharing it through `origin/main`.
 
 Provenance: [audit handoff](../workstreams/maintenance/chats/2026-09-29__developer-handover/handoff.md).

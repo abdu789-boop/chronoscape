@@ -7,8 +7,8 @@ on 2026-09-29 America/New_York (2026-09-30 UTC). Ready for ongoing application
 development with the transfer limits recorded below. The initial working tree
 was clean. This task changes documentation and requirements, with no application
 code, generated JSON or source-evidence edits. The initial audit made no commit
-or push. The user's follow-up requests a local commit of this handover package;
-remote sharing remains pending.
+or push. The user's follow-up produced handover commit `732117f`; a subsequent
+“push” request authorizes sharing it and these status updates through `origin/main`.
 
 ## Canonical artifacts
 
@@ -73,8 +73,8 @@ its report and local documentation/link checks are retained under `qa/`.
 
 ## Known gaps and exact next steps
 
-1. Push or otherwise share the handover commit so the next developer receives it.
-   No publish action was requested or performed.
+1. Give the next developer a checkout containing handover commit `732117f` and
+   its subsequent status updates. The user authorized pushing these to GitHub.
 2. Before extraction work, transfer `data/raw/rulers/` with its receipts. The
    repository alone reproduces the normalized public build, not every original
    inspected source snapshot. New map downloads are not pinned to past revisions.

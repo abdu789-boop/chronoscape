@@ -10,8 +10,8 @@
   behavior; refreshed architecture, backlog and QA pointers.
 - Retained 91 passing JavaScript tests, 35 Python tests, 46 full historical checks
   and 16 browser checks in the dated audit record. App code/data are unchanged;
-  the user's follow-up requests a local handover commit. No push or deployment
-  is part of this update.
+  handover package is recorded in `732117f`. The user subsequently authorized
+  pushing it to `origin/main`; live deployment verification remains separate.
 
 ## Ruler identity audit — 2026-09-09
 

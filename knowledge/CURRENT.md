@@ -2,8 +2,8 @@
 
 As of the 2026-09-29 local audit, the application baseline is `1e83435` and the
 developer handover is [HANDOVER.md](../HANDOVER.md). Documentation/dependency
-changes from that audit form the requested local handover commit. Push/share
-that commit before handing off through the remote repository.
+changes from that audit are recorded in handover commit `732117f`. The user
+subsequently authorized pushing that commit and its status updates to `origin/main`.
 
 The current application and evidence pass the documented automated and browser
 checks. Ruler coverage remains partial and the polity ontology remains unbuilt.

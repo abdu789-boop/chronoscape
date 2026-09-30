@@ -19,7 +19,6 @@ knowledge_updates:
   - ../../../../deliverables/CURRENT.md
   - ../../../../sources/SOURCE_REGISTER.tsv
 known_gaps:
-  - The requested local handover commit still needs to be pushed or otherwise shared
   - Original ruler re-extraction requires separately transferred ignored raw snapshots
   - Map download sources are not revision-pinned
   - Remote deployment configuration, deployed SHA and successor permissions were not verified
