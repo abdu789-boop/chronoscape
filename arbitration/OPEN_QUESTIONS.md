@@ -4,7 +4,7 @@
 deliberately *not* made, with the evidence for each, so a successor inherits the
 question rather than an unexplained silence.
 
-**Read after** [METHOD.md](METHOD.md) §4, which explains how arbitration works
+**Read after** [METHOD.md](../METHOD.md) §4, which explains how arbitration works
 and where resolved decisions live.
 
 Each item needs a human call. In most cases the engine already has the mechanism
@@ -14,7 +14,7 @@ build applies.
 
 ---
 
-## OQ-1 — Sub-polities erased by their own parent  *(RESOLVED 2026-08-19, see ONTOLOGY.md)*
+## OQ-1 — Sub-polities erased by their own parent  *(design decided 2026-08-19; implementation pending)*
 
 **Diagnosis corrected.** This was not primarily an ontology gap. The measured
 cause is a semantics mismatch between sources: at 200 CE the Kingdom of Osroene
@@ -23,13 +23,13 @@ maps directly administered territory while AWMC/Barrington maps imperium
 including client kingdoms. Precedence treated the two as answering the same
 question, so the higher tier destroyed a distinction the lower tier got right.
 
-**Decision.** A border means the sphere of effective control (the envelope
-reading), dependencies render as a lighter tint of the overlord's hue, and a
-polity with no relation edge defaults to sovereign. The listed casualties below
-therefore remain absorbed **by design** — with no evidence of a distinct
-dependency, the envelope's claim stands. Each is recoverable with a one-line
-`subject_of` edge in `decisions.jsonl`; the `% yielded` column is the curation
-shortlist.
+**Design decision.** A border means the sphere of effective control (the envelope
+reading). The planned ontology gives dependencies a lighter tint of their
+overlord's hue and defaults a polity with no relation edge to sovereign. These
+edges and rendering rules are **not implemented**; adding a `subject_of` edge
+today does not recover a polity. The listed casualties remain absorbed in the
+current flat model. After implementing [ONTOLOGY.md](../ONTOLOGY.md), the
+`% yielded` column is a curation shortlist for evidence-backed relations.
 
 Original evidence retained:
 

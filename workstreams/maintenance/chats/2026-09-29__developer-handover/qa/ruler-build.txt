@@ -1,0 +1,1 @@
+{"polities":1544,"politiesWithCheckedRulers":806,"completeRosters":0,"checkedReigns":9567,"withheldComparisons":206,"individuallyCrossChecked":276,"sourceReviewed":8946}

@@ -1,0 +1,7 @@
+{
+  "check": "local Markdown file/directory targets (external URLs and anchors not validated)",
+  "files_checked": 23,
+  "errors": [
+    "arbitration/OPEN_QUESTIONS.md: OPEN_QUESTIONS.md: broken local link: METHOD.md"
+  ]
+}

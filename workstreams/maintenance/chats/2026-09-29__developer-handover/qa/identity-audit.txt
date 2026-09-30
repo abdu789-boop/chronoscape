@@ -1,0 +1,2 @@
+Wrote unconsolidated ruler audit input.
+{"atlasPolities": 1544, "auditedReigns": 10930, "politiesWithRulers": 806, "resolvedPersonKeys": 7034, "personKeys": 9651, "duplicateGroups": 1250, "duplicateRows": 1342, "conflictPairs": 11, "sameIntervalGroups": 1471, "unresolvedIntervalGroups": 116}

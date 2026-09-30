@@ -1,0 +1,1 @@
+Prepared renderer benchmark in /tmp/chronoscape-handover-benchmark

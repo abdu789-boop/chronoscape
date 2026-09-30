@@ -1,0 +1,3 @@
+source_id	kind	location	version_or_date	notes
+repo-1e83435	local repository	git:1e83435	2026-09-09	Application/source evidence baseline; existing documentation reviewed against code
+handover-qa-20260929	local verification	workstreams/maintenance/chats/2026-09-29__developer-handover/qa/	2026-09-29 America/New_York	Current automated checks and screenshots; no remote deployment verification

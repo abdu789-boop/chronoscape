@@ -1,5 +1,11 @@
 # Ruler feature verification — 2026-09-09
 
+This is the historical implementation record. The 2026-09-29 handover audit
+reran the current JavaScript/Python suites, offline builds and browser checks;
+see [the current QA record](../../QA_REPORT.md) and
+[developer handover](../../HANDOVER.md). Current evidence is retained in the
+repository; temporary screenshot paths below refer to the original session only.
+
 Implementation checks were recorded before publication. Release history is
 maintained in `VERSION_HISTORY.md` and Git.
 

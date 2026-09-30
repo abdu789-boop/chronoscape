@@ -1,0 +1,13 @@
+Python: 3.10.9 (main, Mar  1 2023, 12:33:47) [Clang 14.0.6 ]
+Platform: macOS-26.6.2-x86_64-i386-64bit
+geopandas: installed=1.1.4, required=1.1.4
+shapely: installed=2.1.2, required=2.1.2
+pyproj: installed=3.7.1, required=3.7.1
+pandas: installed=2.3.3, required=2.3.3
+numpy: installed=2.2.6, required=2.2.6
+pyogrio: installed=0.13.0, required=0.13.0
+PyYAML: installed=6.0.3, required=6.0.3
+matplotlib: installed=3.10.9, required=3.10.9
+lxml: installed=6.1.1, required=6.1.1
+pypdf: installed=6.10.0, required=6.10.0
+Every pinned Python requirement matches the local environment.

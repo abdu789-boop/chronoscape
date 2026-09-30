@@ -56,17 +56,44 @@ Source and acquisition gaps remain distinct from a historical absence of rulers.
 The app makes no live external source requests and contains no language or
 religion feature.
 
-## Reproduce
+## Validate the committed build
 
-From the repository root:
+From the repository root, with the Python environment from
+[README.md](../../README.md) and Node.js 24:
+
+```sh
+node --test tests/*.test.mjs
+.venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
+node scripts/build_rulers.mjs --check
+python3 scripts/update_data_versions.py --check
+```
+
+These checks use committed evidence and need no raw downloads. To verify the
+identity plan as well, create an intermediate file and compare without rewriting
+the committed audit:
 
 ```sh
 node scripts/build_rulers.mjs --audit-input=/tmp/ruler-audit-input.json
-python3 scripts/audit_ruler_duplicates.py --input /tmp/ruler-audit-input.json
+.venv/bin/python scripts/audit_ruler_duplicates.py --input /tmp/ruler-audit-input.json --check
+```
+
+## Rebuild after evidence changes
+
+Regenerate the affected source adapter first. After changes to Wikipedia,
+Wikidata, additional-reference extractions or their compared base records, run
+`.venv/bin/python scripts/prepare_ruler_broad_import.py` before the sequence below.
+Review changed identities, source admission and withheld conflicts before
+accepting the regenerated public data.
+
+```sh
+node scripts/build_rulers.mjs --audit-input=/tmp/ruler-audit-input.json
+.venv/bin/python scripts/audit_ruler_duplicates.py --input /tmp/ruler-audit-input.json
 node scripts/build_rulers.mjs
 python3 scripts/update_data_versions.py
 node --test tests/*.test.mjs
+.venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
 node scripts/build_rulers.mjs --check
+python3 scripts/update_data_versions.py --check
 ```
 
 The identity audit runs on every accepted source record, before display merging.
@@ -104,6 +131,29 @@ Their original downloads are cached under ignored `data/raw/rulers/`; receipts
 preserve URLs, SHA-256 hashes and acquisition details. Some Met pages were read
 through a web text extractor after raw requests returned HTTP 429; those receipts
 explicitly identify extracted text rather than claiming original HTML.
+
+## Source acquisition and handover limits
+
+The offline public build above is reproducible from a clone. Re-extracting every
+original source is a separate task: `data/raw/rulers/` is ignored, and
+`fetch_sources.sh` restores only map inputs. Preserve the original ruler cache
+and its receipts when transferring extraction work. Fresh downloads can change
+content and do not recreate the inspected historical snapshots.
+
+| Stage | Entry points and requirements |
+|---|---|
+| Reference files | `fetch_ruler_reference.py --fetch` downloads configured Archigos/Islamic files; extraction needs pandas and pypdf. UK/Met/reference comparison inputs also include manually acquired cached material. This is not an all-source bootstrap. |
+| Chinese/classical comparisons | `fetch_ruler_china.py --download`, then `compare_ruler_china.py`; `compare_ruler_classical.py` requires the retained classical snapshots, including the Met text extraction. |
+| Wikidata discovery | `fetch_ruler_candidates.py --download --stage all` requires map raw metadata; `fetch_ruler_office_holders.py --download` acquires explicit office holders; `prepare_ruler_wikidata.py` normalizes cached statements. |
+| Wikipedia | `fetch_ruler_wikipedia.py --download --mode all`, then `--download --mode linked` follows the selected source routes. Without `--download` it extracts cached pages. Requires lxml. |
+| Other references and samples | `fetch_ruler_additional.py` reads cached/extracted references; `prepare_ruler_broad_import.py` compares the resulting extracted files. |
+| Identity metadata | `fetch_ruler_identities.py --download` acquires canonical metadata; the audit/build sequence above applies it. |
+
+Run Python entry points with `.venv/bin/python scripts/<name>`. Download commands
+contact external services and may face rate limits or missing pages. Inspect each
+adapter's output and receipts; successful download is not evidence of acceptance.
+Keep `broad-import.json`'s `baselineAcceptedIds`: if absent, its adapter falls back
+to Git history at `adfb69c`, which requires that commit to exist locally.
 
 The data and source terms are described in [CREDITS.md](../../CREDITS.md). The
 geometry database's ODbL licence is not applied to these independent records;

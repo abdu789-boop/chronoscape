@@ -7,6 +7,21 @@ tried and rejected, so nobody re-runs an investigation that already has an answe
 tests, not estimates; where something was rejected, the measurement that killed
 it is given.
 
+## Current continuation points — 2026-09-29
+
+The ruler identity audit at `1e83435` is the latest application change. The
+current collection contains 9,567 reigns across 806 of 1,544 atlas identities;
+738 have no accepted roster and none is complete. Continue acquisition, identity
+and scope review under [the ruler policy](sources/rulers/policy.md), using
+`sources/rulers/accuracy-report.json` and the adapter audits to select work.
+Do not interpret the source-discovery inventory as completed ruler coverage.
+
+Developer setup and the latest local checks are in [HANDOVER.md](HANDOVER.md).
+Engineering follow-ups include pinning map-source revisions, preserving the
+ignored raw ruler snapshots in a transferable archive, and adding CI for the
+documented checks. These are separate from the ontology and data-quality work
+below. No CI workflow is tracked at this revision.
+
 ## UI redesign — published
 
 Before UI work, the existing version was preserved as `pre-ui-redesign` at

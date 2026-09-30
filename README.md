@@ -5,6 +5,10 @@
 An interactive atlas of historical territories, cities, and world population
 estimates from 3400 BCE to 2024 CE, with Equal Earth and globe projections.
 
+**New developer:** start with [HANDOVER.md](HANDOVER.md) for the verified setup,
+current status, validation commands, release procedure and known gaps. The latest
+local audit is dated 2026-09-29 against application commit `1e83435`.
+
 ## The objective
 
 Most historical maps present a single confident line and leave you no way to ask
@@ -40,8 +44,8 @@ It is a personal project, built for curiosity rather than publication.
 - **Less repeated work** — content-versioned data URLs, progressive basemap
   loading, a geometry worker, cached year snapshots and city rankings, and
   frame-scheduled rendering with reusable canvas layers and projected paths.
-- **A precedence engine** that resolves 5 sources into one map and records which
-  source produced every feature.
+- **A precedence engine** that resolves specialist geometry against a global
+  skeleton and records which source produced every feature.
 - **An arbitration log** of editorial corrections, each carrying its reasoning
   and evidence.
 - **Validation** for data and historical invariants, plus Node tests for viewer
@@ -94,32 +98,46 @@ until you know what went wrong without them.
 
 ## Working on it
 
-For interface changes, use a recent Node.js runtime with the built-in test runner:
+Use Node.js 24 (verified with 24.19.0) for the native test runner. Python data
+development requires Python 3.10 or newer and the pinned dependencies below;
+the macOS system Python 3.9 is sufficient only for serving and standard-library
+checks. Set up the development environment once:
+
+```bash
+python3.10 -m venv .venv                    # or a newer Python 3
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+Run the checks from the repository root:
 
 ```bash
 node --test tests/*.test.mjs
+.venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
 python3 scripts/validate.py --quick
 python3 scripts/update_data_versions.py --check
 node scripts/build_rulers.mjs --check
 ```
 
 See [QA_REPORT.md](QA_REPORT.md) for validation coverage and browser checks.
-There is no npm install step. The quick validator skips checks requiring raw
+The application and Node unit tests need no npm packages. Optional browser QA
+requires Playwright; setup is in [tests/browser/README.md](tests/browser/README.md).
+The quick validator skips checks requiring raw
 sources; run the full validator after a data rebuild and before publishing.
 
 To rebuild the historical data:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt    # pinned: the build needs Shapely 2.x
-./scripts/fetch_sources.sh                   # ~1.5 GB of source data, re-runnable
+./scripts/fetch_sources.sh                   # map sources; requires Git/curl/unzip/gunzip
 .venv/bin/python scripts/build_app_data.py   # data and cache fingerprints, ~10 minutes
 .venv/bin/python scripts/validate.py         # must pass before pushing
 ```
 
 Run every command from the repository root. `data/raw/` (the sources) and
 `.venv/` are deliberately not committed; `docs/data/` (the built map) is, so the
-site works without a rebuild.
+site works without a rebuild. The download script uses upstream branches/latest
+URLs; a fresh download is not a pinned reproduction of the original snapshots.
+It does not restore the separate ruler-source cache. See the handover's data
+reproduction limits before refreshing sources.
 
 The build refreshes `docs/js/data-version.js` automatically. After independently
 replacing a file in `docs/data/`, run `python3 scripts/update_data_versions.py`

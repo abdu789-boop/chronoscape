@@ -1,4 +1,30 @@
-# UI redesign verification
+# Verification record
+
+## Current handover audit — 2026-09-29
+
+Rechecked the local application at `1e83435` after documenting setup and adding
+the missing `lxml` and `pypdf` Python dependencies. Application code and generated
+data were unchanged. Passed:
+
+- 91 JavaScript tests under Node.js 24.19.0.
+- 35 Python extraction/identity tests under the project Python 3.10.9 environment.
+- 46 full historical/data checks, with zero failures or skips.
+- Offline public ruler build and identity-audit comparisons; data fingerprints.
+- 16 Playwright browser checks in installed Chrome, including desktop and
+  emulated mobile ruler interactions; five saved screenshots visually inspected.
+- Benchmark page preparation from the preserved baseline (no new timings).
+
+Commands, setup and retained evidence are linked from [HANDOVER.md](HANDOVER.md)
+and the [dated task record](workstreams/maintenance/chats/2026-09-29__developer-handover/handoff.md).
+Initial dependency-download and Chrome-launch attempts were blocked by the local
+sandbox environment; permitted retries succeeded. Their logs are retained with
+the successful results. No fresh raw-source download, full geometry rebuild,
+remote deployment check or comprehensive accessibility audit was performed.
+
+## Historical UI redesign verification
+
+The remainder of this report preserves the earlier release evidence. Its test
+counts and performance measurements describe that revision, not current HEAD.
 
 The reference version is Git tag `pre-ui-redesign`
 (`108468a7d158409ab11a9d31b41c70da4b46e1d1`). This report records interface

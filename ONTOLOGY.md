@@ -3,8 +3,8 @@
 > ## ⚠ STATUS: SPECIFICATION — NOT IMPLEMENTED
 >
 > **Nothing in this document exists in the code.** No `subject_of` edge, no
-> render root, no `polity_class`, no dependency tinting. Grep the repository for
-> any term below and you will find nothing; the map today treats every polity as
+> render root, no `polity_class`, no dependency tinting in the running viewer.
+> These terms appear in design documents; the map today treats every polity as
 > a flat sovereign competitor.
 >
 > This is a design agreed in advance of building it, so that the data model is

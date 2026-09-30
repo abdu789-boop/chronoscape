@@ -1,0 +1,13 @@
+Collecting lxml==6.1.1
+  Downloading lxml-6.1.1-cp310-cp310-macosx_10_9_x86_64.whl.metadata (3.5 kB)
+Collecting pypdf==6.10.0
+  Downloading pypdf-6.10.0-py3-none-any.whl.metadata (7.1 kB)
+Collecting typing_extensions>=4.0 (from pypdf==6.10.0)
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Downloading lxml-6.1.1-cp310-cp310-macosx_10_9_x86_64.whl (4.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.6/4.6 MB 19.3 MB/s  0:00:00
+Downloading pypdf-6.10.0-py3-none-any.whl (334 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Installing collected packages: typing_extensions, lxml, pypdf
+
+Successfully installed lxml-6.1.1 pypdf-6.10.0 typing_extensions-4.16.0

@@ -1,0 +1,5 @@
+{
+  "check": "local Markdown file/directory targets (external URLs and anchors not validated)",
+  "files_checked": 23,
+  "errors": []
+}

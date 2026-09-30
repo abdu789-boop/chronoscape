@@ -1,5 +1,18 @@
 # Version history
 
+## Developer handover documentation — 2026-09-29 (documentation only)
+
+- Added HANDOVER.md with setup, checks, data transfer/reproduction limits,
+  release/recovery instructions and continuation points against `1e83435`.
+- Declared missing lxml/pypdf dependencies; documented Python tests, optional
+  browser QA and fresh-clone recovery of the local benchmark tag.
+- Corrected OQ-1 to distinguish its design decision from unimplemented ontology
+  behavior; refreshed architecture, backlog and QA pointers.
+- Retained 91 passing JavaScript tests, 35 Python tests, 46 full historical checks
+  and 16 browser checks in the dated audit record. App code/data are unchanged;
+  the user's follow-up requests a local handover commit. No push or deployment
+  is part of this update.
+
 ## Ruler identity audit — 2026-09-09
 
 - Removed 1,339 duplicate ruler rows across 267 polities. Canonical identities and

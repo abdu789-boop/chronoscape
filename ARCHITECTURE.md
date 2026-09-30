@@ -14,12 +14,12 @@ covers mechanism only.
 One offline build, one static site. No server, no database, no API.
 
 ```
-data/raw/           5 source datasets, ~1.5 GB, never modified, never committed
+data/raw/           map source snapshots, never edited by hand, never committed
     |
     |  scripts/resolve.py          the precedence engine: which source wins where
     |  scripts/build_app_data.py   runs the engine, derives everything else
     v
-docs/data/*.json    the built map, ~32 MB, committed
+docs/data/*.json    map + independent ruler data, ~53 MB total, committed
     |
     |  docs/index.html + js/       native ES modules + D3/Canvas, no frontend build
     v
@@ -39,6 +39,11 @@ METHOD.md                 how the project decides what is true
 ONTOLOGY.md               the polity model (specification, NOT implemented)
 BACKLOG.md                what is next, and what was tried and rejected
 VERSION_HISTORY.md       original viewer snapshot and redesign scope
+HANDOVER.md               current developer setup, checks, release and known gaps
+AGENTS.md                 repository guidance for coding agents
+knowledge/                current-state pointer and documentation audit history
+deliverables/             canonical artifact index (no duplicate data copies)
+workstreams/              handover records and retained QA evidence
 CREDITS.md                sources and licence obligations
 LICENSE                   MIT for code; docs/data is ODbL (see CREDITS)
 requirements.txt          pinned — the build needs Shapely 2.x semantics
@@ -46,13 +51,14 @@ requirements.txt          pinned — the build needs Shapely 2.x semantics
 sources/
   registry.yaml           every source: tier, grade, and spatial/temporal authority
   aliases.yaml            cross-source name reconciliation
+  rulers/                 committed extracted evidence, comparisons and audits
 
 arbitration/
   decisions.jsonl         editorial corrections the build applies, with evidence
   OPEN_QUESTIONS.md       decisions deliberately not yet made
 
 scripts/
-  fetch_sources.sh        re-download every source dataset
+  fetch_sources.sh        download missing map inputs (not ruler snapshots)
   resolve.py              the precedence engine + a year-auditing CLI
   build_app_data.py       raw sources -> docs/data/*.json
   update_data_versions.py SHA256 cache fingerprints for published JSON
@@ -74,17 +80,22 @@ docs/                     the site GitHub Pages serves
   lib/d3.v7.min.js        vendored
   data/*.json             the built map
 
-data/raw/                 sources, gitignored (fetch_sources.sh restores them)
+data/raw/                 ignored map/ruler snapshots; separate acquisition paths
 renders/                  static comparison images
-tests/*.test.mjs           native Node viewer tests; no npm dependencies
+tests/*.test.mjs           native Node viewer and ruler tests; no npm dependencies
+tests/test_ruler_*.py      Python extraction, normalization and identity tests
+tests/browser/            benchmark harness and optional browser QA instructions
 ```
 
 ## 3. The pipeline, stage by stage
 
 ### `scripts/fetch_sources.sh`
-Downloads all five sources into `data/raw/`. Idempotent — safe to re-run, skips
-what it already has. This is the only thing standing between a fresh clone and a
-full rebuild.
+Downloads the configured map sources and reference layers into `data/raw/`.
+It skips existing files/directories; it does not update existing Git clones,
+pin upstream revisions, verify download hashes, or fetch ruler evidence.
+The pinned Python environment is also required for a full geometry rebuild.
+The separate ruler build and raw-cache limitations are in
+[docs/data/RULERS.md](docs/data/RULERS.md).
 
 ### `scripts/resolve.py` — the precedence engine
 Loads `sources/registry.yaml`, applies `arbitration/decisions.jsonl`, and answers
@@ -114,7 +125,7 @@ Runs in stages. Each is independent and prints a progress line:
 | index | lifespan and peak extent per polity | seconds |
 | succession | infers predecessors and successors geometrically | ~3 min |
 | modern countries | which countries each polity covered at peak | ~1 min |
-| cache fingerprints | hashes all seven published JSON files after a successful build | seconds |
+| cache fingerprints | hashes all eight published JSON files, including the independent ruler file | seconds |
 
 Roughly ten minutes end to end. `--skip-cities` skips the (unchanging) city
 rebuild.
@@ -162,6 +173,13 @@ appear at a given year.
 **`population.json`** — world population, 261 points from 10000 BCE to 2023.
 
 **`borders.json`**, **`land.json`** — Natural Earth reference geometry.
+
+**`rulers.json`** — independent schema-versioned ruler collection, approximately
+19 MB: `calendar`, `sources`, `polities` keyed by exact atlas identity, and
+`summary`. Each polity stores its scope, coverage, research leads and accepted
+reigns. Source assertions and merged observations retain provenance. The
+canonical field checks live in `docs/js/rulers.js`; reproduction and admission
+rules are in [the ruler guide](docs/data/RULERS.md).
 
 ## 5. The viewer
 
@@ -322,6 +340,9 @@ GitHub Pages serves `docs/` from `main`; viewer revision `032bc9a` was published
 through that configuration on 2026-09-08 (UTC). There is no frontend bundling or
 npm installation step. Local commits do not deploy until pushed to `main`;
 GitHub Pages build/deployment status and the public site must then be checked.
+This is the recorded deployment configuration, not a fresh verification of the
+remote settings or live revision. See [HANDOVER.md](HANDOVER.md) for the release
+checklist; local checks do not prove a deployment completed.
 
 The full `polities.json` remains approximately 32 MB uncompressed. The redesign
 does not change generated data, split it by era, or introduce WebGL. Worker

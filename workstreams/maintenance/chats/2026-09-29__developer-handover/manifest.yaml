@@ -1,0 +1,28 @@
+id: 2026-09-29__developer-handover
+workstream: maintenance
+status: complete
+started: 2026-09-29
+objective: Audit and update the local developer handover against application commit 1e83435
+source_ids:
+  - repo-1e83435
+  - handover-qa-20260929
+canonical_outputs:
+  - ../../../../HANDOVER.md
+  - outputs/documents/readiness.md
+  - qa/
+knowledge_updates:
+  - ../../../../knowledge/CURRENT.md
+  - ../../../../knowledge/CHANGELOG.md
+  - ../../../../README.md
+  - ../../../../QA_REPORT.md
+  - ../../../../deliverables/INDEX.md
+  - ../../../../deliverables/CURRENT.md
+  - ../../../../sources/SOURCE_REGISTER.tsv
+known_gaps:
+  - The requested local handover commit still needs to be pushed or otherwise shared
+  - Original ruler re-extraction requires separately transferred ignored raw snapshots
+  - Map download sources are not revision-pinned
+  - Remote deployment configuration, deployed SHA and successor permissions were not verified
+  - Full clean-machine setup and full geometry rebuild were not repeated
+  - Ruler coverage is partial and the polity ontology remains unimplemented
+superseded_by: null

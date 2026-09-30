@@ -1,0 +1,143 @@
+# Developer handover
+
+Reviewed 2026-09-29 (America/New_York), against application commit `1e83435`.
+The repository is ready for a developer to run, test and continue the current
+application. This handover does not certify complete historical coverage or a
+fresh deployment. The audit updates documentation and Python dependencies only.
+
+## Start here
+
+1. Read [README.md](README.md) for the product and local server command.
+2. Read [ARCHITECTURE.md](ARCHITECTURE.md) for module ownership and data contracts,
+   then [METHOD.md](METHOD.md) before changing historical data or identity rules.
+3. For ruler work, read [the data guide](docs/data/RULERS.md) and
+   [acceptance policy](sources/rulers/policy.md).
+4. Choose work from [BACKLOG.md](BACKLOG.md) and
+   [open arbitration questions](arbitration/OPEN_QUESTIONS.md).
+
+## Run and develop
+
+The application is a static site in `docs/`, with vendored D3, native JavaScript
+modules and committed JSON. It needs no backend, credentials, environment file,
+frontend build or npm install to run. From the repository root:
+
+```sh
+python3 -m http.server 8451 --bind 127.0.0.1 --directory docs
+```
+
+Open [the local atlas](http://127.0.0.1:8451/). Keep the server running in its own
+terminal. Direct `file://` loading is unsupported.
+
+Development prerequisites: Git, Node.js 24 (validated with 24.19.0), Python 3.10+
+and the pinned `requirements.txt`. The audit used Python 3.10.9. Create the
+virtual environment with that interpreter or a newer supported Python, then
+install requirements as described in README. `lxml` is needed for Wikipedia
+extraction/tests and `pypdf` for Archigos PDF extraction; both are now declared.
+Map downloads additionally need curl, unzip and gunzip. There is no root
+`package.json`; `docs/js/package.json` only declares ES-module semantics.
+
+Run these checks after setup:
+
+```sh
+node --test tests/*.test.mjs
+.venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
+.venv/bin/python scripts/validate.py --quick
+node scripts/build_rulers.mjs --check
+python3 scripts/update_data_versions.py --check
+git diff --check
+```
+
+For data rebuilds and releases, run `.venv/bin/python scripts/validate.py`
+with raw map sources available and inspect its skipped count. A successful exit
+with skipped raw-source checks is not full historical validation. For interface
+changes, follow [browser QA setup](tests/browser/README.md) and the manual checks
+in [QA_REPORT.md](QA_REPORT.md). No CI workflow is tracked; these checks are manual.
+
+## Current state and boundaries
+
+| Area | Verified local state |
+|---|---|
+| Map | 12,108 interval records, 1,544 identities, 3400 BCE–2024 CE; year zero is invalid |
+| Rulers | 9,567 accepted reigns across 806 identities; 738 without accepted rulers; no complete roster |
+| Ruler evidence | 276 individually cross-checked records, 8,946 sampled-source records; other accepted records retain approximate/disputed status |
+| UI | Search across eras, exact year navigation, flat/globe views, themes, share links, mobile detail sheet, ruler evidence tooltips |
+| Ontology | Designed in ONTOLOGY.md, not implemented; no dependency edges or tinting |
+| Removed features | No polity shortcuts, languages, religions or per-polity population; world population remains |
+
+Preserve factual/instructive interface text, uncertainty labels, original ruler
+observations, repeated reigns and separate offices. Identity matching does not
+independently corroborate dates. Present-day borders are reference geometry.
+See [CREDITS.md](CREDITS.md) for the existing source-specific attribution and
+licensing record; application code and all datasets do not share a single licence.
+
+## Data reproduction and transfer
+
+- **Run or rebuild the public ruler file:** committed `docs/data/` and
+  `sources/rulers/` suffice. The builder and identity audit reproduce offline;
+  exact commands and dependency order are in [RULERS.md](docs/data/RULERS.md).
+- **Rebuild geometry:** install Python requirements, fetch map sources with
+  `scripts/fetch_sources.sh`, run `scripts/build_app_data.py`, then full validation.
+  Downloads use mutable upstream branches/latest URLs and skip existing files.
+  There is no pinned map-source snapshot lock, so a later fresh download can
+  change results. Review output and attribution before accepting it.
+- **Re-extract original ruler evidence:** transfer the ignored
+  `data/raw/rulers/` cache and its acquisition receipts separately. Some inputs
+  were manually acquired text extractions; no one-command bootstrap reconstructs
+  every inspected snapshot. Source URLs/hashes in committed evidence describe
+  provenance but do not contain the missing raw bytes.
+- **Transfer existing work:** push or otherwise share the handover commit,
+  including this documentation and
+  `workstreams/maintenance/chats/2026-09-29__developer-handover/`.
+  The user's follow-up requests a local commit; pushing is still pending. Do not transfer `.venv/`;
+  recreate it. `out/`, `docs/qa/` and raw downloads are ignored local artifacts.
+
+## Release and recovery
+
+The recorded hosting setup is GitHub Pages, `main` branch, `/docs` directory,
+at [Chronoscape](https://abdu789-boop.github.io/chronoscape/). Remote settings,
+current deployment SHA and collaborator permissions were not queried in this
+local audit. The incoming developer needs repository write access and access to
+Pages/Actions status before publishing.
+
+1. Run the checks above, full historical validation without skips, and applicable
+   browser checks. Review `git diff`, including generated data, source audits and
+   `docs/js/data-version.js`. Ensure generated `docs/qa/` is not staged.
+2. Update the relevant docs and VERSION_HISTORY with the change and actual test
+   results. Commit the intended files; retain the previous deployed SHA.
+3. When a release is authorized, push/merge the reviewed commit to `main`, check
+   the Pages deployment status and SHA, then smoke-test the public site.
+4. For a regression, revert the offending commit(s) in a new commit, rerun the
+   applicable checks and publish the revert. Source and generated outputs must
+   stay consistent; a local revert is not itself a deployed rollback.
+
+The pre-redesign baseline is commit
+`108468a7d158409ab11a9d31b41c70da4b46e1d1`. Its `pre-ui-redesign` tag is local;
+fresh clones should use the commit hash. The benchmark guide documents how to
+recreate the local tag, and VERSION_HISTORY explains separate-checkout use.
+
+## Validation and next work
+
+This audit passed **91 JavaScript tests, 35 Python tests, 46 full historical
+checks (no skips), and 16 browser checks**. The public ruler build, identity
+audit and cache fingerprints match committed artifacts. Five browser screenshots
+were visually inspected. Benchmark preparation succeeded; performance was not
+remeasured. Results and environment details are retained in the
+[task handoff](workstreams/maintenance/chats/2026-09-29__developer-handover/handoff.md).
+
+The next developer can start feature work immediately. For extraction ownership,
+first arrange the raw-cache transfer. Engineering follow-ups are source snapshot
+pinning and CI. Product/data follow-ups are partial ruler coverage, ontology
+implementation and the unresolved arbitration cases. Full accessibility,
+cross-browser and physical-device testing remain outside this audit.
+
+## Common setup failures
+
+| Symptom | Action |
+|---|---|
+| `node: command not found` | Install Node.js 24 and ensure its `bin` directory is on PATH |
+| `No module named lxml` or `pypdf` | Use `.venv/bin/python` and reinstall `requirements.txt` |
+| `Cannot find module playwright` | Follow the separate browser-QA install and set `PLAYWRIGHT_MODULE` |
+| Browser connection refused | Start the server and match `QA_BASE_URL`, including its trailing slash |
+| `Stale compared input` or `Stale ruler identity audit` | Follow the evidence → comparisons → identity audit → public build → fingerprints order in RULERS.md |
+| Cache fingerprint check fails | Regenerate with `python3 scripts/update_data_versions.py` after intentional data edits |
+| Missing `pre-ui-redesign` | Restore the documented local tag from the baseline commit; fetch missing history if necessary |
