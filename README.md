@@ -6,8 +6,8 @@ An interactive atlas of historical territories, cities, and world population
 estimates from 3400 BCE to 2024 CE, with Equal Earth and globe projections.
 
 **New developer:** start with [HANDOVER.md](HANDOVER.md) for the verified setup,
-current status, validation commands, release procedure and known gaps. The latest
-local audit is dated 2026-09-29 against application commit `1e83435`.
+current status, validation commands, release procedure and known gaps. Its header
+records the latest review, and its current-state table holds the project's counts.
 
 ## The objective
 

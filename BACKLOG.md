@@ -9,15 +9,16 @@ it is given.
 
 ## Current continuation points — 2026-09-30
 
-The current collection contains 13,309 accepted reigns across 945 of 1,544 atlas
-identities; 599 have no accepted ruler and none has a certified complete roster.
+Ruler coverage is partial and no roster is certified complete; current counts
+are in [HANDOVER.md's current-state table](HANDOVER.md#current-state-and-boundaries).
 The all-polity request remains open. Continue under
 [the ruler policy](sources/rulers/policy.md), using the
 [coverage audit](sources/rulers/coverage-audit.json) and
 [expansion handoff](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md).
-The audit distinguishes 3 identity-review cases, 49 scope/evidence-review cases
-and 547 source-acquisition/extraction cases without accepted rulers. These are
-pipeline dispositions, not scholarly claims that the remaining history is unknowable.
+The audit gives every identity without accepted rulers one disposition: identity
+review, scope/evidence review, or source acquisition/extraction (counts in the
+same table). These are pipeline dispositions, not scholarly claims that the
+remaining history is unknowable.
 The century-list collection failed its source sample and is discovery-only;
 its unchecked reigns must not be enabled merely to fill gaps.
 

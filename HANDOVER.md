@@ -1,6 +1,7 @@
 # Developer handover
 
-Reviewed 2026-09-30 (America/New_York), including the ruler expansion following `3c69275`.
+Reviewed 2026-09-30 (America/New_York), including the ruler expansion following
+`3c69275` and the year-format, licence and count fixes following `3dd9e62`.
 The repository is ready for a developer to run, test and continue the current
 application. This handover does not certify complete historical coverage or a
 fresh deployment. The latest work expands the ruler collection, adds incomplete
@@ -62,9 +63,15 @@ in [QA_REPORT.md](QA_REPORT.md). No CI workflow is tracked; these checks are man
 | Map | 12,108 interval records, 1,544 identities, 3400 BCE–2024 CE; year zero is invalid |
 | Rulers | 13,309 accepted reigns across 945 identities; 599 without accepted rulers; no complete roster |
 | Ruler evidence | 270 individually cross-checked, 12,278 sampled-source, 501 approximate, 21 disputed and 239 incomplete-date records |
+| Ruler work | 547 source-acquisition/extraction, 49 scope/evidence-review and 3 identity-review cases without accepted rulers |
 | UI | Search across eras, exact year navigation, flat/globe views, themes, share links, mobile detail sheet, ruler evidence tooltips |
 | Ontology | Designed in ONTOLOGY.md, not implemented; no dependency edges or tinting |
 | Removed features | No polity shortcuts, languages, religions or per-polity population; world population remains |
+
+This table is the one place these counts are maintained. Other documents link
+here rather than copying them, and `tests/current-state.test.mjs` fails when the
+table disagrees with the committed data. Dated records (VERSION_HISTORY entries,
+QA_REPORT sections and `workstreams/`) keep their counts as of their date.
 
 Preserve factual/instructive interface text, uncertainty labels, original ruler
 observations, repeated reigns and separate offices. Identity matching does not
@@ -120,13 +127,13 @@ recreate the local tag, and VERSION_HISTORY explains separate-checkout use.
 
 ## Validation and next work
 
-The latest ruler update passed **95 JavaScript tests, 55 Python tests, 46 full
-historical checks (no skips), and 17 browser checks**. The public ruler build,
-identity audit and cache fingerprints match committed artifacts. Six release
-browser screenshots were visually inspected. Performance was not
-remeasured. Results, the source review and remaining coverage work are retained
-in the [ruler handoff](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md).
-The earlier documentation audit remains in its dated maintenance workstream.
+The latest recorded results are in the newest entry of
+[VERSION_HISTORY.md](VERSION_HISTORY.md), with details in
+[QA_REPORT.md](QA_REPORT.md) and logs/screenshots in the matching dated
+workstream. The ruler expansion's source review and remaining coverage work are
+in the [ruler handoff](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md);
+it did not remeasure rendering performance. The earlier documentation audit
+remains in its dated maintenance workstream.
 
 The next developer can start feature work immediately. For extraction ownership,
 first arrange the raw-cache transfer. Engineering follow-ups are source snapshot

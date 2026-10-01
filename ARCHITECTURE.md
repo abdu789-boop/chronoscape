@@ -146,7 +146,8 @@ data fingerprints match the actual bytes.
 
 Field names are short because `polities.json` is 32 MB.
 
-**`polities.json`** — one record per polity per interval, 12,108 of them:
+**`polities.json`** — one record per polity per interval (about 12,000; exact
+counts are in [HANDOVER.md's current-state table](HANDOVER.md#current-state-and-boundaries)):
 
 | field | meaning |
 |---|---|
@@ -159,7 +160,7 @@ Field names are short because `polities.json` is 32 MB.
 | `lp` | `[lon, lat]` where the label should sit |
 | `g` | GeoJSON geometry, simplified to ~9 km |
 
-**`polity_index.json`** — one entry per distinct polity, 1,544 of them, keyed by
+**`polity_index.json`** — one entry per distinct polity (about 1,500), keyed by
 `k`: display name, `first`/`last` lifespan, `peak_year`/`peak_area`, `tstart`/
 `tend` flags (true when the dataset, not history, cut the lifespan short), `pred`
 and `succ` as `[name, percent]` pairs, and `countries` covered at peak. The
@@ -273,9 +274,9 @@ view. The theme preference uses local storage with a fallback when unavailable.
 **Interval splitting at authority windows.** When a tier-1 window `[y0, y1]`
 overlaps a tier-2 record, the record is cut into up to three spans — `from..y0-1`,
 `max(from,y0)..min(to,y1)`, `y1+1..to`. Only the middle span is subject to tier-1;
-the outer spans pass through untouched. This is why the build produces 12,108
-features from 12,043 source records, and why `years.json` gained snap points at
-window edges.
+the outer spans pass through untouched. This is why the build emits slightly
+more features than Cliopatria supplies records, and why `years.json` gained snap
+points at window edges.
 
 **Geometry processing.** Simplified with `preserve_topology` at 0.08° (~9 km at
 the equator — this is a continental-scale viewer), coordinates rounded to 3
