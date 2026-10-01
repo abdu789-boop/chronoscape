@@ -1,10 +1,11 @@
 # Ruler expansion and continuation — 2026-09-30
 
-The checked expansion is ready for the user's authorized commit and push. The
-original request to finish ruler coverage for every polity remains **unfinished**;
-this task keeps `working` status. Git history identifies the publication commit.
-This record does not certify a GitHub Pages deployment or complete historical
-coverage.
+The checked expansion was committed and pushed to `origin/main` as
+[`3b57050`](https://github.com/abdu789-boop/chronoscape/commit/3b57050ba9d4d8ab091c14a3302118e5a8c1ac0a).
+The remote branch was verified at that exact commit. The original request to
+finish ruler coverage for every polity remains **unfinished**; this task keeps
+`working` status. This record does not certify a GitHub Pages deployment or
+complete historical coverage.
 
 ## Canonical artifacts
 

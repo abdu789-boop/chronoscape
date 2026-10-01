@@ -9,7 +9,8 @@ Start with [HANDOVER.md](../HANDOVER.md), the
 [ruler continuation record](../workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md)
 and [all-polity work inventory](../sources/rulers/coverage-audit.json).
 The 2026-09-29 documentation handover and its QA remain in their dated workstream.
-The user authorized committing and pushing the checked ruler expansion.
+The checked ruler expansion was committed and pushed as `3b57050`; the remote
+`main` branch was verified at that exact commit.
 
 The public data preserve sampled-source, individually checked, approximate,
 disputed and incomplete-date records separately. Century-list candidates failed

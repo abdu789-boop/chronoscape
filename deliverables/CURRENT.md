@@ -1,6 +1,7 @@
 # Current deliverables
 
-The current static application is served from [docs/](../docs/). Its latest
+The ruler expansion at `3b57050` is on GitHub `main`; the static application is
+served from [docs/](../docs/). Its latest
 ruler collection and all-polity work inventory are linked from
 [the ruler expansion handoff](../workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md).
 The collection remains partial: 13,309 reigns across 945 identities, with 599
