@@ -1,0 +1,14 @@
+Checked 2026-10-01 19:21 EDT
+Pushed 079d818..9664250 to origin/main
+Pages run 36940250504, deployment 6797416264 for 966425033df4969cc49464cd554c0e244a9ce1ed: success
+live index.html identical to commit: yes
+live style.css identical to commit: yes
+live js/app.js identical to commit: yes
+live js/map.js identical to commit: yes
+live js/data.js identical to commit: yes
+live js/search.js identical to commit: yes
+live js/paper.js identical to commit: yes
+live js/rulers-view.js identical to commit: yes
+live js/data-version.js identical to commit: yes
+live data/aliases.json identical to commit: yes
+live font file removed (HTTP 404)

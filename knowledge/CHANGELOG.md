@@ -11,7 +11,9 @@ Built the approved "Folio" design and its features into the viewer:
 - City visibility starts at the first population figure.
 
 Removed the unused Space Grotesk font. Updated ARCHITECTURE, HANDOVER, README,
-CREDITS, BACKLOG, the browser QA guide and release records.
+CREDITS, BACKLOG, the browser QA guide and release records. Published 2026-10-01
+as `9664250` at the user's request; the deployment and live browser checks were
+verified.
 
 Provenance: [Folio handoff](../workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).
 

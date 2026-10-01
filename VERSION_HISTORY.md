@@ -23,7 +23,9 @@
   earlier, and is hidden inside gaps of more than 300 years between figures.
 - **No data changes.** Geometry, rulers and historical data are unchanged.
 - **Checks.** 102 JavaScript tests, 55 Python tests, 47 full historical checks
-  with no skips, and 17 + 13 browser checks pass. See the
+  with no skips, and 17 + 13 browser checks pass. Published 2026-10-01 as
+  `9664250`: the Pages deployment succeeded and both browser suites passed
+  against the live site. See the
   [workstream record](workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).
 
 ## Year format, licence and current-state counts — 2026-09-30

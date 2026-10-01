@@ -6,6 +6,7 @@ objective: Build the approved "Folio" interface (Georgia, paper and navy themes,
 source_ids:
   - repo-079d818
   - folio-qa-20261001
+  - live-qa-20261001-folio
 canonical_outputs:
   - ../../../../docs/index.html
   - ../../../../docs/style.css

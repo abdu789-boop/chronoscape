@@ -24,6 +24,10 @@ Passed:
   (world / zoomed). A full-detail frame of 13–15 ms follows camera movement.
   These are single local measurements, not a frame-rate guarantee.
 
+Published 2026-10-01 as `9664250`. The Pages deployment succeeded, the live
+files matched the commit, and both browser suites passed against the live site
+with their screenshots inspected.
+
 Not checked: accessibility conformance, physical devices, browsers other than
 Chrome. Evidence is in the
 [workstream record](workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).

@@ -4,8 +4,8 @@ A redesign of the viewer, approved by the user as a private design mockup and
 then built into the app. The user asked for a look like "finding a book in an
 old university library" and for the original's serif type: the result sets
 everything in Georgia over a hand-coloured atlas map. The new features shown in
-the mockup are implemented as well. Base: `079d818`. Not yet published; see
-[Publication](#publication).
+the mockup are implemented as well. Base: `079d818`. **Published 2026-10-01 as
+`9664250`**; see [Publication](#publication).
 
 ## Changes
 
@@ -86,7 +86,17 @@ Playwright 1.62.1 were used with installed Chrome
 
 ## Publication
 
-Pending the push requested by the user; recorded below once checked.
+Pushed `079d818..9664250` to `main` at the user's request. Evidence is in
+[qa/live/](qa/live/), summarized in
+[publication-check.txt](qa/live/publication-check.txt).
+
+- Pages run 36940250504 (deployment 6797416264) for `9664250` succeeded.
+- The live `index.html`, stylesheet, the changed modules, `data-version.js` and
+  `aliases.json` match the commit byte for byte, and the removed font returns
+  404.
+- Both browser suites (17 ruler and 13 atlas checks) passed against the live
+  site without page errors. Their 12 screenshots were inspected, then reduced
+  to a 256-colour palette for storage.
 
 ## Not done
 
