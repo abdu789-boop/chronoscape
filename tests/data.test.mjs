@@ -93,9 +93,13 @@ test('search covers all eras, folds accents, ranks exact names first, and respec
 });
 
 test('formatters keep historical notation and compact readable units', () => {
-  assert.equal(fmtYear(-3400), '3,400 BCE');
+  assert.equal(fmtYear(-3400), '3400 BCE');
+  assert.equal(fmtYear(1970), '1970 CE');
   assert.equal(fmtYear(117), '117 CE');
+  assert.equal(fmtYear(-10000), '10,000 BCE');
   assert.equal(fmtYear(0), '—');
+  // The year box displays fmtYear output and parses it back on submit.
+  for (const year of [-10000, -3400, -1, 1, 1970, 2024]) assert.equal(parseYear(fmtYear(year)), year);
   assert.equal(fmtArea(1200345), '1.20M km²');
   assert.equal(fmtArea(12345.8), '12,346 km²');
   assert.equal(fmtPop(8e9), '8.00B');

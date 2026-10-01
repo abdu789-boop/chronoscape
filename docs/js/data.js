@@ -4,7 +4,10 @@ const CACHE_LIMIT = 32;
 
 export function fmtYear(year) {
   if (!Number.isFinite(year) || year === 0) return '—';
-  return `${Math.abs(Math.round(year)).toLocaleString('en-US')} ${year < 0 ? 'BCE' : 'CE'}`;
+  // Years take no thousands separator (1970 CE, 3400 BCE) unless they have five
+  // or more digits (10,000 BCE). Areas and counts below keep their separators.
+  const digits = Math.abs(Math.round(year));
+  return `${digits >= 10000 ? digits.toLocaleString('en-US') : digits} ${year < 0 ? 'BCE' : 'CE'}`;
 }
 
 export function fmtArea(area) {
