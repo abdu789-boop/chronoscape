@@ -1,0 +1,31 @@
+id: 2026-09-30__year-format-licence-counts
+workstream: maintenance
+status: complete
+started: 2026-09-30
+objective: Fix four-digit year formatting, make LICENSE accurate and detectable, and give the headline counts one tested home
+source_ids:
+  - repo-3dd9e62
+  - fixes-qa-20260930
+canonical_outputs:
+  - ../../../../docs/js/data.js
+  - ../../../../tests/current-state.test.mjs
+  - ../../../../LICENSE
+  - ../../../../docs/lib/LICENSE-d3.txt
+  - ../../../../CREDITS.md
+  - ../../../../HANDOVER.md
+  - qa/
+knowledge_updates:
+  - ../../../../knowledge/CURRENT.md
+  - ../../../../knowledge/CHANGELOG.md
+  - ../../../../deliverables/CURRENT.md
+  - ../../../../README.md
+  - ../../../../ARCHITECTURE.md
+  - ../../../../BACKLOG.md
+  - ../../../../QA_REPORT.md
+  - ../../../../VERSION_HISTORY.md
+  - ../../../../sources/SOURCE_REGISTER.tsv
+known_gaps:
+  - Not yet pushed; GitHub licence detection and the Pages deployment are unverified until published
+  - France 1961-2023 record still includes Algeria (OQ-6); Hashemite Arab Federation 1415-1439 label not filed in arbitration
+  - No geometry rebuild, performance measurement, accessibility or cross-browser audit
+superseded_by: null

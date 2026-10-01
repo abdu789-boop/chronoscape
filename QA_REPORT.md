@@ -1,5 +1,21 @@
 # Verification record
 
+## Year format, licence and count fixes — 2026-09-30
+
+Application code changed only in the year formatter; data and geometry were
+unchanged. Passed:
+
+- 97 JavaScript tests, including two new current-state guards, and 55 Python tests.
+- 46 full historical/data checks, with no failures or skipped raw-source checks.
+- Reproducible public ruler build, coverage audit and cache fingerprints.
+- 17 desktop/mobile Chrome checks without page errors. All six screenshots were
+  inspected for year formatting, including four-digit BCE and CE years.
+- Mutation check: the current-state guard fails on a one-reign table change and
+  on comma-formatted years.
+
+Not published when recorded. Logs, screenshots and environment are in the
+[workstream record](workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/handoff.md).
+
 ## Ruler expansion — 2026-09-30
 
 The release contains 13,309 accepted reigns across 945 atlas identities; 599

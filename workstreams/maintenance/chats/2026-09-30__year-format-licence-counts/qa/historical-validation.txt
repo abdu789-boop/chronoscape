@@ -1,0 +1,63 @@
+Validating Chronoscape build
+
+Built data present and well formed
+  ok    polities.json exists
+  ok    years.json exists
+  ok    polity_index.json exists
+  ok    cities.json exists
+  ok    population.json exists
+  ok    borders.json exists
+  ok    land.json exists
+  ok    every feature carries name, interval, area, provenance, key, anchor
+  ok    intervals are ordered (from <= to)
+  ok    snap years are sorted and unique
+  ok    every polity key resolves in the index
+  ok    index records the dataset span
+  ok    peak year always falls inside the lifespan
+
+Arbitration decisions are actually applied
+  ok    ARB-002: umbrella records suppressed
+  ok    ARB-001: no Ptolemaic Kingdom before 323 BCE
+  ok    ARB-001: Alexander's conquests renamed to Macedonian Empire
+
+Precedence produced tier-1 overrides
+  ok    tier-1 features present
+  ok    tier-1 window Roman Empire 114..117
+  ok    tier-1 window Roman Empire 190..235
+  ok    tier-1 window Macedonian Empire -325..-323
+  ok    tier-1 window Achaemenid Empire -513..-486
+  ok    tier-1 features name their source
+
+Label anchors (regressions for the reported misplacements)
+  ok    Kingdom of Great Britain @1800 anchored in the British Isles
+  ok    Kingdom of Great Britain @1930 anchored in the British Isles
+  ok    Kingdom of Great Britain @1960 anchored in the British Isles
+  ok    Kingdom of Great Britain @1975 anchored in the British Isles
+  ok    Kingdom of Great Britain @2000 anchored in the British Isles
+  ok    French Fifth Republic @1959 anchored in metropolitan France
+  ok    French Fifth Republic @1970 anchored in metropolitan France
+  ok    French Fifth Republic @2000 anchored in metropolitan France
+  ok    French Fifth Republic @2020 anchored in metropolitan France
+
+Index facts (lifespans, peaks, succession)
+  ok    Rome peaks at its known maximum (117/118 CE)
+  ok    Rome's peak extent ~5.26M km2
+  ok    Mongol Empire succeeded by Yuan Dynasty
+  ok    Roman Republic succeeded by Roman Empire
+  ok    Western Roman Empire succeeded by Visigothic Kingdom
+  ok    Achaemenid Empire formed from Median Kingdom
+  ok    Western Roman Empire formed from Roman Empire
+  ok    Roman Republic lifespan not fused by an ambiguous Wikidata id
+  ok    Assyria lifespan not fused by an ambiguous Wikidata id
+
+World population series
+  ok    series has the expected number of points
+  ok    series is sorted by year
+  ok    2023 world population ~8.09B
+
+Source registry and agreement
+  ok    every registry source path resolves on disk
+  ok    tier1 vs tier2 IoU for Rome at 117 CE >= 0.7
+  ok    tier1 vs tier2 IoU for Rome at 200 CE >= 0.75
+
+46 passed, 0 failed, 0 skipped

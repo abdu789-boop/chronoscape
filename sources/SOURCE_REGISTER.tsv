@@ -7,3 +7,5 @@ ruler-century-review-20260930	failed source review	sources/rulers/chronology-rev
 ruler-identity-20260930	identity metadata	sources/rulers/identity-evidence.json	2026-09-30	Canonical pages, redirects and Wikidata identities; not independent date corroboration
 ruler-additional-20260930	additional explicit crosswalks	sources/rulers/additional-extracted.json	2026-09-30	Archigos and Islamic Atlas source records; preserve actual tenures and right-censoring
 ruler-qa-20260930	local verification	workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/qa/	2026-09-30	Extraction inspections, sample failures, full map validation, tests and browser evidence; not a completeness certificate
+repo-3dd9e62	local repository	git:3dd9e62	2026-09-30	Baseline for year-format, licence and count fixes; live on GitHub Pages when checked
+fixes-qa-20260930	local verification	workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/qa/	2026-09-30 America/New_York	Automated checks, browser suite and inspected screenshots; not yet published

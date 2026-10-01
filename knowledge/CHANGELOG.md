@@ -1,5 +1,15 @@
 # Knowledge and handover changes
 
+## 2026-09-30 — follow-up fixes
+
+Removed the thousands separator from displayed years, restored a detectable MIT
+LICENSE with its scope recorded in CREDITS.md (adding D3's required notice), and
+made HANDOVER.md's current-state table the single tested home for headline
+counts. Current-state and deliverable indexes now link to that table.
+
+Provenance: [fixes handoff](../workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/handoff.md).
+
+
 ## 2026-09-30
 
 Expanded sourced ruler coverage to 945 identities and preserved missing tenure

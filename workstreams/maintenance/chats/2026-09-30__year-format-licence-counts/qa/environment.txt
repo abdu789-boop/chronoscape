@@ -1,0 +1,7 @@
+Date: 2026-09-30 22:01 EDT
+macOS 26.6.2
+Node.js v24.19.0 — Codex-bundled runtime; node is not on this machine's PATH
+Python 3.10.9 (.venv)
+Playwright 1.62.1 — Codex-bundled; CHROME_PATH=installed Google Chrome 154.0.8037.92
+Server: existing python3 -m http.server 8451 --bind 127.0.0.1 --directory docs (QA_BASE_URL=http://127.0.0.1:8451/)
+Baseline: 3dd9e62 (= origin/main = GitHub Pages deployment when checked)

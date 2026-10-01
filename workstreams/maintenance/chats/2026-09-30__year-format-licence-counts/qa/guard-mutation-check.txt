@@ -1,0 +1,17 @@
+Guard mutation check: each mutation must make tests/current-state.test.mjs fail.
+
+$ sed 's/13,309 accepted reigns/13,310 accepted reigns/' HANDOVER.md && node --test tests/current-state.test.mjs
+✔ handover current-state table matches the committed map data (227.349334ms)
+✖ handover current-state table matches the committed ruler data (72.924417ms)
+ℹ pass 1
+ℹ fail 1
+✖ handover current-state table matches the committed ruler data (72.924417ms)
+
+$ sed 's/3400 BCE–2024 CE/3,400 BCE–2,024 CE/' HANDOVER.md && node --test tests/current-state.test.mjs
+✖ handover current-state table matches the committed map data (193.417166ms)
+✔ handover current-state table matches the committed ruler data (64.482958ms)
+ℹ pass 1
+ℹ fail 1
+✖ handover current-state table matches the committed map data (193.417166ms)
+
+HANDOVER.md restored byte-for-byte after both mutations

@@ -1,5 +1,21 @@
 # Version history
 
+## Year format, licence and current-state counts — 2026-09-30
+
+- Years display without a thousands separator ("1970 CE", "3400 BCE") in the
+  sidebar, ruler panel, tooltips, year box and screen-reader labels; five-digit
+  years keep one. The comma came from `fmtYear` and was asserted by its test.
+- LICENSE holds only the standard MIT text, so GitHub can recognize it (its API
+  previously reported "Other"). CREDITS.md records everything MIT does not cover,
+  including D3's ISC notice, now shipped at `docs/lib/LICENSE-d3.txt`.
+- HANDOVER.md's current-state table is the single maintained copy of the
+  headline counts. Other current-state documents link to it, and
+  `tests/current-state.test.mjs` fails if it disagrees with the committed data.
+- No data changed. Passed 97 JavaScript tests, 55 Python tests, 46 full
+  historical checks with no skips and 17 browser checks; six screenshots were
+  inspected. Not yet published. See the
+  [workstream record](workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/handoff.md).
+
 ## Ruler coverage expansion — 2026-09-30
 
 - Expanded the collection from 9,567 reigns across 806 polities to 13,309 reigns
