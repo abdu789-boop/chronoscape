@@ -6,6 +6,7 @@ source-record hash, spread across available polity/office strata, not agreement.
 Known conflicts outside that sample are still withheld. Existing accepted reigns
 are preserved; checksOnly sample claims materialize evidence without duplicate UI.
 """
+import argparse
 import hashlib
 import json
 import re
@@ -157,9 +158,11 @@ def validate_record(record,index,sources,receipts):
         if not isinstance(record.get(field),str) or not record[field].strip(): reasons.append('missing '+field)
     if record.get('polityKey') not in index or record.get('polityKey')=='_span': reasons.append('unknown exact atlas identity')
     if record.get('sourceId') not in sources: reasons.append('unknown source')
-    if not year(record.get('from')): reasons.append('missing or invalid accession year')
+    incomplete = record.get('dateStatus') == 'incomplete' and isinstance(record.get('sourceDateText'),str) and bool(record['sourceDateText'].strip()) and record.get('ongoing') is not True
+    if not year(record.get('from')) and not (incomplete and record.get('from') is None): reasons.append('missing or invalid accession year')
     if not year(record.get('to')):
-        if not (record.get('to') is None and record.get('ongoing') is True and year(record.get('asOf')) and year(record.get('from')) and record['asOf']>=record['from']): reasons.append('unknown end without dated ongoing evidence')
+        if not (incomplete and record.get('to') is None) and not (record.get('to') is None and record.get('ongoing') is True and year(record.get('asOf')) and year(record.get('from')) and record['asOf']>=record['from']): reasons.append('unknown end without dated ongoing evidence')
+    if record.get('dateStatus') == 'incomplete' and (not incomplete or year(record.get('from')) and year(record.get('to'))): reasons.append('incomplete tenure needs an explicitly missing bound and the source date expression')
     if year(record.get('from')) and year(record.get('to')) and record['from']>record['to']: reasons.append('reversed reign')
     if year(record.get('from')) and year(record.get('to')) and record['to']-record['from']>120:
         reasons.append('tenure longer than 120 years requires historicality or aggregation review')
@@ -213,11 +216,12 @@ def compatible_peers(record, byperson, byname, sources):
 
 
 def make_claim(record,peers=()):
-    claim={k:record[k] for k in ('id','polityKey','personKey','name','role','from','to','precision','ongoing','asOf','note','sourceDates','uncertainty','aliases','primaryChronology','sequence','sourceSequence') if k in record}
+    claim={k:record[k] for k in ('id','polityKey','personKey','name','role','from','to','precision','ongoing','asOf','note','sourceDates','sourceDateText','dateStatus','uncertainty','aliases','primaryChronology','sequence','sourceSequence') if k in record}
     claim.setdefault('precision','year')
     if 'sequence' not in claim and 'sourceSequence' in claim: claim['sequence']=claim['sourceSequence']
     if peers: claim['personKey']=peers[0]['claim']['personKey']
     assertion={**fields(record),**{k:record[k] for k in ('sourceId','sourceRecordId','locator','snapshot')},'imported':True}
+    if record.get('dateStatus') == 'incomplete': assertion.update(dateStatus='incomplete',sourceDateText=record['sourceDateText'])
     assertion.update(personKey=claim['personKey'],role=claim['role'],precision=record.get('precision','year'),calendar='historical')
     claim['assertions']=[assertion]
     for peer in peers:
@@ -300,6 +304,7 @@ def consolidate_imports(output):
         for pos,a in enumerate(group):
             for b in group[pos+1:]:
                 if separate_dated_episodes(a,b): continue
+                if not year(a.get('from')) or not year(b.get('from')): continue
                 end_a=a['to'] if year(a['to']) else a.get('asOf',a['from'])
                 end_b=b['to'] if year(b['to']) else b.get('asOf',b['from'])
                 overlapping=a['from']==b['from'] or max(a['from'],b['from'])<min(end_a,end_b)
@@ -313,6 +318,13 @@ def consolidate_imports(output):
         kept=[]
         for claim in group:
             if claim['id'] in omitted: continue
+            if claim.get('dateStatus') == 'incomplete':
+                if any(c.get('dateStatus') != 'incomplete' for c in group):
+                    omitted.add(claim['id'])
+                    output['candidateDuplicates'].append({'claim':claim,'reason':'Incomplete tenure cannot be assigned to an already dated episode of the same sourced person and office.'})
+                    continue
+                kept.append(claim)
+                continue
             same=next((c for c in kept if all(c.get(k)==claim.get(k) for k in ('from','to','precision','ongoing','asOf')) and not separate_dated_episodes(c,claim)),None)
             if same is None: kept.append(claim); continue
             known={(a['sourceId'],a['sourceRecordId']) for a in same['assertions']}
@@ -328,6 +340,12 @@ def consolidate_imports(output):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--include-chronologies', action='store_true', help='Research comparison only: the century collection failed its first 30-record sample.')
+    parser.add_argument('--output', type=Path, help='Write a separate review artifact instead of the production broad import.')
+    args = parser.parse_args()
+    if args.include_chronologies and not args.output:
+        parser.error('--include-chronologies requires --output; an unsuccessful source review must not enter the production import')
     index=read(ROOT/'docs/data/polity_index.json')
     # Restrict baseline deduplication to pre-broad source families so rerunning
     # after the public dataset is rebuilt does not delete the adapter's own rows.
@@ -367,7 +385,7 @@ def main():
     output={'schemaVersion':1,'status':'source-level-reviewed-candidates','sources':{},'matched':[],'imports':[],'conflicts':[],'rejected':[],'duplicates':[],'candidateDuplicates':[],'receipts':[], 'profileOverrides':{},'inputFingerprints':[], 'reviewAudit':{}}
     output['baselineRevision']=baseline_revision; output['baselineAcceptedIds']=baseline_ids
     records=[]; receipts=list(basereceipts); seen_ids=set(); found=0
-    for family in INPUTS:
+    for family in INPUTS + (['chronology-extracted'] if args.include_chronologies else []):
         path=ROOT/f'sources/rulers/{family}.json'
         if not path.exists(): continue
         found+=1; raw=path.read_bytes(); data=json.loads(raw)
@@ -418,13 +436,16 @@ def main():
     matched_ids=set(); imported_ids=set()
     for record,peers,reason in resolved:
         claim=make_claim(record,peers)
+        if record.get('dateStatus') == 'incomplete' and peers:
+            output['candidateDuplicates'].append({'claim':claim,'reason':'Incomplete tenure cannot establish whether this is an already recorded episode.'})
+            continue
         superseded={p['claim']['id'] for p in peers if p['claim']['from']==record['from']
           and p['claim']['to'] is None and year(record['to'])
           and any(a.get('ongoing') is True and year(a.get('asOf')) and a['asOf']<=record['to'] for a in p['claim'].get('assertions',[]))}
         if superseded:
             claim['supersedes']=sorted(superseded)
             claim['supersessionNote']='Same independently identified person, exact accession year and compatible office ('+record['role']+'); the new explicit end replaces a source observation cutoff, not a previously asserted departure.'
-        contrary=[a for a in claim['assertions'][1:] if any(year(a.get(field)) and a.get(field)!=claim.get(field) for field in ('from','to'))]
+        contrary=[a for a in claim['assertions'][1:] if any(year(a.get(field)) and year(claim.get(field)) and a.get(field)!=claim.get(field) for field in ('from','to'))]
         if contrary:
             output['conflicts'].append({'claim':claim,'reason':'Known independent tenure-year disagreement; not automatically reconciled.'}); continue
         equivalent=[p['claim'] for p in peers if p['claim']['from']==record['from'] and p['claim']['to']==record['to']]
@@ -458,7 +479,8 @@ def main():
         output['reviewAudit'][sid]={'selected':len(ids),'matched':len(ids&matching),'conflicting':len(ids&conflicting),'unresolved':len(ids-matching-conflicting)}
     output['summary']={k:len(output[k]) for k in ('matched','imports','conflicts','rejected','duplicates','candidateDuplicates')}
     output['summary']['inputs']=found; output['summary']['records']=len(records)
-    destination=ROOT/'sources/rulers/broad-import.json'
+    destination=args.output or ROOT/'sources/rulers/broad-import.json'
+    destination.parent.mkdir(parents=True,exist_ok=True)
     temporary=destination.with_suffix('.json.tmp')
     temporary.write_text(json.dumps(output,ensure_ascii=False,indent=2)+'\n')
     temporary.replace(destination)

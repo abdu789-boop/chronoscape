@@ -436,6 +436,38 @@ test('a credible contrary observation still blocks a source-reviewed import', ()
   assert.deepEqual(getRulers(data, polityKey, 15).rulers, []);
 });
 
+test('explicitly incomplete source tenures stay visible without invented activity', () => {
+  for (const bounds of [{ from: null }, { to: null }, { from: null, to: null }]) {
+    const { sources, claim, data } = sampledFixture();
+    const evidence = { ...bounds, dateStatus: 'incomplete', sourceDateText: '? – 20' };
+    Object.assign(claim, evidence); Object.assign(claim.assertions[0], evidence);
+    const result = assessRuler(claim, sources);
+    assert.equal(result.accepted, true); assert.equal(result.status, 'dates-unknown');
+    for (const selectedYear of [-1000, 10, 15, 20, 2024]) {
+      const row = getRulers(data, polityKey, selectedYear).rulers[0];
+      assert.equal(row.active, false); assert.equal(row.possiblyActive, false);
+    }
+    assert.deepEqual(validateRulers(data, index), []);
+    delete claim.assertions[0].dateStatus;
+    assert.equal(assessRuler(claim, sources).accepted, false);
+  }
+});
+
+test('incomplete dates cannot bypass missing evidence or a failed source sample', () => {
+  for (const alter of [
+    (claim) => { claim.sourceDateText = ''; },
+    (claim) => { claim.assertions[0].sourceDateText = 'different evidence'; },
+    (claim) => { delete claim.assertions[0].snapshot; },
+    (claim, sources) => { sources.a.review.sampleRecordIds = []; },
+  ]) {
+    const { sources, claim } = sampledFixture();
+    const fields = { from: null, to: null, dateStatus: 'incomplete', sourceDateText: 'Reign length only: 29 years' };
+    Object.assign(claim, fields); Object.assign(claim.assertions[0], fields);
+    alter(claim, sources);
+    assert.equal(assessRuler(claim, sources).accepted, false);
+  }
+});
+
 test('sample admission preserves approximate dates without asserting definite activity', () => {
   const { sources, claim, data } = sampledFixture();
   claim.precision = claim.assertions[0].precision = 'approximate';

@@ -1,0 +1,781 @@
+{
+  "baselineRevision": "3c69275",
+  "baselineSummary": {
+    "polities": 1544,
+    "politiesWithCheckedRulers": 806,
+    "completeRosters": 0,
+    "checkedReigns": 9567,
+    "withheldComparisons": 206,
+    "individuallyCrossChecked": 276,
+    "sourceReviewed": 8946
+  },
+  "summary": {
+    "polities": 1544,
+    "politiesWithCheckedRulers": 945,
+    "politiesWithoutAcceptedRulers": 599,
+    "completeRosters": 0,
+    "checkedReigns": 13309,
+    "withheldComparisons": 321,
+    "individuallyCrossChecked": 270,
+    "sourceReviewed": 12278,
+    "incompleteDateReigns": 239
+  },
+  "gainedPolities": [
+    {
+      "key": "nm:antigoniddynasty",
+      "name": "Antigonid Dynasty",
+      "reigns": 1
+    },
+    {
+      "key": "nm:antigonidmacedonia",
+      "name": "Antigonid Macedonia",
+      "reigns": 5
+    },
+    {
+      "key": "nm:assyria",
+      "name": "Assyria",
+      "reigns": 3
+    },
+    {
+      "key": "nm:cao",
+      "name": "Cao",
+      "reigns": 16
+    },
+    {
+      "key": "nm:capetianhouseofanjou",
+      "name": "Capetian House of Anjou",
+      "reigns": 11
+    },
+    {
+      "key": "nm:centralistmexico",
+      "name": "Centralist Mexico",
+      "reigns": 25
+    },
+    {
+      "key": "nm:communistcuba",
+      "name": "Communist Cuba",
+      "reigns": 2
+    },
+    {
+      "key": "nm:democraticpeoplesrepublicofkorea",
+      "name": "Democratic People's Republic of Korea",
+      "reigns": 3
+    },
+    {
+      "key": "nm:electorateofbrandenburg",
+      "name": "Electorate of Brandenburg",
+      "reigns": 25
+    },
+    {
+      "key": "nm:halychvolhyniaoccupation",
+      "name": "Halych-Volhynia occupation",
+      "reigns": 1
+    },
+    {
+      "key": "nm:hunnicempire",
+      "name": "Hunnic Empire",
+      "reigns": 6
+    },
+    {
+      "key": "nm:huns",
+      "name": "Huns",
+      "reigns": 4
+    },
+    {
+      "key": "nm:kievanrus",
+      "name": "Kievan Rus'",
+      "reigns": 59
+    },
+    {
+      "key": "nm:kingdomofduklja",
+      "name": "Kingdom of Duklja",
+      "reigns": 7
+    },
+    {
+      "key": "nm:kingdomofmann",
+      "name": "Kingdom of Mann",
+      "reigns": 7
+    },
+    {
+      "key": "nm:kingdomofmonaco",
+      "name": "Kingdom of Monaco",
+      "reigns": 6
+    },
+    {
+      "key": "nm:kingdomoftheisles",
+      "name": "Kingdom of the Isles",
+      "reigns": 12
+    },
+    {
+      "key": "nm:lanna",
+      "name": "Lan Na",
+      "reigns": 17
+    },
+    {
+      "key": "nm:margraviateofbrandenburg",
+      "name": "Margraviate of Brandenburg",
+      "reigns": 27
+    },
+    {
+      "key": "nm:pandyadynasty",
+      "name": "Pandya Dynasty",
+      "reigns": 9
+    },
+    {
+      "key": "nm:pandyaempire",
+      "name": "Pandya Empire",
+      "reigns": 7
+    },
+    {
+      "key": "nm:portuguesecolonies",
+      "name": "Portuguese Colonies",
+      "reigns": 23
+    },
+    {
+      "key": "nm:portugueseempire",
+      "name": "Portuguese Empire",
+      "reigns": 16
+    },
+    {
+      "key": "nm:principalityofgaliciavolhynia",
+      "name": "Principality of Galicia-Volhynia",
+      "reigns": 1
+    },
+    {
+      "key": "nm:principalityofmonaco",
+      "name": "Principality of Monaco",
+      "reigns": 15
+    },
+    {
+      "key": "nm:qatardynasty",
+      "name": "Qatar Dynasty",
+      "reigns": 3
+    },
+    {
+      "key": "nm:stateofkuwait",
+      "name": "State of Kuwait",
+      "reigns": 2
+    },
+    {
+      "key": "nm:unitarystateofbrazil",
+      "name": "Unitary State of Brazil",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q1050326",
+      "name": "Sultan of Yogyakarta",
+      "reigns": 5
+    },
+    {
+      "key": "wd:Q1062422",
+      "name": "Konbaung Dynasty",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q1062546",
+      "name": "Later Jin Dynasty",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q1069690",
+      "name": "Chen",
+      "reigns": 16
+    },
+    {
+      "key": "wd:Q1069959",
+      "name": "Kingdom of Imereti",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q1077630",
+      "name": "Septinsular Republic",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q10800789",
+      "name": "Lê Dynasty",
+      "reigns": 17
+    },
+    {
+      "key": "wd:Q10914393",
+      "name": "Neo-Assyrian Empire",
+      "reigns": 10
+    },
+    {
+      "key": "wd:Q109252949",
+      "name": "Duchy of Mecklenburg",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q1132786",
+      "name": "Wadai Empire",
+      "reigns": 20
+    },
+    {
+      "key": "wd:Q1141215",
+      "name": "Granadine Confederation",
+      "reigns": 5
+    },
+    {
+      "key": "wd:Q1150344",
+      "name": "Sultanate of Johor",
+      "reigns": 15
+    },
+    {
+      "key": "wd:Q1194765",
+      "name": "Kamarupa Kingdom",
+      "reigns": 14
+    },
+    {
+      "key": "wd:Q1209822",
+      "name": "Kingdom of Kakheti",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q122293",
+      "name": "House of Luxembourg",
+      "reigns": 11
+    },
+    {
+      "key": "wd:Q128904",
+      "name": "Elam",
+      "reigns": 11
+    },
+    {
+      "key": "wd:Q128938",
+      "name": "Shang Dynasty",
+      "reigns": 12
+    },
+    {
+      "key": "wd:Q1331421",
+      "name": "Sayyid Dynasty",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q13576027",
+      "name": "Prome Kingdom",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q1386189",
+      "name": "Eshrefids",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q1400572",
+      "name": "Beylik of Menteshe",
+      "reigns": 5
+    },
+    {
+      "key": "wd:Q1408641",
+      "name": "Sultanate of Gowa",
+      "reigns": 15
+    },
+    {
+      "key": "wd:Q14551680",
+      "name": "Principality of Lippe",
+      "reigns": 10
+    },
+    {
+      "key": "wd:Q153015",
+      "name": "Kingdom of Saxony",
+      "reigns": 8
+    },
+    {
+      "key": "wd:Q154741",
+      "name": "Confederation of the Rhine",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q154849",
+      "name": "Grand Duchy of Tuscany",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q156038",
+      "name": "Duchy of Courland",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q156108",
+      "name": "Obotrites",
+      "reigns": 5
+    },
+    {
+      "key": "wd:Q156173",
+      "name": "Kingdom of Numidia",
+      "reigns": 9
+    },
+    {
+      "key": "wd:Q15728206",
+      "name": "Asir",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q157367",
+      "name": "Brandenburg-Prussia",
+      "reigns": 22
+    },
+    {
+      "key": "wd:Q157727",
+      "name": "Ifat Sultanate",
+      "reigns": 17
+    },
+    {
+      "key": "wd:Q1642472",
+      "name": "Tondo",
+      "reigns": 7
+    },
+    {
+      "key": "wd:Q16550783",
+      "name": "Duchy of Anhalt",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q165763",
+      "name": "Principality of Waldeck and Pyrmont",
+      "reigns": 8
+    },
+    {
+      "key": "wd:Q1660566",
+      "name": "Sultanate of Banjar",
+      "reigns": 19
+    },
+    {
+      "key": "wd:Q1709007",
+      "name": "Portuguese Ceylon",
+      "reigns": 13
+    },
+    {
+      "key": "wd:Q171393",
+      "name": "Principality of Wallachia",
+      "reigns": 64
+    },
+    {
+      "key": "wd:Q173282",
+      "name": "Khazaria",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q1760473",
+      "name": "Principality of Abkhazia",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q177819",
+      "name": "Old Kingdom of Egypt",
+      "reigns": 26
+    },
+    {
+      "key": "wd:Q178665",
+      "name": "Mitanni",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q1841483",
+      "name": "Dutch Ceylon",
+      "reigns": 30
+    },
+    {
+      "key": "wd:Q185068",
+      "name": "Kingdom of Urartu",
+      "reigns": 13
+    },
+    {
+      "key": "wd:Q186320",
+      "name": "Grand Duchy of Baden",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q187979",
+      "name": "Early Dynastic Period of Egypt",
+      "reigns": 17
+    },
+    {
+      "key": "wd:Q19083",
+      "name": "Caucasian Iberia",
+      "reigns": 29
+    },
+    {
+      "key": "wd:Q191324",
+      "name": "Middle Kingdom of Egypt",
+      "reigns": 10
+    },
+    {
+      "key": "wd:Q194355",
+      "name": "House of Jagiellon",
+      "reigns": 9
+    },
+    {
+      "key": "wd:Q1947408",
+      "name": "County of Périgord",
+      "reigns": 15
+    },
+    {
+      "key": "wd:Q19569014",
+      "name": "Talpur Dynasty",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q199389",
+      "name": "Principality of Iberia",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q200229",
+      "name": "House of Savoy",
+      "reigns": 18
+    },
+    {
+      "key": "wd:Q2014442",
+      "name": "Republic of the Rio Grande",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q2029317",
+      "name": "Samtskhe-Saatabago",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q216786",
+      "name": "Chámpa",
+      "reigns": 50
+    },
+    {
+      "key": "wd:Q223",
+      "name": "Greenland",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q2295939",
+      "name": "Duchy of Gascony",
+      "reigns": 9
+    },
+    {
+      "key": "wd:Q2331954",
+      "name": "Despotate of Arta",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q234009",
+      "name": "Janapada of Magadha",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q2342282",
+      "name": "Imamate of Oman",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q2431480",
+      "name": "Tibetan Empire",
+      "reigns": 9
+    },
+    {
+      "key": "wd:Q2500952",
+      "name": "Ava Kingdom",
+      "reigns": 14
+    },
+    {
+      "key": "wd:Q2571484",
+      "name": "Kashmir and Jammu",
+      "reigns": 15
+    },
+    {
+      "key": "wd:Q260437",
+      "name": "Atropatene",
+      "reigns": 9
+    },
+    {
+      "key": "wd:Q2614237",
+      "name": "Nawab of Awadh",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q2650109",
+      "name": "Xu",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q285658",
+      "name": "First Mexican Empire",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q2899771",
+      "name": "Principality of Hungary",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q2991084",
+      "name": "County of Anjou",
+      "reigns": 13
+    },
+    {
+      "key": "wd:Q317078",
+      "name": "Pskov Republic",
+      "reigns": 7
+    },
+    {
+      "key": "wd:Q335088",
+      "name": "Armenian Kingdom of Cilicia",
+      "reigns": 25
+    },
+    {
+      "key": "wd:Q3403551",
+      "name": "Principality of Halych",
+      "reigns": 8
+    },
+    {
+      "key": "wd:Q3446205",
+      "name": "Myinsaing Kingdom",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q3446223",
+      "name": "Sagaing Kingdom",
+      "reigns": 5
+    },
+    {
+      "key": "wd:Q347",
+      "name": "Principality of Liechtenstein",
+      "reigns": 7
+    },
+    {
+      "key": "wd:Q3497642",
+      "name": "Tangier International Zone",
+      "reigns": 14
+    },
+    {
+      "key": "wd:Q3627069",
+      "name": "Banate of Bosnia",
+      "reigns": 13
+    },
+    {
+      "key": "wd:Q371334",
+      "name": "Second Mexican Empire",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q373988",
+      "name": "Beylik of Teke",
+      "reigns": 5
+    },
+    {
+      "key": "wd:Q386303",
+      "name": "Thirtieth Dynasty of Egypt",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q4210248",
+      "name": "Kalmyk Khanate",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q4350658",
+      "name": "Principality of Peremyshl",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q48189",
+      "name": "Teutonic Order",
+      "reigns": 32
+    },
+    {
+      "key": "wd:Q529605",
+      "name": "Electorate of Hesse",
+      "reigns": 18
+    },
+    {
+      "key": "wd:Q5316729",
+      "name": "Durrani Dynasty",
+      "reigns": 2
+    },
+    {
+      "key": "wd:Q5362837",
+      "name": "Emirate of Jabal Shammar",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q55522",
+      "name": "Nanzan",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q55523",
+      "name": "Hokuzan",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q5769444",
+      "name": "Sultanate of Terengganu",
+      "reigns": 11
+    },
+    {
+      "key": "wd:Q58326",
+      "name": "French Second Republic",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q5949588",
+      "name": "Hussain Shahi Dynasty",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q623151",
+      "name": "Empire of Thessalonica",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q635394",
+      "name": "Massina Empire",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q642301",
+      "name": "Seventeenth Dynasty of Egypt",
+      "reigns": 8
+    },
+    {
+      "key": "wd:Q642314",
+      "name": "Free County of Burgundy",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q644979",
+      "name": "Blue Horde",
+      "reigns": 3
+    },
+    {
+      "key": "wd:Q655621",
+      "name": "Principality of Transylvania",
+      "reigns": 22
+    },
+    {
+      "key": "wd:Q697084",
+      "name": "Duchy of Oldenburg",
+      "reigns": 6
+    },
+    {
+      "key": "wd:Q722071",
+      "name": "Ashanti Empire",
+      "reigns": 13
+    },
+    {
+      "key": "wd:Q7245120",
+      "name": "Principality of Upper Hungary",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q733799",
+      "name": "Hwicce",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q737695",
+      "name": "Sixteenth Dynasty of Egypt",
+      "reigns": 42
+    },
+    {
+      "key": "wd:Q7380487",
+      "name": "Kingdom of Pontus",
+      "reigns": 15
+    },
+    {
+      "key": "wd:Q7440601",
+      "name": "First Sealand Dynasty",
+      "reigns": 12
+    },
+    {
+      "key": "wd:Q762943",
+      "name": "County of Holland",
+      "reigns": 7
+    },
+    {
+      "key": "wd:Q7636765",
+      "name": "Sultanate of Selangor",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q826021",
+      "name": "Kenmu Restoration",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q837998",
+      "name": "Kingdom of East Anglia",
+      "reigns": 15
+    },
+    {
+      "key": "wd:Q849623",
+      "name": "Oyo Empire",
+      "reigns": 17
+    },
+    {
+      "key": "wd:Q874954",
+      "name": "Principality of Theodoro",
+      "reigns": 1
+    },
+    {
+      "key": "wd:Q877875",
+      "name": "Palmyrene Empire",
+      "reigns": 4
+    },
+    {
+      "key": "wd:Q940785",
+      "name": "Sabaeans",
+      "reigns": 27
+    },
+    {
+      "key": "wd:Q958291",
+      "name": "United Principalities of Moldavia and Wallachia",
+      "reigns": 2
+    }
+  ],
+  "lostPolities": [
+    {
+      "key": "wd:Q1064034",
+      "name": "Gutian Dynasty",
+      "oldReigns": 1
+    },
+    {
+      "key": "wd:Q5519387",
+      "name": "Galuh Kingdom",
+      "oldReigns": 8
+    },
+    {
+      "key": "wd:Q87791",
+      "name": "Magna Frisia",
+      "oldReigns": 5
+    }
+  ],
+  "statuses": {
+    "polities": 1544,
+    "withAcceptedRulers": 945,
+    "withoutAcceptedRulers": 599,
+    "completeScopedRosters": 0,
+    "dispositions": {
+      "identity-review": 3,
+      "partial-roster": 945,
+      "scope-or-evidence-review": 49,
+      "source-acquisition-or-extraction": 547
+    },
+    "acceptedStatuses": {
+      "approximate": 501,
+      "corroborated": 270,
+      "dates-unknown": 239,
+      "disputed": 21,
+      "source-reviewed": 12278
+    }
+  },
+  "sizeBytes": {
+    "docs/data/population.json": 4653,
+    "docs/data/years.json": 2947,
+    "docs/data/land.json": 237355,
+    "docs/data/polities.json": 33718054,
+    "docs/data/borders.json": 109666,
+    "docs/data/polity_index.json": 438862,
+    "docs/data/cities.json": 215961,
+    "docs/data/rulers.json": 27142882
+  }
+}

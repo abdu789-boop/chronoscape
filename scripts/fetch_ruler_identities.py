@@ -10,7 +10,7 @@ import hashlib
 import json
 from pathlib import Path
 import time
-from urllib.parse import urlencode, unquote
+from urllib.parse import urlencode, unquote, urlsplit, parse_qs
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
@@ -63,43 +63,93 @@ def fetch(item, download):
     return data, receipt
 
 
+def page_identities(data, receipt, titles):
+    query = data.get('query', {})
+    redirects = {r['from']: r['to'] for r in [*query.get('normalized', []), *query.get('redirects', [])]}
+    bytitle = {p['title']: p for p in query.get('pages', {}).values()}
+    result = {}
+    for title in titles:
+        target = title; seen = set()
+        while target in redirects and target not in seen: seen.add(target); target = redirects[target]
+        p = bytitle.get(target, {})
+        result[title] = {'title': target, 'pageId': p.get('pageid'), 'qid': p.get('pageprops', {}).get('wikibase_item'),
+            'missing': 'missing' in p or not p, 'snapshot': {'path': receipt['path'], 'sha256': receipt['sha256']}}
+    return result
+
+
+def person_identities(data, receipt):
+    return {qid: {'label': e.get('labels', {}).get('en', {}).get('value'),
+        'aliases': [a['value'] for a in e.get('aliases', {}).get('en', [])],
+        'description': e.get('descriptions', {}).get('en', {}).get('value'),
+        'wikipedia': e.get('sitelinks', {}).get('enwiki', {}).get('title'),
+        'snapshot': {'path': receipt['path'], 'sha256': receipt['sha256']}}
+        for qid, e in data.get('entities', {}).items()}
+
+
+def recover_cached(previous):
+    """Reuse individual identities from any completed acquisition batch.
+
+    A stopped run may have saved responses before writing the final inventory.
+    Recover those checked snapshots even if a changed title set reshuffles its
+    future batches; this also keeps offline reconstruction independent of batch
+    boundaries. Existing committed evidence remains usable without raw transfer.
+    """
+    receipts = {r['path']:r for r in previous.get('receipts', [])}
+    for file in CACHE.glob('*.receipt.json'):
+        receipt = json.loads(file.read_text()); receipts[receipt['path']] = receipt
+    for receipt in sorted(receipts.values(), key=lambda r:(r.get('retrievedAt',''),r['path'])):
+        path = ROOT / receipt['path']
+        if not path.exists(): continue
+        raw = path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != receipt['sha256']: raise ValueError(f'Changed identity snapshot {path}')
+        data = json.loads(raw)
+        if path.name.startswith('wikipedia-'):
+            titles = parse_qs(urlsplit(receipt['url']).query).get('titles', [''])[0].split('|')
+            previous.setdefault('pages', {}).update(page_identities(data, receipt, titles))
+        elif path.name.startswith('wikidata-'):
+            previous.setdefault('people', {}).update(person_identities(data, receipt))
+    previous['receipts'] = list(receipts.values())
+    return previous
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__); parser.add_argument('--download', action='store_true'); args = parser.parse_args()
     rawrecords = records()
     urls = sorted({r['personKey'] for r in rawrecords if r.get('personKey', '').startswith('https://en.wikipedia.org/wiki/')})
     titles = sorted({unquote(url.split('/wiki/', 1)[1]).replace('_', ' ') for url in urls})
+    # Preserve immutable previously acquired identities. Adding one name must
+    # not reshuffle and refetch every 50-title batch in the entire collection.
+    evidence_path = ROOT / 'sources/rulers/identity-evidence.json'
+    previous = recover_cached(json.loads(evidence_path.read_text()) if evidence_path.exists() else {})
+    pages = {title: previous.get('pages', {})[title] for title in titles if title in previous.get('pages', {})}
+    receipts = list(previous.get('receipts', []))
+    for receipt in receipts:
+        path = ROOT / receipt['path']
+        if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() != receipt['sha256']:
+            raise ValueError(f'Changed identity snapshot {path}')
+    titles = [title for title in titles if title not in pages]
     batches = [('wikipedia', {'action': 'query', 'format': 'json', 'redirects': '1', 'prop': 'pageprops',
                 'ppprop': 'wikibase_item', 'titles': '|'.join(titles[i:i+50]), 'maxlag': '5'}) for i in range(0, len(titles), 50)]
-    pages, receipts = {}, []
-    with ThreadPoolExecutor(max_workers=1) as pool:
-        for i, (data, receipt) in enumerate(pool.map(lambda item: fetch(item, args.download), batches)):
-            receipts.append(receipt); query = data.get('query', {})
-            redirects = {r['from']: r['to'] for r in [*query.get('normalized', []), *query.get('redirects', [])]}
-            bytitle = {p['title']: p for p in query.get('pages', {}).values()}
-            for title in batches[i][1]['titles'].split('|'):
-                target = title; seen = set()
-                while target in redirects and target not in seen: seen.add(target); target = redirects[target]
-                p = bytitle.get(target, {})
-                pages[title] = {'title': target, 'pageId': p.get('pageid'), 'qid': p.get('pageprops', {}).get('wikibase_item'),
-                    'missing': 'missing' in p or not p, 'snapshot': {'path': receipt['path'], 'sha256': receipt['sha256']}}
-            if (i+1) % 10 == 0 or i+1 == len(batches): print(f'Wikipedia identity batches {i+1}/{len(batches)}', flush=True)
-    qids = sorted({r['personKey'][3:] for r in rawrecords if r.get('personKey', '').startswith('wd:Q')} | {p['qid'] for p in pages.values() if p.get('qid')})
-    batches = [('wikidata', {'action': 'wbgetentities', 'format': 'json', 'ids': '|'.join(qids[i:i+50]),
-                'props': 'labels|aliases|descriptions|sitelinks', 'languages': 'en', 'sitefilter': 'enwiki', 'maxlag': '5'}) for i in range(0, len(qids), 50)]
-    people = {}
     with ThreadPoolExecutor(max_workers=1) as pool:
         for i, (data, receipt) in enumerate(pool.map(lambda item: fetch(item, args.download), batches)):
             receipts.append(receipt)
-            for qid, e in data.get('entities', {}).items():
-                people[qid] = {'label': e.get('labels', {}).get('en', {}).get('value'),
-                    'aliases': [a['value'] for a in e.get('aliases', {}).get('en', [])],
-                    'description': e.get('descriptions', {}).get('en', {}).get('value'),
-                    'wikipedia': e.get('sitelinks', {}).get('enwiki', {}).get('title'),
-                    'snapshot': {'path': receipt['path'], 'sha256': receipt['sha256']}}
+            pages.update(page_identities(data, receipt, batches[i][1]['titles'].split('|')))
+            if (i+1) % 10 == 0 or i+1 == len(batches): print(f'Wikipedia identity batches {i+1}/{len(batches)}', flush=True)
+    qids = sorted({r['personKey'][3:] for r in rawrecords if r.get('personKey', '').startswith('wd:Q')} | {p['qid'] for p in pages.values() if p.get('qid')})
+    people = {qid: previous.get('people', {})[qid] for qid in qids if qid in previous.get('people', {})}
+    qids = [qid for qid in qids if qid not in people]
+    batches = [('wikidata', {'action': 'wbgetentities', 'format': 'json', 'ids': '|'.join(qids[i:i+50]),
+                'props': 'labels|aliases|descriptions|sitelinks', 'languages': 'en', 'sitefilter': 'enwiki', 'maxlag': '5'}) for i in range(0, len(qids), 50)]
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        for i, (data, receipt) in enumerate(pool.map(lambda item: fetch(item, args.download), batches)):
+            receipts.append(receipt)
+            people.update(person_identities(data, receipt))
             if (i+1) % 10 == 0 or i+1 == len(batches): print(f'Wikidata identity batches {i+1}/{len(batches)}', flush=True)
+    used_paths = {v['snapshot']['path'] for v in [*pages.values(), *people.values()]}
     result = {'schemaVersion': 1, 'purpose': 'Identity metadata only; no dates or historical accuracy admission.',
-              'pages': pages, 'people': people, 'receipts': receipts}
-    (ROOT / 'sources/rulers/identity-evidence.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
+              'pages': dict(sorted(pages.items())), 'people': dict(sorted(people.items())),
+              'receipts': sorted({r['path']:r for r in receipts if r['path'] in used_paths}.values(), key=lambda r:r['path'])}
+    evidence_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'wikipediaTitles': len(pages), 'wikidataPeople': len(people), 'missingPages': sum(p['missing'] for p in pages.values())}))
 
 

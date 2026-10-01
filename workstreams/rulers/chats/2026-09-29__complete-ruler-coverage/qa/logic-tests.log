@@ -1,0 +1,107 @@
+✔ independently cross-checked identity, office, and dates are corroborated at year precision (3.555833ms)
+✔ passed admission flags without extracted-record checks cannot establish accuracy (0.677833ms)
+✔ Wikipedia and a downstream import or mirror count as one lineage (0.090166ms)
+✔ unknown source lineage cannot count as independent corroboration (0.075125ms)
+✔ candidate and rejected sources cannot be promoted by syntactically matching claims (0.519833ms)
+✔ a source check must have a real matching counterpart record and locator (0.209625ms)
+✔ a matched flag cannot conceal differing extracted observations (0.116458ms)
+✔ admitting a source does not admit another unchecked record from it (0.102542ms)
+✔ matching names and dates do not repair a mismatched personKey (0.119125ms)
+✔ matching names and dates do not repair a mismatched polityKey (0.252084ms)
+✔ matching names and dates do not repair a mismatched role (0.118333ms)
+✔ a record supporting only the name cannot verify the reign dates (0.103709ms)
+✔ unsupported calendar or finer date precision cannot be silently normalized (0.114709ms)
+✔ approximate source dates remain approximate after agreement (0.30775ms)
+✔ known contradictory inspected evidence prevents a settled majority result (0.145042ms)
+✔ a locatable contradictory row from an admitted source blocks agreement without its own paired check (0.357709ms)
+✔ absence of a date in an admitted source is not evidence contradicting a known date (0.089875ms)
+✔ ordinary conflicting sources need scholarly assessment and all supported alternatives (0.255125ms)
+✔ invented or duplicate alternatives cannot manufacture a scholarly date dispute (0.108541ms)
+✔ traditional historicality must be explicitly supported, not inferred from missing sources (0.226958ms)
+✔ one inspected scholarly tradition record may be published without a second matching reign record (0.570125ms)
+✔ single-source tradition exception requires an inspected snapshot and matching scholarly classification (0.608625ms)
+✔ another person, classification, jurisdiction, or nonscholarly source cannot attest a legend label (0.214875ms)
+✔ unknown tenure bounds cannot establish an infinite or undated reign (0.190583ms)
+✔ ongoing tenures are bounded by inspected as-of evidence (0.224209ms)
+✔ BCE/CE boundary, both endpoints, and invalid years preserve activity semantics (0.658625ms)
+✔ full history preserves repeat reigns and concurrent rulers without claiming exclusivity (0.256667ms)
+✔ unverified and wrong-jurisdiction candidates never appear as ruled (0.179083ms)
+✔ a passing row comparison does not establish roster completeness (0.147459ms)
+✔ complete status requires independent roster contents to match the declared scope and entries (1.931875ms)
+✔ every atlas identity needs its own coverage record; extra or missing identities fail (0.09375ms)
+✔ empty search results cannot establish unattested or collective political organization (0.156625ms)
+✔ unknown selections are safe and zero years are rejected as source dates (0.065083ms)
+✔ a sample-checked reference can display its explicitly compared chronologies as disputed (1.002791ms)
+✔ the comparative-reference exception requires sampled admission and every named column and date (1.875208ms)
+✔ same-year source terms sort by signed JSON dates while preserving separate episodes (7.594167ms)
+✔ sample review requires five distinct inspected records and includes failures in its denominator (0.8705ms)
+✔ a missing or fabricated sample check cannot be discarded to manufacture a passing review (1.03725ms)
+✔ a sampled import remains visibly distinct from individual corroboration (0.683542ms)
+✔ source imports require an explicit imported flag and a locatable fingerprinted snapshot (2.022625ms)
+✔ sample admission does not repair wrong identity, jurisdiction, office, or unknown tenure bounds (2.018666ms)
+✔ a credible contrary observation still blocks a source-reviewed import (0.612208ms)
+✔ explicitly incomplete source tenures stay visible without invented activity (3.184625ms)
+✔ incomplete dates cannot bypass missing evidence or a failed source sample (1.334708ms)
+✔ sample admission preserves approximate dates without asserting definite activity (0.287834ms)
+✔ broad source samples are deterministic, stratified and independent of date agreement (174.898541ms)
+✔ office alignment does not treat ceremonial monarchs or all heads of state as effective leaders (68.535417ms)
+✔ new imports require actual historical bounds and a recorded matching snapshot (75.542291ms)
+✔ matching an accession episode retains contrary assertions of that same episode (64.925917ms)
+✔ incomplete source tenures retain their evidence and cannot merge into dated episodes (61.007833ms)
+✔ independent-lineage and homonym checks precede any convenient year match (63.592167ms)
+✔ day-dated separate episodes in one calendar year are not merged into one reign (60.557542ms)
+✔ cross-input duplicate reigns retain both assertions without inventing independent provenance (60.755916ms)
+✔ overlapping contrary imports are withheld while separate restored terms survive (61.321ms)
+✔ comparative chronology imports preserve every printed alternative and the actual reference provenance (59.031042ms)
+✔ inspected aliases align named people and office exceptions without guessing all Ottoman effective leaders (59.585708ms)
+✔ a documented first reign is not sampled against the same person’s separately dated restoration (57.188208ms)
+✔ consolidation preserves original evidence and cannot manufacture corroboration (19.973667ms)
+✔ invalid or overlapping consolidation plans fail closed (0.44075ms)
+✔ an undated observation of an already dated ruler is held without altering the dated episode (0.344166ms)
+✔ an approximate source is not made definite by consolidating equal-year entries (0.974ms)
+✔ a newly discovered conflict also withholds its exact duplicate versions (0.135875ms)
+✔ Mughal alternate names produce one row per reign, retaining genuine restorations (60.256417ms)
+✔ every audited duplicate is consolidated or explicitly withheld across the full dataset (67.796416ms)
+✖ the full identity audit reproduces offline and preserves every original merged observation (168.026542ms)
+ℹ tests 65
+ℹ suites 0
+ℹ pass 64
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 933.731291
+
+✖ failing tests:
+
+test at tests/rulers-identity.test.mjs:93:1
+✖ the full identity audit reproduces offline and preserves every original merged observation (168.026542ms)
+  AssertionError [ERR_ASSERTION]: file:///Users/abdushaikh/Documents/historical-map/scripts/build_rulers.mjs:49
+      if (actual !== fingerprint.sha256) throw new Error(`Stale compared input ${file}; regenerate ${filename}.`);
+                                               ^
+
+  Error: Stale compared input sources/rulers/wikipedia-extracted.json; regenerate sources/rulers/broad-import.json.
+      at file:///Users/abdushaikh/Documents/historical-map/scripts/build_rulers.mjs:49:46
+      at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+      at async node:internal/modules/esm/loader:643:26
+      at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+  Node.js v24.19.0
+
+
+  1 !== 0
+
+      at TestContext.<anonymous> (file:///Users/abdushaikh/Documents/historical-map/tests/rulers-identity.test.mjs:98:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

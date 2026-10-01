@@ -19,7 +19,7 @@ data/raw/           map source snapshots, never edited by hand, never committed
     |  scripts/resolve.py          the precedence engine: which source wins where
     |  scripts/build_app_data.py   runs the engine, derives everything else
     v
-docs/data/*.json    map + independent ruler data, ~53 MB total, committed
+docs/data/*.json    map + independent ruler data, ~62 MB total, committed
     |
     |  docs/index.html + js/       native ES modules + D3/Canvas, no frontend build
     v
@@ -175,7 +175,7 @@ appear at a given year.
 **`borders.json`**, **`land.json`** — Natural Earth reference geometry.
 
 **`rulers.json`** — independent schema-versioned ruler collection, approximately
-19 MB: `calendar`, `sources`, `polities` keyed by exact atlas identity, and
+27 MB: `calendar`, `sources`, `polities` keyed by exact atlas identity, and
 `summary`. Each polity stores its scope, coverage, research leads and accepted
 reigns. Source assertions and merged observations retain provenance. The
 canonical field checks live in `docs/js/rulers.js`; reproduction and admission
@@ -214,11 +214,17 @@ panel without delaying the map. Its immutable source registry caches comparison
 indexes; timeline changes preserve the roster's DOM, expansion and scroll.
 `scripts/build_rulers.mjs` builds the independent ruler collection from committed
 extracted evidence. It applies individual corroboration or explicit sampled-source
-admission, retains source/version/record provenance, and emits the coverage audit.
+admission, retains source/version/record provenance, and emits the accuracy report.
+`audit_ruler_coverage.py` then reconciles that public result against candidate
+extractions and discovery leads for all atlas identities. Its dispositions
+describe remaining research work; they do not certify historical completeness.
 The broad adapters cache polity pages, follow scoped succession lists and explicit
 Wikidata offices, then normalize dated records. A separate comparison adapter
 selects repeatable source samples, holds unresolved conflicts, consolidates
-duplicate tenures and records replacements of censored observations. The public
+duplicate tenures and records replacements of censored observations. Explicitly
+incomplete source tenures retain null bounds and their original date text; they
+are never active on the timeline. Century leader lists failed their sample and
+contribute discovery links only. The public
 builder verifies each extraction fingerprint before accepting the result.
 A final identity audit resolves canonical person IDs and inspected aliases across
 all source families. `audit_ruler_duplicates.py` produces a reproducible plan from

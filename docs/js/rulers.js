@@ -122,6 +122,14 @@ function comparativeChronologyEvidence(claim, extracted, sources, index) {
   });
 }
 
+function incompleteTenureEvidence(assertion, claim) {
+  return claim.dateStatus === 'incomplete' && assertion.dateStatus === 'incomplete'
+    && (claim.from === null || claim.to === null) && claim.ongoing !== true
+    && text(claim.sourceDateText) && assertion.sourceDateText === claim.sourceDateText
+    && assertion.imported === true && text(assertion.snapshot?.path)
+    && /^[a-f0-9]{64}$/i.test(assertion.snapshot?.sha256 || '');
+}
+
 /** Cross-reference extracted facts. This does not authenticate the external pages. */
 export function assessRuler(claim, sources = {}) {
   return assessWithIndex(claim, sources, evidenceIndex(sources));
@@ -176,6 +184,13 @@ function assessWithIndex(claim, sources, index) {
     return result;
   }
   const independent = new Set(supporting.map(assertion => sources[assertion.sourceId].lineage));
+  if (sampled.some(assertion => incompleteTenureEvidence(assertion, claim))) {
+    result.accepted = true;
+    result.status = 'dates-unknown';
+    result.sourceIds = [...new Set(sampled.map(assertion => assertion.sourceId))];
+    result.reasons.push('The sample-checked source names this officeholder but does not supply both tenure bounds. Missing dates remain unknown.');
+    return result;
+  }
   if (independent.size < 2) {
     if (sampled.length && year(claim.from) && (year(claim.to) || sampled.every(a => a.ongoing && year(a.asOf)))) {
       result.accepted = true;

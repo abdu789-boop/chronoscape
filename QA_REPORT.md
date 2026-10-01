@@ -1,6 +1,34 @@
 # Verification record
 
-## Current handover audit — 2026-09-29
+## Ruler expansion — 2026-09-30
+
+The release contains 13,309 accepted reigns across 945 atlas identities; 599
+remain without accepted rulers and no roster is certified complete. Passed:
+
+- 95 JavaScript tests and 55 Python extraction/identity tests.
+- 46 full historical/data checks, with no failures or skipped raw-source checks.
+- Reproducible public build, identity audit, all-polity coverage audit and cache
+  fingerprints from the final committed evidence.
+- 17 desktop/mobile Chrome browser checks; six release screenshots visually
+  inspected, including incomplete tenure dates without inferred activity.
+- Cached Wikipedia, identity, century-list and additional-reference snapshots
+  match their acquisition hashes; exact counts are retained in the task QA.
+
+Wikipedia's detailed succession source passed 29/30 sampled independent
+comparisons and Wikidata passed 30/30. The century-list source failed at 26/30;
+all four failures remain inspectable and its unchecked dates are excluded.
+Identity consolidation removed 2,171 duplicate observations; ambiguous dated and
+undated episodes and known chronology conflicts remain held. Earlier extraction
+errors, parser corrections and removed prior observations are documented in the
+[task handoff and QA](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md).
+
+The software checks establish reproducibility and behavior, not complete
+historical coverage. Map geometry was unchanged; a full geometry rebuild,
+performance remeasurement, comprehensive accessibility audit and live deployment
+check were not performed for this update.
+
+
+## Previous handover audit — 2026-09-29
 
 Rechecked the local application at `1e83435` after documenting setup and adding
 the missing `lxml` and `pypdf` Python dependencies. Application code and generated

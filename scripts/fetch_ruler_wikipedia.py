@@ -1,4 +1,4 @@
-"""Cache Wikipedia succession tables and emit provisional dated ruler records.
+"""Cache Wikipedia succession sources and emit provisional ruler observations.
 
 Uses bundled Python with lxml. --download --fetch-only can run independently of
 offline extraction. Each successful download immediately writes its own receipt.
@@ -27,8 +27,11 @@ OUTPUT = ROOT / 'sources/rulers/wikipedia-extracted.json'
 SOURCE = 'wikipedia-ruler-lists'
 USER_AGENT = 'ChronoscapeHistoricalAtlas/1.0 (offline scholarly source-comparison; public ruler chronologies)'
 # These are direct, polity-specific succession-list candidates, never accepted
-# merely because the URL exists. A successful dated table extraction is needed.
+# merely because the URL exists. An explicitly scoped extraction is needed.
 SEEDS = {
+ 'wd:Q187979': 'List_of_pharaohs',
+ 'wd:Q177819': 'List_of_pharaohs',
+ 'wd:Q191324': 'List_of_pharaohs',
  'wd:Q1986139': 'List_of_monarchs_of_Parthia',
  'wd:Q12560': 'List_of_sultans_of_the_Ottoman_Empire',
  'wd:Q33296': 'Mughal_emperors',
@@ -82,6 +85,12 @@ SEEDS = {
  'wd:Q12557': 'List_of_Mongol_rulers',
 }
 SCOPES = {
+ 'wd:Q1760473': r'Princes of Abkhazia',
+ 'wd:Q1660566': r'Sultanate of Banjar|Sultans of Banjar',
+ 'nm:kingdomofmann': r'Kings of Mann and the North Isles',
+ 'wd:Q187979': r'^Early Dynastic period',
+ 'wd:Q177819': r'^Old Kingdom',
+ 'wd:Q191324': r'^Middle Kingdom',
  'wd:Q28208': r'goryeo', 'nm:joseon': r'joseon', 'wd:Q28370': r'goguryeo',
  'wd:Q28428': r'baekje', 'wd:Q28456': r'silla', 'wd:Q715257': r'(unified|later) silla',
  'wd:Q841364': r'ayutthaya', 'wd:Q863279': r'sukhothai', 'wd:Q869': r'chakri',
@@ -101,19 +110,33 @@ PERIODS = {
  'wd:Q171150': (1000, 1546), 'wd:Q12560': (1299, 1922),
  'wd:Q42585': (1198, 1528),
  'wd:Q484195': (1370, 1506), 'wd:Q83618': (1674, 1818),
+ # The atlas label is Western Jin although its geometry extends into Eastern
+ # Jin. The succession table itself distinguishes the two branches.
+ 'wd:Q7352': (266, 316),
 }
-BLOCKED = {'wd:Q6000379', 'wd:Q201038'}
+POLITY_HOLDS = {
+ 'wd:Q6000379': 'Known atlas identity/period conflict: medieval geometry with a modern federation/source identity.',
+ 'wd:Q201038': 'Roman Kingdom tradition requires an explicit scholarly historicality assessment.',
+ 'nm:greatyuan': 'The BCE atlas period cannot use the source metadata link to the medieval Yuan dynasty.',
+ 'nm:hungariannationalists': 'The source metadata points to Austria-Hungary rather than the Hungarian revolutionary government.',
+ 'wd:Q867227': 'The Au Lac article explicitly discusses competing chronologies and historical tradition; classification is pending.',
+ 'wd:Q27842': 'The Singapura article explicitly questions the Malay Annals king sequence and explains that its years are back-calculated; scholarly historicality/chronology assessment is pending.',
+}
+BLOCKED = set(POLITY_HOLDS)
 HELD_RECORDS = {
  'wikipedia:86e554961a7873e292fd': 'The same Commagene article describes deposition and restoration in 41 CE; a single 38–72 interval hides separate tenure episodes.',
  'wikipedia:68528b2853ef60741368': 'The Au Lac article supplies competing chronologies and explicitly discusses a mixture of history and legend; historicality and date alternatives need classification.',
 }
 EXCLUDED_OFFICE = re.compile(r'\b(deputy|vice[- ]president|vice[- ]premier|lieutenant|speaker|senate|parliament|national assembly|legislative|legislature|consort|minister of)\b', re.I)
 ROLE = {'wd:Q30': 'President', 'wd:Q12560': 'Sultan', 'wd:Q34266': 'Emperor',
+        'wd:Q187979': 'Pharaoh', 'wd:Q177819': 'Pharaoh', 'wd:Q191324': 'Pharaoh',
         'nm:romanempire': 'Emperor', 'wd:Q112039853': 'Emperor', 'nm:easternromanempire': 'Emperor',
         'wd:Q33296': 'Emperor', 'wd:Q12557': 'Khagan', 'wd:Q161205': 'Shah',
         'wd:Q1986139': 'King', 'nm:sasanianempire': 'Shahanshah', 'wd:Q705904': 'King',
         'wd:Q484195': 'Emir', 'wd:Q63134381': 'Shah', 'wd:Q62943': 'Emperor',
         'wd:Q11774': 'Emperor', 'wd:Q167639': 'Emperor', 'wd:Q6806806': 'Emperor'}
+ROLE.update({'wd:Q1760473':'Prince','wd:Q1660566':'Sultan','wd:Q48189':'Grand master',
+             'wd:Q72785':'High commissioner'})
 
 
 def dump(path, value):
@@ -208,30 +231,33 @@ def endpoint(raw, inherited_bce=False, inherited_year=None):
     return value
 
 
-def dates(raw):
+def dates(raw, inherited_bce=False):
     # Preserve scholarly alternatives; do not silently select a slash-separated
     # disputed year or use duration/birth/death as a reign.
     cleaned = re.sub(r'\([^)]*\)|\[[^]]*\]', '', raw).replace('\u2212', '-')
-    if '/' in cleaned or re.search(r'\bor\b', cleaned, re.I): return None
-    pieces = re.split(r'\s*[–—┃]\s*|\s+-\s+|\bto\b', cleaned)
+    if '/' in cleaned or re.search(r'\bor\b|\bfl\.|\bfloruit\b|\bcentury\b|\battested\b|\byears?\b|\b(?:before|after|between|early|late|possibly|probably|uncertain)\b|\d{2,4}s\b', cleaned, re.I): return None
+    pieces = re.split(r'\s*[–—┃─]\s*|\s+-\s+|\bto\b', cleaned)
     if len(pieces) != 2:
-        pieces = re.split(r'(?<=\d)-(?=\d)', cleaned)
+        pieces = re.split(r'(?<=\d)-(?=(?:(?:c\.|ca\.)\s*)?\d)', cleaned)
     if len(pieces) != 2: return None
-    both_bce = bool(re.search(r'\bB\.?C(?:\.?E)?\.?\b', pieces[1], re.I))
-    end = endpoint(pieces[1])
+    both_bce = inherited_bce or bool(re.search(r'\bB\.?C(?:\.?E)?\.?\b', pieces[1], re.I))
+    end = endpoint(pieces[1], inherited_bce)
     start = endpoint(pieces[0], both_bce, end)
     if start is None or end is None or start > end or end - start > 120: return None
     return start, end, 'approximate' if re.search(r'\b(c\.|ca\.|circa|about|approx)', raw, re.I) else 'year', {'from': pieces[0].strip(), 'to': pieces[1].strip()}
 
 
-def date_cell(cell):
+def date_cell(cell, inherited_bce=False, single_year=False):
     # Some tables combine name, reign, and coronation with <hr> separators.
     # Only the segment containing a two-endpoint reign is eligible.
     serialized = html.tostring(cell, encoding='unicode')
     segments = re.split(r'<hr\b[^>]*>', serialized, flags=re.I)
     for segment in segments:
         raw = text(html.fromstring('<div>' + segment + '</div>'))
-        parsed = dates(raw)
+        parsed = dates(raw, inherited_bce)
+        if not parsed and single_year and re.fullmatch(r'(?:(?:AD|CE)\s*)?\d{1,4}(?:\s*(?:BC|BCE|AD|CE))?', raw, re.I):
+            value = endpoint(raw, inherited_bce)
+            if value: parsed = (value, value, 'year', {'from': raw, 'to': raw})
         if parsed: return raw, parsed
     return text(cell), None
 
@@ -255,6 +281,7 @@ def unlinked_name(cell):
         if label and not re.search(r'\d|reign|unknown|circa|^c\.', label, re.I): return label
     value = re.sub(r'\([^)]*\)', '', text(cell)).strip()
     value = re.split(r'\b(?:' + MONTH + r')\b|(?<!\w)\d{3,4}(?!\w)', value, maxsplit=1, flags=re.I)[0]
+    value = re.sub(r'^\d+\.\s+', '', value)
     return re.sub(r'[\s–—,;:]+$|\b(?:c\.|circa)\s*$', '', value).strip()
 
 
@@ -264,8 +291,11 @@ def infer_role(section, headers, default):
     if re.search(r'\bmonarchs?\b', combined, re.I) and re.search(r'\bregents?\b', combined, re.I):
         return 'Sovereign'
     for pattern, role in [(r'prime ministers?|peshwas?', 'Prime minister'), (r'presidents?', 'President'),
+                          (r'governors?', 'Governor'), (r'mayors?', 'Mayor'), (r'counts?|countesses', 'Count'),
                           (r'regents?', 'Regent'), (r'emperors?|khagans?', 'Emperor'), (r'sultans?', 'Sultan'),
-                          (r'grand dukes?', 'Grand duke'), (r'kings?|queens?|monarchs?', 'Monarch')]:
+                          (r'grand masters?', 'Grand master'), (r'strategoi', 'Strategos'), (r'rectors?', 'Rector'),
+                          (r'grand dukes?', 'Grand duke'), (r'dukes?', 'Duke'), (r'princes?', 'Prince'),
+                          (r'kings?|queens?|monarchs?', 'Monarch')]:
         if re.search(r'\b' + pattern + r'\b', combined, re.I): return role
     return default
 
@@ -275,7 +305,8 @@ def non_person_name(value):
     value = value.strip()
     return value.upper() in {'N/A', 'NA', 'N.A.', 'NOT APPLICABLE'} or bool(re.match(
         r'^(?:none\b|did not exist\b|not used\b|not known\b|not recorded\b|'
-        r'no (?:name|temple name|regnal name|title)\b|interregnum\b|vacant\b)', value, re.I))
+        r'no (?:name|temple name|regnal name|title)\b|interregnum\b|vacant\b|'
+        r'(?:a |an |the )?province\b|(?:president|prime minister|head) of the\b)', value, re.I)) or bool(re.search(r'\bgovernment\b|\bcouncil\b|\bcommittee\b|\bjunta\b',value,re.I))
 
 
 def heading(table):
@@ -290,24 +321,48 @@ def heading(table):
     return ' / '.join(active.values())
 
 
-def table_records(document, polity_key, url, receipt, scope=None, dedicated=False):
+def table_records(document, polity_key, url, receipt, scope=None, dedicated=False, allow_incomplete=False):
     out, skipped = [], []
-    for table_number, table in enumerate(document.xpath('//table[contains(@class,"wikitable")]')):
-        if table.xpath('ancestor::*[contains(@class,"navbox")]'): continue
+    # Preserve existing wikitable record IDs. Plain succession tables follow
+    # them in a separate stable part of the snapshot's table inventory.
+    tables = document.xpath('//table[contains(@class,"wikitable")]')
+    tables += document.xpath('//table[not(contains(@class,"wikitable")) and not(ancestor::table)]')
+    for table_number, table in enumerate(tables):
+        if table.xpath('ancestor-or-self::*[contains(@class,"navbox") or contains(@class,"infobox") or contains(@class,"tree-chart")]'): continue
         rows = grid(table)
         section = heading(table)
         if scope and not re.search(scope, section, re.I): continue
-        if re.search(r'length of reign|duration|legendary|mytholog|pretenders|claimants|titular', section, re.I): continue
-        if not dedicated and not re.search(r'rulers?|monarchs?|emperors?|kings?|queens?|sultans?|khans?|presidents?|prime ministers?|succession', section, re.I): continue
+        if re.search(r'length of reign|duration|legendary|mytholog|pretenders|claimants|titular|family tree|genealog|external links|references|office title|statistics', section, re.I): continue
+        ruler_section = bool(re.search(r'rulers?|monarchs?|emperors?|kings?|queens?|sultans?|khans?|presidents?|prime ministers?|succession|pharaohs?|princes?|dukes?|beys?|leaders?', section, re.I))
         header_at = None
         for i, row in enumerate(rows[:8]):
             labels = [text(cell).lower() for cell in row]
-            if any(re.search(r'\b(reign|regnal dates|ruled|in office|term|accession|succeeded|tenure)\b', value) for value in labels):
+            # A dated narrative data cell mentioning a monarch is not a column
+            # header (German Confederation's membership table is a regression).
+            short_headers = [value for value in labels if len(value) < 80 and not re.search(r'\d{2,}', value)]
+            if any(re.search(r'\b(reigns?|reigned|regnal dates|ruled|in office|took office|assumed office|term|accession|succeeded|tenure|ruler from|date of rule)\b', value) for value in short_headers):
+                header_at = i; break
+            if ruler_section and any(re.fullmatch(r'(?:dates?|years?|period)(?:\s*\([^)]*\))?', value) for value in labels):
+                header_at = i; break
+            if (dedicated or ruler_section) and 'from' in labels and any(v in labels for v in ('to','until')):
+                header_at = i; break
+            if (dedicated or ruler_section) and any(re.fullmatch(r'start\s*(?:\([^)]*\))?', label) for label in labels) and any(re.fullmatch(r'end\s*(?:\([^)]*\))?', label) for label in labels):
                 header_at = i; break
             if dedicated and 'name' in labels and any('birth' in value for value in labels) and any('death' in value for value in labels):
                 header_at = i; break
         if header_at is None: continue
         labels = [text(cell).lower() for cell in rows[header_at]]
+        # Rowspanned names and colspan "Term of office" headers are common in
+        # republican lists. Only descend into a genuine header row, then retain
+        # the explicit accession/departure columns and discard term durations.
+        if header_at + 1 < len(rows):
+            next_row = rows[header_at + 1]
+            next_labels = [text(cell).lower() for cell in next_row]
+            if len(next_labels) == len(labels) and all(cell.tag == 'th' for cell in next_row) and any(re.search(r'took office|left office|assumed office', v) for v in next_labels):
+                labels = next_labels
+                header_at += 1
+        incomplete_table = allow_incomplete and (polity_key not in {'wd:Q187979','wd:Q177819','wd:Q191324'} or any('notes' in value for value in labels))
+        if not dedicated and not ruler_section and not any(re.search(r'\b(rulers?|monarchs?|emperors?|kings?|queens?|sultans?|pharaohs?|princes?|dukes?|beys?)\b', value) for value in labels): continue
         # Some prime-minister tables also contain the reigning emperor and his
         # dates. Until their multi-row office headers are explicitly supported,
         # do not read that contextual column as the prime minister's tenure.
@@ -315,8 +370,22 @@ def table_records(document, polity_key, url, receipt, scope=None, dedicated=Fals
             skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number,
                             'reason': 'Mixed executive and monarch columns require explicit office-column mapping'})
             continue
-        name_columns = [i for i, value in enumerate(labels) if re.search(r'\b(name|monarch|emperor|ruler|king|queen|sultan|shah|khan|president|pharaoh)\b', value) and not re.search(r'father|mother|parent|spouse|portrait|image|dynast|vice president', value)]
-        reign_columns = [i for i, value in enumerate(labels) if re.search(r'\b(reign|regnal dates|ruled|in office|term|tenure)\b', value) and not re.search(r'birth|death|dynast', value)]
+        if not dedicated and any(value == 'state' for value in labels):
+            skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number,
+                            'reason': 'Member-state or provincial office table requires explicit jurisdiction mapping'})
+            continue
+        name_columns = [i for i, value in enumerate(labels) if re.search(r'\b(name|monarchs?|emperors?|rulers?|sovereigns?|kings?|queens?|sultans?|shah|khan|president|pharaohs?|princes?|dukes?|beys?|atabeg|governors?|administrators?|mayors?|counts?|countesses|incumbent|rector|chairman|amir-e-sindh)\b', value) and not re.search(r'father|mother|parent|spouse|portrait|image|dynast|vice president|ruler from|ruler until', value)]
+        reign_columns = [i for i, value in enumerate(labels) if (re.search(r'\b(reigns?|reigned|regnal dates|ruled|in office|term|tenure|date of rule|ruler from|ruler until)\b', value) or (ruler_section or dedicated) and re.fullmatch(r'(?:(?:dates?|years?|period|start|end)(?:\s*\([^)]*\))?|(?:approx\.?\s*)?bce?)', value)) and not re.search(r'birth|death|dynast|length|number of|era name|reign\s*\(years\)', value)]
+        explicit_start = [i for i,v in enumerate(labels) if re.fullmatch(r'took office|assumed office|reign start|reigned from',v)]
+        explicit_end = [i for i,v in enumerate(labels) if re.fullmatch(r'left office|reign end|reigned until',v)]
+        if len(explicit_start) == len(explicit_end) == 1:
+            reign_columns = explicit_start + explicit_end
+        else:
+            # Chinese dynasty tables label actual year ranges "Duration of
+            # reign". The cell parser rejects lengths such as "4 years".
+            reign_columns = [i for i in reign_columns if not re.search(r'time in office|^duration$',labels[i])]
+        if not reign_columns and (ruler_section or dedicated) and 'from' in labels and any(v in labels for v in ('to','until')):
+            reign_columns = [labels.index('from'), labels.index('to') if 'to' in labels else labels.index('until')]
         if name_columns and not reign_columns and dedicated and any('birth' in value for value in labels) and any('death' in value for value in labels): reign_columns = [name_columns[0]]
         if not name_columns or not reign_columns: continue
         name_col = name_columns[0]
@@ -332,11 +401,17 @@ def table_records(document, polity_key, url, receipt, scope=None, dedicated=Fals
             reign_columns = [4]
         for row_number, row in enumerate(rows[header_at + 1:], header_at + 1):
             if name_col >= len(row): continue
-            namecell = row[name_col]
+            row_name_col = name_col
+            if not text(row[row_name_col]) or non_person_name(text(row[row_name_col])):
+                alternatives = [col for col in name_columns if col < len(row) and not non_person_name(text(row[col])) and text(row[col])]
+                if alternatives: row_name_col = alternatives[0]
+            namecell = row[row_name_col]
             jurisdictions = [text(row[col]) for col, label in enumerate(labels) if col < len(row) and re.search(r'^ruling part$|^territory$|^realm$', label)]
             if polity_key == 'wd:Q42585' and jurisdictions and not any(re.search(r'\bBohemia\b', value, re.I) for value in jurisdictions): continue
-            # Cells with colspan spanning a table are section labels, not people.
-            if int(re.match(r'\d+', namecell.get('colspan', '1')).group()) > 1: continue
+            # A name may span equivalent name columns (Userkaf's personal and
+            # throne names). A cell spanning dates or notes is a section label.
+            spanned_columns = [i for i, cell in enumerate(row) if cell is namecell]
+            if len(spanned_columns) > 1 and any(i not in name_columns for i in spanned_columns): continue
             name = text(namecell)
             if non_person_name(name):
                 skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number, 'row': row_number,
@@ -344,23 +419,37 @@ def table_records(document, polity_key, url, receipt, scope=None, dedicated=Fals
                 continue
             if not name or re.search(r'\b(interregnum|vacant|dynasty|dynasties|abolished|disputed|legendary|mythical|unknown|unnamed|unidentified)\b', name, re.I): continue
             if polity_key == 'wd:Q12560' and not re.search(r'\d', text(row[0])):
-                skipped.append({'url': url, 'table': table_number, 'row': row_number, 'name': name,
+                skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number, 'row': row_number, 'name': name,
                                 'reason': 'unnumbered claimant/regional ruler or post-sultanate caliph; office scope held for review'})
                 continue
             date_raw, interval = '', None
             for col in reign_columns:
                 if col >= len(row): continue
-                candidate, parsed = date_cell(row[col])
-                if parsed: date_raw, interval = candidate, parsed; break
+                header_bce = bool(re.search(r'\bB\.?C(?:\.?E)?\.?\b', labels[col], re.I)) or bool(re.search(r'\bBCE?\b', section, re.I) and not re.search(r'\b(?:AD|CE)\b', section, re.I))
+                single_year = len(reign_columns) == 1 and bool(re.search(r'reign|in office|tenure|term', labels[col]))
+                candidate, parsed = date_cell(row[col], header_bce, single_year)
+                if parsed:
+                    if re.search(r'approx', labels[col], re.I): parsed = (*parsed[:2], 'approximate', parsed[3])
+                    date_raw, interval = candidate, parsed; break
             if interval is None and len(reign_columns) == 2 and max(reign_columns) < len(row):
                 date_raw = ' – '.join(text(row[col]) for col in reign_columns)
-                interval = dates(date_raw)
-            if interval is None: continue
+                interval = dates(date_raw, any(re.search(r'\bBCE?\b', labels[col], re.I) for col in reign_columns))
+            incomplete = interval is None and incomplete_table
+            if interval is None and not incomplete: continue
             row_text = ' | '.join(text(cell) for cell in dict.fromkeys(row))
-            if re.search(r'\b(legendary|mythical|semi-legendary)\b', name, re.I):
-                skipped.append({'url': url, 'table': table_number, 'row': row_number, 'reason': 'historicality-needs-review', 'name': name})
+            if polity_key in {'wd:Q187979','wd:Q177819','wd:Q191324'} and text(row[0]) == '*':
+                skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number, 'row': row_number,
+                                'reason': 'Unnumbered Egyptian claimant, uncertain king-list identity or possible queen/regent requires an explicit office/historicality assessment.', 'name': name})
+                continue
+            if re.search(r'\b(legendary|mythical|semi-legendary)\b|historicity (?:is )?uncertain|attested only in .*king list|no evidence exists for (?:his|her|their) reign|existence (?:is )?(?:doubtful|disputed|uncertain)|story is almost certainly fiction|convoluted conflation', row_text, re.I):
+                skipped.append({'polityKey': polity_key, 'url': url, 'table': table_number, 'row': row_number, 'reason': 'historicality-needs-review', 'name': name})
                 continue
             linked_name, person_url = person_link(namecell, url)
+            if not linked_name:
+                for col in name_columns:
+                    if col == row_name_col or col >= len(row): continue
+                    linked_name, person_url = person_link(row[col], url)
+                    if linked_name: break
             if linked_name:
                 name = linked_name
             else:
@@ -369,11 +458,32 @@ def table_records(document, polity_key, url, receipt, scope=None, dedicated=Fals
             if len(name) > 120 or not re.search(r'[A-Za-z\u0080-\uffff]', name): continue
             if non_person_name(name): continue
             if re.fullmatch(r'(?:shah|king|queen|duke|prince|emperor|sultan|ratu|marshal|vacant|none)', name, re.I): continue
-            start, end, precision, raw_endpoints = interval
+            if incomplete:
+                date_raw = ' – '.join(text(row[col]) for col in reign_columns if col < len(row)) or 'No tenure dates supplied in this row'
+                # A parser's unsupported expression is not evidence that history
+                # lacks dates. Admit only genuinely missing bounds, attestations
+                # or durations; competing dated chronologies stay in review.
+                if not (re.fullmatch(r'[\s?–—-]*', date_raw) or re.search(r'\?|unknown|not known|not supplied|no tenure dates|\bfl\.|\bfloruit\b|\byears?\b|present|incumbent', date_raw, re.I)):
+                    continue
+                pieces = re.split(r'\s*[–—┃─]\s*|\s+-\s+|\bto\b', date_raw)
+                start = end = None
+                raw_endpoints = {'from': None, 'to': None}
+                if len(pieces) == 2 and not re.search(r'\bfl\.|\bfloruit\b|\byears?\b|\bcentur|/|\bor\b', date_raw, re.I):
+                    bce = bool(re.search(r'\bBCE?\b', date_raw, re.I)) or any(re.search(r'\bBCE?\b', labels[col], re.I) for col in reign_columns)
+                    def partial_bound(piece):
+                        return endpoint(piece, bce) if re.fullmatch(r'\s*(?:(?:c\.|ca\.|circa)\s*)?(?:(?:AD|CE)\s*)?\d{1,4}(?:\s*(?:BC|BCE|AD|CE))?\s*', piece, re.I) else None
+                    start, end = partial_bound(pieces[0]), partial_bound(pieces[1])
+                    raw_endpoints = dict(zip(('from','to'),(s.strip() for s in pieces)))
+                # Two parseable but reversed/implausible bounds are malformed,
+                # not an invitation to relabel the claim as undated.
+                if start is not None and end is not None: continue
+                precision = 'approximate' if re.search(r'\b(c\.|ca\.|circa|about|approx)', date_raw, re.I) else 'year'
+            else:
+                start, end, precision, raw_endpoints = interval
             if chronology: precision = 'approximate'
             identity = hashlib.sha256(f'{url}|{table_number}|{row_number}|{polity_key}'.encode()).hexdigest()[:20]
             locator = f'{url} (section {section or "succession table"}; table {table_number + 1}, row {row_number + 1})'
-            role = ROLE.get(polity_key, infer_role(section, labels, 'Sovereign'))
+            role = ROLE.get(polity_key, infer_role(section + ' / ' + urllib.parse.unquote(url.rsplit('/',1)[-1]).replace('_',' '), labels, 'Sovereign'))
             if polity_key == 'wd:Q12557' and re.search(r'\bregent\b', row_text, re.I): role = 'Regent'
             if EXCLUDED_OFFICE.search(role) or EXCLUDED_OFFICE.search(section): continue
             if jurisdictions: role += ' — ' + '; '.join(jurisdictions)
@@ -384,10 +494,13 @@ def table_records(document, polity_key, url, receipt, scope=None, dedicated=Fals
                         'sourceId': SOURCE, 'sourceRecordId': f'{urllib.parse.unquote(url.rsplit("/",1)[-1])}:table-{table_number + 1}:row-{row_number + 1}',
                         'locator': locator, 'snapshot': {'path': receipt['file'], 'sha256': receipt['sha256']},
                         'sourceDates': raw_endpoints, 'sourceDateText': date_raw, 'sourceName': text(namecell), 'section': section,
-                        'aliases': [text(row[col]) for col in name_columns if col < len(row) and col != name_col and text(row[col])],
-                        'sourceSequence': row_number, 'personUrl': person_url,
+                        'aliases': list(dict.fromkeys(text(row[col]) for col in name_columns if col < len(row) and text(row[col]) and text(row[col]) != name and not non_person_name(text(row[col])))),
+                        'sourceSequence': table_number * 10000 + row_number, 'personUrl': person_url,
                         'sourceJurisdiction': '; '.join(jurisdictions) or None,
                         'note': 'Dates transcribed from the cited succession table; source collection subject to sample review.' + (' ' + chronology if chronology else '')})
+            if incomplete:
+                out[-1]['dateStatus'] = 'incomplete'
+                out[-1]['note'] = 'The source names this officeholder but does not establish both tenure bounds. Reign lengths and attestations are retained as source text, not converted into accession or departure years.'
             if chronology:
                 out[-1]['primaryChronology'] = 'Daryaee (2012)'
                 alternatives = []
@@ -447,6 +560,63 @@ def infobox_records(document, polity_key, url, receipt):
     return out
 
 
+def list_records(document, polity_key, url, receipt, scope=None, dedicated=False):
+    """Named tenures in an explicit succession section, never biography lists.
+
+    Chu_(state) and several smaller dynasties use bullets instead of tables.
+    Only a reign expression or a complete parenthesized reign range is read;
+    life dates, attestations, centuries and undated predecessors stay unresolved.
+    """
+    output, skipped = [], []
+    items = document.xpath('//li[not(ancestor::table) and not(.//li) and '
+        'not(ancestor::nav) and not(ancestor::aside) and '
+        'not(ancestor::*[contains(@class,"navbox") or contains(@class,"toc")])]')
+    contexts, active = {}, {}
+    for node in document.iter():
+        if node.tag in ('h2','h3','h4'):
+            level = int(node.tag[1]); active = {key:value for key,value in active.items() if key < level}
+            active[level] = text(node)
+        if node.tag == 'li': contexts[node] = ' / '.join(active.values())
+    for number, item in enumerate(items, 1):
+        raw = text(item)
+        if not re.search(r'\d', raw): continue
+        section = contexts.get(item, '')
+        if scope and not re.search(scope, section, re.I): continue
+        if not dedicated and not re.search(r'list of (?:rulers|kings|monarchs|princes|dukes|sultans|emperors|counts)|^(?:rulers|kings|monarchs|princes|dukes|sultans|emperors|counts)(?: of | /|$)', section, re.I): continue
+        if re.search(r'legendary|mytholog|family tree|genealog|pretenders?|claimants?|titular|references|bibliography|external links|see also|notes|office title|statistics|^Contents$', section, re.I): continue
+        if re.search(r'\b(?:born|died|birth|death|legendary|mythical|disputed|unknown|floruit)\b|\bfl\.', raw, re.I): continue
+        expression = re.search(r'\b(?:ruled|reigned|r\.)\s+([^;\n]+)', raw, re.I)
+        date_candidates = [expression[1].split(')')[0].strip()] if expression else re.findall(r'\(([^()]*)\)', raw)
+        if dedicated and not date_candidates:
+            # Some dedicated lists give an unparenthesized range after a name.
+            token = r'(?:(?:c\.|ca\.)\s*)?\d{1,4}(?:\s*(?:BC|BCE|AD|CE))?'
+            date_candidates = re.findall(r'(?<!\d)'+token+r'\s*[–—-]\s*'+token+r'(?!\d)', raw, re.I)
+        parsed = [(value, dates(value)) for value in date_candidates]
+        parsed = [(value, interval) for value, interval in parsed if interval]
+        if len(parsed) != 1: continue
+        date_raw, interval = parsed[0]
+        name, person_url = person_link(item, url)
+        if not name:
+            name = re.split(r'\(|\bruled\b|\breigned\b|\br\.', raw, maxsplit=1, flags=re.I)[0].strip(' ,:–—')
+            name = name.replace(date_raw, '', 1).strip(' ,:–—-')
+        if not name or len(name) > 100 or non_person_name(name): continue
+        if re.match(r'^\d+[.\s]', name): continue
+        if re.search(r'\band\b|&|\b(?:dynasty|council|committee|interregnum|vacant)\b', name, re.I): continue
+        identity = hashlib.sha256(f'{url}|list-{number}|{polity_key}'.encode()).hexdigest()[:20]
+        role = ROLE.get(polity_key, infer_role(section + ' / ' + urllib.parse.unquote(url.rsplit('/',1)[-1]).replace('_',' '), [], 'Sovereign'))
+        output.append({'id': 'wikipedia:' + identity, 'polityKey': polity_key,
+            'personKey': person_url or 'wikipedia-person:' + re.sub(r'\W+', '-', name.lower()),
+            'name': name, 'role': role, 'from': interval[0], 'to': interval[1],
+            'precision': interval[2], 'calendar': 'historical', 'sourceId': SOURCE,
+            'sourceRecordId': f'{urllib.parse.unquote(url.rsplit("/",1)[-1])}:list-item-{number}',
+            'locator': f'{url} (section {section}; list item {number})',
+            'snapshot': {'path': receipt['file'], 'sha256': receipt['sha256']},
+            'sourceDates': interval[3], 'sourceDateText': date_raw, 'sourceName': raw,
+            'section': section, 'sourceSequence': number, 'personUrl': person_url,
+            'note': 'Explicit tenure in the cited succession section; source collection subject to sample review.'})
+    return output, skipped
+
+
 def linked_targets(article_targets, index):
     found = []
     for key, url, route, _ in article_targets:
@@ -467,7 +637,11 @@ def linked_targets(article_targets, index):
             if re.search(r'western|eastern|northern|southern', index[key]['n'], re.I):
                 directions = re.findall(r'western|eastern|northern|southern', index[key]['n'].lower())
                 if not all(direction in title.lower() for direction in directions): continue
-            found.append((key, href, 'linked-ruler-list', None))
+            fragment = urllib.parse.unquote(urllib.parse.urlsplit(href).fragment).replace('_', ' ')
+            # A link to one section of a shared list authorizes that section,
+            # not unrelated contemporary caliphates elsewhere on the page.
+            scope = re.escape(fragment) if fragment else SCOPES.get(key)
+            found.append((key, href, 'linked-ruler-list', scope))
     return list(dict.fromkeys(found))
 
 
@@ -482,6 +656,14 @@ def targets(mode):
         linked = linked_targets(output, index)
         if mode == 'linked': return linked
         output.extend(linked)
+        chronology_routes = ROOT / 'sources/rulers/chronology-list-routes.json'
+        if chronology_routes.exists():
+            for route in json.loads(chronology_routes.read_text())['routes']:
+                output.append((route['polityKey'], route['url'], 'linked-ruler-list', route.get('scope')))
+        reviewed_routes = ROOT / 'sources/rulers/reviewed-list-routes.json'
+        if reviewed_routes.exists():
+            for route in json.loads(reviewed_routes.read_text())['routes']:
+                output.append((route['polityKey'], route['url'], 'linked-ruler-list', route.get('scope') or SCOPES.get(route['polityKey'])))
     return list(dict.fromkeys(output))
 
 
@@ -492,9 +674,12 @@ def extract(all_targets):
     by_url = {}
     for key, url, route, _ in all_targets:
         if route == 'polity-article': by_url.setdefault(url, set()).add(key)
-    for key, url, route, scope in all_targets:
+    for target_number, (key, url, route, scope) in enumerate(all_targets, 1):
+        if key in {'wd:Q1760473','wd:Q1660566','nm:kingdomofmann'}:
+            scope = SCOPES[key]
+        if target_number % 100 == 0: print(f'Extracting target {target_number}/{len(all_targets)}', flush=True)
         if key in BLOCKED:
-            skipped.append({'polityKey': key, 'url': url, 'reason': 'Historicality review required for Roman Kingdom tradition' if key == 'wd:Q201038' else 'Known atlas identity/period conflict'})
+            skipped.append({'polityKey': key, 'url': url, 'reason': POLITY_HOLDS[key]})
             continue
         if route == 'polity-article' and key not in PERIODS:
             # Concurrent narrower atlas branches cannot inherit one shared
@@ -512,19 +697,30 @@ def extract(all_targets):
         if hashlib.sha256(path.read_bytes()).hexdigest() != receipt['sha256']: raise ValueError('Cache hash mismatch')
         receipts[url] = receipt
         document = html.fromstring(path.read_bytes())
-        found, rejected = table_records(document, key, receipt['finalUrl'], receipt, scope, route in ['dedicated-list','linked-ruler-list'])
+        warnings = ' '.join(text(node) for node in document.xpath('//table[contains(@class,"ambox")]'))
+        if re.search(r"factual accuracy is disputed|article.*(?:hoax|disputed factual accuracy)", warnings, re.I):
+            skipped.append({'polityKey':key,'url':url,'reason':'The source flags a material factual-accuracy dispute; direct admission held for review.'})
+            continue
+        allow_incomplete = (route == 'polity-article' and len(by_url.get(url, set())) == 1 and key not in PERIODS) or key in {'wd:Q187979','wd:Q177819','wd:Q191324'} and bool(scope)
+        found, rejected = table_records(document, key, receipt['finalUrl'], receipt, scope, route in ['dedicated-list','linked-ruler-list'], allow_incomplete)
+        listed, list_rejected = list_records(document, key, receipt['finalUrl'], receipt, scope, route in ['dedicated-list','linked-ruler-list'])
+        found.extend(listed); rejected.extend(list_rejected)
         if route == 'polity-article' or route == 'dedicated-list' and not url.rsplit('/',1)[-1].startswith('List_of_'):
             found.extend(infobox_records(document, key, receipt['finalUrl'], receipt))
         # Generic broad lists are assigned only within the atlas period. This is
         # an association filter; surviving reign dates are never clipped.
         for row in found:
+            if key == 'wd:Q332137' and row['from'] == 38 and row['to'] == 72 and 'Antiochus' in row['name']:
+                skipped.append({'polityKey':key,'url':url,'recordId':row['id'],'name':row['name'],'locator':row['locator'],
+                                'reason':'The source article documents deposition and restoration in 41 CE; the 38–72 combined interval cannot replace separate tenure episodes.'})
+                continue
             if row['id'] in HELD_RECORDS:
                 skipped.append({'polityKey': key, 'url': url, 'recordId': row['id'], 'name': row['name'], 'locator': row['locator'], 'reason': HELD_RECORDS[row['id']]})
                 continue
             period = PERIODS.get(key)
-            if period and (row['to'] < period[0] or row['from'] > period[1]): continue
-            if route in ['polity-article','linked-ruler-list'] and (row['to'] < index[key]['first'] or row['from'] > index[key]['last']): continue
-            marker = (key, row['personKey'], row['role'], row['from'], row['to'])
+            if period and (row['to'] is not None and row['to'] < period[0] or row['from'] is not None and row['from'] > period[1]): continue
+            if route in ['polity-article','linked-ruler-list'] and (row['to'] is not None and row['to'] < index[key]['first'] or row['from'] is not None and row['from'] > index[key]['last']): continue
+            marker = (key, row['personKey'], row['role'], row['from'], row['to'], row['sourceRecordId'] if row.get('dateStatus') == 'incomplete' else None)
             if marker not in dedup: records.append(row); dedup.add(marker)
         skipped.extend(rejected)
         pages.append({'polityKey': key, 'url': url, 'route': route, 'extracted': len(found)})

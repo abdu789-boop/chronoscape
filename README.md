@@ -52,9 +52,10 @@ It is a personal project, built for curiosity rather than publication.
   data access, dates, URL state, timeline navigation, and map behavior.
 - **Sourced ruler lists** — the selected polity has a dated succession list,
   a persistent Wikipedia article link, source links and separate labels for individually cross-checked records,
-  records from sources checked by sample, and approximate dates. Coverage is
+  records from sources checked by sample, approximate dates and incomplete tenure dates. Coverage is
   partial: every atlas identity has a source-discovery record, but many do not
-  yet have accepted rulers. See [the ruler data guide](docs/data/RULERS.md).
+  yet have accepted rulers. The [coverage audit](sources/rulers/coverage-audit.json)
+  records remaining work for every identity. See [the ruler data guide](docs/data/RULERS.md).
 - **An ontology specification** for modelling vassals, provinces and unions,
   which is **designed but not implemented**.
 

@@ -22,6 +22,157 @@ def infobox(role, cells):
 
 
 class WikipediaExtractionTests(unittest.TestCase):
+    def test_duration_header_can_contain_dates_and_sequence_spans_tables(self):
+        doc = html.fromstring('<div><h2>Rulers</h2><table class="wikitable">'
+            '<tr><th>Personal name</th><th>Duration of reign</th></tr>'
+            '<tr><td>1. Fixture king</td><td>386–400</td></tr>'
+            '<tr><td>Fixture undated A</td><td>8 years</td></tr></table>'
+            '<table class="wikitable"><tr><th>Name</th><th>Reign</th></tr>'
+            '<tr><td>Fixture undated B</td><td>9 years</td></tr></table></div>')
+        rows, _ = W.table_records(doc,'test','https://example.org',RECEIPT,allow_incomplete=True)
+        self.assertEqual((rows[0]['name'],rows[0]['from'],rows[0]['to']),('Fixture king',386,400))
+        self.assertLess(rows[1]['sourceSequence'],rows[2]['sourceSequence'])
+        doc = html.fromstring('<div><h2>High Commissioners</h2><table class="wikitable">'
+            '<tr><th>Name</th><th>Took office</th><th>Left office</th></tr>'
+            '<tr><td>Fixture</td><td>21 December 1898</td><td>30 September 1906</td></tr></table></div>')
+        rows, _ = W.table_records(doc,'test','https://example.org',RECEIPT,dedicated=True)
+        self.assertEqual([(r['from'],r['to']) for r in rows],[(1898,1906)])
+
+    def test_split_office_columns_ignore_duration_and_life_dates(self):
+        # French presidency tables use a multi-row Term header; Palmyra uses
+        # Ruler From/Until. These fixtures isolate the observed column layouts.
+        doc = html.fromstring('<div><h2>Presidents</h2><table class="wikitable">'
+            '<tr><th rowspan="2">Name (Birth–Death)</th><th colspan="3">Term of office</th></tr>'
+            '<tr><th>Took office</th><th>Left office</th><th>Time in office</th></tr>'
+            '<tr><td><a href="/wiki/Fixture">Fixture</a> (1800–1880)</td>'
+            '<td>1 January 1848</td><td>20 December 1852</td><td>4 years</td></tr></table></div>')
+        rows, _ = W.table_records(doc,'test','https://en.wikipedia.org/wiki/Fixture',RECEIPT,dedicated=True)
+        self.assertEqual([(r['name'],r['from'],r['to']) for r in rows],[('Fixture',1848,1852)])
+        doc = html.fromstring('<div><h2>House of Fixture</h2><table class="wikitable">'
+            '<tr><th>Name</th><th>Ruler From</th><th>Ruler Until</th><th>Notes</th></tr>'
+            '<tr><td>Fixture</td><td>260</td><td>267</td><td></td></tr>'
+            '<tr><td>Claimant</td><td>267</td><td>267</td><td>No evidence exists for his reign</td></tr></table></div>')
+        rows, held = W.table_records(doc,'test','https://example.org',RECEIPT,dedicated=True)
+        self.assertEqual([(r['from'],r['to']) for r in rows],[(260,267)])
+        self.assertEqual(held[0]['reason'],'historicality-needs-review')
+
+    def test_header_bce_excludes_reign_lengths_and_alternate_names_resolve(self):
+        doc = html.fromstring('<div><h2>Kings</h2><table><tr><th>Name</th><th>Reign (years)</th><th>Approx. BCE</th></tr>'
+            '<tr><td>Fixture</td><td>52</td><td>544–492</td></tr></table></div>')
+        rows, _ = W.table_records(doc,'test','https://example.org',RECEIPT)
+        self.assertEqual([(r['from'],r['to'],r['precision']) for r in rows],[(-544,-492,'approximate')])
+        doc = html.fromstring('<div><h2>Rulers</h2><table><tr><th>Horus name</th><th>Throne name</th><th>Reign</th></tr>'
+            '<tr><td>Fixture Horus</td><td><a href="/wiki/Fixture">Fixture common name</a></td><td>28 years</td></tr></table></div>')
+        rows, _ = W.table_records(doc,'test','https://en.wikipedia.org/wiki/Fixture',RECEIPT,allow_incomplete=True)
+        self.assertEqual(rows[0]['name'],'Fixture common name')
+        self.assertIn('Fixture Horus',rows[0]['aliases'])
+
+    def test_egypt_name_colspan_is_a_person_but_asterisk_is_not_an_admission(self):
+        doc = html.fromstring('<div><h2>Old Kingdom</h2><table><tr><th>#</th><th>Personal name</th><th>Throne name</th><th>Notes</th><th>Reign</th></tr>'
+            '<tr><td>1</td><td colspan="2">Fixture king</td><td></td><td>8 years</td></tr>'
+            '<tr><td>*</td><td colspan="2">Fixture possible queen</td><td>Office interpretation uncertain</td><td>–</td></tr>'
+            '<tr><th colspan="5">Next dynasty</th></tr></table></div>')
+        rows, held = W.table_records(doc,'wd:Q177819','https://example.org',RECEIPT,allow_incomplete=True)
+        self.assertEqual([r['name'] for r in rows],['Fixture king'])
+        self.assertEqual(rows[0]['from'],None)
+        self.assertIn('office/historicality',held[0]['reason'])
+
+    def test_dedicated_list_excludes_navigation_and_office_labels(self):
+        doc = html.fromstring('<div><h2>Contents</h2><nav><ul><li><a href="#dynasty">1 Fixture dynasty (1200–1300)</a></li></ul></nav>'
+            '<div class="vector-toc"><ul><li>2.1 Fixture branch (1200–1300)</li></ul></div>'
+            '<h2>Partial list of rectors</h2><ul><li>1505 - 1506 Fixture rector</li>'
+            '<li><a href="/wiki/Province">a province</a> (1510–1515)</li>'
+            '<li>Provisional Government (1600–1601)</li></ul>'
+            '<h2>Office title</h2><ul><li>President of the Executive Power (1873–1874)</li></ul></div>')
+        rows, _ = W.list_records(doc,'test','https://en.wikipedia.org/wiki/List_of_rectors_of_Fixture',RECEIPT,dedicated=True)
+        self.assertEqual([(r['name'],r['role'],r['from'],r['to']) for r in rows],[('Fixture rector','Rector',1505,1506)])
+
+    def test_incomplete_source_dates_require_explicit_scope_and_keep_missing_bounds(self):
+        doc = html.fromstring('<div><h2>Rulers</h2><table class="wikitable">'
+            '<tr><th>Ruler</th><th>Reign</th><th>Notes</th></tr>'
+            '<tr><td>Fixture A</td><td>?–665 BC</td><td></td></tr>'
+            '<tr><td>Fixture B</td><td>fl. c. 640 BC</td><td></td></tr>'
+            '<tr><td>Fixture C</td><td>28–29 years</td><td></td></tr>'
+            '<tr><td>Fixture D</td><td>1410s–?</td><td></td></tr>'
+            '<tr><td>Fixture E</td><td>200–100</td><td></td></tr>'
+            '<tr><td>Fixture F</td><td>?</td><td>Historicity uncertain</td></tr></table></div>')
+        self.assertEqual(W.table_records(doc,'test','https://example.org',RECEIPT)[0], [])
+        rows, _ = W.table_records(doc,'test','https://example.org',RECEIPT,allow_incomplete=True)
+        self.assertEqual([(r['from'],r['to']) for r in rows], [(None,-665),(None,None),(None,None),(None,None)])
+        self.assertTrue(all(r['dateStatus']=='incomplete' and r['sourceDateText'] for r in rows))
+        self.assertIsNone(W.dates('before 500–510'))
+
+    def test_single_year_reign_and_separate_bounds_are_explicit(self):
+        doc = html.fromstring('<div><h2>Kings</h2><table class="wikitable">'
+            '<tr><th>King</th><th>Reign</th></tr><tr><td>Fixture king</td><td>499 BC</td></tr>'
+            '<tr><td>Fixture second king</td><td>28–29 years</td></tr></table></div>')
+        rows, _ = W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)
+        self.assertEqual([(r['from'],r['to']) for r in rows], [(-499,-499)])
+        doc = html.fromstring('<div><h2>Rulers</h2><table><tr><th>Name</th><th>From</th><th>To</th></tr>'
+            '<tr><td>Fixture</td><td>1900</td><td>1910</td></tr></table></div>')
+        rows, _ = W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)
+        self.assertEqual([(r['from'],r['to']) for r in rows], [(1900,1910)])
+
+    def test_successions_in_bullets_exclude_biography_and_duration(self):
+        doc = html.fromstring('<div><h2>List of rulers</h2><ul>'
+            '<li><a href="/wiki/Fixture">Fixture king</a>, ruled 740–690 BC</li>'
+            '<li>Fixture short reign (499–498 BC)</li>'
+            '<li>Fixture biography (born 600–died 540 BC)</li>'
+            '<li>Fixture uncertain (fl. 300–299 BC)</li>'
+            '<li>Fixture duration (20–21 years)</li></ul>'
+            '<h2>Notable people</h2><ul><li>Fixture person (1800–1880)</li></ul></div>')
+        rows, _ = W.list_records(doc, 'test', 'https://en.wikipedia.org/wiki/Fixture_state', RECEIPT)
+        self.assertEqual([(r['name'],r['from'],r['to']) for r in rows],
+                         [('Fixture king',-740,-690),('Fixture short reign',-499,-498)])
+
+    def test_plain_cao_table_and_chen_header_supply_bce(self):
+        # Formats observed in Cao_(state), "Rulers of Cao", and Chen_(state),
+        # "Table": BCE belongs to the column, not necessarily every data cell.
+        for table_class in ['', ' class="wikitable"']:
+            doc = html.fromstring('<div><h2>Rulers</h2><table' + table_class + '>'
+                '<tr><th>King</th><th>Reign (BC)</th></tr>'
+                '<tr><td>Fixture duke</td><td>754—745</td></tr>'
+                '<tr><td>Fixture successor</td><td>707─706</td></tr></table></div>')
+            rows, _ = W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)
+            self.assertEqual([(r['from'], r['to']) for r in rows], [(-754, -745), (-707, -706)])
+
+    def test_dates_are_office_dates_only_in_a_ruler_section(self):
+        for role in ['Princes', 'Beys']:
+            doc = html.fromstring(f'<div><h2>{role}</h2><table><tr><th>Name</th><th>Years</th></tr>'
+                '<tr><td>Fixture ruler</td><td>1302–1320</td></tr></table></div>')
+            rows, _ = W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)
+            self.assertEqual(len(rows), 1)
+        doc = html.fromstring('<div><h2>Family tree</h2><table><tr><th>Name</th><th>Reign</th></tr>'
+            '<tr><td>Fixture ruler</td><td>1302–1320</td></tr></table></div>')
+        self.assertEqual(W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)[0], [])
+
+    def test_federation_members_and_subordinate_states_are_not_rulers(self):
+        # German Confederation membership notes contain two dates and an office
+        # word, while Myinsaing's Government table lists provincial rulers.
+        doc = html.fromstring('<div><h2>Establishment and member states</h2><table class="wikitable">'
+            '<tr><th>Category and country</th><th>Notes</th></tr>'
+            '<tr><td>Prussia</td><td>Monarch: included from 1848 to 1851</td></tr></table></div>')
+        self.assertEqual(W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)[0], [])
+        doc = html.fromstring('<div><h2>Government</h2><table class="wikitable">'
+            '<tr><th>State</th><th>Ruler</th><th>Title</th><th>Reign</th></tr>'
+            '<tr><td>Prome</td><td>Fixture governor</td><td>Viceroy</td><td>1289–1323</td></tr></table></div>')
+        rows, skipped = W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)
+        self.assertEqual(rows, [])
+        self.assertIn('jurisdiction', skipped[0]['reason'])
+
+    def test_collapsed_succession_table_is_allowed_but_row_tradition_is_held(self):
+        # House_of_Wittelsbach wraps its genuine succession table in a collapsed
+        # container. Collapse is a presentation attribute, not historicality.
+        doc = html.fromstring('<div><h2>Rulers</h2><table class="mw-collapsible"><tr><td>'
+            '<table class="wikitable"><tr><th>Ruler</th><th>Reign</th><th>Notes</th></tr>'
+            '<tr><td>Fixture A</td><td>1100–1120</td><td></td></tr>'
+            '<tr><td>Fixture B</td><td>1120–1140</td><td>Legendary founder</td></tr>'
+            '</table></td></tr></table></div>')
+        rows, skipped = W.table_records(doc, 'test', 'https://example.org/table', RECEIPT)
+        self.assertEqual([r['name'] for r in rows], ['Fixture A'])
+        self.assertEqual(skipped[0]['reason'], 'historicality-needs-review')
+        self.assertIsNone(W.dates('fl. c. 2120 – c. 2119 BC'))
+
     def test_mixed_prime_minister_and_emperor_columns_are_not_confused(self):
         doc = html.fromstring('<div><h2>Prime ministers</h2><table class="wikitable">'
                               '<tr><th>Prime minister Office</th><th>Term of office</th><th>Emperor Reign</th></tr>'

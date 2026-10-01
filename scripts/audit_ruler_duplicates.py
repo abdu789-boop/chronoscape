@@ -97,9 +97,13 @@ def exact_dates(record):
         match = re.fullmatch(r'([+-]?\d{4,})-(\d{2})-(\d{2})(?:t00:00:00z)?', value)
         if match and int(match[2]) and int(match[3]): result.append(tuple(map(int, match.groups()))); continue
         match = re.fullmatch(r'(\d{1,2})\s+([a-z]+)(?:\s+(\d{1,4}))?', value)
-        if match and match[2] in MONTHS: result.append((int(match[3] or record[field]),MONTHS[match[2]],int(match[1]))); continue
+        if match and match[2] in MONTHS:
+            if not match[3] and not isinstance(record.get(field),int): return None
+            result.append((int(match[3] or record[field]),MONTHS[match[2]],int(match[1]))); continue
         match = re.fullmatch(r'([a-z]+)\s+(\d{1,2}),?\s*(\d{4})?', value)
-        if match and match[1] in MONTHS: result.append((int(match[3] or record[field]),MONTHS[match[1]],int(match[2]))); continue
+        if match and match[1] in MONTHS:
+            if not match[3] and not isinstance(record.get(field),int): return None
+            result.append((int(match[3] or record[field]),MONTHS[match[1]],int(match[2]))); continue
         return None
     return result
 
@@ -181,6 +185,10 @@ def prepare(data, evidence, review):
     merges=[]; retained=[]
     for key, group in sorted(grouped.items(),key=lambda v:str(v[0])):
         if len(group)<2: continue
+        if any(r.get('dateStatus') == 'incomplete' for r in group):
+            retained.append({'polityKey':key[0],'canonicalPerson':key[1],'ids':[r['id'] for r in group],
+                'reason':'Missing tenure bounds cannot establish that two observations describe the same accession episode.'})
+            continue
         # Avoid transitive merges through a generic title when two explicit offices
         # are present, or through a year-only source spanning two separate episodes.
         known=[r for r in group if exact_dates(r)]
@@ -202,8 +210,14 @@ def prepare(data, evidence, review):
     # not silently merged, averaged, or turned into an extra reign.
     by_identity=defaultdict(list)
     for r in rows: by_identity[(r['polityKey'],person(r))].append(r)
-    conflicts=[]
+    conflicts=[]; incomplete_tenures=[]
     for (polity,canonical),group in by_identity.items():
+        for r in group:
+            if r.get('dateStatus') != 'incomplete': continue
+            peers=[other for other in group if other.get('dateStatus') != 'incomplete' and compatible(r,other)
+                   and (r['from'] is None and r['to'] is None or r['from'] is not None and r['from']==other['from'] or r['to'] is not None and r['to']==other['to'])]
+            if peers: incomplete_tenures.append({'polityKey':polity,'canonicalPerson':canonical,'id':r['id'],'datedIds':[p['id'] for p in peers],
+                'reason':'This incompletely dated observation cannot be assigned to an already recorded episode of the canonical person and compatible office.'})
         for i,a in enumerate(group):
             for b in group[i+1:]:
                 if (a['from'],a['to'])==(b['from'],b['to']) or separate(a,b): continue
@@ -228,9 +242,9 @@ def prepare(data, evidence, review):
             'identities':sorted(identities),'classification':'one identity; tenure/office checks applied' if len(identities)==1 else 'different or unresolved identities; never merged by dates'})
     return {'schemaVersion':1,'summary':{'atlasPolities':len(data['polities']),'auditedReigns':len(rows),'politiesWithRulers':sum(bool(p['rulers']) for p in data['polities'].values()),
         'resolvedPersonKeys':len(resolved),'personKeys':len(by_person),'duplicateGroups':len(merges),'duplicateRows':sum(len(g['ids'])-1 for g in merges),
-        'conflictPairs':len(conflicts),'sameIntervalGroups':len(interval_audit),'unresolvedIntervalGroups':len(pending)},
+        'conflictPairs':len(conflicts),'sameIntervalGroups':len(interval_audit),'unresolvedIntervalGroups':len(pending),'incompleteTenuresHeld':len(incomplete_tenures)},
         'identities':[{'polityKey':k[0],'personKey':k[1],'canonicalPerson':v,'basis':proof[k]} for k,v in sorted(resolved.items())],
-        'merges':merges,'conflicts':conflicts,'retainedDistinctTerms':retained,'intervalAudit':interval_audit,'pending':pending,
+        'merges':merges,'conflicts':conflicts,'incompleteTenures':incomplete_tenures,'retainedDistinctTerms':retained,'intervalAudit':interval_audit,'pending':pending,
         'displayCorrections':[{'id':r['id'],'canonicalPerson':person(r),'name':review['displayNames'].get(person(r)) or review['displayNames'].get(person(r)[3:])} for r in rows
             if review.get('displayNames',{}).get(person(r)) or review.get('displayNames',{}).get(person(r)[3:])]}
 

@@ -123,6 +123,22 @@ async function assertPopupFitsViewport(page) {
     await page.screenshot({ path: output + '/mughal.png' });
     await tooltip.locator('.ruler-tooltip-close').click();
 
+    await page.goto(base + '#year=-2500&polity=wd%3AQ177819');
+    await page.waitForFunction(() => document.querySelector('#detail-name').textContent.includes('Old Kingdom') && document.querySelectorAll('.ruler-row').length > 0);
+    await page.locator('#detail-ruler-roster > summary').click();
+    const djoser = page.locator('.ruler-trigger').filter({ has: page.locator('.history-name').filter({ hasText: /^Djoser$/ }) });
+    assert.equal(await djoser.count(), 1);
+    assert.match(await djoser.innerText(), /Dates unknown/);
+    assert.doesNotMatch(await page.locator('#detail-ruler-current').innerText(), /Djoser/);
+    await djoser.click();
+    await tooltip.waitFor({ state: 'visible' });
+    assert.match(await tooltip.innerText(), /Tenure dates incomplete/);
+    assert.match(await tooltip.innerText(), /28–29 years/);
+    assert.doesNotMatch(await tooltip.innerText(), /(?:Possibly in|In) office during/);
+    await assertPopupFitsViewport(page);
+    await page.screenshot({ path: output + '/incomplete-tenure.png' });
+    await tooltip.locator('.ruler-tooltip-close').click();
+
     const mobile = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     mobile.on('pageerror', error => errors.push(error.message));
     await mobile.goto(base + '#year=-91&polity=wd%3AQ1986139');
@@ -163,6 +179,8 @@ async function assertPopupFitsViewport(page) {
     const report = { passed: true, checks: ['ruler selection', 'year updates preserve roster and tooltip DOM', 'keyboard expansion preserves paused playback', 'compact rows contain only name, title, and reign dates', 'hover tooltip retains reachable source links', 'keyboard focus opens tooltip and Escape preserves polity selection', 'outside click and close button dismiss tooltip', 'Wikipedia links with and without rulers', 'mobile tap opens tooltip within viewport and outside tap dismisses it', 'sample-reviewed source label in tooltip', 'expanded Parthian list with disputed chronology and named alternative dates in tooltip', 'unverified coverage', 'polity shortcuts removed', 'search selection and expanded Ottoman list', 'no page errors'], screenshots: ['desktop.png', 'mobile.png', 'parthian.png', 'mobile-tooltip.png'] };
     report.checks.push('Shah Jahan appears once with original aliases and sources in tooltip');
     report.screenshots.push('mughal.png');
+    report.checks.push('Named ancient ruler retains source reign length, unknown tenure dates and no inferred activity');
+    report.screenshots.push('incomplete-tenure.png');
     fs.writeFileSync(output + '/report.json', JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report));
   } finally { await browser.close(); }

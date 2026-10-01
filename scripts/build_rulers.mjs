@@ -171,14 +171,21 @@ const identityConflict = data.polities['wd:Q6000379'];
 identityConflict.note = 'The atlas labels this entry Hashemite Arab Federation in 1415–1439, while its source link points to Arab Iraq. The 1958 Arab Federation must not supply rulers for this medieval geometry. Identity review is required.';
 identityConflict.research.identityStatus = 'conflicting-name-and-period';
 identityConflict.research.links.push({ title: 'US Department of State: Arab Federation formed in 1958', url: 'https://history.state.gov/historicaldocuments/frus1958-60v12/d99' });
-for (const [key, polity] of Object.entries(data.polities)) report.coverage[key] = { name: polity.name, status: polity.coverage, acceptedReigns: polity.rulers.length, sourceIds: polity.sourceIds, research: polity.research };
+for (const [key, polity] of Object.entries(data.polities)) {
+  const checked = report.accepted.filter(row => row.polityKey === key);
+  polity.research.status = checked.some(row => row.status === 'corroborated') ? 'partial-independent-corroboration'
+    : polity.rulers.length ? 'partial-sampled-source-coverage' : 'awaiting-source-and-scope-review';
+  report.coverage[key] = { name: polity.name, status: polity.coverage, acceptedReigns: polity.rulers.length, sourceIds: polity.sourceIds, research: polity.research };
+}
 report.summary = {
   polities: Object.keys(data.polities).length,
   politiesWithCheckedRulers: Object.values(data.polities).filter(p => p.rulers.length).length,
+  politiesWithoutAcceptedRulers: Object.values(data.polities).filter(p => !p.rulers.length).length,
   completeRosters: Object.values(data.polities).filter(p => p.coverage === 'complete').length,
   checkedReigns: report.accepted.length, withheldComparisons: report.withheld.length,
   individuallyCrossChecked: report.accepted.filter(entry => entry.status === 'corroborated').length,
   sourceReviewed: report.accepted.filter(entry => entry.status === 'source-reviewed').length,
+  incompleteDateReigns: report.accepted.filter(entry => entry.status === 'dates-unknown').length,
 };
 data.summary = report.summary;
 const errors = validateRulers(data, index);

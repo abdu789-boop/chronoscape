@@ -1,0 +1,16 @@
+Wikipedia identity batches 10/36
+wikipedia: HTTP Error 429: Too Many Requests; retry after 37s
+Wikipedia identity batches 20/36
+wikipedia: HTTP Error 429: Too Many Requests; retry after 38s
+Wikipedia identity batches 30/36
+wikipedia: HTTP Error 429: Too Many Requests; retry after 37s
+Wikipedia identity batches 36/36
+wikidata: HTTP Error 429: Too Many Requests; retry after 36s
+Wikidata identity batches 10/38
+wikidata: HTTP Error 429: Too Many Requests; retry after 35s
+Wikidata identity batches 20/38
+wikidata: HTTP Error 429: Too Many Requests; retry after 34s
+Wikidata identity batches 30/38
+wikidata: HTTP Error 429: Too Many Requests; retry after 35s
+Wikidata identity batches 38/38
+{"wikipediaTitles": 5298, "wikidataPeople": 7145, "missingPages": 7}

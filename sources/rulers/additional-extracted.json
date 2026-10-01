@@ -3,6 +3,56 @@
   "sources": {},
   "records": [
     {
+      "id": "archigos-4.1:CUB-1959",
+      "polityKey": "nm:communistcuba",
+      "personKey": "archigos-4.1:81df6d18-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Castro",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 1959,
+      "to": 2008,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "CUB-1959",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record CUB-1959)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "1959-01-02",
+        "to": "2008-02-24"
+      },
+      "sequence": 78,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: CUBA. The atlas geometry's approximate period does not replace source tenure dates."
+    },
+    {
+      "id": "archigos-4.1:CUB-2008",
+      "polityKey": "nm:communistcuba",
+      "personKey": "archigos-4.1:824ff801-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Raul Castro",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 2008,
+      "to": null,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "CUB-2008",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record CUB-2008)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "2008-02-24",
+        "to": "2015-12-31"
+      },
+      "sequence": 79,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: CUBA. The atlas geometry's approximate period does not replace source tenure dates. Source observation ends in 2015; it does not establish current incumbency.",
+      "ongoing": true,
+      "asOf": 2015
+    },
+    {
       "id": "archigos-4.1:TRI-1962",
       "polityKey": "wd:Q754",
       "personKey": "archigos-4.1:81e33dbe-1e42-11e4-b4cd-db5882bf8def",
@@ -8277,6 +8327,54 @@
       "note": "Selected source entry; roster coverage is partial. Source jurisdiction: YEMEN (ARAB REPUBLIC OF YEMEN). The atlas geometry's approximate period does not replace source tenure dates."
     },
     {
+      "id": "archigos-4.1:KUW-1965",
+      "polityKey": "nm:stateofkuwait",
+      "personKey": "archigos-4.1:82420b4a-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Sabah As-Sabah",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 1965,
+      "to": 1977,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "KUW-1965",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record KUW-1965)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "1965-11-24",
+        "to": "1977-12-31"
+      },
+      "sequence": 2834,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: KUWAIT. The atlas geometry's approximate period does not replace source tenure dates."
+    },
+    {
+      "id": "archigos-4.1:KUW-1978",
+      "polityKey": "nm:stateofkuwait",
+      "personKey": "archigos-4.1:82423c18-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Jabir As-Sabah",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 1978,
+      "to": 1990,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "KUW-1978",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record KUW-1978)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "1978-01-01",
+        "to": "1990-08-02"
+      },
+      "sequence": 2835,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: KUWAIT. The atlas geometry's approximate period does not replace source tenure dates."
+    },
+    {
       "id": "archigos-4.1:AFG-1868",
       "polityKey": "wd:Q1335260",
       "personKey": "archigos-4.1:19799c28-3bbd-11e5-afeb-eb6f07f9fec7",
@@ -8659,6 +8757,80 @@
       },
       "sequence": 2931,
       "note": "Selected source entry; roster coverage is partial. Source jurisdiction: MONGOLIA. The atlas geometry's approximate period does not replace source tenure dates."
+    },
+    {
+      "id": "archigos-4.1:PRK-1948",
+      "polityKey": "nm:democraticpeoplesrepublicofkorea",
+      "personKey": "archigos-4.1:8245189d-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Kim Il-Sung",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 1948,
+      "to": 1994,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "PRK-1948",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record PRK-1948)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "1948-09-09",
+        "to": "1994-07-08"
+      },
+      "sequence": 2945,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: NORTH KOREA. The atlas geometry's approximate period does not replace source tenure dates."
+    },
+    {
+      "id": "archigos-4.1:PRK-1994",
+      "polityKey": "nm:democraticpeoplesrepublicofkorea",
+      "personKey": "archigos-4.1:8245496c-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Kim Jong-Il",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 1994,
+      "to": 2011,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "PRK-1994",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record PRK-1994)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "1994-07-08",
+        "to": "2011-12-17"
+      },
+      "sequence": 2946,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: NORTH KOREA. The atlas geometry's approximate period does not replace source tenure dates."
+    },
+    {
+      "id": "archigos-4.1:PRK-2011",
+      "polityKey": "nm:democraticpeoplesrepublicofkorea",
+      "personKey": "archigos-4.1:8254eda5-1e42-11e4-b4cd-db5882bf8def",
+      "name": "Kim Jong Un",
+      "role": "Effective primary political leader (Archigos definition)",
+      "from": 2011,
+      "to": null,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "archigos-4.1",
+      "sourceRecordId": "PRK-2011",
+      "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record PRK-2011)",
+      "snapshot": {
+        "path": "data/raw/rulers/archigos-4.1.dta",
+        "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+      },
+      "sourceDates": {
+        "from": "2011-12-17",
+        "to": "2015-12-31"
+      },
+      "sequence": 2947,
+      "note": "Selected source entry; roster coverage is partial. Source jurisdiction: NORTH KOREA. The atlas geometry's approximate period does not replace source tenure dates. Source observation ends in 2015; it does not establish current incumbency.",
+      "ongoing": true,
+      "asOf": 2015
     },
     {
       "id": "archigos-4.1:ROK-1948",
@@ -14322,6 +14494,30 @@
     }
   ],
   "crosswalk": {
+    "archigos-4.1:CUB-1959": {
+      "polityKey": "nm:communistcuba",
+      "atlasName": "Communist Cuba",
+      "sourcePolity": {
+        "name": "CUBA",
+        "sourceId": "40:CUB",
+        "ccode": 40,
+        "idacr": "CUB"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
+    "archigos-4.1:CUB-2008": {
+      "polityKey": "nm:communistcuba",
+      "atlasName": "Communist Cuba",
+      "sourcePolity": {
+        "name": "CUBA",
+        "sourceId": "40:CUB",
+        "ccode": 40,
+        "idacr": "CUB"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
     "archigos-4.1:TRI-1962": {
       "polityKey": "wd:Q754",
       "atlasName": "Republic of Trinidad and Tobago",
@@ -18450,6 +18646,30 @@
       "method": "explicit-source-code-and-regime-period",
       "datesClipped": false
     },
+    "archigos-4.1:KUW-1965": {
+      "polityKey": "nm:stateofkuwait",
+      "atlasName": "State of Kuwait",
+      "sourcePolity": {
+        "name": "KUWAIT",
+        "sourceId": "690:KUW",
+        "ccode": 690,
+        "idacr": "KUW"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
+    "archigos-4.1:KUW-1978": {
+      "polityKey": "nm:stateofkuwait",
+      "atlasName": "State of Kuwait",
+      "sourcePolity": {
+        "name": "KUWAIT",
+        "sourceId": "690:KUW",
+        "ccode": 690,
+        "idacr": "KUW"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
     "archigos-4.1:AFG-1868": {
       "polityKey": "wd:Q1335260",
       "atlasName": "Emirate of Afghanistan",
@@ -18638,6 +18858,42 @@
         "sourceId": "712:MON",
         "ccode": 712,
         "idacr": "MON"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
+    "archigos-4.1:PRK-1948": {
+      "polityKey": "nm:democraticpeoplesrepublicofkorea",
+      "atlasName": "Democratic People's Republic of Korea",
+      "sourcePolity": {
+        "name": "NORTH KOREA",
+        "sourceId": "731:PRK",
+        "ccode": 731,
+        "idacr": "PRK"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
+    "archigos-4.1:PRK-1994": {
+      "polityKey": "nm:democraticpeoplesrepublicofkorea",
+      "atlasName": "Democratic People's Republic of Korea",
+      "sourcePolity": {
+        "name": "NORTH KOREA",
+        "sourceId": "731:PRK",
+        "ccode": 731,
+        "idacr": "PRK"
+      },
+      "method": "explicit-source-code-and-regime-period",
+      "datesClipped": false
+    },
+    "archigos-4.1:PRK-2011": {
+      "polityKey": "nm:democraticpeoplesrepublicofkorea",
+      "atlasName": "Democratic People's Republic of Korea",
+      "sourcePolity": {
+        "name": "NORTH KOREA",
+        "sourceId": "731:PRK",
+        "ccode": 731,
+        "idacr": "PRK"
       },
       "method": "explicit-source-code-and-regime-period",
       "datesClipped": false
@@ -21652,14 +21908,6 @@
       "reason": "No additional explicit jurisdiction crosswalk"
     },
     {
-      "id": "archigos-4.1:CUB-1959",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
-      "id": "archigos-4.1:CUB-2008",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
       "id": "archigos-4.1:HAI-1874",
       "reason": "No additional explicit jurisdiction crosswalk"
     },
@@ -23036,14 +23284,6 @@
       "reason": "No additional explicit jurisdiction crosswalk"
     },
     {
-      "id": "archigos-4.1:KUW-1965",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
-      "id": "archigos-4.1:KUW-1978",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
       "id": "archigos-4.1:QAT-1971",
       "reason": "No additional explicit jurisdiction crosswalk"
     },
@@ -23121,18 +23361,6 @@
     },
     {
       "id": "archigos-4.1:KOR-1907",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
-      "id": "archigos-4.1:PRK-1948",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
-      "id": "archigos-4.1:PRK-1994",
-      "reason": "No additional explicit jurisdiction crosswalk"
-    },
-    {
-      "id": "archigos-4.1:PRK-2011",
       "reason": "No additional explicit jurisdiction crosswalk"
     },
     {
@@ -24537,9 +24765,9 @@
     }
   ],
   "summary": {
-    "records": 594,
-    "polities": 88,
-    "newPolitiesComparedWithReference": 84,
+    "records": 601,
+    "polities": 91,
+    "newPolitiesComparedWithReference": 87,
     "sourceAdmission": "Inherited sampled reviews for archigos-4.1 and islamic-atlas"
   }
 }

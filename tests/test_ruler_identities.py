@@ -2,8 +2,12 @@
 import sys
 from pathlib import Path
 import unittest
+import hashlib
+import json
+import tempfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import audit_ruler_duplicates as A
+import fetch_ruler_identities as F
 
 def row(id, person='wd:Q1', name='Example I', start=100, end=110, role='Emperor', **extra):
     return dict(id=id, polityKey='test:p', personKey=person, name=name, role=role,
@@ -14,6 +18,36 @@ def audit(rows, evidence=None, review=None):
                      evidence or {'pages':{},'people':{}}, review or {})
 
 class IdentityTests(unittest.TestCase):
+    def test_incomplete_tenures_are_not_merged_or_mistaken_for_dated_restorations(self):
+        unknown = [row('a',start=None,end=None,dateStatus='incomplete'),row('b',start=None,end=None,dateStatus='incomplete')]
+        self.assertFalse(audit(unknown)['merges'])
+        result = audit([row('dated'), *unknown])
+        self.assertEqual({r['id'] for r in result['incompleteTenures']}, {'a','b'})
+        different_end = row('other',start=None,end=120,dateStatus='incomplete')
+        self.assertFalse(audit([row('dated'),different_end])['incompleteTenures'])
+        self.assertIsNone(A.exact_dates(row('month',start=None,end=None,sourceDates={'from':'12 May','to':'?'})))
+
+    def test_acquisition_cache_recovers_redirected_names_from_interrupted_batches(self):
+        with tempfile.TemporaryDirectory() as directory:
+            previous_root, previous_cache = F.ROOT, F.CACHE
+            try:
+                F.ROOT=Path(directory); F.CACHE=F.ROOT/'cache'; F.CACHE.mkdir()
+                raw=json.dumps({'query':{'normalized':[{'from':'Alias_name','to':'Alias name'}],
+                    'redirects':[{'from':'Alias name','to':'Fixture person'}],
+                    'pages':{'7':{'title':'Fixture person','pageid':7,'pageprops':{'wikibase_item':'Q1'}},
+                             '-1':{'title':'Missing','missing':''}}}}).encode()
+                file=F.CACHE/'wikipedia-fixture.json';file.write_bytes(raw)
+                receipt={'path':'cache/wikipedia-fixture.json','sha256':hashlib.sha256(raw).hexdigest(),
+                         'url':'https://en.wikipedia.org/w/api.php?titles=Alias_name%7CMissing','retrievedAt':'2026-09-30T00:00:00Z'}
+                file.with_suffix('.receipt.json').write_text(json.dumps(receipt))
+                result=F.recover_cached({})
+                self.assertEqual(result['pages']['Alias_name']['qid'],'Q1')
+                self.assertEqual(result['pages']['Alias_name']['snapshot']['sha256'],receipt['sha256'])
+                self.assertTrue(result['pages']['Missing']['missing'])
+                file.write_bytes(b'changed')
+                with self.assertRaises(ValueError):F.recover_cached({})
+            finally:F.ROOT,F.CACHE=previous_root,previous_cache
+
     def test_redirects_and_regnal_aliases_consolidate(self):
         evidence={'pages':{'Alternate':{'qid':'Q1','pageId':7}},'people':{'Q1':{'label':'Example I','aliases':['Personal Name']}}}
         result=audit([row('a'),row('b','https://en.wikipedia.org/wiki/Alternate','Other name'),

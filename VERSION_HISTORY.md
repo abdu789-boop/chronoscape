@@ -1,5 +1,25 @@
 # Version history
 
+## Ruler coverage expansion — 2026-09-30
+
+- Expanded the collection from 9,567 reigns across 806 polities to 13,309 reigns
+  across 945. The net increase includes new coverage and the removal of prior
+  observations whose chronology or source-accuracy problems remain unresolved.
+- Added scoped list/table extraction, explicit incomplete-tenure evidence and
+  labels, resumable identity acquisition, and an audit of all 1,544 atlas keys.
+  Dates are not inferred from reign lengths or map boundaries.
+- Retained failed century-list sampling (26/30) as discovery-only evidence;
+  separately reviewed detailed-list destinations supply eligible observations.
+- Preserved restorations, distinct offices, original source evidence and known
+  conflicts. Every roster remains partial; 599 polities have no accepted ruler.
+- Passed 95 JavaScript tests, 55 Python tests, 46 full historical checks with no
+  skips and 17 browser checks. Refreshed canonical setup, QA and continuation docs.
+
+See the [expansion handoff](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md)
+for reproducibility evidence and the next research work. Publishing this update
+does not finish the original all-polity coverage request.
+
+
 ## Developer handover documentation — 2026-09-29 (documentation only)
 
 - Added HANDOVER.md with setup, checks, data transfer/reproduction limits,

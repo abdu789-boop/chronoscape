@@ -3,6 +3,7 @@ import { fmtYear } from './data.js';
 
 const labels = {
   corroborated: 'Individually cross-checked', 'source-reviewed': 'Source checked by sample', approximate: 'Approximate chronology',
+  'dates-unknown': 'Tenure dates incomplete',
   disputed: 'Disputed chronology', 'semi-legendary': 'Semi-legendary', legendary: 'Legendary tradition',
 };
 
@@ -23,7 +24,7 @@ function sourceLink(source, locator) {
 }
 
 function reignDates(claim) {
-  const prefix = ['approximate', 'semi-legendary', 'legendary'].includes(claim.assessment.status) ? 'c. ' : '';
+  const prefix = claim.precision === 'approximate' || ['approximate', 'semi-legendary', 'legendary'].includes(claim.assessment.status) ? 'c. ' : '';
   if (claim.from === null && claim.to === null) return 'Dates unknown';
   const first = claim.from === null ? 'Unknown start' : fmtYear(claim.from);
   if (claim.to === null) return `${prefix}${first} – ?`;
@@ -171,6 +172,7 @@ export function createRulersView({ onRetry } = {}) {
         trigger.append(element('span', 'ruler-dates', `${displayRole(claim.role)} · ${reignDates(claim)}`));
         tooltip.bind(trigger, (panel, detail) => {
           panel.append(element('p', 'ruler-status', labels[detail.assessment.status]));
+          if (detail.dateStatus === 'incomplete') panel.append(element('p', 'history-note', `Source chronology: ${detail.sourceDateText}`));
           if (detail.to === null) {
             const cutoffs = detail.assertions.filter(item => item.ongoing && Number.isInteger(item.asOf)).map(item => item.asOf);
             panel.append(element('p', 'history-note', cutoffs.length

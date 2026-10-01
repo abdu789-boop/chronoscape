@@ -1,0 +1,18 @@
+{
+  "wikipedia-extracted": {
+    "checked": 1883,
+    "missing": []
+  },
+  "identity-evidence": {
+    "checked": 362,
+    "missing": []
+  },
+  "chronology-extracted": {
+    "checked": 70,
+    "missing": []
+  },
+  "additional-extracted": {
+    "checked": 6,
+    "missing": []
+  }
+}

@@ -1,7 +1,8 @@
 # Ruler feature verification — 2026-09-09
 
-This is the historical implementation record. The 2026-09-29 handover audit
-reran the current JavaScript/Python suites, offline builds and browser checks;
+This is the historical implementation record. The 2026-09-30 ruler expansion
+adds records and incomplete-tenure support; the historical counts below are not
+current coverage. It reran the JavaScript/Python suites, offline builds and browser checks;
 see [the current QA record](../../QA_REPORT.md) and
 [developer handover](../../HANDOVER.md). Current evidence is retained in the
 repository; temporary screenshot paths below refer to the original session only.
@@ -60,7 +61,7 @@ dates display `?`; the source observation cutoff remains in the detail panel.
 - Desktop, mobile and open-tooltip screenshots were visually inspected.
 - Historical data was unchanged; full geometry validation was not repeated.
 
-## Current coverage
+## Coverage at the 2026-09-09 release
 
 - 1,544 exact atlas keys have coverage and source-discovery records.
 - 806 keys contain 9,567 accepted reign records; 738 have no accepted roster.

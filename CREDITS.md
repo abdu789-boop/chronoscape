@@ -86,7 +86,8 @@ its source and locator. Source-level samples do not certify every imported row.
   institutional sample benchmarks linked from the relevant assertions.
 
 - **Wikipedia contributors**, polity articles and linked succession tables,
-  supply additional dated records after declared sample checks. Each imported
+  supply additional tenure records after declared sample checks. Missing dates
+  remain null and the source's original date text is retained. Each imported
   observation links to its article and records the inspected snapshot. These
   adaptations normalize dates, map jurisdictions and select factual ruler
   fields; attribution and **CC BY-SA 4.0** are retained for Wikipedia-derived
@@ -108,6 +109,9 @@ and sitelinks are cached separately for identity consolidation. Wikipedia names
 retain the Wikipedia attribution above; Wikidata structured data is CC0.
 These identity lookups do not supply or independently corroborate reign dates.
 Consolidated entries retain each original source observation and its locator.
+Century-by-century Wikipedia leader lists are retained as attributed research
+and source-discovery material only: their 26/30 sample failed admission. They
+do not supply unchecked tenure dates to the public collection.
 
 ## Typeface
 

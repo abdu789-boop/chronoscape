@@ -7,14 +7,19 @@ tried and rejected, so nobody re-runs an investigation that already has an answe
 tests, not estimates; where something was rejected, the measurement that killed
 it is given.
 
-## Current continuation points — 2026-09-29
+## Current continuation points — 2026-09-30
 
-The ruler identity audit at `1e83435` is the latest application change. The
-current collection contains 9,567 reigns across 806 of 1,544 atlas identities;
-738 have no accepted roster and none is complete. Continue acquisition, identity
-and scope review under [the ruler policy](sources/rulers/policy.md), using
-`sources/rulers/accuracy-report.json` and the adapter audits to select work.
-Do not interpret the source-discovery inventory as completed ruler coverage.
+The current collection contains 13,309 accepted reigns across 945 of 1,544 atlas
+identities; 599 have no accepted ruler and none has a certified complete roster.
+The all-polity request remains open. Continue under
+[the ruler policy](sources/rulers/policy.md), using the
+[coverage audit](sources/rulers/coverage-audit.json) and
+[expansion handoff](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md).
+The audit distinguishes 3 identity-review cases, 49 scope/evidence-review cases
+and 547 source-acquisition/extraction cases without accepted rulers. These are
+pipeline dispositions, not scholarly claims that the remaining history is unknowable.
+The century-list collection failed its source sample and is discovery-only;
+its unchecked reigns must not be enabled merely to fill gaps.
 
 Developer setup and the latest local checks are in [HANDOVER.md](HANDOVER.md).
 Engineering follow-ups include pinning map-source revisions, preserving the

@@ -1,3 +1,9 @@
 source_id	kind	location	version_or_date	notes
 repo-1e83435	local repository	git:1e83435	2026-09-09	Application/source evidence baseline; existing documentation reviewed against code
 handover-qa-20260929	local verification	workstreams/maintenance/chats/2026-09-29__developer-handover/qa/	2026-09-29 America/New_York	Current automated checks and screenshots; no remote deployment verification
+repo-3c69275	local repository	git:3c69275	2026-09-29	Baseline before current ruler expansion; previously pushed to origin/main
+ruler-wikipedia-20260930	cached public reference extractions	sources/rulers/wikipedia-extracted.json	2026-09-30	Detailed succession pages and inspected routes; source sampling and individual holds; raw snapshots ignored
+ruler-century-review-20260930	failed source review	sources/rulers/chronology-review.json	2026-09-30	26 of 30 comparisons agreed; unchecked tenure records excluded; detailed links used only for discovery
+ruler-identity-20260930	identity metadata	sources/rulers/identity-evidence.json	2026-09-30	Canonical pages, redirects and Wikidata identities; not independent date corroboration
+ruler-additional-20260930	additional explicit crosswalks	sources/rulers/additional-extracted.json	2026-09-30	Archigos and Islamic Atlas source records; preserve actual tenures and right-censoring
+ruler-qa-20260930	local verification	workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/qa/	2026-09-30	Extraction inspections, sample failures, full map validation, tests and browser evidence; not a completeness certificate

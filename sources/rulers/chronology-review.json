@@ -1,0 +1,2031 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "title": "Wikipedia century-by-century state leader chronologies",
+    "url": "https://en.wikipedia.org/wiki/Lists_of_state_leaders_by_century",
+    "lineage": "wikimedia",
+    "kind": "reference",
+    "admission": "candidate",
+    "checks": [],
+    "review": {
+      "method": "sampled",
+      "sampleRecordIds": [
+        "List_of_state_leaders_in_the_10th_century:item-184:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-185:tenure-1",
+        "List_of_state_leaders_in_the_1st_century_BC:item-113:tenure-1",
+        "List_of_state_leaders_in_the_20th_century_(1951–2000):item-2593:tenure-1",
+        "List_of_state_leaders_in_the_3rd_century:item-330:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-386:tenure-1",
+        "List_of_state_leaders_in_the_20th_century_(1901–1950):item-3697:tenure-1",
+        "List_of_state_leaders_in_the_5th_century:item-179:tenure-1",
+        "List_of_state_leaders_in_the_7th_century:item-152:tenure-1",
+        "List_of_state_leaders_in_the_3rd_century:item-113:tenure-1",
+        "List_of_state_leaders_in_the_20th_century_(1901–1950):item-1711:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-198:tenure-1",
+        "List_of_state_leaders_in_the_20th_century_(1901–1950):item-770:tenure-1",
+        "List_of_state_leaders_in_the_9th_century:item-380:tenure-1",
+        "List_of_state_leaders_in_the_3rd_century:item-101:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-191:tenure-1",
+        "List_of_state_leaders_in_the_10th_century:item-185:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-186:tenure-1",
+        "List_of_state_leaders_in_the_2000s:item-991:tenure-1",
+        "List_of_state_leaders_in_the_3rd_century:item-328:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-388:tenure-1",
+        "List_of_state_leaders_in_the_20th_century_(1901–1950):item-3703:tenure-1",
+        "List_of_state_leaders_in_the_5th_century:item-180:tenure-1",
+        "List_of_state_leaders_in_the_8th_century:item-170:tenure-1",
+        "List_of_state_leaders_in_the_13th_century:item-700:tenure-1",
+        "List_of_state_leaders_in_the_6th_century:item-194:tenure-1",
+        "List_of_state_leaders_in_the_2000s:item-667:tenure-1",
+        "List_of_state_leaders_in_the_11th_century:item-511:tenure-1",
+        "List_of_state_leaders_in_the_3rd_century:item-102:tenure-1",
+        "List_of_state_leaders_in_the_10th_century:item-183:tenure-1"
+      ],
+      "samplingNote": "Deterministic SHA256 ordering of source record IDs, round-robin across polity/office strata with independently identifiable benchmarks, up to 30 records. Selection uses identity/office before date agreement; every selected failure remains in the denominator. Unbenchmarked regions are not a statistical accuracy guarantee."
+    }
+  },
+  "reviewAudit": {
+    "selected": 30,
+    "matched": 26,
+    "conflicting": 4,
+    "unresolved": 0
+  },
+  "admission": "failed-sampled-threshold",
+  "requiredAgreement": 0.9,
+  "observedAgreement": 0.8666666666666667,
+  "decision": "Source discovery only. This review never changes the production input list; all selected failures and source snapshots remain inspectable.",
+  "sample": [
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:0f8441bd9a14da362904",
+        "polityKey": "wd:Q4958",
+        "personKey": "wd:Q4993",
+        "name": "Muzong",
+        "role": "Emperor",
+        "from": 951,
+        "to": 969,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "951",
+          "to": "969"
+        },
+        "sourceDateText": "951–969",
+        "sourceSequence": 184,
+        "sequence": 184,
+        "assertions": [
+          {
+            "personKey": "wd:Q4993",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "from": 951,
+            "to": 969,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_10th_century:item-184:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_10th_century (jurisdiction Liao dynasty ( complete list ) –; list item 184; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/3ba54c899bf7b19e246a.html",
+              "sha256": "0882cb56c38d2ff57adc9ce97ca1ec2b2c1b0c64c23c64da77ac9e5673843760"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q4993",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "liao-muzong:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/280/reigns/0",
+            "from": 951,
+            "to": 969
+          },
+          {
+            "personKey": "wd:Q4993",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "16b-4",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn16-u.html#d-16",
+            "from": 951,
+            "to": 969
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:a3cfcd438623a25dd625",
+        "polityKey": "nm:northernqi",
+        "personKey": "wd:Q708325",
+        "name": "Xiaozhao",
+        "role": "Emperor",
+        "from": 560,
+        "to": 561,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "560",
+          "to": "561"
+        },
+        "sourceDateText": "560–561",
+        "sourceSequence": 185,
+        "sequence": 185,
+        "assertions": [
+          {
+            "personKey": "wd:Q708325",
+            "polityKey": "nm:northernqi",
+            "role": "Emperor",
+            "from": 560,
+            "to": 561,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-185:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Northern Qi ( complete list ) –; list item 185; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q708325",
+            "polityKey": "nm:northernqi",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "beiqi-xiaozhaodi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/163/reigns/0",
+            "from": 560,
+            "to": 561
+          },
+          {
+            "personKey": "wd:Q708325",
+            "polityKey": "nm:northernqi",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10l-3",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 560,
+            "to": 561
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:97491fe161cbb3b254fb",
+        "polityKey": "nm:handynasty",
+        "personKey": "wd:Q7225",
+        "name": "Wu",
+        "role": "Emperor",
+        "from": -141,
+        "to": -87,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "141",
+          "to": "87 BC"
+        },
+        "sourceDateText": "141–87 BC",
+        "sourceSequence": 113,
+        "sequence": 113,
+        "assertions": [
+          {
+            "personKey": "wd:Q7225",
+            "polityKey": "nm:handynasty",
+            "role": "Emperor",
+            "from": -141,
+            "to": -87,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_1st_century_BC:item-113:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_1st_century_BC (jurisdiction Western Han, China ( complete list ) –; list item 113; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/1940b8fa3f68cbeeb80a.html",
+              "sha256": "db6a80d96025482dc30fcfb197d8031b924cc46fef82cec340709c093b5218f0"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q7225",
+            "polityKey": "nm:handynasty",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "han-wudi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/8/reigns/0",
+            "from": -141,
+            "to": -87
+          },
+          {
+            "personKey": "wd:Q7225",
+            "polityKey": "nm:handynasty",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "06b-6",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn12-u.html#d-06",
+            "from": -141,
+            "to": -87
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:fb1667dc97cb9d6931d7",
+        "polityKey": "wd:Q668",
+        "personKey": "archigos-4.1:82479369-1e42-11e4-b4cd-db5882bf8def",
+        "name": "Charan Singh",
+        "role": "Prime minister",
+        "from": 1979,
+        "to": 1980,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "1979",
+          "to": "1980"
+        },
+        "sourceDateText": "1979–1980",
+        "sourceSequence": 2593,
+        "sequence": 2593,
+        "assertions": [
+          {
+            "personKey": "archigos-4.1:82479369-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q668",
+            "role": "Prime minister",
+            "from": 1979,
+            "to": 1980,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_20th_century_(1951–2000):item-2593:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_20th_century_(1951%E2%80%932000) (jurisdiction Republic of India; list item 2593; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/24fbf0c7dba11e0bdb37.html",
+              "sha256": "82586b086e9d004288743426e7bf2de7a37b9709ac9368732632d3757c0a0d48"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "archigos-4.1:82479369-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q668",
+            "role": "Prime minister",
+            "from": 1979,
+            "to": 1980,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "archigos-4.1",
+            "sourceRecordId": "IND-1979",
+            "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record IND-1979)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/archigos-4.1.dta",
+              "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+            }
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:0333db1d083c4c054025",
+        "polityKey": "nm:romanempire",
+        "personKey": "classical:gallienus",
+        "name": "Gallienus",
+        "role": "Emperor",
+        "from": 253,
+        "to": 268,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "253",
+          "to": "268"
+        },
+        "sourceDateText": "253–268",
+        "sourceSequence": 330,
+        "sequence": 330,
+        "assertions": [
+          {
+            "personKey": "classical:gallienus",
+            "polityKey": "nm:romanempire",
+            "role": "Emperor",
+            "from": 253,
+            "to": 268,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_3rd_century:item-330:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_3rd_century (jurisdiction Roman Empire ( complete list ) –; list item 330; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/34b1c55557a4a882a375.html",
+              "sha256": "81b08add88de2133f6acd5de1f17c3f4a11194b10e5f573f6a54062dc34332a3"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "classical:gallienus",
+            "polityKey": "nm:romanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "met-roman",
+            "sourceRecordId": "line-248:gallienus",
+            "locator": "https://www.metmuseum.org/toah/hd/roru/hd_roru.htm#:~:text=Gallienus",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/met-roman-tail-web-extract.txt",
+              "sha256": "9c6ca4663a00e33542a54d61ebd30ba2516860c1222c46ef9781e0c94124f8a7"
+            },
+            "from": 253,
+            "to": 268,
+            "imported": true
+          },
+          {
+            "personKey": "classical:gallienus",
+            "polityKey": "nm:romanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "dir-index",
+            "sourceRecordId": "cell-pair-37:gallienus",
+            "locator": "https://roman-emperors.sites.luc.edu/impindex.htm#:~:text=Gallienus",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/dir-index.html",
+              "sha256": "cfc159cd251452207ca7296cbf27d4c14da4645d3a9e61ec7457926e897b53d1"
+            },
+            "from": 253,
+            "to": 268,
+            "imported": true
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:37d885af3b9eff865146",
+        "polityKey": "nm:easternromanempire",
+        "personKey": "classical:justin-ii",
+        "name": "Justin II",
+        "role": "Emperor",
+        "from": 565,
+        "to": 578,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "565",
+          "to": "578"
+        },
+        "sourceDateText": "565–578",
+        "sourceSequence": 386,
+        "sequence": 386,
+        "assertions": [
+          {
+            "personKey": "classical:justin-ii",
+            "polityKey": "nm:easternromanempire",
+            "role": "Emperor",
+            "from": 565,
+            "to": 578,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-386:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Byzantine Empire ( complete list ) –; list item 386; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "classical:justin-ii",
+            "polityKey": "nm:easternromanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "met-byzantine",
+            "sourceRecordId": "line-102:justin ii",
+            "locator": "https://www.metmuseum.org/toah/hd/byru/hd_byru.htm#:~:text=Justin%20II",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/met-web-extract.txt",
+              "sha256": "1f3d611faab483d25697d7980c53e1faf3ed9b77ee6ce0b6021427556f93d77a"
+            },
+            "from": 565,
+            "to": 578,
+            "imported": true
+          },
+          {
+            "personKey": "classical:justin-ii",
+            "polityKey": "nm:easternromanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "dir-index",
+            "sourceRecordId": "cell-pair-91:justin ii",
+            "locator": "https://roman-emperors.sites.luc.edu/impindex.htm#:~:text=Justin%20II",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/dir-index.html",
+              "sha256": "cfc159cd251452207ca7296cbf27d4c14da4645d3a9e61ec7457926e897b53d1"
+            },
+            "from": 565,
+            "to": 578,
+            "imported": true
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:a953399b745e6c030d6a",
+        "polityKey": "wd:Q408",
+        "personKey": "archigos-4.1:824d7d31-1e42-11e4-b4cd-db5882bf8def",
+        "name": "George Reid",
+        "role": "Prime minister",
+        "from": 1904,
+        "to": 1905,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "1904",
+          "to": "1905"
+        },
+        "sourceDateText": "1904–1905",
+        "sourceSequence": 3697,
+        "sequence": 3697,
+        "assertions": [
+          {
+            "personKey": "archigos-4.1:824d7d31-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q408",
+            "role": "Prime minister",
+            "from": 1904,
+            "to": 1905,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_20th_century_(1901–1950):item-3697:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_20th_century_(1901%E2%80%931950) (jurisdiction Australia; list item 3697; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/affae882adc352cc14a3.html",
+              "sha256": "8a363e977b500f4a1b099c2f34e342509c8ae70f08424f65b90fbc371f86931b"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "archigos-4.1:824d7d31-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q408",
+            "role": "Prime minister",
+            "from": 1904,
+            "to": 1905,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "archigos-4.1",
+            "sourceRecordId": "AUL-1904-2",
+            "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record AUL-1904-2)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/archigos-4.1.dta",
+              "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+            }
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "conflict",
+      "claim": {
+        "id": "chronology:4e9f63d11ce6ebcc2bb5",
+        "polityKey": "wd:Q875305",
+        "personKey": "wd:Q1071582",
+        "name": "Xianwen",
+        "role": "Emperor",
+        "from": 466,
+        "to": 471,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "466",
+          "to": "471"
+        },
+        "sourceDateText": "466–471",
+        "sourceSequence": 179,
+        "sequence": 179,
+        "assertions": [
+          {
+            "personKey": "wd:Q1071582",
+            "polityKey": "wd:Q875305",
+            "role": "Emperor",
+            "from": 466,
+            "to": 471,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_5th_century:item-179:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_5th_century (jurisdiction Northern Wei ( complete list ) –; list item 179; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/e1bdd0183448178ef4b3.html",
+              "sha256": "87a1c4fc9ec72fcced2a3505956e1b2b78085a651b5fff607301b2767c76e44d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q1071582",
+            "polityKey": "wd:Q875305",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "beiwei-xiandi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/147/reigns/0",
+            "from": 465,
+            "to": 471
+          },
+          {
+            "personKey": "wd:Q1071582",
+            "polityKey": "wd:Q875305",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10i-6",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 465,
+            "to": 471
+          }
+        ]
+      },
+      "reason": "Known independent tenure-year disagreement; not automatically reconciled."
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:a742c5d09c42ae1e6a18",
+        "polityKey": "wd:Q9683",
+        "personKey": "wd:Q9701",
+        "name": "Taizong",
+        "role": "Emperor",
+        "from": 626,
+        "to": 649,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "626",
+          "to": "649"
+        },
+        "sourceDateText": "626–649",
+        "sourceSequence": 152,
+        "sequence": 152,
+        "assertions": [
+          {
+            "personKey": "wd:Q9701",
+            "polityKey": "wd:Q9683",
+            "role": "Emperor",
+            "from": 626,
+            "to": 649,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_7th_century:item-152:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_7th_century (jurisdiction Tang dynasty ( complete list ) –; list item 152; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/235052f3e9b6a2337956.html",
+              "sha256": "7ec54e210c4952918faf2a35e7b158ba9768b0c43a3f7c62eeb73cfe9579eab2"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q9701",
+            "polityKey": "wd:Q9683",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "tang-taizong:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/194/reigns/0",
+            "from": 626,
+            "to": 649
+          },
+          {
+            "personKey": "wd:Q9701",
+            "polityKey": "wd:Q9683",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "12a-2",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn14-u.html#d-12",
+            "from": 626,
+            "to": 649
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:a0a08fcfc58d8bc0a8b5",
+        "polityKey": "nm:easternwu",
+        "personKey": "wd:Q470030",
+        "name": "Sun Hao",
+        "role": "Emperor",
+        "from": 264,
+        "to": 280,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "264",
+          "to": "280"
+        },
+        "sourceDateText": "264–280",
+        "sourceSequence": 113,
+        "sequence": 113,
+        "assertions": [
+          {
+            "personKey": "wd:Q470030",
+            "polityKey": "nm:easternwu",
+            "role": "Emperor",
+            "from": 264,
+            "to": 280,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_3rd_century:item-113:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_3rd_century (jurisdiction Eastern Wu ( complete list ) –; list item 113; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/34b1c55557a4a882a375.html",
+              "sha256": "81b08add88de2133f6acd5de1f17c3f4a11194b10e5f573f6a54062dc34332a3"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q470030",
+            "polityKey": "nm:easternwu",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "wu-modi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/45/reigns/0",
+            "from": 264,
+            "to": 280
+          },
+          {
+            "personKey": "wd:Q470030",
+            "polityKey": "nm:easternwu",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "07d-4",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-07",
+            "from": 264,
+            "to": 280
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:8640a1c4edf50c0e07b9",
+        "polityKey": "wd:Q12560",
+        "personKey": "islamic-atlas:130-008",
+        "name": "Mehmed VI",
+        "role": "Sultan",
+        "from": 1918,
+        "to": 1922,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "1918",
+          "to": "1922"
+        },
+        "sourceDateText": "1918–1922",
+        "sourceSequence": 1711,
+        "sequence": 1711,
+        "assertions": [
+          {
+            "personKey": "islamic-atlas:130-008",
+            "polityKey": "wd:Q12560",
+            "role": "Sultan",
+            "from": 1918,
+            "to": 1922,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_20th_century_(1901–1950):item-1711:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_20th_century_(1901%E2%80%931950) (jurisdiction Ottoman (Turkish) Empire; list item 1711; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/affae882adc352cc14a3.html",
+              "sha256": "8a363e977b500f4a1b099c2f34e342509c8ae70f08424f65b90fbc371f86931b"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "islamic-atlas:130-008",
+            "polityKey": "wd:Q12560",
+            "role": "Sultan",
+            "from": 1918,
+            "to": 1922,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "islamic-atlas",
+            "sourceRecordId": "130-008",
+            "locator": "https://raw.githubusercontent.com/alicetinkaya76/islamic-civilization-atlas/main/data/all_rulers_merged.csv (record 130-008)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/all_rulers_merged.csv",
+              "sha256": "129b706e2d79b4a0d20b4b1e37dd16a23c6dda25c987db62d2a9aed88f50db20"
+            }
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:bc830f14d2fe9c48f4e4",
+        "polityKey": "nm:liangdynasty",
+        "personKey": "wd:Q1059979",
+        "name": "Jing",
+        "role": "Emperor",
+        "from": 555,
+        "to": 557,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "555",
+          "to": "557"
+        },
+        "sourceDateText": "555–557",
+        "sourceSequence": 198,
+        "sequence": 198,
+        "assertions": [
+          {
+            "personKey": "wd:Q1059979",
+            "polityKey": "nm:liangdynasty",
+            "role": "Emperor",
+            "from": 555,
+            "to": 557,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-198:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Southern Liang ( complete list ) –; list item 198; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q1059979",
+            "polityKey": "nm:liangdynasty",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "liang-jingdi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/126/reigns/0",
+            "from": 555,
+            "to": 557
+          },
+          {
+            "personKey": "wd:Q1059979",
+            "polityKey": "nm:liangdynasty",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10e-6",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 555,
+            "to": 557
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:287cc1172c247a0f2504",
+        "polityKey": "wd:Q30",
+        "personKey": "archigos-4.1:81dd2322-1e42-11e4-b4cd-db5882bf8def",
+        "name": "Calvin Coolidge",
+        "role": "President",
+        "from": 1923,
+        "to": 1929,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "1923",
+          "to": "1929"
+        },
+        "sourceDateText": "1923–1929",
+        "sourceSequence": 770,
+        "sequence": 770,
+        "assertions": [
+          {
+            "personKey": "archigos-4.1:81dd2322-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q30",
+            "role": "President",
+            "from": 1923,
+            "to": 1929,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_20th_century_(1901–1950):item-770:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_20th_century_(1901%E2%80%931950) (jurisdiction United States ( complete list ) –; list item 770; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/affae882adc352cc14a3.html",
+              "sha256": "8a363e977b500f4a1b099c2f34e342509c8ae70f08424f65b90fbc371f86931b"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "archigos-4.1:81dd2322-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q30",
+            "role": "President",
+            "from": 1923,
+            "to": 1929,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "archigos-4.1",
+            "sourceRecordId": "USA-1923",
+            "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record USA-1923)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/archigos-4.1.dta",
+              "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+            }
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:4d193bd7df904cf240e1",
+        "polityKey": "wd:Q112039853",
+        "personKey": "classical:michael-i",
+        "name": "Michael I Rangabe",
+        "role": "Emperor",
+        "from": 811,
+        "to": 813,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "811",
+          "to": "813"
+        },
+        "sourceDateText": "811–813",
+        "sourceSequence": 380,
+        "sequence": 380,
+        "assertions": [
+          {
+            "personKey": "classical:michael-i",
+            "polityKey": "wd:Q112039853",
+            "role": "Emperor",
+            "from": 811,
+            "to": 813,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_9th_century:item-380:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_9th_century (jurisdiction Byzantine Empire ( complete list ) –; list item 380; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/5cdd1313490d328ac5c7.html",
+              "sha256": "e42184df72935a42fa661e543659082ea8d8aacbefa829e21888fd78666928f1"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "classical:michael-i",
+            "polityKey": "wd:Q112039853",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "met-byzantine",
+            "sourceRecordId": "line-192:michael i",
+            "locator": "https://www.metmuseum.org/toah/hd/byru/hd_byru.htm#:~:text=Michael%20I%20Rangabe",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/met-web-extract.txt",
+              "sha256": "1f3d611faab483d25697d7980c53e1faf3ed9b77ee6ce0b6021427556f93d77a"
+            },
+            "from": 811,
+            "to": 813,
+            "imported": true
+          },
+          {
+            "personKey": "classical:michael-i",
+            "polityKey": "wd:Q112039853",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "dir-index",
+            "sourceRecordId": "cell-pair-115:michael i",
+            "locator": "https://roman-emperors.sites.luc.edu/impindex.htm#:~:text=Michael%20I",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/dir-index.html",
+              "sha256": "cfc159cd251452207ca7296cbf27d4c14da4645d3a9e61ec7457926e897b53d1"
+            },
+            "from": 811,
+            "to": 813,
+            "imported": true
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:b13c763243bf92433b9b",
+        "polityKey": "nm:caowei",
+        "personKey": "wd:Q313333",
+        "name": "Cao Pi",
+        "role": "Emperor",
+        "from": 220,
+        "to": 226,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "220",
+          "to": "226"
+        },
+        "sourceDateText": "220–226",
+        "sourceSequence": 101,
+        "sequence": 101,
+        "assertions": [
+          {
+            "personKey": "wd:Q313333",
+            "polityKey": "nm:caowei",
+            "role": "Emperor",
+            "from": 220,
+            "to": 226,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_3rd_century:item-101:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_3rd_century (jurisdiction Cao Wei ( complete list ) –; list item 101; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/34b1c55557a4a882a375.html",
+              "sha256": "81b08add88de2133f6acd5de1f17c3f4a11194b10e5f573f6a54062dc34332a3"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q313333",
+            "polityKey": "nm:caowei",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "wei-wendi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/35/reigns/0",
+            "from": 220,
+            "to": 226
+          },
+          {
+            "personKey": "wd:Q313333",
+            "polityKey": "nm:caowei",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "07b-1",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-07",
+            "from": 220,
+            "to": 226
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:50055c233253c078bd06",
+        "polityKey": "wd:Q62456",
+        "personKey": "wd:Q1190420",
+        "name": "He",
+        "role": "Emperor",
+        "from": 501,
+        "to": 502,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "501",
+          "to": "502"
+        },
+        "sourceDateText": "501–502",
+        "sourceSequence": 191,
+        "sequence": 191,
+        "assertions": [
+          {
+            "personKey": "wd:Q1190420",
+            "polityKey": "wd:Q62456",
+            "role": "Emperor",
+            "from": 501,
+            "to": 502,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-191:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Southern Qi ( complete list ) –; list item 191; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q1190420",
+            "polityKey": "wd:Q62456",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "qi-hedi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/121/reigns/0",
+            "from": 501,
+            "to": 502
+          },
+          {
+            "personKey": "wd:Q1190420",
+            "polityKey": "wd:Q62456",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10d-7",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 501,
+            "to": 502
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:ae9fbc8a6fcdc48cfdb8",
+        "polityKey": "wd:Q4958",
+        "personKey": "wd:Q4997",
+        "name": "Jingzong",
+        "role": "Emperor",
+        "from": 969,
+        "to": 982,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "969",
+          "to": "982"
+        },
+        "sourceDateText": "969–982",
+        "sourceSequence": 185,
+        "sequence": 185,
+        "assertions": [
+          {
+            "personKey": "wd:Q4997",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "from": 969,
+            "to": 982,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_10th_century:item-185:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_10th_century (jurisdiction Liao dynasty ( complete list ) –; list item 185; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/3ba54c899bf7b19e246a.html",
+              "sha256": "0882cb56c38d2ff57adc9ce97ca1ec2b2c1b0c64c23c64da77ac9e5673843760"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q4997",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "liao-jingzong:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/281/reigns/0",
+            "from": 969,
+            "to": 982
+          },
+          {
+            "personKey": "wd:Q4997",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "16b-5",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn16-u.html#d-16",
+            "from": 969,
+            "to": 982
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:4d3474ea849d5fb33866",
+        "polityKey": "nm:northernqi",
+        "personKey": "wd:Q718243",
+        "name": "Wucheng",
+        "role": "Emperor",
+        "from": 561,
+        "to": 565,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "561",
+          "to": "565"
+        },
+        "sourceDateText": "561–565",
+        "sourceSequence": 186,
+        "sequence": 186,
+        "assertions": [
+          {
+            "personKey": "wd:Q718243",
+            "polityKey": "nm:northernqi",
+            "role": "Emperor",
+            "from": 561,
+            "to": 565,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-186:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Northern Qi ( complete list ) –; list item 186; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q718243",
+            "polityKey": "nm:northernqi",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "beiqi-wuchengdi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/164/reigns/0",
+            "from": 561,
+            "to": 565
+          },
+          {
+            "personKey": "wd:Q718243",
+            "polityKey": "nm:northernqi",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10l-4",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 561,
+            "to": 565
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:d66d592e6fadbbf5140f",
+        "polityKey": "wd:Q668",
+        "personKey": "archigos-4.1:8247c43f-1e42-11e4-b4cd-db5882bf8def",
+        "name": "Manmohan Singh",
+        "role": "Prime minister",
+        "from": 2004,
+        "to": 2014,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "2004",
+          "to": "2014"
+        },
+        "sourceDateText": "2004–2014",
+        "sourceSequence": 991,
+        "sequence": 991,
+        "assertions": [
+          {
+            "personKey": "archigos-4.1:8247c43f-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q668",
+            "role": "Prime minister",
+            "from": 2004,
+            "to": 2014,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_2000s:item-991:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_2000s (jurisdiction India; list item 991; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/4c0c601fe56b53ded255.html",
+              "sha256": "3b17093b7782158f561358aef74d3c596c4ef2ea34a0134ac9d4d6d6d3244700"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "archigos-4.1:8247c43f-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q668",
+            "role": "Prime minister",
+            "from": 2004,
+            "to": 2014,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "archigos-4.1",
+            "sourceRecordId": "IND-2004",
+            "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record IND-2004)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/archigos-4.1.dta",
+              "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+            }
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:66db5563a3d0b454d86a",
+        "polityKey": "nm:romanempire",
+        "personKey": "classical:aemilianus",
+        "name": "Aemilianus",
+        "role": "Emperor",
+        "from": 253,
+        "to": 253,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "253",
+          "to": "253"
+        },
+        "sourceDateText": "253",
+        "sourceSequence": 328,
+        "sequence": 328,
+        "assertions": [
+          {
+            "personKey": "classical:aemilianus",
+            "polityKey": "nm:romanempire",
+            "role": "Emperor",
+            "from": 253,
+            "to": 253,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_3rd_century:item-328:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_3rd_century (jurisdiction Roman Empire ( complete list ) –; list item 328; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/34b1c55557a4a882a375.html",
+              "sha256": "81b08add88de2133f6acd5de1f17c3f4a11194b10e5f573f6a54062dc34332a3"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "classical:aemilianus",
+            "polityKey": "nm:romanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "met-roman",
+            "sourceRecordId": "line-244:aemilianus",
+            "locator": "https://www.metmuseum.org/toah/hd/roru/hd_roru.htm#:~:text=Aemilianus",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/met-roman-tail-web-extract.txt",
+              "sha256": "9c6ca4663a00e33542a54d61ebd30ba2516860c1222c46ef9781e0c94124f8a7"
+            },
+            "from": 253,
+            "to": 253,
+            "imported": true
+          },
+          {
+            "personKey": "classical:aemilianus",
+            "polityKey": "nm:romanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "dir-index",
+            "sourceRecordId": "cell-pair-35:aemilianus",
+            "locator": "https://roman-emperors.sites.luc.edu/impindex.htm#:~:text=Aemilius%20Aemilianus",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/dir-index.html",
+              "sha256": "cfc159cd251452207ca7296cbf27d4c14da4645d3a9e61ec7457926e897b53d1"
+            },
+            "from": 253,
+            "to": 253,
+            "imported": true
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:2bf3af93e0740dc0feac",
+        "polityKey": "nm:easternromanempire",
+        "personKey": "classical:maurice",
+        "name": "Maurice",
+        "role": "Emperor",
+        "from": 582,
+        "to": 602,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "582",
+          "to": "602"
+        },
+        "sourceDateText": "582–602",
+        "sourceSequence": 388,
+        "sequence": 388,
+        "assertions": [
+          {
+            "personKey": "classical:maurice",
+            "polityKey": "nm:easternromanempire",
+            "role": "Emperor",
+            "from": 582,
+            "to": 602,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-388:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Byzantine Empire ( complete list ) –; list item 388; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "classical:maurice",
+            "polityKey": "nm:easternromanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "met-byzantine",
+            "sourceRecordId": "line-109:maurice",
+            "locator": "https://www.metmuseum.org/toah/hd/byru/hd_byru.htm#:~:text=Maurice",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/met-web-extract.txt",
+              "sha256": "1f3d611faab483d25697d7980c53e1faf3ed9b77ee6ce0b6021427556f93d77a"
+            },
+            "from": 582,
+            "to": 602,
+            "imported": true
+          },
+          {
+            "personKey": "classical:maurice",
+            "polityKey": "nm:easternromanempire",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "dir-index",
+            "sourceRecordId": "cell-pair-93:maurice",
+            "locator": "https://roman-emperors.sites.luc.edu/impindex.htm#:~:text=Maurice",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/dir-index.html",
+              "sha256": "cfc159cd251452207ca7296cbf27d4c14da4645d3a9e61ec7457926e897b53d1"
+            },
+            "from": 582,
+            "to": 602,
+            "imported": true
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "conflict",
+      "claim": {
+        "id": "chronology:f0350968523b58d5522e",
+        "polityKey": "wd:Q408",
+        "personKey": "archigos-4.1:824dae04-1e42-11e4-b4cd-db5882bf8def",
+        "name": "Andrew Fisher",
+        "role": "Prime minister",
+        "from": 1914,
+        "to": 1916,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "1914",
+          "to": "1916"
+        },
+        "sourceDateText": "1914–1916",
+        "sourceSequence": 3703,
+        "sequence": 3703,
+        "assertions": [
+          {
+            "personKey": "archigos-4.1:824dae04-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q408",
+            "role": "Prime minister",
+            "from": 1914,
+            "to": 1916,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_20th_century_(1901–1950):item-3703:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_20th_century_(1901%E2%80%931950) (jurisdiction Australia; list item 3703; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/affae882adc352cc14a3.html",
+              "sha256": "8a363e977b500f4a1b099c2f34e342509c8ae70f08424f65b90fbc371f86931b"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "archigos-4.1:824dae04-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q408",
+            "role": "Prime minister",
+            "from": 1914,
+            "to": 1915,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "archigos-4.1",
+            "sourceRecordId": "AUL-1914",
+            "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record AUL-1914)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/archigos-4.1.dta",
+              "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+            }
+          }
+        ]
+      },
+      "reason": "Known independent tenure-year disagreement; not automatically reconciled."
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:bfa163a33b1cbe0ddad1",
+        "polityKey": "wd:Q875305",
+        "personKey": "wd:Q1327614",
+        "name": "Xiaowen",
+        "role": "Emperor",
+        "from": 471,
+        "to": 499,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "471",
+          "to": "499"
+        },
+        "sourceDateText": "471–499",
+        "sourceSequence": 180,
+        "sequence": 180,
+        "assertions": [
+          {
+            "personKey": "wd:Q1327614",
+            "polityKey": "wd:Q875305",
+            "role": "Emperor",
+            "from": 471,
+            "to": 499,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_5th_century:item-180:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_5th_century (jurisdiction Northern Wei ( complete list ) –; list item 180; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/e1bdd0183448178ef4b3.html",
+              "sha256": "87a1c4fc9ec72fcced2a3505956e1b2b78085a651b5fff607301b2767c76e44d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q1327614",
+            "polityKey": "wd:Q875305",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "beiwei-xiaowendi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/148/reigns/0",
+            "from": 471,
+            "to": 499
+          },
+          {
+            "personKey": "wd:Q1327614",
+            "polityKey": "wd:Q875305",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10i-7",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 471,
+            "to": 499
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:2ed5fee44b021b370db7",
+        "polityKey": "wd:Q9683",
+        "personKey": "wd:Q9746",
+        "name": "Xuanzong",
+        "role": "Emperor",
+        "from": 712,
+        "to": 756,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "712",
+          "to": "756"
+        },
+        "sourceDateText": "712–756",
+        "sourceSequence": 170,
+        "sequence": 170,
+        "assertions": [
+          {
+            "personKey": "wd:Q9746",
+            "polityKey": "wd:Q9683",
+            "role": "Emperor",
+            "from": 712,
+            "to": 756,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_8th_century:item-170:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_8th_century (jurisdiction Tang dynasty ( complete list ) –; list item 170; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/c5ce0c7652857b113982.html",
+              "sha256": "595f912c25dccd1a944f3c21af9e3a6519c3ff2a35ee9de501f4f80bf11cca0f"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q9746",
+            "polityKey": "wd:Q9683",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "tang-xuanzong:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/199/reigns/0",
+            "from": 712,
+            "to": 756
+          },
+          {
+            "personKey": "wd:Q9746",
+            "polityKey": "wd:Q9683",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "12a-9",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn14-u.html#d-12",
+            "from": 712,
+            "to": 756
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "conflict",
+      "claim": {
+        "id": "chronology:a506ef884a05954508b6",
+        "polityKey": "wd:Q12560",
+        "personKey": "islamic-atlas:130-001",
+        "name": "Osman I",
+        "role": "Sultan",
+        "from": 1299,
+        "to": 1326,
+        "precision": "approximate",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "c.1299",
+          "to": "1326"
+        },
+        "sourceDateText": "c.1299–1326",
+        "sourceSequence": 700,
+        "sequence": 700,
+        "assertions": [
+          {
+            "personKey": "islamic-atlas:130-001",
+            "polityKey": "wd:Q12560",
+            "role": "Sultan",
+            "from": 1299,
+            "to": 1326,
+            "precision": "approximate",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_13th_century:item-700:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_13th_century (jurisdiction Ottoman Empire ( complete list ) –; list item 700; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/4fa567df3c2cc95b92ad.html",
+              "sha256": "2ac0c5ce8ce43b5ea32a358a003a6eeac22ebab47e16b66bf9a4f76cdc95e602"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "islamic-atlas:130-001",
+            "polityKey": "wd:Q12560",
+            "role": "Sultan",
+            "from": 1300,
+            "to": 1326,
+            "precision": "approximate",
+            "calendar": "historical",
+            "sourceId": "islamic-atlas",
+            "sourceRecordId": "130-001",
+            "locator": "https://raw.githubusercontent.com/alicetinkaya76/islamic-civilization-atlas/main/data/all_rulers_merged.csv (record 130-001)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/all_rulers_merged.csv",
+              "sha256": "129b706e2d79b4a0d20b4b1e37dd16a23c6dda25c987db62d2a9aed88f50db20"
+            }
+          }
+        ]
+      },
+      "reason": "Known independent tenure-year disagreement; not automatically reconciled."
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:81a9ffbb752497dcaf8a",
+        "polityKey": "nm:liangdynasty",
+        "personKey": "wd:Q1140994",
+        "name": "Jianwen",
+        "role": "Emperor",
+        "from": 549,
+        "to": 551,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "549",
+          "to": "551"
+        },
+        "sourceDateText": "549–551",
+        "sourceSequence": 194,
+        "sequence": 194,
+        "assertions": [
+          {
+            "personKey": "wd:Q1140994",
+            "polityKey": "nm:liangdynasty",
+            "role": "Emperor",
+            "from": 549,
+            "to": 551,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_6th_century:item-194:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_6th_century (jurisdiction Southern Liang ( complete list ) –; list item 194; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/976e70d37d00fda6d851.html",
+              "sha256": "1f749f54cbac6e923dd4878c4b7d4c39a511525b5f5c24207d76f1b0825add3d"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q1140994",
+            "polityKey": "nm:liangdynasty",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "liang-jianwendi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/123/reigns/0",
+            "from": 549,
+            "to": 551
+          },
+          {
+            "personKey": "wd:Q1140994",
+            "polityKey": "nm:liangdynasty",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "10e-2",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-10",
+            "from": 549,
+            "to": 551
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:c9087ef36d6acd4c7e6f",
+        "polityKey": "wd:Q30",
+        "personKey": "archigos-4.1:81ddb59c-1e42-11e4-b4cd-db5882bf8def",
+        "name": "George W. Bush",
+        "role": "President",
+        "from": 2001,
+        "to": 2009,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "2001",
+          "to": "2009"
+        },
+        "sourceDateText": "2001–2009",
+        "sourceSequence": 667,
+        "sequence": 667,
+        "assertions": [
+          {
+            "personKey": "archigos-4.1:81ddb59c-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q30",
+            "role": "President",
+            "from": 2001,
+            "to": 2009,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_2000s:item-667:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_2000s (jurisdiction United States ( complete list ) –; list item 667; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/4c0c601fe56b53ded255.html",
+              "sha256": "3b17093b7782158f561358aef74d3c596c4ef2ea34a0134ac9d4d6d6d3244700"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "archigos-4.1:81ddb59c-1e42-11e4-b4cd-db5882bf8def",
+            "polityKey": "wd:Q30",
+            "role": "President",
+            "from": 2001,
+            "to": 2009,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "archigos-4.1",
+            "sourceRecordId": "USA-2001",
+            "locator": "https://www.rochester.edu/college/faculty/hgoemans/Archigos_4.1_stata14.dta (record USA-2001)",
+            "imported": true,
+            "snapshot": {
+              "path": "data/raw/rulers/archigos-4.1.dta",
+              "sha256": "3e3b4092a7ac5a7e78cd86df6e6287c69027bf6fe60c9396adf136a39b1943ad"
+            }
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:60029f130d5c2218158f",
+        "polityKey": "wd:Q112039853",
+        "personKey": "classical:basil-ii",
+        "name": "Basil II",
+        "role": "Emperor",
+        "from": 976,
+        "to": 1025,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "976",
+          "to": "1025"
+        },
+        "sourceDateText": "976–1025",
+        "sourceSequence": 511,
+        "sequence": 511,
+        "assertions": [
+          {
+            "personKey": "classical:basil-ii",
+            "polityKey": "wd:Q112039853",
+            "role": "Emperor",
+            "from": 976,
+            "to": 1025,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_11th_century:item-511:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_11th_century (jurisdiction Byzantine Empire ( complete list ) –; list item 511; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/9983e4714b6804864dd2.html",
+              "sha256": "117856b555d2ae51fd548af87d8c1bd462d19a60f6a70f358e6d160c72ac6659"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "classical:basil-ii",
+            "polityKey": "wd:Q112039853",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "met-byzantine",
+            "sourceRecordId": "line-245:basil ii",
+            "locator": "https://www.metmuseum.org/toah/hd/byru/hd_byru.htm#:~:text=Basil%20II",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/met-web-extract.txt",
+              "sha256": "1f3d611faab483d25697d7980c53e1faf3ed9b77ee6ce0b6021427556f93d77a"
+            },
+            "from": 976,
+            "to": 1025,
+            "imported": true
+          },
+          {
+            "personKey": "classical:basil-ii",
+            "polityKey": "wd:Q112039853",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "dir-index",
+            "sourceRecordId": "cell-pair-129:basil ii",
+            "locator": "https://roman-emperors.sites.luc.edu/impindex.htm#:~:text=Basil%20II",
+            "snapshot": {
+              "path": "data/raw/rulers/classical/dir-index.html",
+              "sha256": "cfc159cd251452207ca7296cbf27d4c14da4645d3a9e61ec7457926e897b53d1"
+            },
+            "from": 976,
+            "to": 1025,
+            "imported": true
+          }
+        ],
+        "checksOnly": true
+      }
+    },
+    {
+      "outcome": "conflict",
+      "claim": {
+        "id": "chronology:ac66ce7e781edcb7a377",
+        "polityKey": "nm:caowei",
+        "personKey": "wd:Q378470",
+        "name": "Cao Rui",
+        "role": "Emperor",
+        "from": 227,
+        "to": 239,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "227",
+          "to": "239"
+        },
+        "sourceDateText": "227–239",
+        "sourceSequence": 102,
+        "sequence": 102,
+        "assertions": [
+          {
+            "personKey": "wd:Q378470",
+            "polityKey": "nm:caowei",
+            "role": "Emperor",
+            "from": 227,
+            "to": 239,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_3rd_century:item-102:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_3rd_century (jurisdiction Cao Wei ( complete list ) –; list item 102; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/34b1c55557a4a882a375.html",
+              "sha256": "81b08add88de2133f6acd5de1f17c3f4a11194b10e5f573f6a54062dc34332a3"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q378470",
+            "polityKey": "nm:caowei",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "wei-mingdi:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/36/reigns/0",
+            "from": 226,
+            "to": 239
+          },
+          {
+            "personKey": "wd:Q378470",
+            "polityKey": "nm:caowei",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "07b-2",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn13-u.html#d-07",
+            "from": 226,
+            "to": 239
+          }
+        ]
+      },
+      "reason": "Known independent tenure-year disagreement; not automatically reconciled."
+    },
+    {
+      "outcome": "matched",
+      "claim": {
+        "id": "chronology:c4f16fa9dca8a92ced13",
+        "polityKey": "wd:Q4958",
+        "personKey": "wd:Q4992",
+        "name": "Shizong",
+        "role": "Emperor",
+        "from": 947,
+        "to": 951,
+        "precision": "year",
+        "note": "Explicitly linked jurisdiction and office in the cited century chronology. Separate listed tenures are retained; map bounds only select the associated atlas period.",
+        "sourceDates": {
+          "from": "947",
+          "to": "951"
+        },
+        "sourceDateText": "947–951",
+        "sourceSequence": 183,
+        "sequence": 183,
+        "assertions": [
+          {
+            "personKey": "wd:Q4992",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "from": 947,
+            "to": 951,
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "wikipedia-century-leaders",
+            "sourceRecordId": "List_of_state_leaders_in_the_10th_century:item-183:tenure-1",
+            "locator": "https://en.wikipedia.org/wiki/List_of_state_leaders_in_the_10th_century (jurisdiction Liao dynasty ( complete list ) –; list item 183; tenure 1)",
+            "snapshot": {
+              "path": "data/raw/rulers/wikipedia/3ba54c899bf7b19e246a.html",
+              "sha256": "0882cb56c38d2ff57adc9ce97ca1ec2b2c1b0c64c23c64da77ac9e5673843760"
+            },
+            "imported": true
+          },
+          {
+            "personKey": "wd:Q4992",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "emperor-stats",
+            "sourceRecordId": "liao-shizong:0",
+            "locator": "https://raw.githubusercontent.com/kotenbu135/emperor-stats/main/data/emperors.json#/emperors/279/reigns/0",
+            "from": 947,
+            "to": 951
+          },
+          {
+            "personKey": "wd:Q4992",
+            "polityKey": "wd:Q4958",
+            "role": "Emperor",
+            "precision": "year",
+            "calendar": "historical",
+            "sourceId": "ucsd-jordan",
+            "sourceRecordId": "16b-3",
+            "locator": "https://pages.ucsd.edu/~dkjordan/chin/chinahistory/dyn16-u.html#d-16",
+            "from": 947,
+            "to": 951
+          }
+        ],
+        "checksOnly": true
+      }
+    }
+  ],
+  "inputFingerprints": [
+    {
+      "file": "sources/rulers/wikipedia-extracted.json",
+      "sha256": "e19eacd26bf3aab2fa1a039f975fe7ee9840497f1e867cfbfdfbba274ac3ce95"
+    },
+    {
+      "file": "sources/rulers/additional-extracted.json",
+      "sha256": "9e0235206d7f4f7ae3aa6610bc5c2eda6ee3284df64582def3c0c653d7f55c92"
+    },
+    {
+      "file": "sources/rulers/wikidata-extracted.json",
+      "sha256": "0dc8760359403f7dcb72ba76f13b70fd1fc7353bd9f0ab381e829ef65f415239"
+    },
+    {
+      "file": "sources/rulers/chronology-extracted.json",
+      "sha256": "26ee72a74ad7ce2b9b0b8c21d1046090fb198b8667cc299efec9ffe8864342f3"
+    }
+  ]
+}

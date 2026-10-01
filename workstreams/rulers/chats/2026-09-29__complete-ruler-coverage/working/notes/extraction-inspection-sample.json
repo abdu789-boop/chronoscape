@@ -1,0 +1,1074 @@
+{
+  "selection": "First SHA256-ordered record per previously empty polity, 36 polities. Extraction/scope inspection only; not an independent-source sample.",
+  "records": [
+    {
+      "id": "wikipedia:11a8d726ca6d045b6acf",
+      "polityKey": "wd:Q3446232",
+      "personKey": "wikipedia-person:pangeran-agung",
+      "name": "Pangeran Agung",
+      "role": "Monarch",
+      "from": 1710,
+      "to": 1711,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Tanjungpura_Kingdom:list-item-107",
+      "locator": "https://en.wikipedia.org/wiki/Tanjungpura_Kingdom (section List of rulers / According to the Matan Royal family / Kingdom of Matan; list item 107)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/6295269295406e0faeb6.html",
+        "sha256": "56ae8ef341bec4b15edc1211a67e36af6045078f32fb52b726a9dc30e6ff6326"
+      },
+      "sourceDates": {
+        "from": "1710",
+        "to": "1711"
+      },
+      "sourceDateText": "1710-1711",
+      "sourceName": "Pangeran Agung (1710-1711); power struggle",
+      "section": "List of rulers / According to the Matan Royal family / Kingdom of Matan",
+      "sourceSequence": 107,
+      "personUrl": null,
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:acc769c254a45f417d74",
+      "polityKey": "wd:Q1660566",
+      "personKey": "wikipedia-person:pangeran-muhammad-nafis-ibn-pangeran-musa-raja-batulicin-kusan",
+      "name": "Pangeran Muhammad Nafis ibn Pangeran Musa Raja Batulicin, Kusan",
+      "role": "Monarch",
+      "from": 1840,
+      "to": 1845,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Banjar:list-item-72",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Banjar (section Islamic kingdoms / Kusan and Laut Island; list item 72)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/8df817e029a5354d2d61.html",
+        "sha256": "f7ef6549e4f961487f9e02d53cc67b5b951132cad21c41a12d93579ad1a20ed5"
+      },
+      "sourceDates": {
+        "from": "1840",
+        "to": "1845"
+      },
+      "sourceDateText": "1840-1845",
+      "sourceName": "Pangeran Muhammad Nafis ibn Pangeran Musa Raja Batulicin, Kusan (1840-1845)",
+      "section": "Islamic kingdoms / Kusan and Laut Island",
+      "sourceSequence": 72,
+      "personUrl": null,
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:331edee758156a34ea27",
+      "polityKey": "wd:Q171393",
+      "personKey": "https://en.wikipedia.org/wiki/Nicolae_Caradja",
+      "name": "Nicolae Caragea",
+      "role": "Sovereign",
+      "from": 1782,
+      "to": 1783,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Wallachia:table-4:row-19",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Wallachia (section List of Wallachian princes / Phanariotes (1715–1821); table 4, row 19)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/0cb08e9b69368a183728.html",
+        "sha256": "9788b2778a45b2ce6809f42aa1b7f0533c63b877af50065e9d8b66edf79e5cdb"
+      },
+      "sourceDates": {
+        "from": "1782",
+        "to": "1783"
+      },
+      "sourceDateText": "1782–1783",
+      "sourceName": "Nicolae Caragea",
+      "section": "List of Wallachian princes / Phanariotes (1715–1821)",
+      "aliases": [],
+      "sourceSequence": 18,
+      "personUrl": "https://en.wikipedia.org/wiki/Nicolae_Caradja",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:6ed5c14f6f8482336650",
+      "polityKey": "wd:Q156038",
+      "personKey": "https://en.wikipedia.org/wiki/Ernst_Johann_von_Biron",
+      "name": "Ernst Johann von Biron",
+      "role": "Sovereign",
+      "from": 1737,
+      "to": 1740,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Duchy_of_Courland_and_Semigallia:table-1:row-8",
+      "locator": "https://en.wikipedia.org/wiki/Duchy_of_Courland_and_Semigallia (section List of dukes; table 1, row 8)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/d587c2d41d78356d2120.html",
+        "sha256": "67a3f5b6bfc4fc76fd83332d31cbf0ec9070f235ab4d892326bc6f3f7ccb49e8"
+      },
+      "sourceDates": {
+        "from": "June 1737",
+        "to": "1740"
+      },
+      "sourceDateText": "June 1737 – 1740",
+      "sourceName": "Ernst Johann von Biron",
+      "section": "List of dukes",
+      "aliases": [],
+      "sourceSequence": 7,
+      "personUrl": "https://en.wikipedia.org/wiki/Ernst_Johann_von_Biron",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:211934713ea14771f255",
+      "polityKey": "nm:kingdomofmann",
+      "personKey": "https://en.wikipedia.org/wiki/Eóghan_of_Argyll",
+      "name": "Eóghan",
+      "role": "Monarch",
+      "from": 1248,
+      "to": 1263,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_the_Kingdom_of_the_Isles:table-8:row-8",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Kingdom_of_the_Isles (section 12th and 13th centuries / Kings of the South Isles; table 8, row 8)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/65ae68f7af4baa584ff2.html",
+        "sha256": "74e1458291129f11973351bb65d19c3fc72350bc717231ee8bf4a4e58baa7dc1"
+      },
+      "sourceDates": {
+        "from": "1248",
+        "to": "1263"
+      },
+      "sourceDateText": "1248–1263",
+      "sourceName": "Ewen of Argyll",
+      "section": "12th and 13th centuries / Kings of the South Isles",
+      "aliases": [
+        "Ewen of Argyll"
+      ],
+      "sourceSequence": 7,
+      "personUrl": "https://en.wikipedia.org/wiki/Eóghan_of_Argyll",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:cf3426ebdd15afe0028b",
+      "polityKey": "nm:centralistmexico",
+      "personKey": "https://en.wikipedia.org/wiki/Francisco_Javier_Echeverría",
+      "name": "Francisco Javier Echeverría",
+      "role": "Sovereign",
+      "from": 1841,
+      "to": 1841,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_heads_of_state_of_Mexico:table-6:row-9",
+      "locator": "https://en.wikipedia.org/wiki/List_of_heads_of_state_of_Mexico (section Centralist Republic (1835–1846); table 6, row 9)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/fad6e153774bb4778486.html",
+        "sha256": "1c8b65dad5ee62d8b33e08288b0cc9d90e29ed4b13bf79eec1158910ccb59894"
+      },
+      "sourceDates": {
+        "from": "22 September 1841",
+        "to": "10 October 1841"
+      },
+      "sourceDateText": "22 September 1841 – 10 October 1841",
+      "sourceName": "Francisco Javier Echeverría (1797–1852)",
+      "section": "Centralist Republic (1835–1846)",
+      "aliases": [
+        "Francisco Javier Echeverría (1797–1852)"
+      ],
+      "sourceSequence": 8,
+      "personUrl": "https://en.wikipedia.org/wiki/Francisco_Javier_Echeverría",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:00edc3b6aeb45c9ba0b9",
+      "polityKey": "wd:Q1760473",
+      "personKey": "https://en.wikipedia.org/wiki/Mamia_III_Dadiani",
+      "name": "Mamia III Dadiani",
+      "role": "Grand duke",
+      "from": 1512,
+      "to": 1533,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_Princes_of_Abkhazia:list-item-135",
+      "locator": "https://en.wikipedia.org/wiki/List_of_Princes_of_Abkhazia (section Principalities / Princes, dukes and grand dukes of Samegrelo; list item 135)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/bb36a02c237657c7a338.html",
+        "sha256": "29687de18942a88acdbbfb9d850ddb3d3b98c1fce7930647525d859bc7d3988e"
+      },
+      "sourceDates": {
+        "from": "1512",
+        "to": "1533"
+      },
+      "sourceDateText": "1512–1533",
+      "sourceName": "Mamia III Dadiani (1512–1533)",
+      "section": "Principalities / Princes, dukes and grand dukes of Samegrelo",
+      "sourceSequence": 135,
+      "personUrl": "https://en.wikipedia.org/wiki/Mamia_III_Dadiani",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:0342a80ed09749efd3a1",
+      "polityKey": "wd:Q1322662",
+      "personKey": "https://en.wikipedia.org/wiki/Iziaslav_III_of_Kiev",
+      "name": "Iziaslav I",
+      "role": "Sovereign",
+      "from": 1151,
+      "to": 1154,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Prince_of_Chernigov:list-item-67",
+      "locator": "https://en.wikipedia.org/wiki/Prince_of_Chernigov (section List of princes; list item 67)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/9a39dc1c72be3664d07d.html",
+        "sha256": "3c7c2cff3209922c14e016885d482b1012168a4af785561eb283dd6bbed0767d"
+      },
+      "sourceDates": {
+        "from": "1151",
+        "to": "1154"
+      },
+      "sourceDateText": "1151–1154",
+      "sourceName": "Iziaslav I , 1151–1154",
+      "section": "List of princes",
+      "sourceSequence": 67,
+      "personUrl": "https://en.wikipedia.org/wiki/Iziaslav_III_of_Kiev",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:469afd9ca07ee0470a00",
+      "polityKey": "wd:Q250515",
+      "personKey": "https://en.wikipedia.org/wiki/Narasingha_Deva_I",
+      "name": "Narasimha Deva I",
+      "role": "Sovereign",
+      "from": 1238,
+      "to": 1264,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Eastern_Ganga_dynasty:list-item-120",
+      "locator": "https://en.wikipedia.org/wiki/Eastern_Ganga_dynasty (section List of rulers / Trikalinga Rulers (c. 1077–1434 CE); list item 120)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/f8175850b0feb34f7712.html",
+        "sha256": "9942b0b9fb8f78d1a633a5e2f586bbd1b18169f6210264d9d2abd64b50fb868a"
+      },
+      "sourceDates": {
+        "from": "1238",
+        "to": "1264"
+      },
+      "sourceDateText": "1238–1264",
+      "sourceName": "Narasimha Deva I (1238–1264)",
+      "section": "List of rulers / Trikalinga Rulers (c. 1077–1434 CE)",
+      "sourceSequence": 120,
+      "personUrl": "https://en.wikipedia.org/wiki/Narasingha_Deva_I",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:ec311020e804a27c0c0a",
+      "polityKey": "nm:lanna",
+      "personKey": "wikipedia-person:minye-deibba",
+      "name": "Minye Deibba",
+      "role": "Sovereign",
+      "from": 1608,
+      "to": 1613,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Lan_Na:table-4:row-4",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Lan_Na (section Chiang Mai under Ayutthayan suzerainty (1596–1615) / Toungoo dynasty (1596–1615); table 4, row 4)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/4d2971655deac9288c38.html",
+        "sha256": "6cceb2adaf93de04dd943eddce5730fcf1b4367888d0532b619b82bba806bd13"
+      },
+      "sourceDates": {
+        "from": "1608",
+        "to": "1613"
+      },
+      "sourceDateText": "1608 – 1613",
+      "sourceName": "Minye Deibba (ᨻᩕᨩᩱ᩠ᨿᨴᩥᨻᩛ)",
+      "section": "Chiang Mai under Ayutthayan suzerainty (1596–1615) / Toungoo dynasty (1596–1615)",
+      "aliases": [
+        "Minye Deibba (ᨻᩕᨩᩱ᩠ᨿᨴᩥᨻᩛ)"
+      ],
+      "sourceSequence": 3,
+      "personUrl": null,
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:b68ab63094a79cdc851d",
+      "polityKey": "wd:Q177819",
+      "personKey": "https://en.wikipedia.org/wiki/Djoser",
+      "name": "Djoser",
+      "role": "Pharaoh",
+      "from": null,
+      "to": null,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_pharaohs:table-9:row-2",
+      "locator": "https://en.wikipedia.org/wiki/List_of_pharaohs (section Old Kingdom (c. 2700–2200 BC) / Third Dynasty; table 9, row 2)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/c5f1323db9e5ff1f7538.html",
+        "sha256": "adbabd88d14b82f10a84e70749e52163bb4d5fb19fc2cc73d64f1960d4a8c739"
+      },
+      "sourceDates": {
+        "from": null,
+        "to": null
+      },
+      "sourceDateText": "28–29 years",
+      "sourceName": "Netjerikhet",
+      "section": "Old Kingdom (c. 2700–2200 BC) / Third Dynasty",
+      "aliases": [
+        "Netjerikhet"
+      ],
+      "sourceSequence": 1,
+      "personUrl": "https://en.wikipedia.org/wiki/Djoser",
+      "sourceJurisdiction": null,
+      "note": "The source names this officeholder but does not establish both tenure bounds. Reign lengths and attestations are retained as source text, not converted into accession or departure years.",
+      "dateStatus": "incomplete"
+    },
+    {
+      "id": "wikipedia:039fc7c865da0a75923b",
+      "polityKey": "wd:Q644979",
+      "personKey": "wikipedia-person:1-1-1-sarai-horde-",
+      "name": "1.1.1 \"Sarai Horde\"",
+      "role": "Sovereign",
+      "from": 1362,
+      "to": 1399,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_khans_of_the_Golden_Horde:list-item-20",
+      "locator": "https://en.wikipedia.org/wiki/List_of_khans_of_the_Golden_Horde (section Contents; list item 20)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/b82a039e827e3f83aeef.html",
+        "sha256": "cc563dc2cd8ee6f72a3500c75cd739c2b1891f0cfd04e79c9b143fcafca25e13"
+      },
+      "sourceDates": {
+        "from": "1362",
+        "to": "1399"
+      },
+      "sourceDateText": "1362–1399",
+      "sourceName": "1.1.1 \"Sarai Horde\" (Right bank of the Volga) (1362–1399)",
+      "section": "Contents",
+      "sourceSequence": 20,
+      "personUrl": null,
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:0b4c54bb8745984bb39b",
+      "polityKey": "wd:Q185488",
+      "personKey": "https://en.wikipedia.org/wiki/Mukhammad_of_Volga_Bulgaria?action=edit&redlink=1",
+      "name": "Mukhammad",
+      "role": "Sovereign",
+      "from": 1017,
+      "to": 1032,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Volga_Bulgaria:list-item-54",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Volga_Bulgaria (section List of rulers; list item 54)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/f75e55df2517a2f54c44.html",
+        "sha256": "f3d4dc7d38afd9a18167f4ef2e211465a248b2b569955886c9789bc4c749c0f4"
+      },
+      "sourceDates": {
+        "from": "1017",
+        "to": "1032"
+      },
+      "sourceDateText": "1017–1032",
+      "sourceName": "Mukhammad , emir 1017–1032. Son of Khaidar. Deeply religious; oppressed the Christian minorities in Volga Bulgaria.",
+      "section": "List of rulers",
+      "sourceSequence": 54,
+      "personUrl": "https://en.wikipedia.org/wiki/Mukhammad_of_Volga_Bulgaria?action=edit&redlink=1",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:61c452169bc15cf984f9",
+      "polityKey": "wd:Q2650109",
+      "personKey": "wikipedia-person:yichu",
+      "name": "Yichu",
+      "role": "Sovereign",
+      "from": null,
+      "to": null,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Xu_(state):table-1:row-6",
+      "locator": "https://en.wikipedia.org/wiki/Xu_(state) (section Rulers; table 1, row 6)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/d327abc06ddc401ab05c.html",
+        "sha256": "437f0ca7fc68f13af09c710e7d4f59093bca284d646005d4d0358fb03520da44"
+      },
+      "sourceDates": {
+        "from": null,
+        "to": null
+      },
+      "sourceDateText": "fl. 535 BC",
+      "sourceName": "Yichu",
+      "section": "Rulers",
+      "aliases": [],
+      "sourceSequence": 5,
+      "personUrl": null,
+      "sourceJurisdiction": null,
+      "note": "The source names this officeholder but does not establish both tenure bounds. Reign lengths and attestations are retained as source text, not converted into accession or departure years.",
+      "dateStatus": "incomplete"
+    },
+    {
+      "id": "wikipedia:93f7fc0072523648f3ea",
+      "polityKey": "wd:Q128904",
+      "personKey": "wikipedia-person:shutruk-nahhunte-ii",
+      "name": "Shutruk-Nahhunte II",
+      "role": "Sovereign",
+      "from": -717,
+      "to": -699,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Elam:table-7:row-4",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Elam (section Neo-Elamite period (c. 1000–520/519 BC) / First Neo-Elamite dynasty (c. 760–688 BC); table 7, row 4)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/db6ff0ab4e6a68130dcb.html",
+        "sha256": "72587ca1242b8199c18a849372e1d7ae15c983de363c89ae803f23ed1fa38048"
+      },
+      "sourceDates": {
+        "from": "717",
+        "to": "699 BC"
+      },
+      "sourceDateText": "717–699 BC",
+      "sourceName": "Shutruk-Nahhunte II",
+      "section": "Neo-Elamite period (c. 1000–520/519 BC) / First Neo-Elamite dynasty (c. 760–688 BC)",
+      "aliases": [],
+      "sourceSequence": 3,
+      "personUrl": null,
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:b8a5a2817ad5043c54fc",
+      "polityKey": "wd:Q2331954",
+      "personKey": "https://en.wikipedia.org/wiki/Sgouros_Spata",
+      "name": "Skurra Bua Shpata",
+      "role": "Monarch",
+      "from": 1399,
+      "to": 1403,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Despotate_of_Arta:table-1:row-4",
+      "locator": "https://en.wikipedia.org/wiki/Despotate_of_Arta (section Monarchs; table 1, row 4)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/3ae5318dd5730c4a28f5.html",
+        "sha256": "fc1fae3b6907d4da23fd5040a6884aa4e280e564c9699b37d526b01b5b2e903a"
+      },
+      "sourceDates": {
+        "from": "1399",
+        "to": "1403"
+      },
+      "sourceDateText": "1399 – 1403",
+      "sourceName": "Skurra Bua Shpata",
+      "section": "Monarchs",
+      "aliases": [],
+      "sourceSequence": 3,
+      "personUrl": "https://en.wikipedia.org/wiki/Sgouros_Spata",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:65a55e0dbff14d019ad8",
+      "polityKey": "wd:Q208169",
+      "personKey": "wikipedia-person:1505-1506-frano-andrija-bobali",
+      "name": "1505 - 1506 Frano Andrija Bobali",
+      "role": "Sovereign",
+      "from": 1505,
+      "to": 1506,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Rector_(Ragusa):list-item-448",
+      "locator": "https://en.wikipedia.org/wiki/Rector_(Ragusa) (section Partial list of rectors of Ragusa; list item 448)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/90afeebdec44e37fb7b8.html",
+        "sha256": "d31c90e65537ef40f0b7e77e13c9366da4e241e13b245bedff1a3f6de7ed0aaf"
+      },
+      "sourceDates": {
+        "from": "1505",
+        "to": "1506"
+      },
+      "sourceDateText": "1505 - 1506",
+      "sourceName": "1505 - 1506 Frano Andrija Bobali",
+      "section": "Partial list of rectors of Ragusa",
+      "sourceSequence": 448,
+      "personUrl": null,
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:34a4abc60376a5b48069",
+      "polityKey": "wd:Q313136",
+      "personKey": "https://en.wikipedia.org/wiki/Geraint_of_Dumnonia",
+      "name": "Geraint",
+      "role": "Monarch",
+      "from": 700,
+      "to": 710,
+      "precision": "approximate",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_kings_of_Dumnonia:list-item-65",
+      "locator": "https://en.wikipedia.org/wiki/List_of_kings_of_Dumnonia (section Dumnonian kings; list item 65)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/2f33e991024ecdca3f60.html",
+        "sha256": "fb27c0a27ae4457ef0951e2e12a75710cbd69b824a2f36432235b91f3a773ac7"
+      },
+      "sourceDates": {
+        "from": "c. 700",
+        "to": "c. 710"
+      },
+      "sourceDateText": "c. 700 – c. 710",
+      "sourceName": "Geraint (c. 700 – c. 710)",
+      "section": "Dumnonian kings",
+      "sourceSequence": 65,
+      "personUrl": "https://en.wikipedia.org/wiki/Geraint_of_Dumnonia",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:e2d2996c6c882492ce8d",
+      "polityKey": "nm:wei",
+      "personKey": "https://en.wikipedia.org/wiki/King_Jingmin_of_Wei",
+      "name": "King Jingmin of Wei",
+      "role": "Sovereign",
+      "from": -243,
+      "to": -228,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Wei_(state):list-item-86",
+      "locator": "https://en.wikipedia.org/wiki/Wei_(state) (section Rulers; list item 86)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/3b18b605c4f9461a12e2.html",
+        "sha256": "91c328cf0f1680bfd6f6b650bb8b58ee603b1a663f7afe8e558db3b2883e6f77"
+      },
+      "sourceDates": {
+        "from": "243",
+        "to": "228 BCE"
+      },
+      "sourceDateText": "243–228 BCE",
+      "sourceName": "King Jingmin of Wei ( 魏景湣王 ), personal name Zeng ( 增 ) or Wu ( 午 ), son of King Anxi (243–228 BCE)",
+      "section": "Rulers",
+      "sourceSequence": 86,
+      "personUrl": "https://en.wikipedia.org/wiki/King_Jingmin_of_Wei",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:55cf7b4e898f503fa87d",
+      "polityKey": "nm:pandyaempire",
+      "personKey": "https://en.wikipedia.org/wiki/Maravarman_Sundara_Pandyan_II",
+      "name": "Maravarman Sundara II",
+      "role": "Sovereign",
+      "from": 1238,
+      "to": 1251,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Pandya_Empire:table-2:row-4",
+      "locator": "https://en.wikipedia.org/wiki/Pandya_Empire (section History / Imperial Pandyas (13th–14th centuries); table 2, row 4)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/0bd01782f33bd94c20f8.html",
+        "sha256": "9c44b015fc558c95fb9276806cf841dc80f304b1fda3ce9961d89ef52685b39d"
+      },
+      "sourceDates": {
+        "from": "1238",
+        "to": "1251 CE"
+      },
+      "sourceDateText": "1238–1251 CE",
+      "sourceName": "Maravarman Sundara II",
+      "section": "History / Imperial Pandyas (13th–14th centuries)",
+      "aliases": [],
+      "sourceSequence": 3,
+      "personUrl": "https://en.wikipedia.org/wiki/Maravarman_Sundara_Pandyan_II",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:a25d1aa8de120fb2fc3d",
+      "polityKey": "wd:Q1947408",
+      "personKey": "wikipedia-person:roger-bernard-of-périgord",
+      "name": "Roger-Bernard of Périgord",
+      "role": "Count",
+      "from": 1336,
+      "to": 1368,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Count_of_Périgord:table-4:row-13",
+      "locator": "https://en.wikipedia.org/wiki/Count_of_P%C3%A9rigord (section List of Counts of Périgord / House of Talleyrand , 1072–1399; table 4, row 13)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/9999a576ce742dcd37b4.html",
+        "sha256": "402ea83a71d226cf8fe2bb06c59eea74a984332c4d2e66535a842b652b32703e"
+      },
+      "sourceDates": {
+        "from": "1336",
+        "to": "1368"
+      },
+      "sourceDateText": "1336 – 1368",
+      "sourceName": "Roger-Bernard of Périgord (1299–1368)",
+      "section": "List of Counts of Périgord / House of Talleyrand , 1072–1399",
+      "aliases": [
+        "Roger-Bernard of Périgord (1299–1368)"
+      ],
+      "sourceSequence": 12,
+      "personUrl": null,
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:0162bcc60a4981d3f227",
+      "polityKey": "wd:Q1150344",
+      "personKey": "https://en.wikipedia.org/wiki/Muzaffar_II_of_Johor",
+      "name": "Muzaffar Shah II",
+      "role": "Sultan",
+      "from": 1564,
+      "to": 1570,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Johor_Sultanate:table-1:row-4",
+      "locator": "https://en.wikipedia.org/wiki/Johor_Sultanate (section Johor administration; table 1, row 4)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/768eb12408201b0881c8.html",
+        "sha256": "f7f6b33c6712ab4ee8467b95d5bd9894880557573608ad7b3d69a536c1fb5db8"
+      },
+      "sourceDates": {
+        "from": "1564",
+        "to": "1570"
+      },
+      "sourceDateText": "1564–1570",
+      "sourceName": "Muzaffar Shah II",
+      "section": "Johor administration",
+      "aliases": [],
+      "sourceSequence": 3,
+      "personUrl": "https://en.wikipedia.org/wiki/Muzaffar_II_of_Johor",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:ff989d30718ae1ec10f5",
+      "polityKey": "wd:Q722071",
+      "personKey": "https://en.wikipedia.org/wiki/Mensa_Bonsu",
+      "name": "Mensa Bonsu",
+      "role": "Monarch",
+      "from": 1874,
+      "to": 1883,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Asante:table-3:row-16",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Asante (section List of rulers / Asantehene of the Kingdom of Ashanti (Ashanti Empire); table 3, row 16)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/557f455ce78073f5f56f.html",
+        "sha256": "445786ad7a0f8cbe3a03bc755c09d7fa75c2942b968a05f040904a1e9f338b1c"
+      },
+      "sourceDates": {
+        "from": "1874",
+        "to": "8 March 1883"
+      },
+      "sourceDateText": "1874 – 8 March 1883",
+      "sourceName": "Otumfuo Nana Mensa Bonsu",
+      "section": "List of rulers / Asantehene of the Kingdom of Ashanti (Ashanti Empire)",
+      "aliases": [
+        "Otumfuo Nana Mensa Bonsu"
+      ],
+      "sourceSequence": 15,
+      "personUrl": "https://en.wikipedia.org/wiki/Mensa_Bonsu",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:a9fa5563dcc681569e9c",
+      "polityKey": "wd:Q2829270",
+      "personKey": "https://en.wikipedia.org/wiki/Suppo_I_of_Spoleto",
+      "name": "Suppo I",
+      "role": "Sovereign",
+      "from": 822,
+      "to": 824,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Duke_of_Spoleto:list-item-76",
+      "locator": "https://en.wikipedia.org/wiki/Duke_of_Spoleto (section List of dukes / Frankish supremacy; list item 76)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/b889747178642eac45ef.html",
+        "sha256": "39f7a8215a3518447afaafdb74b090671320e95ba0a15870c756742542dbc86b"
+      },
+      "sourceDates": {
+        "from": "822",
+        "to": "824"
+      },
+      "sourceDateText": "822–824",
+      "sourceName": "Suppo I 822–824",
+      "section": "List of dukes / Frankish supremacy",
+      "sourceSequence": 76,
+      "personUrl": "https://en.wikipedia.org/wiki/Suppo_I_of_Spoleto",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:eccfb072229fda65a330",
+      "polityKey": "wd:Q686312",
+      "personKey": "https://en.wikipedia.org/wiki/Maria_of_Capua",
+      "name": "Maria",
+      "role": "Sovereign",
+      "from": 1028,
+      "to": 1029,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Duke_of_Amalfi:list-item-74",
+      "locator": "https://en.wikipedia.org/wiki/Duke_of_Amalfi (section Independent rulers (839–1100) / Dukes / House of Musco Comite; list item 74)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/a4abe64b55895b108d27.html",
+        "sha256": "70c64859028c61eccf539ae63bb8d4406587c7b308c33926a1816e092167f74f"
+      },
+      "sourceDates": {
+        "from": "1028",
+        "to": "1029"
+      },
+      "sourceDateText": "1028–1029",
+      "sourceName": "1028–1029 Maria , his mother",
+      "section": "Independent rulers (839–1100) / Dukes / House of Musco Comite",
+      "sourceSequence": 74,
+      "personUrl": "https://en.wikipedia.org/wiki/Maria_of_Capua",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:6de86bad9922b772e720",
+      "polityKey": "wd:Q2614237",
+      "personKey": "https://en.wikipedia.org/wiki/Safdarjung",
+      "name": "Muhammad Muqim",
+      "role": "Sovereign",
+      "from": 1739,
+      "to": 1754,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Nawab_of_Awadh:table-1:row-3",
+      "locator": "https://en.wikipedia.org/wiki/Nawab_of_Awadh (section List of rulers; table 1, row 3)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/0721765ab861188e7b19.html",
+        "sha256": "661f773eb1f72fa92af0151642267a9ed21ea529416b4d608b56c0aae0f59f56"
+      },
+      "sourceDates": {
+        "from": "1739",
+        "to": "5 October 1754"
+      },
+      "sourceDateText": "1739 – 5 October 1754",
+      "sourceName": "Muhammad Muqim محمد مقیم",
+      "section": "List of rulers",
+      "aliases": [
+        "Abul-Mansur Khan Safdar Jung ابو المنصور خان صفدرجنگ",
+        "Muhammad Muqim محمد مقیم"
+      ],
+      "sourceSequence": 2,
+      "personUrl": "https://en.wikipedia.org/wiki/Safdarjung",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:4e7660752d1d97955a13",
+      "polityKey": "wd:Q244796",
+      "personKey": "https://en.wikipedia.org/wiki/Aratus_of_Sicyon",
+      "name": "Aratus of Sicyon",
+      "role": "Sovereign",
+      "from": -220,
+      "to": -219,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Achaean_League:list-item-182",
+      "locator": "https://en.wikipedia.org/wiki/Achaean_League (section List of Strategoi (Generals); list item 182)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/f66b991b8eb12a9d381e.html",
+        "sha256": "fe634625de52fa3318a5d3c44c0da299b99473453ad6191bca1a990132740c3a"
+      },
+      "sourceDates": {
+        "from": "220",
+        "to": "219 BC"
+      },
+      "sourceDateText": "220–219 BC",
+      "sourceName": "Aratus of Sicyon XIII 220–219 BC",
+      "section": "List of Strategoi (Generals)",
+      "sourceSequence": 182,
+      "personUrl": "https://en.wikipedia.org/wiki/Aratus_of_Sicyon",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:393e9b97118bf35c970d",
+      "polityKey": "nm:pandyadynasty",
+      "personKey": "https://en.wikipedia.org/wiki/Avani_Sulamani",
+      "name": "Avanisulamani",
+      "role": "Sovereign",
+      "from": 590,
+      "to": 620,
+      "precision": "approximate",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Pandya_dynasty:table-1:row-3",
+      "locator": "https://en.wikipedia.org/wiki/Pandya_dynasty (section History / Medieval Pandyas / Pandya revival (7th–10th centuries CE); table 1, row 3)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/224f038d02c72b13fd23.html",
+        "sha256": "a3a9925ecdf37e37d45db391b7915d3c8ce05434cfd60b2cf465c7c681b71ffd"
+      },
+      "sourceDates": {
+        "from": "c. 590",
+        "to": "620 CE"
+      },
+      "sourceDateText": "c. 590–620 CE",
+      "sourceName": "Maravarman Avanisulamani",
+      "section": "History / Medieval Pandyas / Pandya revival (7th–10th centuries CE)",
+      "aliases": [
+        "Maravarman Avanisulamani"
+      ],
+      "sourceSequence": 2,
+      "personUrl": "https://en.wikipedia.org/wiki/Avani_Sulamani",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:e8aebb58fbf7892fc607",
+      "polityKey": "wd:Q332137",
+      "personKey": "https://en.wikipedia.org/wiki/Antiochus_IV_of_Commagene",
+      "name": "Antiochus IV of Commagene",
+      "role": "Monarch",
+      "from": 38,
+      "to": 72,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_rulers_of_Commagene:list-item-73",
+      "locator": "https://en.wikipedia.org/wiki/List_of_rulers_of_Commagene (section Kings of Commagene, 163 BC – 72 AD; list item 73)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/adb057638d1ebf5d4ed4.html",
+        "sha256": "e54ecfe253ae6ebb897f1730e939bdc536298bd3b5538800707c9d2fc5edc6e7"
+      },
+      "sourceDates": {
+        "from": "38",
+        "to": "72"
+      },
+      "sourceDateText": "38–72",
+      "sourceName": "Antiochus IV of Commagene 38–72 and wife, Julia Iotapa",
+      "section": "Kings of Commagene, 163 BC – 72 AD",
+      "sourceSequence": 73,
+      "personUrl": "https://en.wikipedia.org/wiki/Antiochus_IV_of_Commagene",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:7985e933928da9c0af06",
+      "polityKey": "wd:Q697084",
+      "personKey": "https://en.wikipedia.org/wiki/William,_Duke_of_Oldenburg",
+      "name": "William I",
+      "role": "Grand duke",
+      "from": 1815,
+      "to": 1823,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Counts,_dukes_and_grand_dukes_of_Oldenburg:table-3:row-2",
+      "locator": "https://en.wikipedia.org/wiki/Counts,_dukes_and_grand_dukes_of_Oldenburg (section Grand Dukes of Oldenburg; table 3, row 2)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/064caee132b28374a7e3.html",
+        "sha256": "525d302cef98a0e8713e561e377b8e52cb5d1d4c57cac80400a7feab0b9a618b"
+      },
+      "sourceDates": {
+        "from": "William I 1815",
+        "to": "2 July 1823"
+      },
+      "sourceDateText": "William I 1815–2 July 1823",
+      "sourceName": "William I 1815–2 July 1823",
+      "section": "Grand Dukes of Oldenburg",
+      "aliases": [
+        "William I 1815–2 July 1823"
+      ],
+      "sourceSequence": 1,
+      "personUrl": "https://en.wikipedia.org/wiki/William,_Duke_of_Oldenburg",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:86e61792e78c57dea3fb",
+      "polityKey": "wd:Q58326",
+      "personKey": "https://en.wikipedia.org/wiki/Jacques-Charles_Dupont_de_l'Eure",
+      "name": "Jacques-Charles Dupont de l'Eure",
+      "role": "President",
+      "from": 1848,
+      "to": 1848,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_presidents_of_France#Second_Republic:table-3:row-2",
+      "locator": "https://en.wikipedia.org/wiki/List_of_presidents_of_France#Second_Republic (section Second Republic (1848–1852) / President of the Provisional Government of the Republic; table 3, row 2)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/e10b1d136f2256e2ab6c.html",
+        "sha256": "219305d3dbbb45f8fd676f7717a125bdcdc19028a4f0e33e595a77119ee91c3c"
+      },
+      "sourceDates": {
+        "from": "26 February 1848",
+        "to": "9 May 1848"
+      },
+      "sourceDateText": "26 February 1848 – 9 May 1848",
+      "sourceName": "Jacques-Charles Dupont de l'Eure (1767–1855)",
+      "section": "Second Republic (1848–1852) / President of the Provisional Government of the Republic",
+      "aliases": [
+        "Jacques-Charles Dupont de l'Eure (1767–1855)"
+      ],
+      "sourceSequence": 1,
+      "personUrl": "https://en.wikipedia.org/wiki/Jacques-Charles_Dupont_de_l'Eure",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:7fb529e942945c4c4dda",
+      "polityKey": "wd:Q194355",
+      "personKey": "https://en.wikipedia.org/wiki/Sigismund_II_Augustus",
+      "name": "Sigismund II Augustus",
+      "role": "Monarch",
+      "from": 1529,
+      "to": 1572,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Jagiellonian_dynasty:table-2:row-8",
+      "locator": "https://en.wikipedia.org/wiki/Jagiellonian_dynasty (section Jagiellonian Kings of Poland; table 2, row 8)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/28f8e8492546dcf05c89.html",
+        "sha256": "04b8ff9d512af3ccc5b750dd2a881800e58964ce8b11e9a8ce3c06950c52d70b"
+      },
+      "sourceDates": {
+        "from": "1529",
+        "to": "1572"
+      },
+      "sourceDateText": "1529–1572",
+      "sourceName": "Sigismund II Augustus",
+      "section": "Jagiellonian Kings of Poland",
+      "aliases": [],
+      "sourceSequence": 7,
+      "personUrl": "https://en.wikipedia.org/wiki/Sigismund_II_Augustus",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:f06a6a3d9e638c763eab",
+      "polityKey": "wd:Q48189",
+      "personKey": "https://en.wikipedia.org/wiki/Konrad_von_Feuchtwangen",
+      "name": "Konrad von Feuchtwangen",
+      "role": "Sovereign",
+      "from": 1290,
+      "to": 1297,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Grand_Master_of_the_Teutonic_Order:table-2:row-14",
+      "locator": "https://en.wikipedia.org/wiki/Grand_Master_of_the_Teutonic_Order (section Before the Reformation / Grand Masters of the Order, 1198–1525; table 2, row 14)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/24a2f1977dbebde2d181.html",
+        "sha256": "6913574561367fd61ad21ce6b051d7a734ac1119975b2bacd5521013e38f0176"
+      },
+      "sourceDates": {
+        "from": "1290",
+        "to": "1297"
+      },
+      "sourceDateText": "1290–1297",
+      "sourceName": "Konrad von Feuchtwangen",
+      "section": "Before the Reformation / Grand Masters of the Order, 1198–1525",
+      "aliases": [],
+      "sourceSequence": 13,
+      "personUrl": "https://en.wikipedia.org/wiki/Konrad_von_Feuchtwangen",
+      "sourceJurisdiction": null,
+      "note": "Dates transcribed from the cited succession table; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:2d87cce6b9dea62c0f9a",
+      "polityKey": "nm:lowerburgundy",
+      "personKey": "https://en.wikipedia.org/wiki/Fulcrad_of_Provence",
+      "name": "Fulcrad",
+      "role": "Sovereign",
+      "from": 845,
+      "to": 860,
+      "precision": "approximate",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Count_of_Provence:list-item-100",
+      "locator": "https://en.wikipedia.org/wiki/Count_of_Provence (section Carolingian dukes; list item 100)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/f25d50b43ec9010d85c1.html",
+        "sha256": "6294ea1f1f637b9091336696c60965ef9c8dea9195cba7d32735c1ba21dbd863"
+      },
+      "sourceDates": {
+        "from": "845",
+        "to": "c. 860"
+      },
+      "sourceDateText": "845 – c. 860",
+      "sourceName": "Fulcrad (845 – c. 860)",
+      "section": "Carolingian dukes",
+      "sourceSequence": 100,
+      "personUrl": "https://en.wikipedia.org/wiki/Fulcrad_of_Provence",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:1d1bcb312056cd4fa9b1",
+      "polityKey": "nm:zhao",
+      "personKey": "https://en.wikipedia.org/wiki/King_Huiwen_of_Zhao",
+      "name": "King Huiwen",
+      "role": "Sovereign",
+      "from": -299,
+      "to": -266,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "Zhao_(state):list-item-93",
+      "locator": "https://en.wikipedia.org/wiki/Zhao_(state) (section List of Zhao rulers / After the partition of Jin; list item 93)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/d7b8269d4fe4f2b5a9be.html",
+        "sha256": "d1e9a196e072a1b14f6c084b96d21097053e775592c3902cd81b7c8d9ff6416c"
+      },
+      "sourceDates": {
+        "from": "Spring 299 BC",
+        "to": "266 BC"
+      },
+      "sourceDateText": "Spring 299 BC – 266 BC",
+      "sourceName": "King Huiwen ( 惠文王 ), personal name He ( 何 ), son of previous, ruled Spring 299 BC – 266 BC",
+      "section": "List of Zhao rulers / After the partition of Jin",
+      "sourceSequence": 93,
+      "personUrl": "https://en.wikipedia.org/wiki/King_Huiwen_of_Zhao",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    },
+    {
+      "id": "wikipedia:a27ad567bec012183b3e",
+      "polityKey": "nm:halychvolhyniaoccupation",
+      "personKey": "https://en.wikipedia.org/wiki/Rostislav_of_Tmutarakan",
+      "name": "Rostislav I",
+      "role": "Sovereign",
+      "from": 1056,
+      "to": 1064,
+      "precision": "year",
+      "calendar": "historical",
+      "sourceId": "wikipedia-ruler-lists",
+      "sourceRecordId": "List_of_princes_of_Galicia_and_Volhynia:list-item-59",
+      "locator": "https://en.wikipedia.org/wiki/List_of_princes_of_Galicia_and_Volhynia (section Volhynia / Princes of independent Volhynia; list item 59)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/132a139adb92612ae8a7.html",
+        "sha256": "54012e94eb3615974f88a65c217032b6c09735a8e9f46e721629cb156b7eaa72"
+      },
+      "sourceDates": {
+        "from": "1056",
+        "to": "1064"
+      },
+      "sourceDateText": "1056–1064",
+      "sourceName": "Rostislav I 1056–1064 - also ruler of Tmutarakan.",
+      "section": "Volhynia / Princes of independent Volhynia",
+      "sourceSequence": 59,
+      "personUrl": "https://en.wikipedia.org/wiki/Rostislav_of_Tmutarakan",
+      "note": "Explicit tenure in the cited succession section; source collection subject to sample review."
+    }
+  ]
+}

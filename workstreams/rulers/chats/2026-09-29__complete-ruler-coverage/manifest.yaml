@@ -1,0 +1,39 @@
+id: 2026-09-29__complete-ruler-coverage
+workstream: rulers
+status: working
+started: 2026-09-29
+objective: Expand and publish evidence-backed ruler coverage while continuing the unfinished all-polity request
+source_ids:
+  - repo-3c69275
+  - ruler-wikipedia-20260930
+  - ruler-century-review-20260930
+  - ruler-identity-20260930
+  - ruler-additional-20260930
+  - ruler-qa-20260930
+canonical_outputs:
+  - ../../../../docs/data/rulers.json
+  - ../../../../sources/rulers/coverage-audit.json
+  - ../../../../sources/rulers/accuracy-report.json
+  - ../../../../sources/rulers/identity-audit.json
+  - ../../../../sources/rulers/chronology-review.json
+  - ../../../../docs/data/RULERS.md
+  - qa/
+knowledge_updates:
+  - ../../../../HANDOVER.md
+  - ../../../../ARCHITECTURE.md
+  - ../../../../BACKLOG.md
+  - ../../../../QA_REPORT.md
+  - ../../../../VERSION_HISTORY.md
+  - ../../../../knowledge/CURRENT.md
+  - ../../../../knowledge/CHANGELOG.md
+  - ../../../../deliverables/CURRENT.md
+  - ../../../../deliverables/INDEX.md
+  - ../../../../sources/SOURCE_REGISTER.tsv
+known_gaps:
+  - The all-polity request is unfinished; many identities have no accepted ruler and every populated roster remains partial
+  - Source-level samples do not independently verify every imported reign
+  - Century-list candidates failed their source sample and remain discovery-only
+  - Unresolved identities, office scopes, chronology conflicts and traditional accounts require further review
+  - Ignored raw snapshots require a separate transfer for exact re-extraction
+  - GitHub Pages deployment and successor permissions are separate from a Git push
+superseded_by: null

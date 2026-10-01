@@ -16,6 +16,11 @@ The source inventory and exact current counts are recorded in
   limits. The threshold is not a historical confidence percentage.
 - **Approximate chronology:** source uncertainty is retained; these records
   never appear as unqualified exact-date matches.
+- **Tenure dates incomplete:** the inspected, sample-checked source names the
+  officeholder but lacks one or both tenure bounds. The tooltip retains the
+  original date expression. Reign lengths and attestation years never become
+  invented accession/departure dates, and these entries are never active on
+  the timeline.
 - **Disputed, semi-legendary or legendary:** supported scholarly classification
   and evidence are required. Missing data never automatically creates a legend
   label. The model supports these cases; the current imports do not fabricate
@@ -65,6 +70,7 @@ From the repository root, with the Python environment from
 node --test tests/*.test.mjs
 .venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
 node scripts/build_rulers.mjs --check
+.venv/bin/python scripts/audit_ruler_coverage.py --check
 python3 scripts/update_data_versions.py --check
 ```
 
@@ -84,11 +90,17 @@ Wikidata, additional-reference extractions or their compared base records, run
 `.venv/bin/python scripts/prepare_ruler_broad_import.py` before the sequence below.
 Review changed identities, source admission and withheld conflicts before
 accepting the regenerated public data.
+When the extraction adds people, refresh the identity evidence with
+`.venv/bin/python scripts/fetch_ruler_identities.py --download` after the broad
+comparison and before the audit below. This step needs network access only for
+identities absent from the existing evidence/cache; ordinary public rebuilds
+remain offline.
 
 ```sh
 node scripts/build_rulers.mjs --audit-input=/tmp/ruler-audit-input.json
 .venv/bin/python scripts/audit_ruler_duplicates.py --input /tmp/ruler-audit-input.json
 node scripts/build_rulers.mjs
+.venv/bin/python scripts/audit_ruler_coverage.py
 python3 scripts/update_data_versions.py
 node --test tests/*.test.mjs
 .venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
@@ -117,6 +129,17 @@ and reject stale audit inputs. This is a duplicate-identity audit of the importe
 records, not an independent historical verification of every ruler or a claim
 that the lists are complete.
 
+The identity fetcher reuses individual identities from completed cached batches,
+including interrupted runs. Changed batch boundaries do not require downloading
+the whole collection again. An incomplete observation is held when it cannot be
+distinguished from a dated episode of the same canonical person and compatible
+office; it cannot create a duplicate unknown-date reign.
+
+`sources/rulers/coverage-audit.json` reconciles all 1,544 identities with public
+records, candidate extractions, inspected pages, source leads and explicit holds.
+Its dispositions describe remaining pipeline work, not historical classifications.
+Neither an empty extraction nor an entry in this inventory completes a roster.
+
 The builder recomputes comparisons and acceptance from committed evidence files.
 Source adapters are `compare_ruler_china.py`, `compare_ruler_classical.py`,
 `fetch_ruler_reference.py`, `fetch_ruler_candidates.py`,
@@ -132,6 +155,23 @@ preserve URLs, SHA-256 hashes and acquisition details. Some Met pages were read
 through a web text extractor after raw requests returned HTTP 429; those receipts
 explicitly identify extracted text rather than claiming original HTML.
 
+### Discovery through century chronologies
+
+`fetch_ruler_chronologies.py --download` caches century-list pages and extracts
+candidate records and explicit succession-list links. The collection failed its
+independent sample review (26/30 agreement); its unchecked dates are excluded
+from production. Detailed destination pages are separately extracted and checked
+under the existing Wikipedia source review. The link text “complete list” is
+never treated as a completeness certificate.
+
+To refresh this research evidence from the retained cache, run
+`fetch_ruler_chronologies.py`, then `review_ruler_chronologies.py`. The latter
+uses a temporary comparison output and preserves the failed review in
+`sources/rulers/chronology-review.json`; it never replaces `broad-import.json`.
+Run `fetch_ruler_wikipedia.py --mode all` and the production comparison/build
+sequence after changing `chronology-list-routes.json` or the inspected manual
+crosswalks in `reviewed-list-routes.json`.
+
 ## Source acquisition and handover limits
 
 The offline public build above is reproducible from a clone. Re-extracting every
@@ -145,7 +185,8 @@ content and do not recreate the inspected historical snapshots.
 | Reference files | `fetch_ruler_reference.py --fetch` downloads configured Archigos/Islamic files; extraction needs pandas and pypdf. UK/Met/reference comparison inputs also include manually acquired cached material. This is not an all-source bootstrap. |
 | Chinese/classical comparisons | `fetch_ruler_china.py --download`, then `compare_ruler_china.py`; `compare_ruler_classical.py` requires the retained classical snapshots, including the Met text extraction. |
 | Wikidata discovery | `fetch_ruler_candidates.py --download --stage all` requires map raw metadata; `fetch_ruler_office_holders.py --download` acquires explicit office holders; `prepare_ruler_wikidata.py` normalizes cached statements. |
-| Wikipedia | `fetch_ruler_wikipedia.py --download --mode all`, then `--download --mode linked` follows the selected source routes. Without `--download` it extracts cached pages. Requires lxml. |
+| Wikipedia | `fetch_ruler_wikipedia.py --download --fetch-only --mode all` acquires selected article/list routes; then `--mode all` extracts cached pages. Run acquisition again after adding routes. Requires lxml. |
+| Century-list discovery | `fetch_ruler_chronologies.py --download`, then `review_ruler_chronologies.py`; failed-source dates remain research-only. Its detailed list links feed the separate Wikipedia acquisition step. |
 | Other references and samples | `fetch_ruler_additional.py` reads cached/extracted references; `prepare_ruler_broad_import.py` compares the resulting extracted files. |
 | Identity metadata | `fetch_ruler_identities.py --download` acquires canonical metadata; the audit/build sequence above applies it. |
 

@@ -47,6 +47,20 @@ actual,reason=m.compatible_peers(record,{('p','one','Emperor'):peers},{},registr
 assert len(actual)==2 and not reason
 `));
 
+test('incomplete source tenures retain their evidence and cannot merge into dated episodes', () => python(`
+r={'id':'one','personKey':'one','polityKey':'p','name':'One','role':'King','from':None,'to':20,'sourceId':'a','sourceRecordId':'a1','locator':'https://example.test/one','snapshot':{'path':'source.txt','sha256':'a'*64},'dateStatus':'incomplete','sourceDateText':'?–20'}
+assert not m.validate_record(r,{'p':{}},{'a':{}},{'source.txt':'a'*64})
+assert m.validate_record({**r,'sourceDateText':''},{'p':{}},{'a':{}},{'source.txt':'a'*64})
+c=m.make_claim(r)
+assert c['dateStatus']==c['assertions'][0]['dateStatus']=='incomplete'
+assert c['sourceDateText']==c['assertions'][0]['sourceDateText']=='?–20'
+dated=m.make_claim({**r,'id':'dated','from':10,'dateStatus':None})
+out={'imports':[c,dated],'matched':[],'conflicts':[],'duplicates':[],'candidateDuplicates':[]}
+m.consolidate_imports(out)
+assert len(out['imports'])==1 and out['imports'][0]['id']=='dated'
+assert len(out['candidateDuplicates'])==1
+`));
+
 test('independent-lineage and homonym checks precede any convenient year match', () => python(`
 record={'sourceId':'wiki','polityKey':'p','personKey':'new-key','name':'Alexander','role':'Emperor','from':10,'to':20}
 def peer(person,lineage):

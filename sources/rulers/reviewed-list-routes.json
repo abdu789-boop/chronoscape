@@ -1,0 +1,1296 @@
+{
+  "schemaVersion": 1,
+  "routes": [
+    {
+      "polityKey": "wd:Q128904",
+      "name": "Elam",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Elam",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Elam",
+      "section": "See also",
+      "label": "List of rulers of Elam",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q770281",
+      "name": "Neo-Hittite states",
+      "url": "https://en.wikipedia.org/wiki/List_of_Neo-Hittite_kings",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Neo-Hittite_states",
+      "section": "See also",
+      "label": "List of Neo-Hittite kings",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q10914393",
+      "name": "Neo-Assyrian Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_Assyrian_kings",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Neo-Assyrian_Empire",
+      "section": "Government / Kingship and royal ideology",
+      "label": "List of Assyrian kings",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q185068",
+      "name": "Kingdom of Urartu",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Urartu",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Urartu",
+      "section": "See also",
+      "label": "List of kings of Urartu",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q2429397",
+      "name": "Carthage",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Carthage",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Ancient_Carthage",
+      "section": "History / Independence, expansion and hegemony / Formation and characteristics of the empire",
+      "label": "Magonid",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q234009",
+      "name": "Janapada of Magadha",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Magadha",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Magadha",
+      "section": "See also",
+      "label": "List of monarchs of Magadha",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q7380487",
+      "name": "Kingdom of Pontus",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Pontus",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Pontus",
+      "section": "History / Kingdom of Pontus",
+      "label": "List of kings of Pontus",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q622032",
+      "name": "Paphlagonia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Paphlagonia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Paphlagonia",
+      "section": "See also",
+      "label": "List of rulers of Paphlagonia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q29654286",
+      "name": "Kingdom of Cappadocia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Cappadocia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Cappadocia",
+      "section": "Kings of Cappadocia",
+      "label": "List of rulers of Cappadocia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q156173",
+      "name": "Kingdom of Numidia",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Numidia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Jugurtha",
+      "section": "Contents",
+      "label": "King of Numidia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q19083",
+      "name": "Caucasian Iberia",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Caucasian_Iberia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Iberia",
+      "section": "History / Pharnavaz I and his descendants",
+      "label": "king of Iberia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q332137",
+      "name": "Kingdom of Commagene",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Commagene",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Commagene",
+      "section": "Contents",
+      "label": "King",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q332137",
+      "name": "Kingdom of Commagene",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Commagene",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Commagene",
+      "section": "List of rulers of Commagene",
+      "label": "List of kings of Commagene",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:huns",
+      "name": "Huns",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Huns",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Huns",
+      "section": "See also",
+      "label": "List of rulers of the Huns",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q877875",
+      "name": "Palmyrene Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_Palmyrene_monarchs",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Palmyrene_Empire",
+      "section": "Contents",
+      "label": "Monarch",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:hunnicempire",
+      "name": "Hunnic Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_Hunnic_rulers",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Huns",
+      "section": "Contents",
+      "label": "King or chief",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:hunnicempire",
+      "name": "Hunnic Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Huns",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Huns",
+      "section": "See also",
+      "label": "List of rulers of the Huns",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q130900",
+      "name": "Lombards",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_the_Lombards",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Lombards",
+      "section": "List of rulers",
+      "label": "List of kings of the Lombards",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q676184",
+      "name": "Kingdom of Sussex",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Sussex",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Sussex",
+      "section": "Life and society / Kingship",
+      "label": "List of monarchs of Sussex",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q837998",
+      "name": "Kingdom of East Anglia",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_East_Anglia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_East_Anglia",
+      "section": "History",
+      "label": "king of the East Angles",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q769782",
+      "name": "Kingdom of Powys",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Powys",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Powys",
+      "section": "Rulers of Powys",
+      "label": "List of monarchs of Powys",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q5311389",
+      "name": "Duchy of Thuringia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Thuringia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Duchy_of_Thuringia",
+      "section": "Rulers",
+      "label": "List of rulers of Thuringia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q313136",
+      "name": "Dumnonia",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Dumnonia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Dumnonia",
+      "section": "History and rulers",
+      "label": "List of kings of Dumnonia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:frisiakingdom",
+      "name": "Frisia Kingdom",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Frisia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Frisia",
+      "section": "See also",
+      "label": "List of rulers of Frisia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q185488",
+      "name": "Volga Bulgaria",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Volga_Bulgaria",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Volga_Bulgaria",
+      "section": "Contents",
+      "label": "Ruler",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:frisia",
+      "name": "Frisia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Frisia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Frisia",
+      "section": "See also",
+      "label": "List of rulers of Frisia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:upperburgundy",
+      "name": "Upper Burgundy",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Burgundy",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Upper_Burgundy",
+      "section": "Rulers of Upper Burgundy",
+      "label": "List of kings of Burgundy",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:chimor",
+      "name": "Chimor",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Chimor",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Chimor",
+      "section": "See also",
+      "label": "List of rulers of Chimor",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:earlybalinesekingdoms",
+      "name": "Early Balinese Kingdoms",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Bali",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Bali_Kingdom",
+      "section": "Notes",
+      "label": "nine monarchs of Bali",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:upperburgundyanditaly",
+      "name": "Upper Burgundy and Italy",
+      "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Burgundy",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Upper_Burgundy",
+      "section": "Rulers of Upper Burgundy",
+      "label": "List of kings of Burgundy",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q26385",
+      "name": "County of Vermandois",
+      "url": "https://en.wikipedia.org/wiki/List_of_counts_of_Vermandois",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Vermandois",
+      "section": "See also",
+      "label": "List of counts of Vermandois",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:halychvolhyniaoccupation",
+      "name": "Halych-Volhynia occupation",
+      "url": "https://en.wikipedia.org/wiki/List_of_princes_of_Galicia_and_Volhynia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Galicia-Volhynia",
+      "section": "Princes and kings",
+      "label": "List of princes of Galicia and Volhynia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:greatprincipalityofduklja",
+      "name": "Great Principality of Duklja",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Duklja",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Duklja",
+      "section": "List of rulers",
+      "label": "List of monarchs of Duklja",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:kingdomofduklja",
+      "name": "Kingdom of Duklja",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Duklja",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Duklja",
+      "section": "List of rulers",
+      "label": "List of monarchs of Duklja",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:kingdomoftheisles",
+      "name": "Kingdom of the Isles",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Kingdom_of_the_Isles",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_the_Isles",
+      "section": "See also",
+      "label": "List of rulers of the Kingdom of the Isles",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q335088",
+      "name": "Armenian Kingdom of Cilicia",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_the_Armenian_Kingdom_of_Cilicia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Armenian_Kingdom_of_Cilicia",
+      "section": "See also",
+      "label": "List of monarchs of the Armenian Kingdom of Cilicia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:kingdomofmann",
+      "name": "Kingdom of Mann",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Kingdom_of_the_Isles",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_the_Isles",
+      "section": "See also",
+      "label": "List of rulers of the Kingdom of the Isles",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q3627069",
+      "name": "Banate of Bosnia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Bosnia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Banate_of_Bosnia",
+      "section": "History / Restoration and Expansion",
+      "label": "Bosnian Ban",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:principalityofgaliciavolhynia",
+      "name": "Principality of Galicia-Volhynia",
+      "url": "https://en.wikipedia.org/wiki/List_of_princes_of_Galicia_and_Volhynia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Galicia-Volhynia",
+      "section": "Princes and kings",
+      "label": "List of princes of Galicia and Volhynia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q122293",
+      "name": "House of Luxembourg",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Luxembourg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/House_of_Luxembourg",
+      "section": "Genealogy / Earlier Luxembourg counts",
+      "label": "count of Luxemburg",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:margraviateofbrandenburg",
+      "name": "Margraviate of Brandenburg",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Brandenburg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Margraviate_of_Brandenburg",
+      "section": "See also",
+      "label": "List of rulers of Brandenburg",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q171393",
+      "name": "Principality of Wallachia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Wallachia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Wallachia",
+      "section": "See also",
+      "label": "List of rulers of Wallachia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q642314",
+      "name": "Free County of Burgundy",
+      "url": "https://en.wikipedia.org/wiki/List_of_counts_of_Burgundy",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Burgundy",
+      "section": "See also",
+      "label": "List of counts of Burgundy",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:makuriakingdom",
+      "name": "Makuria Kingdom",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Makuria",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Makuria",
+      "section": "See also",
+      "label": "List of rulers of Makuria",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:electorateofbrandenburg",
+      "name": "Electorate of Brandenburg",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Brandenburg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Margraviate_of_Brandenburg",
+      "section": "See also",
+      "label": "List of rulers of Brandenburg",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q1760473",
+      "name": "Principality of Abkhazia",
+      "url": "https://en.wikipedia.org/wiki/List_of_Princes_of_Abkhazia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Abkhazia",
+      "section": "Rulers",
+      "label": "List of Princes of Abkhazia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q1209822",
+      "name": "Kingdom of Kakheti",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Kakheti_and_Hereti",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Kakheti",
+      "section": "See also",
+      "label": "List of monarchs of Kakheti",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q13576027",
+      "name": "Prome Kingdom",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Prome",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Prome_Kingdom",
+      "section": "See also",
+      "label": "List of rulers of Prome",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:portugueseempire",
+      "name": "Portuguese Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_Portuguese_monarchs",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+      "section": "Contents",
+      "label": "Monarchs",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:balinesekingdom",
+      "name": "Balinese Kingdom",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Bali",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Bali_Kingdom",
+      "section": "Notes",
+      "label": "nine monarchs of Bali",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q1660566",
+      "name": "Sultanate of Banjar",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Banjar",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Sultanate_of_Banjar",
+      "section": "List of sultans of Banjar",
+      "label": "List of rulers of Banjar",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q200229",
+      "name": "House of Savoy",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Savoy",
+      "linkedFrom": "https://en.wikipedia.org/wiki/House_of_Savoy",
+      "section": "See also",
+      "label": "List of rulers of Savoy",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q655621",
+      "name": "Principality of Transylvania",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Transylvania",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Transylvania_(1570-1711)",
+      "section": "Contents",
+      "label": "Rulers",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q655621",
+      "name": "Principality of Transylvania",
+      "url": "https://en.wikipedia.org/wiki/List_of_princes_of_Transylvania",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Transylvania_(1570-1711)",
+      "section": "Principality of Transylvania",
+      "label": "List of princes of Transylvania",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q157367",
+      "name": "Brandenburg-Prussia",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Brandenburg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Brandenburg-Prussia",
+      "section": "See also",
+      "label": "List of rulers of Brandenburg",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q157367",
+      "name": "Brandenburg-Prussia",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Prussia",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Brandenburg-Prussia",
+      "section": "See also",
+      "label": "List of monarchs of Prussia",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q1132786",
+      "name": "Wadai Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Wadai",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Wadai_Empire",
+      "section": "See also",
+      "label": "List of rulers of Wadai",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:principalityofmonaco",
+      "name": "Principality of Monaco",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Monaco",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Monaco",
+      "section": "See also",
+      "label": "List of rulers of Monaco",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q1841483",
+      "name": "Dutch Ceylon",
+      "url": "https://en.wikipedia.org/wiki/List_of_Governors_of_Dutch_Ceylon",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Dutch_Ceylon",
+      "section": "Administration",
+      "label": "List of Governors of Dutch Ceylon",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q1796223",
+      "name": "Kingdom of Lunda",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Lunda_Empire",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Lunda",
+      "section": "See also",
+      "label": "List of rulers of the Lunda Empire",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q223",
+      "name": "Greenland",
+      "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Greenland",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Greenland",
+      "section": "History / Treaty of Kiel to World War II (1814–1945)",
+      "label": "Governor",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q154849",
+      "name": "Grand Duchy of Tuscany",
+      "url": "https://en.wikipedia.org/wiki/List_of_grand_dukes_of_Tuscany",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Grand_Duchy_of_Tuscany",
+      "section": "See also",
+      "label": "List of grand dukes of Tuscany",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q529605",
+      "name": "Electorate of Hesse",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Hesse",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Electorate_of_Hesse",
+      "section": "History / Annexation by Prussia",
+      "label": "Hesse-Philippsthal-Barchfeld",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q186320",
+      "name": "Grand Duchy of Baden",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Baden",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Grand_Duchy_of_Baden",
+      "section": "Leaders / Grand Dukes (1806–1918)",
+      "label": "List of monarchs of Baden",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q109252949",
+      "name": "Duchy of Mecklenburg",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Mecklenburg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Duchy_of_Mecklenburg",
+      "section": "Contents",
+      "label": "Duke",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q153015",
+      "name": "Kingdom of Saxony",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saxony",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Saxony",
+      "section": "Contents",
+      "label": "King",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:kingdomofmonaco",
+      "name": "Kingdom of Monaco",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Monaco",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Monaco",
+      "section": "See also",
+      "label": "List of rulers of Monaco",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q2014442",
+      "name": "Republic of the Rio Grande",
+      "url": "https://en.wikipedia.org/wiki/List_of_presidents_of_the_Republic_of_the_Rio_Grande",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Republic_of_the_Rio_Grande",
+      "section": "Rebellion / Creation of A New Republic",
+      "label": "president of the new Republic",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q668294",
+      "name": "Kamerun",
+      "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Kamerun",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kamerun",
+      "section": "Contents",
+      "label": "Governor",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:swaziland",
+      "name": "Swaziland",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Eswatini",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Eswatini",
+      "section": "History / Swazi settlers (18th and 19th centuries)",
+      "label": "List of monarchs of Eswatini",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q3497642",
+      "name": "Tangier International Zone",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Tangier_International_Zone",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Tangier_International_Zone",
+      "section": "Institutions",
+      "label": "List of rulers of the Tangier International Zone",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "wd:Q2342282",
+      "name": "Imamate of Oman",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Oman",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Imamate_of_Oman",
+      "section": "See also",
+      "label": "List of rulers of Oman",
+      "basis": "Inspected direct succession-list link from the polity article; bounded source tenures remain subject to period/office checks and sampled-source admission."
+    },
+    {
+      "polityKey": "nm:assyria",
+      "name": "Assyria",
+      "url": "https://en.wikipedia.org/wiki/List_of_Assyrian_kings",
+      "scope": null,
+      "basis": "Inspected the full succession table; the old incoming Early Assyrian rulers fragment covers only the undated earliest section. The broader list remains filtered by the exact atlas period."
+    },
+    {
+      "polityKey": "nm:lanna",
+      "name": "Lan Na",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Lan_Na",
+      "scope": null,
+      "basis": "Inspected the renamed headings and explicit Kings of Lan Na and later Burmese-rule tables. The dated roster is associated only within this atlas phase."
+    },
+    {
+      "polityKey": "wd:Q940785",
+      "name": "Sabaeans",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saba_and_Himyar",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Sabaeans",
+      "section": "Contents",
+      "label": "list of rulers",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/17004a7dc55be2118b78.html",
+        "sha256": "d76a240858de333cc989b7e9b9499c3a70e5f1a4ce14b2cb2dde7ffbbf17f04b"
+      },
+      "scope": "Saba",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saba_and_Himyar"
+    },
+    {
+      "polityKey": "nm:wu",
+      "name": "Wu",
+      "url": "https://en.wikipedia.org/wiki/King_of_Wu",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Wu_(state)",
+      "section": "See also",
+      "label": "King of Wu",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/7a3843b90a82873ccda1.html",
+        "sha256": "4768b6097b4b5feb0e3c8052b6effcccaa5bc55b3493a338c98b50dbb9fccde5"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/King_of_Wu"
+    },
+    {
+      "polityKey": "wd:Q101985",
+      "name": "Saxons",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saxony",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Saxons",
+      "section": "History / Merovingian period",
+      "label": "List of rulers of Saxony § Independent Saxony",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/c4968ed32c41daa4a090.html",
+        "sha256": "557ecce479bc0e9428bfa6288e3e80cf0319b529d7e5e9bfadcde5dc32126b4b"
+      },
+      "scope": "Independent\\ Saxony",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saxony#Independent_Saxony"
+    },
+    {
+      "polityKey": "wd:Q101985",
+      "name": "Saxons",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saxony",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Saxons",
+      "section": "History / The Duchy of Saxony",
+      "label": "List of rulers of Saxony § Saxony as part of Frankish kingdom(s)",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/c4968ed32c41daa4a090.html",
+        "sha256": "557ecce479bc0e9428bfa6288e3e80cf0319b529d7e5e9bfadcde5dc32126b4b"
+      },
+      "scope": "Saxony\\ as\\ part\\ of\\ Frankish\\ kingdom\\(s\\)",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saxony#Saxony_as_part_of_Frankish_kingdom(s)"
+    },
+    {
+      "polityKey": "wd:Q2431480",
+      "name": "Tibetan Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_emperors_of_Tibet",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Tibetan_Empire",
+      "section": "Contents",
+      "label": "Tsenpo",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/91eed1cc3b761f144faf.html",
+        "sha256": "86e7f0c1178922d531ca7fcfa7b58f3739d71ec0bd475f09a4f27d993f438a94"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_emperors_of_Tibet"
+    },
+    {
+      "polityKey": "nm:kingdomofpamplona",
+      "name": "Kingdom of Pamplona",
+      "url": "https://en.wikipedia.org/wiki/King_of_Pamplona",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Navarre",
+      "section": "Nascent state and kingdom / Jiménez rule",
+      "label": "king of Pamplona",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/27b2efbff6a89be9063c.html",
+        "sha256": "3dee47a67dd9416a912a00e586f5758ecc743356679f246d0b51c0d6cfc8d26c"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/King_of_Pamplona"
+    },
+    {
+      "polityKey": "nm:lowerburgundy",
+      "name": "Lower Burgundy",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Provence",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Lower_Burgundy",
+      "section": "History",
+      "label": "Count of Provence",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/6a6ce6f04a848d8830be.html",
+        "sha256": "2c668da54c4df32f20bf9eb393ba064c0225957acd03ff17447fb9d8d01f875a"
+      },
+      "scope": "Kings|Dukes",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Provence"
+    },
+    {
+      "polityKey": "nm:lowerburgundy",
+      "name": "Lower Burgundy",
+      "url": "https://en.wikipedia.org/wiki/List_of_dukes,_kings,_counts,_and_margraves_of_Provence",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Lower_Burgundy",
+      "section": "See also",
+      "label": "List of dukes, kings, counts, and margraves of Provence",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/6a6ce6f04a848d8830be.html",
+        "sha256": "2c668da54c4df32f20bf9eb393ba064c0225957acd03ff17447fb9d8d01f875a"
+      },
+      "scope": "Kings|Dukes",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_dukes,_kings,_counts,_and_margraves_of_Provence"
+    },
+    {
+      "polityKey": "nm:kievanrus",
+      "name": "Kievan Rus'",
+      "url": "https://en.wikipedia.org/wiki/Prince_of_Kiev",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kievan_Rus%27",
+      "section": "Contents",
+      "label": "prince of Kiev",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/35281fb250d4fb8024cb.html",
+        "sha256": "dd0b5139416ad2e715319b1212e7e466fc0785ecba2d0fb2c1b703acd8c4f765"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Prince_of_Kiev"
+    },
+    {
+      "polityKey": "nm:kingdomoflowerburgundy",
+      "name": "Kingdom of Lower Burgundy",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Provence",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Lower_Burgundy",
+      "section": "History",
+      "label": "Count of Provence",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/6a6ce6f04a848d8830be.html",
+        "sha256": "2c668da54c4df32f20bf9eb393ba064c0225957acd03ff17447fb9d8d01f875a"
+      },
+      "scope": "Kings|Dukes",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Provence"
+    },
+    {
+      "polityKey": "nm:kingdomoflowerburgundy",
+      "name": "Kingdom of Lower Burgundy",
+      "url": "https://en.wikipedia.org/wiki/List_of_dukes,_kings,_counts,_and_margraves_of_Provence",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Lower_Burgundy",
+      "section": "See also",
+      "label": "List of dukes, kings, counts, and margraves of Provence",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/6a6ce6f04a848d8830be.html",
+        "sha256": "2c668da54c4df32f20bf9eb393ba064c0225957acd03ff17447fb9d8d01f875a"
+      },
+      "scope": "Kings|Dukes",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_dukes,_kings,_counts,_and_margraves_of_Provence"
+    },
+    {
+      "polityKey": "wd:Q590016",
+      "name": "County of Rouergue",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Rouergue",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Rouergue",
+      "section": "See also",
+      "label": "Count of Rouergue",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/a268f9eed55e3e1c42ad.html",
+        "sha256": "4afa3c6516229598ec77b8eafba1e6a3cf5f6f85850c61c3ed77cae21f050382"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Rouergue"
+    },
+    {
+      "polityKey": "wd:Q2991084",
+      "name": "County of Anjou",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Anjou",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Anjou",
+      "section": "Contents",
+      "label": "Count of Anjou",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/6843352cd909c399f7c1.html",
+        "sha256": "07af0523706f7a07ca35a30f02dab8f774bc594ae7ffe5581784a54e05bf53ee"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Anjou"
+    },
+    {
+      "polityKey": "wd:Q1322662",
+      "name": "Principality of Chernigov",
+      "url": "https://en.wikipedia.org/wiki/Prince_of_Chernigov",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Chernigov",
+      "section": "Contents",
+      "label": "Prince",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/4210179ffa0018e0c0d9.html",
+        "sha256": "de161bb01e4910e16aca0902d99ee152d0d7a1ac54056a5627e1466574b9c6b2"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Prince_of_Chernigov"
+    },
+    {
+      "polityKey": "wd:Q232806",
+      "name": "County of Edessa",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Edessa",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Edessa",
+      "section": "Contents",
+      "label": "count of Edessa",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/7b6f2171409e2cdfe2fe.html",
+        "sha256": "eff3733e6625950b9cf228ac62f7b745976a3956a1d1e74d10d317964e2cc9cf"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Edessa"
+    },
+    {
+      "polityKey": "wd:Q272033",
+      "name": "County of Tripoli",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Tripoli",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Tripoli",
+      "section": "Contents",
+      "label": "Count of Tripoli",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/57f9e69f68c7a79c0450.html",
+        "sha256": "c9ad0621544678db05f2fd12a00df99e31029ae3bb5b507d993296c23bc6feca"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Tripoli"
+    },
+    {
+      "polityKey": "nm:kingdomofnavarre",
+      "name": "Kingdom of Navarre",
+      "url": "https://en.wikipedia.org/wiki/King_of_Pamplona",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Navarre",
+      "section": "Nascent state and kingdom / Jiménez rule",
+      "label": "king of Pamplona",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/27b2efbff6a89be9063c.html",
+        "sha256": "3dee47a67dd9416a912a00e586f5758ecc743356679f246d0b51c0d6cfc8d26c"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/King_of_Pamplona"
+    },
+    {
+      "polityKey": "wd:Q1431527",
+      "name": "County of Boulogne",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Boulogne",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Boulogne",
+      "section": "Contents",
+      "label": "House of Boulogne",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/5b0ad000cb11f9f01ed0.html",
+        "sha256": "fb55a8408f72fcc0ab54683bb2d16c251c36f41174d8246558849e45551ba445"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Boulogne"
+    },
+    {
+      "polityKey": "wd:Q1947408",
+      "name": "County of Périgord",
+      "url": "https://en.wikipedia.org/wiki/Count_of_P%C3%A9rigord",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_P%C3%A9rigord",
+      "section": "Contents",
+      "label": "Counts of Périgord",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/3216785fd06b5b8cd9ab.html",
+        "sha256": "329a20b4d37593a86fada37ac8db1c6f832920e55b929e43814a8975b0d14e80"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Périgord"
+    },
+    {
+      "polityKey": "wd:Q2991374",
+      "name": "County of Poitou",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Poitou",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Poitou",
+      "section": "Contents",
+      "label": "Count of Poitou",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/a9e5c143036ff32f3666.html",
+        "sha256": "eb30a981e8051c6643548e492f754a59c1140b658ea970d7bf1a118c30b77565"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Poitou"
+    },
+    {
+      "polityKey": "wd:Q48189",
+      "name": "Teutonic Order",
+      "url": "https://en.wikipedia.org/wiki/Grand_Master_of_the_Teutonic_Order",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Teutonic_Order",
+      "section": "Contents",
+      "label": "Grand Master",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/4b95896325d884a64a0d.html",
+        "sha256": "24f4a910c3955e86cad6c1607d0a0c31a6cf0f804ca67a284944e92ecdc265d0"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Grand_Master_of_the_Teutonic_Order"
+    },
+    {
+      "polityKey": "wd:Q48189",
+      "name": "Teutonic Order",
+      "url": "https://en.wikipedia.org/wiki/Grand_Master_of_the_Teutonic_Knights",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Teutonic_Order",
+      "section": "History",
+      "label": "Grand Master",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/4b95896325d884a64a0d.html",
+        "sha256": "24f4a910c3955e86cad6c1607d0a0c31a6cf0f804ca67a284944e92ecdc265d0"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Grand_Master_of_the_Teutonic_Knights"
+    },
+    {
+      "polityKey": "wd:Q778266",
+      "name": "County of Artois",
+      "url": "https://en.wikipedia.org/wiki/Count_of_Artois",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Artois",
+      "section": "Contents",
+      "label": "Count of Artois",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/e3deea0ff44a2bee3ae7.html",
+        "sha256": "84de70f8ec39fc7faaf3e91e73046a247fbd0792ce22ea4181c636ef1a261701"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Count_of_Artois"
+    },
+    {
+      "polityKey": "wd:Q151999",
+      "name": "Dauphiné",
+      "url": "https://en.wikipedia.org/wiki/List_of_Counts_of_Albon_and_Dauphins_of_Viennois",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Dauphin%C3%A9",
+      "section": "Contents",
+      "label": "Count of Albon to Dauphin of Viennois",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/756929eb216b0e856f3a.html",
+        "sha256": "1f996599cd7cf3424dc735e128ae549954f0f877e416f4b9598354980acf8473"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_Counts_of_Albon_and_Dauphins_of_Viennois"
+    },
+    {
+      "polityKey": "wd:Q2281221",
+      "name": "Principality of Orange",
+      "url": "https://en.wikipedia.org/wiki/Prince_of_Orange",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Orange",
+      "section": "Contents",
+      "label": "Prince of Orange",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/f026a407bced89eff223.html",
+        "sha256": "ec3404bd7391c270539f1c5339c2afa27b03aac393529b3f1c539f3afb5e614f"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Prince_of_Orange"
+    },
+    {
+      "polityKey": "wd:Q849623",
+      "name": "Oyo Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Yoruba_state_of_Oyo",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Oyo_Empire",
+      "section": "Contents",
+      "label": "List",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/983b9579abb7de58d6ff.html",
+        "sha256": "709e7e5086e3dc2ac52c258f02ac5eeacddec04941ba633217c4a3c781ad408c"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Yoruba_state_of_Oyo"
+    },
+    {
+      "polityKey": "wd:Q722071",
+      "name": "Ashanti Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Asante",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Ashanti_Empire",
+      "section": "Government and politics / Administration / Asantehene",
+      "label": "Asantehene",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/197bd7392492818e3b90.html",
+        "sha256": "7005494985381e4500a4395504c46d908e6502b6d6adf1b4c97bc3a2a4a32104"
+      },
+      "scope": null,
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/List_of_rulers_of_Asante"
+    },
+    {
+      "polityKey": "wd:Q7636765",
+      "name": "Sultanate of Selangor",
+      "url": "https://en.wikipedia.org/wiki/Sultan_of_Selangor",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Sultan_of_Selangor",
+      "section": "Contents",
+      "label": "4 List of sultans",
+      "snapshot": {
+        "path": "data/raw/rulers/wikipedia/ee637947480076e32cb1.html",
+        "sha256": "82bac93ee5bf8b2a8990f1f45492b4b5d99723a88ba9609d90833f9fc846c084"
+      },
+      "scope": "List\\ of\\ sultans",
+      "basis": "Inspected direct link naming the polity’s own succession office. Destination records require exact section/period/office checks; the link alone is not tenure evidence.",
+      "discoveryLink": "https://en.wikipedia.org/wiki/Sultan_of_Selangor#List_of_sultans"
+    },
+    {
+      "polityKey": "nm:principalityofserbia",
+      "name": "Principality of Serbia",
+      "url": "https://en.wikipedia.org/wiki/List_of_Serbian_monarchs",
+      "scope": "Vlastimirović dynasty",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Serbia",
+      "section": "Early medieval Serbian states (7th century–1166) / Vlastimirović dynasty (7th century–960)",
+      "basis": "The atlas identity spans 768–961. Inspected the cached shared list and explicitly scoped its early medieval dynasty; the discovery article and fragment instead describe the 1815–1882 principality. No modern reigns are assigned to the medieval key."
+    }
+  ],
+  "held": [
+    {
+      "polityKey": "wd:Q1068408",
+      "name": "Janapada of Kuru",
+      "url": "https://en.wikipedia.org/wiki/List_of_Kuru_kings",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kuru_Kingdom",
+      "section": "See also",
+      "label": "List of Kuru kings",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:greatyuan",
+      "name": "Great Yuan",
+      "url": "https://en.wikipedia.org/wiki/List_of_emperors_of_the_Yuan_dynasty",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Yuan_dynasty",
+      "section": "See also",
+      "label": "List of emperors of the Yuan dynasty",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:greatyuan",
+      "name": "Great Yuan",
+      "url": "https://en.wikipedia.org/wiki/List_of_Yuan_emperors",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Yuan_dynasty",
+      "section": "History / Successors after Kublai",
+      "label": "List of Yuan emperors",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "wd:Q65968",
+      "name": "House of Habsburg",
+      "url": "https://en.wikipedia.org/wiki/List_of_Governors_of_the_Habsburg_Netherlands",
+      "linkedFrom": "https://en.wikipedia.org/wiki/House_of_Habsburg",
+      "section": "List of Habsburg rulers / Reunited Habsburgs until extinction of agnatic lines / Titular Dukes of Burgundy, Lords of the Netherlands",
+      "label": "regent or governor-general",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:holyromanempireminorstates",
+      "name": "Holy Roman Empire Minor States",
+      "url": "https://en.wikipedia.org/wiki/List_of_Roman_emperors",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Holy_Roman_Empire",
+      "section": "Name and general perception",
+      "label": "ancient emperors of Rome",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "wd:Q642314",
+      "name": "Free County of Burgundy",
+      "url": "https://en.wikipedia.org/wiki/List_of_Kings_of_Burgundy",
+      "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Burgundy",
+      "section": "Contents",
+      "label": "King of Burgundy (Arelat)",
+      "reason": "The linked office or branch is not the mapped jurisdiction."
+    },
+    {
+      "polityKey": "wd:Q2658979",
+      "name": "Albanian Principalities",
+      "url": "https://en.wikipedia.org/wiki/List_of_Albanian_monarchs",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Albanian_principalities",
+      "section": "See also",
+      "label": "List of Albanian monarchs",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:portugueseempire",
+      "name": "Portuguese Empire",
+      "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Portuguese_India",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+      "section": "First Empire (1415–1663) / Colonisation efforts in the Americas / Brazil",
+      "label": "governor of India",
+      "reason": "The linked office or branch is not the mapped jurisdiction."
+    },
+    {
+      "polityKey": "nm:portuguesecolonies",
+      "name": "Portuguese Colonies",
+      "url": "https://en.wikipedia.org/wiki/List_of_Portuguese_monarchs",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+      "section": "Contents",
+      "label": "Monarchs",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:portuguesecolonies",
+      "name": "Portuguese Colonies",
+      "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Portuguese_India",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+      "section": "First Empire (1415–1663) / Colonisation efforts in the Americas / Brazil",
+      "label": "governor of India",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "wd:Q1050326",
+      "name": "Sultan of Yogyakarta",
+      "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Yogyakarta",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Hamengkubuwono",
+      "section": "Contents",
+      "label": "Governor of the Special Region",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:haiti",
+      "name": "Haiti",
+      "url": "https://en.wikipedia.org/wiki/List_of_commanders-in-chief_of_the_Armed_Forces_of_Haiti",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Haiti",
+      "section": "Government and politics / Military and law enforcement",
+      "label": "commander-in-chief of the Armed Forces of Haiti",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:italianrepublic",
+      "name": "Italian Republic",
+      "url": "https://en.wikipedia.org/wiki/List_of_Prime_Ministers_of_Italy",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Italy",
+      "section": "History / Republican era",
+      "label": "first",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "wd:Q186320",
+      "name": "Grand Duchy of Baden",
+      "url": "https://en.wikipedia.org/wiki/List_of_ministers-president_of_Baden-Württemberg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Grand_Duchy_of_Baden",
+      "section": "Leaders / Ministers-President (1809–1918)",
+      "label": "List of ministers-president of Baden-Württemberg § Ministers-President of the Grand Duchy of Baden (1809–1918)",
+      "reason": "The linked office or branch is not the mapped jurisdiction."
+    },
+    {
+      "polityKey": "wd:Q153015",
+      "name": "Kingdom of Saxony",
+      "url": "https://en.wikipedia.org/wiki/List_of_ministers-president_of_Saxony",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Saxony",
+      "section": "Contents",
+      "label": "Minister-President",
+      "reason": "The linked office or branch is not the mapped jurisdiction."
+    },
+    {
+      "polityKey": "nm:qatardynasty",
+      "name": "Qatar Dynasty",
+      "url": "https://en.wikipedia.org/wiki/List_of_prime_ministers_of_Qatar",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Qatar",
+      "section": "Politics",
+      "label": "Prime Minister",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "wd:Q2571484",
+      "name": "Kashmir and Jammu",
+      "url": "https://en.wikipedia.org/wiki/List_of_Chief_Ministers_of_Jammu_and_Kashmir",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Jammu_and_Kashmir_(princely_state)",
+      "section": "Contents",
+      "label": "Dewan",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "wd:Q690821",
+      "name": "Republic of Baden",
+      "url": "https://en.wikipedia.org/wiki/List_of_ministers-president_of_Baden-Württemberg",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Republic_of_Baden",
+      "section": "Leaders",
+      "label": "List of ministers-president of Baden-Württemberg § Presidents of the Republic of Baden (1918–1945)",
+      "reason": "The linked office or branch is not the mapped jurisdiction."
+    },
+    {
+      "polityKey": "nm:hungariannationalists",
+      "name": "Hungarian Nationalists",
+      "url": "https://en.wikipedia.org/wiki/List_of_Ministers-President_of_Austria",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Austria-Hungary",
+      "section": "Contents",
+      "label": "Minister-President of Austria",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:hungariannationalists",
+      "name": "Hungarian Nationalists",
+      "url": "https://en.wikipedia.org/wiki/List_of_Prime_Ministers_of_Hungary",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Austria-Hungary",
+      "section": "Contents",
+      "label": "Prime Minister of Hungary",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:unitarystateofbrazil",
+      "name": "Unitary State of Brazil",
+      "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Brazil",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Brazil",
+      "section": "History / Empire of Brazil",
+      "label": "Emperor of Brazil",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    },
+    {
+      "polityKey": "nm:communistcuba",
+      "name": "Communist Cuba",
+      "url": "https://en.wikipedia.org/wiki/List_of_presidents_of_the_National_Assembly_of_People's_Power_(Cuba)",
+      "linkedFrom": "https://en.wikipedia.org/wiki/Cuba",
+      "section": "Government and politics",
+      "label": "President of the National Assembly",
+      "reason": "Requires separate historicality, member-jurisdiction, period or identity review; no broad automatic association."
+    }
+  ]
+}

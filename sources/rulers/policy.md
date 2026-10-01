@@ -31,6 +31,31 @@ column and retained-alternative requirements.
 
 Scope: rulers only, for every polity identity in `docs/data/polity_index.json`. A successful parser, plausible chronology, or passing schema test is not evidence of historical accuracy. Source discovery, claim verification, and completeness are separate outcomes.
 
+### Named officeholders with incomplete tenure dates
+
+A named officeholder from a source that passed the existing sampling gate may be
+shown as `dates-unknown` when the inspected succession row explicitly lacks one
+or both tenure bounds. The claim and its imported assertion must both retain
+`dateStatus: incomplete`, the same nonempty `sourceDateText`, their null bounds,
+and the matching source snapshot. This verifies neither an accession year nor a
+departure year. Reign lengths and floruit/attestation years remain source text;
+they are not converted into tenure endpoints. Unsupported parser formats alone
+do not establish missing historical dates.
+
+This route requires an explicit polity/office scope. It never marks a person
+active or possibly active in a selected year, never bypasses a failed source
+sample or a known dispute, and never infers legendary status. An undated account
+that cannot be distinguished from an already dated episode of the same person
+is held in the duplicate audit. Roster coverage remains partial. The public
+summary reports these entries separately as `incompleteDateReigns`.
+
+The September 2026 century-list review matched 26 of its 30 independently
+compared sample entries, below the required 90%. All four failures are retained
+in `chronology-review.json`. That collection is used for source discovery only;
+its unchecked tenure records do not enter the production broad import. A link
+to a detailed succession list is only a discovery route: its records are
+separately extracted from that destination's own snapshot and admission checks.
+
 ## What the current index actually contains
 
 Read-only audit on 2026-09-09 UTC: 1,544 polity entries, excluding `_span`; 1,285 `wd:` identifiers and 259 `nm:` identifiers. The map's beginning and ending years describe its mapped records. They must not be silently treated as verified dates of a state's existence, or as a ruler's accession and departure.

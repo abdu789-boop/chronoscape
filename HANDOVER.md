@@ -1,9 +1,10 @@
 # Developer handover
 
-Reviewed 2026-09-29 (America/New_York), against application commit `1e83435`.
+Reviewed 2026-09-30 (America/New_York), including the ruler expansion following `3c69275`.
 The repository is ready for a developer to run, test and continue the current
 application. This handover does not certify complete historical coverage or a
-fresh deployment. The audit updates documentation and Python dependencies only.
+fresh deployment. The latest work expands the ruler collection, adds incomplete
+tenure support and records remaining work for every atlas identity.
 
 ## Start here
 
@@ -43,6 +44,7 @@ node --test tests/*.test.mjs
 .venv/bin/python -m unittest discover -s tests -p 'test_ruler_*.py'
 .venv/bin/python scripts/validate.py --quick
 node scripts/build_rulers.mjs --check
+.venv/bin/python scripts/audit_ruler_coverage.py --check
 python3 scripts/update_data_versions.py --check
 git diff --check
 ```
@@ -58,8 +60,8 @@ in [QA_REPORT.md](QA_REPORT.md). No CI workflow is tracked; these checks are man
 | Area | Verified local state |
 |---|---|
 | Map | 12,108 interval records, 1,544 identities, 3400 BCE–2024 CE; year zero is invalid |
-| Rulers | 9,567 accepted reigns across 806 identities; 738 without accepted rulers; no complete roster |
-| Ruler evidence | 276 individually cross-checked records, 8,946 sampled-source records; other accepted records retain approximate/disputed status |
+| Rulers | 13,309 accepted reigns across 945 identities; 599 without accepted rulers; no complete roster |
+| Ruler evidence | 270 individually cross-checked, 12,278 sampled-source, 501 approximate, 21 disputed and 239 incomplete-date records |
 | UI | Search across eras, exact year navigation, flat/globe views, themes, share links, mobile detail sheet, ruler evidence tooltips |
 | Ontology | Designed in ONTOLOGY.md, not implemented; no dependency edges or tinting |
 | Removed features | No polity shortcuts, languages, religions or per-polity population; world population remains |
@@ -118,12 +120,13 @@ recreate the local tag, and VERSION_HISTORY explains separate-checkout use.
 
 ## Validation and next work
 
-This audit passed **91 JavaScript tests, 35 Python tests, 46 full historical
-checks (no skips), and 16 browser checks**. The public ruler build, identity
-audit and cache fingerprints match committed artifacts. Five browser screenshots
-were visually inspected. Benchmark preparation succeeded; performance was not
-remeasured. Results and environment details are retained in the
-[task handoff](workstreams/maintenance/chats/2026-09-29__developer-handover/handoff.md).
+The latest ruler update passed **95 JavaScript tests, 55 Python tests, 46 full
+historical checks (no skips), and 17 browser checks**. The public ruler build,
+identity audit and cache fingerprints match committed artifacts. Six release
+browser screenshots were visually inspected. Performance was not
+remeasured. Results, the source review and remaining coverage work are retained
+in the [ruler handoff](workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/handoff.md).
+The earlier documentation audit remains in its dated maintenance workstream.
 
 The next developer can start feature work immediately. For extraction ownership,
 first arrange the raw-cache transfer. Engineering follow-ups are source snapshot

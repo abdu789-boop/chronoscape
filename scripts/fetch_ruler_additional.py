@@ -27,6 +27,11 @@ MODERN = {
     "GRC": [(1945,1966,"wd:Q209065"),(1967,1973,"wd:Q504081"),(1974,2015,"wd:Q17765809")],
     "AUS": [(1945,2015,"wd:Q187830")],
     "ROK": [(1948,2015,"nm:republicofkorea")],
+    "PRK": [(1948,2015,"nm:democraticpeoplesrepublicofkorea")],
+    "CUB": [(1959,2015,"nm:communistcuba")],
+    # This atlas identity precedes the 1990 occupation. Preserve source terms;
+    # later restored terms belong to the separately mapped continuation.
+    "KUW": [(1961,1989,"nm:stateofkuwait")],
     "TRI": [(1962,2015,"wd:Q754")],
     "POR": [(1933,1973,"wd:Q824489")],
     "RUS": [(1721,1916,"wd:Q34266"),(1917,1917,"wd:Q139319"),(1922,1990,"wd:Q15180")],

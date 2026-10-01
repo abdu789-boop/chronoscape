@@ -14,7 +14,7 @@ export function applyIdentityAudit(data, report, audit) {
     if (group.ids.some(id => planned.has(id)) || new Set(group.ids).size !== group.ids.length) throw new Error('Overlapping identity consolidation');
     group.ids.forEach(id => planned.add(id));
     const rows = group.ids.map(id => byId.get(id));
-    if (rows.length < 2 || rows.some(r => !r || r.polityKey !== group.polityKey || identity(r) !== group.canonicalPerson)
+    if (rows.length < 2 || rows.some(r => !r || r.dateStatus === 'incomplete' || r.polityKey !== group.polityKey || identity(r) !== group.canonicalPerson)
       || new Set(rows.map(signature)).size !== 1) throw new Error('Invalid identity consolidation: ' + group.ids.join(', '));
     if (rows.some(r => conflicted.has(r.id))) rows.forEach(r => conflicted.add(r.id));
   }
@@ -23,6 +23,21 @@ export function applyIdentityAudit(data, report, audit) {
     if (rows.some(r => !r || r.polityKey !== conflict.polityKey || identity(r) !== conflict.canonicalPerson)) throw new Error('Invalid identity conflict');
   }
   report.identityAudit = { summary: audit.summary, consolidated: [], conflicts: audit.conflicts, retainedDistinctTerms: audit.retainedDistinctTerms };
+  for (const item of audit.incompleteTenures || []) {
+    const claim = byId.get(item.id);
+    if (!claim || claim.dateStatus !== 'incomplete' || claim.polityKey !== item.polityKey || identity(claim) !== item.canonicalPerson
+      || !item.datedIds?.length || item.datedIds.some(id => {
+        const peer = byId.get(id);
+        return !peer || peer.polityKey !== claim.polityKey || peer.dateStatus === 'incomplete'
+          || identity(peer) !== item.canonicalPerson
+          || !(claim.from === null && claim.to === null
+            || claim.from !== null && claim.from === peer.from
+            || claim.to !== null && claim.to === peer.to);
+      })) throw new Error('Invalid incomplete tenure hold');
+    report.withheld.push({ family: 'identity-audit', claim, reason: item.reason });
+    omitted.add(item.id);
+  }
+  report.identityAudit.incompleteTenures = audit.incompleteTenures || [];
   for (const id of conflicted) {
     const claim = byId.get(id);
     report.withheld.push({ family: 'identity-audit', claim,

@@ -1,0 +1,754 @@
+[
+  {
+    "polityKey": "wd:Q128904",
+    "name": "Elam",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Elam",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Elam",
+    "section": "See also",
+    "label": "List of rulers of Elam"
+  },
+  {
+    "polityKey": "wd:Q770281",
+    "name": "Neo-Hittite states",
+    "url": "https://en.wikipedia.org/wiki/List_of_Neo-Hittite_kings",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Neo-Hittite_states",
+    "section": "See also",
+    "label": "List of Neo-Hittite kings"
+  },
+  {
+    "polityKey": "wd:Q10914393",
+    "name": "Neo-Assyrian Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_Assyrian_kings",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Neo-Assyrian_Empire",
+    "section": "Government / Kingship and royal ideology",
+    "label": "List of Assyrian kings"
+  },
+  {
+    "polityKey": "wd:Q185068",
+    "name": "Kingdom of Urartu",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Urartu",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Urartu",
+    "section": "See also",
+    "label": "List of kings of Urartu"
+  },
+  {
+    "polityKey": "wd:Q2429397",
+    "name": "Carthage",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Carthage",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Ancient_Carthage",
+    "section": "History / Independence, expansion and hegemony / Formation and characteristics of the empire",
+    "label": "Magonid"
+  },
+  {
+    "polityKey": "wd:Q234009",
+    "name": "Janapada of Magadha",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Magadha",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Magadha",
+    "section": "See also",
+    "label": "List of monarchs of Magadha"
+  },
+  {
+    "polityKey": "wd:Q1068408",
+    "name": "Janapada of Kuru",
+    "url": "https://en.wikipedia.org/wiki/List_of_Kuru_kings",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kuru_Kingdom",
+    "section": "See also",
+    "label": "List of Kuru kings"
+  },
+  {
+    "polityKey": "wd:Q7380487",
+    "name": "Kingdom of Pontus",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Pontus",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Pontus",
+    "section": "History / Kingdom of Pontus",
+    "label": "List of kings of Pontus"
+  },
+  {
+    "polityKey": "wd:Q622032",
+    "name": "Paphlagonia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Paphlagonia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Paphlagonia",
+    "section": "See also",
+    "label": "List of rulers of Paphlagonia"
+  },
+  {
+    "polityKey": "wd:Q29654286",
+    "name": "Kingdom of Cappadocia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Cappadocia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Cappadocia",
+    "section": "Kings of Cappadocia",
+    "label": "List of rulers of Cappadocia"
+  },
+  {
+    "polityKey": "wd:Q156173",
+    "name": "Kingdom of Numidia",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Numidia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Jugurtha",
+    "section": "Contents",
+    "label": "King of Numidia"
+  },
+  {
+    "polityKey": "nm:greatyuan",
+    "name": "Great Yuan",
+    "url": "https://en.wikipedia.org/wiki/List_of_emperors_of_the_Yuan_dynasty",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Yuan_dynasty",
+    "section": "See also",
+    "label": "List of emperors of the Yuan dynasty"
+  },
+  {
+    "polityKey": "nm:greatyuan",
+    "name": "Great Yuan",
+    "url": "https://en.wikipedia.org/wiki/List_of_Yuan_emperors",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Yuan_dynasty",
+    "section": "History / Successors after Kublai",
+    "label": "List of Yuan emperors"
+  },
+  {
+    "polityKey": "wd:Q19083",
+    "name": "Caucasian Iberia",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Caucasian_Iberia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Iberia",
+    "section": "History / Pharnavaz I and his descendants",
+    "label": "king of Iberia"
+  },
+  {
+    "polityKey": "wd:Q332137",
+    "name": "Kingdom of Commagene",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Commagene",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Commagene",
+    "section": "Contents",
+    "label": "King"
+  },
+  {
+    "polityKey": "wd:Q332137",
+    "name": "Kingdom of Commagene",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Commagene",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Commagene",
+    "section": "List of rulers of Commagene",
+    "label": "List of kings of Commagene"
+  },
+  {
+    "polityKey": "nm:huns",
+    "name": "Huns",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Huns",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Huns",
+    "section": "See also",
+    "label": "List of rulers of the Huns"
+  },
+  {
+    "polityKey": "wd:Q877875",
+    "name": "Palmyrene Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_Palmyrene_monarchs",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Palmyrene_Empire",
+    "section": "Contents",
+    "label": "Monarch"
+  },
+  {
+    "polityKey": "nm:hunnicempire",
+    "name": "Hunnic Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_Hunnic_rulers",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Huns",
+    "section": "Contents",
+    "label": "King or chief"
+  },
+  {
+    "polityKey": "nm:hunnicempire",
+    "name": "Hunnic Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Huns",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Huns",
+    "section": "See also",
+    "label": "List of rulers of the Huns"
+  },
+  {
+    "polityKey": "wd:Q130900",
+    "name": "Lombards",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_the_Lombards",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Lombards",
+    "section": "List of rulers",
+    "label": "List of kings of the Lombards"
+  },
+  {
+    "polityKey": "wd:Q676184",
+    "name": "Kingdom of Sussex",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Sussex",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Sussex",
+    "section": "Life and society / Kingship",
+    "label": "List of monarchs of Sussex"
+  },
+  {
+    "polityKey": "wd:Q837998",
+    "name": "Kingdom of East Anglia",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_East_Anglia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_East_Anglia",
+    "section": "History",
+    "label": "king of the East Angles"
+  },
+  {
+    "polityKey": "wd:Q769782",
+    "name": "Kingdom of Powys",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Powys",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Powys",
+    "section": "Rulers of Powys",
+    "label": "List of monarchs of Powys"
+  },
+  {
+    "polityKey": "wd:Q5311389",
+    "name": "Duchy of Thuringia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Thuringia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Duchy_of_Thuringia",
+    "section": "Rulers",
+    "label": "List of rulers of Thuringia"
+  },
+  {
+    "polityKey": "wd:Q313136",
+    "name": "Dumnonia",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Dumnonia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Dumnonia",
+    "section": "History and rulers",
+    "label": "List of kings of Dumnonia"
+  },
+  {
+    "polityKey": "nm:frisiakingdom",
+    "name": "Frisia Kingdom",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Frisia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Frisia",
+    "section": "See also",
+    "label": "List of rulers of Frisia"
+  },
+  {
+    "polityKey": "wd:Q185488",
+    "name": "Volga Bulgaria",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Volga_Bulgaria",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Volga_Bulgaria",
+    "section": "Contents",
+    "label": "Ruler"
+  },
+  {
+    "polityKey": "nm:frisia",
+    "name": "Frisia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Frisia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Frisia",
+    "section": "See also",
+    "label": "List of rulers of Frisia"
+  },
+  {
+    "polityKey": "nm:upperburgundy",
+    "name": "Upper Burgundy",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Burgundy",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Upper_Burgundy",
+    "section": "Rulers of Upper Burgundy",
+    "label": "List of kings of Burgundy"
+  },
+  {
+    "polityKey": "nm:chimor",
+    "name": "Chimor",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Chimor",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Chimor",
+    "section": "See also",
+    "label": "List of rulers of Chimor"
+  },
+  {
+    "polityKey": "nm:earlybalinesekingdoms",
+    "name": "Early Balinese Kingdoms",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Bali",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Bali_Kingdom",
+    "section": "Notes",
+    "label": "nine monarchs of Bali"
+  },
+  {
+    "polityKey": "nm:upperburgundyanditaly",
+    "name": "Upper Burgundy and Italy",
+    "url": "https://en.wikipedia.org/wiki/List_of_kings_of_Burgundy",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Upper_Burgundy",
+    "section": "Rulers of Upper Burgundy",
+    "label": "List of kings of Burgundy"
+  },
+  {
+    "polityKey": "wd:Q26385",
+    "name": "County of Vermandois",
+    "url": "https://en.wikipedia.org/wiki/List_of_counts_of_Vermandois",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Vermandois",
+    "section": "See also",
+    "label": "List of counts of Vermandois"
+  },
+  {
+    "polityKey": "nm:halychvolhyniaoccupation",
+    "name": "Halych-Volhynia occupation",
+    "url": "https://en.wikipedia.org/wiki/List_of_princes_of_Galicia_and_Volhynia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Galicia-Volhynia",
+    "section": "Princes and kings",
+    "label": "List of princes of Galicia and Volhynia"
+  },
+  {
+    "polityKey": "nm:greatprincipalityofduklja",
+    "name": "Great Principality of Duklja",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Duklja",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Duklja",
+    "section": "List of rulers",
+    "label": "List of monarchs of Duklja"
+  },
+  {
+    "polityKey": "nm:kingdomofduklja",
+    "name": "Kingdom of Duklja",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Duklja",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Duklja",
+    "section": "List of rulers",
+    "label": "List of monarchs of Duklja"
+  },
+  {
+    "polityKey": "nm:kingdomoftheisles",
+    "name": "Kingdom of the Isles",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Kingdom_of_the_Isles",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_the_Isles",
+    "section": "See also",
+    "label": "List of rulers of the Kingdom of the Isles"
+  },
+  {
+    "polityKey": "wd:Q335088",
+    "name": "Armenian Kingdom of Cilicia",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_the_Armenian_Kingdom_of_Cilicia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Armenian_Kingdom_of_Cilicia",
+    "section": "See also",
+    "label": "List of monarchs of the Armenian Kingdom of Cilicia"
+  },
+  {
+    "polityKey": "nm:kingdomofmann",
+    "name": "Kingdom of Mann",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Kingdom_of_the_Isles",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_the_Isles",
+    "section": "See also",
+    "label": "List of rulers of the Kingdom of the Isles"
+  },
+  {
+    "polityKey": "wd:Q3627069",
+    "name": "Banate of Bosnia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Bosnia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Banate_of_Bosnia",
+    "section": "History / Restoration and Expansion",
+    "label": "Bosnian Ban"
+  },
+  {
+    "polityKey": "nm:principalityofgaliciavolhynia",
+    "name": "Principality of Galicia-Volhynia",
+    "url": "https://en.wikipedia.org/wiki/List_of_princes_of_Galicia_and_Volhynia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Galicia-Volhynia",
+    "section": "Princes and kings",
+    "label": "List of princes of Galicia and Volhynia"
+  },
+  {
+    "polityKey": "wd:Q122293",
+    "name": "House of Luxembourg",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Luxembourg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/House_of_Luxembourg",
+    "section": "Genealogy / Earlier Luxembourg counts",
+    "label": "count of Luxemburg"
+  },
+  {
+    "polityKey": "nm:margraviateofbrandenburg",
+    "name": "Margraviate of Brandenburg",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Brandenburg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Margraviate_of_Brandenburg",
+    "section": "See also",
+    "label": "List of rulers of Brandenburg"
+  },
+  {
+    "polityKey": "wd:Q65968",
+    "name": "House of Habsburg",
+    "url": "https://en.wikipedia.org/wiki/List_of_Governors_of_the_Habsburg_Netherlands",
+    "linkedFrom": "https://en.wikipedia.org/wiki/House_of_Habsburg",
+    "section": "List of Habsburg rulers / Reunited Habsburgs until extinction of agnatic lines / Titular Dukes of Burgundy, Lords of the Netherlands",
+    "label": "regent or governor-general"
+  },
+  {
+    "polityKey": "nm:holyromanempireminorstates",
+    "name": "Holy Roman Empire Minor States",
+    "url": "https://en.wikipedia.org/wiki/List_of_Roman_emperors",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Holy_Roman_Empire",
+    "section": "Name and general perception",
+    "label": "ancient emperors of Rome"
+  },
+  {
+    "polityKey": "wd:Q171393",
+    "name": "Principality of Wallachia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Wallachia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Wallachia",
+    "section": "See also",
+    "label": "List of rulers of Wallachia"
+  },
+  {
+    "polityKey": "wd:Q642314",
+    "name": "Free County of Burgundy",
+    "url": "https://en.wikipedia.org/wiki/List_of_counts_of_Burgundy",
+    "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Burgundy",
+    "section": "See also",
+    "label": "List of counts of Burgundy"
+  },
+  {
+    "polityKey": "wd:Q642314",
+    "name": "Free County of Burgundy",
+    "url": "https://en.wikipedia.org/wiki/List_of_Kings_of_Burgundy",
+    "linkedFrom": "https://en.wikipedia.org/wiki/County_of_Burgundy",
+    "section": "Contents",
+    "label": "King of Burgundy (Arelat)"
+  },
+  {
+    "polityKey": "wd:Q2658979",
+    "name": "Albanian Principalities",
+    "url": "https://en.wikipedia.org/wiki/List_of_Albanian_monarchs",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Albanian_principalities",
+    "section": "See also",
+    "label": "List of Albanian monarchs"
+  },
+  {
+    "polityKey": "nm:makuriakingdom",
+    "name": "Makuria Kingdom",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Makuria",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Makuria",
+    "section": "See also",
+    "label": "List of rulers of Makuria"
+  },
+  {
+    "polityKey": "nm:electorateofbrandenburg",
+    "name": "Electorate of Brandenburg",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Brandenburg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Margraviate_of_Brandenburg",
+    "section": "See also",
+    "label": "List of rulers of Brandenburg"
+  },
+  {
+    "polityKey": "wd:Q1760473",
+    "name": "Principality of Abkhazia",
+    "url": "https://en.wikipedia.org/wiki/List_of_Princes_of_Abkhazia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Abkhazia",
+    "section": "Rulers",
+    "label": "List of Princes of Abkhazia"
+  },
+  {
+    "polityKey": "wd:Q1209822",
+    "name": "Kingdom of Kakheti",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Kakheti_and_Hereti",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Kakheti",
+    "section": "See also",
+    "label": "List of monarchs of Kakheti"
+  },
+  {
+    "polityKey": "wd:Q13576027",
+    "name": "Prome Kingdom",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Prome",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Prome_Kingdom",
+    "section": "See also",
+    "label": "List of rulers of Prome"
+  },
+  {
+    "polityKey": "nm:portugueseempire",
+    "name": "Portuguese Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_Portuguese_monarchs",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+    "section": "Contents",
+    "label": "Monarchs"
+  },
+  {
+    "polityKey": "nm:portugueseempire",
+    "name": "Portuguese Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Portuguese_India",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+    "section": "First Empire (1415–1663) / Colonisation efforts in the Americas / Brazil",
+    "label": "governor of India"
+  },
+  {
+    "polityKey": "nm:balinesekingdom",
+    "name": "Balinese Kingdom",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Bali",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Bali_Kingdom",
+    "section": "Notes",
+    "label": "nine monarchs of Bali"
+  },
+  {
+    "polityKey": "wd:Q1660566",
+    "name": "Sultanate of Banjar",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Banjar",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Sultanate_of_Banjar",
+    "section": "List of sultans of Banjar",
+    "label": "List of rulers of Banjar"
+  },
+  {
+    "polityKey": "nm:portuguesecolonies",
+    "name": "Portuguese Colonies",
+    "url": "https://en.wikipedia.org/wiki/List_of_Portuguese_monarchs",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+    "section": "Contents",
+    "label": "Monarchs"
+  },
+  {
+    "polityKey": "nm:portuguesecolonies",
+    "name": "Portuguese Colonies",
+    "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Portuguese_India",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Portuguese_Empire",
+    "section": "First Empire (1415–1663) / Colonisation efforts in the Americas / Brazil",
+    "label": "governor of India"
+  },
+  {
+    "polityKey": "wd:Q200229",
+    "name": "House of Savoy",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Savoy",
+    "linkedFrom": "https://en.wikipedia.org/wiki/House_of_Savoy",
+    "section": "See also",
+    "label": "List of rulers of Savoy"
+  },
+  {
+    "polityKey": "wd:Q655621",
+    "name": "Principality of Transylvania",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Transylvania",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Transylvania_(1570-1711)",
+    "section": "Contents",
+    "label": "Rulers"
+  },
+  {
+    "polityKey": "wd:Q655621",
+    "name": "Principality of Transylvania",
+    "url": "https://en.wikipedia.org/wiki/List_of_princes_of_Transylvania",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Principality_of_Transylvania_(1570-1711)",
+    "section": "Principality of Transylvania",
+    "label": "List of princes of Transylvania"
+  },
+  {
+    "polityKey": "wd:Q157367",
+    "name": "Brandenburg-Prussia",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Brandenburg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Brandenburg-Prussia",
+    "section": "See also",
+    "label": "List of rulers of Brandenburg"
+  },
+  {
+    "polityKey": "wd:Q157367",
+    "name": "Brandenburg-Prussia",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Prussia",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Brandenburg-Prussia",
+    "section": "See also",
+    "label": "List of monarchs of Prussia"
+  },
+  {
+    "polityKey": "wd:Q1132786",
+    "name": "Wadai Empire",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Wadai",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Wadai_Empire",
+    "section": "See also",
+    "label": "List of rulers of Wadai"
+  },
+  {
+    "polityKey": "nm:principalityofmonaco",
+    "name": "Principality of Monaco",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Monaco",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Monaco",
+    "section": "See also",
+    "label": "List of rulers of Monaco"
+  },
+  {
+    "polityKey": "wd:Q1841483",
+    "name": "Dutch Ceylon",
+    "url": "https://en.wikipedia.org/wiki/List_of_Governors_of_Dutch_Ceylon",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Dutch_Ceylon",
+    "section": "Administration",
+    "label": "List of Governors of Dutch Ceylon"
+  },
+  {
+    "polityKey": "wd:Q1796223",
+    "name": "Kingdom of Lunda",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Lunda_Empire",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Lunda",
+    "section": "See also",
+    "label": "List of rulers of the Lunda Empire"
+  },
+  {
+    "polityKey": "wd:Q223",
+    "name": "Greenland",
+    "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Greenland",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Greenland",
+    "section": "History / Treaty of Kiel to World War II (1814–1945)",
+    "label": "Governor"
+  },
+  {
+    "polityKey": "wd:Q1050326",
+    "name": "Sultan of Yogyakarta",
+    "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Yogyakarta",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Hamengkubuwono",
+    "section": "Contents",
+    "label": "Governor of the Special Region"
+  },
+  {
+    "polityKey": "nm:haiti",
+    "name": "Haiti",
+    "url": "https://en.wikipedia.org/wiki/List_of_commanders-in-chief_of_the_Armed_Forces_of_Haiti",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Haiti",
+    "section": "Government and politics / Military and law enforcement",
+    "label": "commander-in-chief of the Armed Forces of Haiti"
+  },
+  {
+    "polityKey": "wd:Q154849",
+    "name": "Grand Duchy of Tuscany",
+    "url": "https://en.wikipedia.org/wiki/List_of_grand_dukes_of_Tuscany",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Grand_Duchy_of_Tuscany",
+    "section": "See also",
+    "label": "List of grand dukes of Tuscany"
+  },
+  {
+    "polityKey": "wd:Q529605",
+    "name": "Electorate of Hesse",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Hesse",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Electorate_of_Hesse",
+    "section": "History / Annexation by Prussia",
+    "label": "Hesse-Philippsthal-Barchfeld"
+  },
+  {
+    "polityKey": "nm:italianrepublic",
+    "name": "Italian Republic",
+    "url": "https://en.wikipedia.org/wiki/List_of_Prime_Ministers_of_Italy",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Italy",
+    "section": "History / Republican era",
+    "label": "first"
+  },
+  {
+    "polityKey": "wd:Q186320",
+    "name": "Grand Duchy of Baden",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Baden",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Grand_Duchy_of_Baden",
+    "section": "Leaders / Grand Dukes (1806–1918)",
+    "label": "List of monarchs of Baden"
+  },
+  {
+    "polityKey": "wd:Q186320",
+    "name": "Grand Duchy of Baden",
+    "url": "https://en.wikipedia.org/wiki/List_of_ministers-president_of_Baden-Württemberg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Grand_Duchy_of_Baden",
+    "section": "Leaders / Ministers-President (1809–1918)",
+    "label": "List of ministers-president of Baden-Württemberg § Ministers-President of the Grand Duchy of Baden (1809–1918)"
+  },
+  {
+    "polityKey": "wd:Q109252949",
+    "name": "Duchy of Mecklenburg",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Mecklenburg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Duchy_of_Mecklenburg",
+    "section": "Contents",
+    "label": "Duke"
+  },
+  {
+    "polityKey": "wd:Q153015",
+    "name": "Kingdom of Saxony",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Saxony",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Saxony",
+    "section": "Contents",
+    "label": "King"
+  },
+  {
+    "polityKey": "wd:Q153015",
+    "name": "Kingdom of Saxony",
+    "url": "https://en.wikipedia.org/wiki/List_of_ministers-president_of_Saxony",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kingdom_of_Saxony",
+    "section": "Contents",
+    "label": "Minister-President"
+  },
+  {
+    "polityKey": "nm:kingdomofmonaco",
+    "name": "Kingdom of Monaco",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Monaco",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Monaco",
+    "section": "See also",
+    "label": "List of rulers of Monaco"
+  },
+  {
+    "polityKey": "nm:qatardynasty",
+    "name": "Qatar Dynasty",
+    "url": "https://en.wikipedia.org/wiki/List_of_prime_ministers_of_Qatar",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Qatar",
+    "section": "Politics",
+    "label": "Prime Minister"
+  },
+  {
+    "polityKey": "wd:Q2014442",
+    "name": "Republic of the Rio Grande",
+    "url": "https://en.wikipedia.org/wiki/List_of_presidents_of_the_Republic_of_the_Rio_Grande",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Republic_of_the_Rio_Grande",
+    "section": "Rebellion / Creation of A New Republic",
+    "label": "president of the new Republic"
+  },
+  {
+    "polityKey": "wd:Q2571484",
+    "name": "Kashmir and Jammu",
+    "url": "https://en.wikipedia.org/wiki/List_of_Chief_Ministers_of_Jammu_and_Kashmir",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Jammu_and_Kashmir_(princely_state)",
+    "section": "Contents",
+    "label": "Dewan"
+  },
+  {
+    "polityKey": "wd:Q690821",
+    "name": "Republic of Baden",
+    "url": "https://en.wikipedia.org/wiki/List_of_ministers-president_of_Baden-Württemberg",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Republic_of_Baden",
+    "section": "Leaders",
+    "label": "List of ministers-president of Baden-Württemberg § Presidents of the Republic of Baden (1918–1945)"
+  },
+  {
+    "polityKey": "nm:hungariannationalists",
+    "name": "Hungarian Nationalists",
+    "url": "https://en.wikipedia.org/wiki/List_of_Ministers-President_of_Austria",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Austria-Hungary",
+    "section": "Contents",
+    "label": "Minister-President of Austria"
+  },
+  {
+    "polityKey": "nm:hungariannationalists",
+    "name": "Hungarian Nationalists",
+    "url": "https://en.wikipedia.org/wiki/List_of_Prime_Ministers_of_Hungary",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Austria-Hungary",
+    "section": "Contents",
+    "label": "Prime Minister of Hungary"
+  },
+  {
+    "polityKey": "wd:Q668294",
+    "name": "Kamerun",
+    "url": "https://en.wikipedia.org/wiki/List_of_governors_of_Kamerun",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Kamerun",
+    "section": "Contents",
+    "label": "Governor"
+  },
+  {
+    "polityKey": "nm:swaziland",
+    "name": "Swaziland",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Eswatini",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Eswatini",
+    "section": "History / Swazi settlers (18th and 19th centuries)",
+    "label": "List of monarchs of Eswatini"
+  },
+  {
+    "polityKey": "wd:Q3497642",
+    "name": "Tangier International Zone",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_the_Tangier_International_Zone",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Tangier_International_Zone",
+    "section": "Institutions",
+    "label": "List of rulers of the Tangier International Zone"
+  },
+  {
+    "polityKey": "wd:Q2342282",
+    "name": "Imamate of Oman",
+    "url": "https://en.wikipedia.org/wiki/List_of_rulers_of_Oman",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Imamate_of_Oman",
+    "section": "See also",
+    "label": "List of rulers of Oman"
+  },
+  {
+    "polityKey": "nm:unitarystateofbrazil",
+    "name": "Unitary State of Brazil",
+    "url": "https://en.wikipedia.org/wiki/List_of_monarchs_of_Brazil",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Brazil",
+    "section": "History / Empire of Brazil",
+    "label": "Emperor of Brazil"
+  },
+  {
+    "polityKey": "nm:communistcuba",
+    "name": "Communist Cuba",
+    "url": "https://en.wikipedia.org/wiki/List_of_presidents_of_the_National_Assembly_of_People's_Power_(Cuba)",
+    "linkedFrom": "https://en.wikipedia.org/wiki/Cuba",
+    "section": "Government and politics",
+    "label": "President of the National Assembly"
+  }
+]

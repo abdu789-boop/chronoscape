@@ -36,6 +36,18 @@ test('invalid or overlapping consolidation plans fail closed',()=>{
   }
 });
 
+test('an undated observation of an already dated ruler is held without altering the dated episode',()=>{
+  const f=fixture();f.audit.merges=[];
+  Object.assign(f.data.polities.p.rulers[0],{from:null,to:null,dateStatus:'incomplete'});
+  f.audit.incompleteTenures=[{id:'a',polityKey:'p',canonicalPerson:'wd:Q1',datedIds:['b'],reason:'Episode cannot be established from missing dates.'}];
+  applyIdentityAudit(f.data,f.report,f.audit);
+  assert.deepEqual(f.data.polities.p.rulers.map(r=>r.id),['b','c']);
+  assert.equal(f.report.withheld[0].claim.id,'a');
+  assert.deepEqual([f.data.polities.p.rulers[0].from,f.data.polities.p.rulers[0].to],[10,20]);
+  const invalid=fixture();invalid.data.polities.p.rulers[0].dateStatus='incomplete';
+  assert.throws(()=>applyIdentityAudit(invalid.data,invalid.report,invalid.audit));
+});
+
 test('an approximate source is not made definite by consolidating equal-year entries',()=>{
   const f=fixture();f.data.polities.p.rulers[1].precision='approximate';f.report.accepted[0].status='corroborated';
   applyIdentityAudit(f.data,f.report,f.audit);
