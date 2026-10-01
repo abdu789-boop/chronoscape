@@ -28,15 +28,20 @@ It is a personal project, built for curiosity rather than publication.
 
 ## What exists today
 
-- **A redesigned atlas** — a collapsible explorer and detail sidebar (a bottom
-  sheet on phones), readable facts and aligned percentages, territory-over-time
-  charts, strong selection outlines, and light/dark themes. Search across all
-  historical polities or select a territory to explore its mapped extent,
-  lifespan, maximum extent, inferred relationships, and territory today.
+- **An atlas in the manner of an old printed one** — Georgia type, hand-coloured
+  territories, engraved coastlines, a paper light theme and a navy dark theme. A
+  collapsible explorer and detail sidebar (a bottom sheet on phones) shows each
+  territory's mapped extent, lifespan, maximum extent, rulers, inferred
+  relationships and territory today. Search finds polities by name or
+  alternative name, places, sourced rulers and years. What changed lists the
+  territories first mapped, no longer mapped or changed in area since the
+  previous map, and Play steps through one polity's mapped years.
 - **Precise time navigation** — enter any year in the dataset using BCE/CE,
-  BC/AD, or a negative number; year zero is rejected. The whole-history slider
+  BC/AD, or a negative number; year zero is rejected. The whole-history scale
   snaps to map-change years, while narrower timeline windows allow individual
-  years. Previous/next change buttons and playback follow the source chronology.
+  years. Hatching above the scale shows how often the map changes. Previous/next
+  buttons name the year they move to; they and playback follow the source
+  chronology.
 - **A responsive map** — Equal Earth and globe views, pointer-anchored zoom,
   pinch gestures, explicit city/label/border layers, keyboard controls, and
   shareable links containing year, selection, camera, and layers. City sizes and
@@ -153,7 +158,7 @@ evidence files are present. The browser never queries Wikidata or other sources.
 
 ## Licensing
 
-The project's own code is MIT ([LICENSE](LICENSE)). The data, the vendored D3
-library and the font keep their own licences, including ODbL for the map
+The project's own code is MIT ([LICENSE](LICENSE)). The data and the vendored D3
+library keep their own licences, including ODbL for the map
 geometry and CC BY-SA 4.0 for Wikipedia-derived ruler records. See
 [CREDITS.md](CREDITS.md#licensing-of-this-repository).

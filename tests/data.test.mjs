@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { createAtlas, fmtArea, fmtPop, fmtYear, loadAtlas, loadRulers, nearestYear, parseYear } from '../docs/js/data.js';
+import { cityPresent, createAtlas, fmtArea, fmtAreaWords, fmtPop, fmtPopulation, fmtYear, loadAtlas, loadRulers, majorChange, mapChanges, matchScore, nearestYear, parseYear, timelineDensity } from '../docs/js/data.js';
 import { DATA_VERSIONS } from '../docs/js/data-version.js';
 
 const records = [
@@ -58,7 +58,7 @@ test('snapshot caching reuses recent years and evicts older years with a bounded
   assert.notEqual(atlas.snapshot(-500), first, 'old entry is eventually evicted');
 });
 
-test('population uses log interpolation and source city extrapolation windows', () => {
+test('population uses log interpolation; cities start at their first figure and skip long gaps', () => {
   const city = { n: 'Test city', s: [[100, 100], [200, 10000]] };
   const other = { n: 'Large city', s: [[100, 5000], [200, 5000]] };
   const atlas = createAtlas({ cities: [city, other], worldPop: [[100, 100], [200, 10000]] });
@@ -66,10 +66,17 @@ test('population uses log interpolation and source city extrapolation windows', 
   assert.equal(atlas.population(0), 100);
   assert.equal(atlas.population(300), 10000);
   assert.equal(atlas.population(100), 100);
-  assert.deepEqual(atlas.cityEntries(-1), []);
-  assert.equal(atlas.cityEntries(0).length, 2, 'first point can extend 100 years earlier');
+  assert.deepEqual(atlas.cityEntries(99), [], 'a city does not appear before its first population figure');
+  assert.equal(atlas.cityEntries(100).length, 2);
   assert.equal(atlas.cityEntries(250).length, 2, 'last point can extend 50 years later');
   assert.deepEqual(atlas.cityEntries(251), []);
+  const gapped = createAtlas({ cities: [{ n: 'Gap city', s: [[-1400, 32000], [1975, 1271000]] }] });
+  assert.equal(gapped.cityEntries(-1400).length, 1);
+  assert.deepEqual(gapped.cityEntries(1200), [], 'a 3,375-year gap is not interpolated');
+  assert.equal(gapped.cityEntries(1975).length, 1, 'an exact figure inside a long gap still shows the city');
+  assert.equal(cityPresent([[100, 1], [400, 2]], 250), true, 'a gap of exactly 300 years is interpolated');
+  assert.equal(cityPresent([[100, 1], [401, 2]], 250), false);
+  assert.equal(cityPresent([], 1), false);
   const entries = atlas.cityEntries(150);
   assert.equal(entries[0].city.n, 'Large city');
   assert.ok(Math.abs(entries[1].pop - 1000) < 0.000001);
@@ -104,6 +111,58 @@ test('formatters keep historical notation and compact readable units', () => {
   assert.equal(fmtArea(12345.8), '12,346 km²');
   assert.equal(fmtPop(8e9), '8.00B');
   assert.equal(fmtPop(0), '—');
+  assert.equal(fmtAreaWords(2034906.97), '2.03 million km²');
+  assert.equal(fmtAreaWords(93317.4), '93,317 km²');
+  assert.equal(fmtPopulation(444653984), '444.7 million');
+  assert.equal(fmtPopulation(8.09e9), '8.09 billion');
+  assert.equal(fmtPopulation(0), '—');
+});
+
+test('search ranks names, alternative names and shared word stems', () => {
+  assert.equal(matchScore('roman empire', 'roman empire'), 0);
+  assert.equal(matchScore('romeo bosque', 'rome'), 1);
+  assert.equal(matchScore('prome kingdom', 'rome'), 2);
+  assert.equal(matchScore('kingdom of macedon', 'macedon kingdom'), 3);
+  assert.equal(matchScore('byzantine empire', 'byzantium'), 3.5, 'six or more letters may match a word stem');
+  assert.equal(matchScore('roman empire', 'romes'), Infinity, 'short queries stay literal');
+  const atlas = createAtlas({ polities: records, aliases: { roman: ['Rome', 'Imperium Romanum'], cafe: ['Roman Café'] } });
+  const result = atlas.search('rome', 20);
+  assert.equal(result[0].name, 'Roman Empire');
+  assert.equal(result[0].alias, 'Rome', 'the matching alternative name is reported for display');
+  assert.equal(atlas.search('roman', 20)[0].alias, null, 'a canonical name match needs no alternative name');
+  assert.deepEqual(atlas.search('imperium romanum', 20).map(entry => entry.key), ['roman']);
+  assert.equal(atlas.search('', 20).length, 0);
+});
+
+test('map changes compare the map in force with the one before it', () => {
+  const history = [
+    { k: 'old', n: 'Old Kingdom', f: 1, t: 9, a: 100000 },
+    { k: 'old', n: 'Old Kingdom', f: 10, t: 19, a: 40000 },
+    { k: 'old', n: 'Old Kingdom', f: 20, t: 30, a: 41000 },
+    { k: 'gone', n: 'Lost State', f: 1, t: 9, a: 500 },
+    { k: 'gone', n: 'Lost State', f: 25, t: 30, a: 600 },
+    { k: 'last', n: 'Last State', f: 1, t: 9, a: 700 },
+    { k: 'new', n: 'New State', f: 10, t: 30, a: 60000 },
+  ];
+  const atlas = createAtlas({ polities: history, index: { new: { n: 'New State' } } });
+  const years = [1, 10, 20, 25];
+  const changes = mapChanges(atlas, years, 15);
+  assert.equal(changes.year, 10); assert.equal(changes.previous, 1);
+  assert.deepEqual(changes.first.map(item => item.key), ['new']);
+  assert.deepEqual(changes.gone.map(item => [item.key, item.returns, item.lastMapped]), [['last', null, 9], ['gone', 25, 9]]);
+  assert.deepEqual(changes.changed.map(item => [item.key, item.delta]), [['old', -60000]]);
+  assert.equal(majorChange(changes.changed[0]), true);
+  assert.equal(majorChange({ from: 40000, delta: 1000 }), false);
+  assert.deepEqual(mapChanges(atlas, years, 20).changed, [{ key: 'old', name: 'Old Kingdom', from: 40000, to: 41000, delta: 1000 }]);
+  assert.deepEqual(mapChanges(atlas, years, 5), { year: 1, previous: null, first: [], gone: [], changed: [] }, 'the earliest map has nothing to compare');
+  assert.equal(mapChanges(atlas, years, 0), null);
+});
+
+test('timeline density counts record starts and ends inside the window', () => {
+  const counts = timelineDensity([{ f: -3400, t: 9 }, { f: 10, t: 19 }, { f: 500, t: 2024 }], 4, year => (year + 1000) / 4000, -3400, 2024);
+  // -3400 is the dataset start and 2025 lies beyond it: neither counts as a change.
+  // The remaining starts and ends (10, 10, 20, 500) all fall in the second slice.
+  assert.deepEqual(counts, [0, 4, 0, 0]);
 });
 
 test('versioned request fingerprints match all published data files', async () => {
@@ -111,7 +170,7 @@ test('versioned request fingerprints match all published data files', async () =
     const bytes = await readFile(new URL(`../docs/data/${name}.json`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex').slice(0, 16), fingerprint, name);
   }
-  assert.equal(Object.keys(DATA_VERSIONS).length, 8);
+  assert.equal(Object.keys(DATA_VERSIONS).length, 9);
 });
 
 test('loading exposes the basemap before historical geometry and uses stable URLs', async () => {
@@ -122,7 +181,7 @@ test('loading exposes the basemap before historical geometry and uses stable URL
   const fixture = {
     land: { type: 'FeatureCollection', features: [] }, borders: { type: 'MultiLineString', coordinates: [] },
     polities: [], years: [-500, 1], cities: [], polity_index: {}, population: { world: [[1, 100]] },
-    rulers: { schemaVersion: 1, sources: {}, polities: {} },
+    rulers: { schemaVersion: 1, sources: {}, polities: {} }, aliases: {},
   };
   globalThis.fetch = async url => {
     const parsed = new URL(url);
@@ -139,7 +198,7 @@ test('loading exposes the basemap before historical geometry and uses stable URL
     const atlas = await loading;
     assert.equal(atlas.population(1), 100);
     assert.ok(events.indexOf('base') < events.indexOf('ready'));
-    assert.equal(calls.length, 8);
+    assert.equal(calls.length, 9);
     await atlas.rulersReady;
     assert.deepEqual(atlas.rulers, fixture.rulers);
     assert.equal(atlas.rulersError, null);

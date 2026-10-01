@@ -14,6 +14,7 @@ import csv
 import json
 import math
 import os
+import subprocess
 import sys
 
 import pandas as pd
@@ -524,4 +525,5 @@ if __name__ == "__main__":
     build_polities()
     if "--skip-cities" not in sys.argv:
         build_cities()
+    subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), "build_aliases.py")], check=True)
     update_data_versions()

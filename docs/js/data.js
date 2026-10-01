@@ -17,12 +17,28 @@ export function fmtArea(area) {
     : `${Math.round(area).toLocaleString('en-US')} km²`;
 }
 
+/** Areas written out for headline figures: "2.03 million km²". */
+export function fmtAreaWords(area) {
+  if (!Number.isFinite(area) || area <= 0) return '—';
+  return area >= 1e6
+    ? `${(area / 1e6).toFixed(2)} million km²`
+    : `${Math.round(area).toLocaleString('en-US')} km²`;
+}
+
 export function fmtPop(population) {
   if (!Number.isFinite(population) || population < 1) return '—';
   if (population >= 1e9) return `${(population / 1e9).toFixed(2)}B`;
   if (population >= 1e6) return `${(population / 1e6).toFixed(population < 1e7 ? 2 : 1)}M`;
   if (population >= 1e3) return `${Math.round(population / 1e3)}k`;
   return String(Math.round(population));
+}
+
+/** Population written out for the timeline: "444.7 million". */
+export function fmtPopulation(population) {
+  if (!Number.isFinite(population) || population < 1) return '—';
+  if (population >= 1e9) return `${(population / 1e9).toFixed(2)} billion`;
+  if (population >= 1e6) return `${(population / 1e6).toFixed(1)} million`;
+  return Math.round(population).toLocaleString('en-US');
 }
 
 /** Parse historical notation without silently accepting a nonexistent year zero. */
@@ -89,13 +105,90 @@ function interpolate(series, year) {
     : firstPop + (lastPop - firstPop) * weight;
 }
 
-function folded(text) {
+/** Accent- and punctuation-insensitive text used for every search comparison. */
+export function folded(text) {
   return String(text ?? '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
     .toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim().replace(/\s+/g, ' ');
 }
 
+/**
+ * Rank one folded candidate against a folded query: 0 exact, 1 prefix,
+ * 2 substring, 3 every word present, 3.5 shared word stem, Infinity no match.
+ * The stem rule lets "byzantium" find "Byzantine Empire"; it needs six or more
+ * letters so that short queries stay literal.
+ */
+export function matchScore(candidate, needle) {
+  if (!needle) return Infinity;
+  if (candidate === needle) return 0;
+  if (candidate.startsWith(needle)) return 1;
+  if (candidate.includes(needle)) return 2;
+  const tokens = needle.split(' ');
+  if (tokens.every(token => candidate.includes(token))) return 3;
+  const words = candidate.split(' ');
+  if (tokens.every(token => token.length >= 6 && words.some(word => word.startsWith(token.slice(0, Math.max(5, token.length - 2)))))) return 3.5;
+  return Infinity;
+}
+
+// A city is drawn from its first population figure until 50 years after its
+// last one. Inside a gap of more than 300 years between figures its presence is
+// not recorded, so it is hidden rather than interpolated across the gap.
+export const CITY_TRAILING_YEARS = 50;
+export const CITY_MAX_GAP = 300;
+export function cityPresent(series, year) {
+  if (!series?.length || year < series[0][0] || year > series.at(-1)[0] + CITY_TRAILING_YEARS) return false;
+  const at = lowerBound(series, year, point => point[0]);
+  return at === 0 || at === series.length || series[at][0] === year || series[at][0] - series[at - 1][0] <= CITY_MAX_GAP;
+}
+
+/**
+ * Differences between the map in force at `year` and the map before it.
+ * Mapped dates come from boundary data, so these are changes in the map, not
+ * dates of founding or collapse.
+ */
+export function mapChanges(atlas, changeYears, year, threshold = 1000) {
+  const current = changeYears.findLast(y => y <= year);
+  if (current === undefined) return null;
+  const previous = changeYears.findLast(y => y < current);
+  const result = { year: current, previous: previous ?? null, first: [], gone: [], changed: [] };
+  if (previous === undefined) return result;
+  const sums = records => records.reduce((areas, record) => areas.set(record.k, (areas.get(record.k) || 0) + record.a), new Map());
+  const before = sums(atlas.snapshot(previous)), after = sums(atlas.snapshot(current));
+  const name = key => atlas.index[key]?.n || atlas.byKey.get(key)?.[0]?.n || key;
+  for (const [key, area] of after) {
+    if (!before.has(key)) result.first.push({ key, name: name(key), area });
+    else if (Math.abs(area - before.get(key)) >= threshold) result.changed.push({ key, name: name(key), from: before.get(key), to: area, delta: area - before.get(key) });
+  }
+  for (const [key, area] of before) {
+    if (after.has(key)) continue;
+    const records = atlas.byKey.get(key) || [];
+    const returns = records.find(record => record.f > current)?.f ?? null;
+    const lastMapped = Math.max(...records.filter(record => record.t < current).map(record => record.t));
+    result.gone.push({ key, name: name(key), area, returns, lastMapped: Number.isFinite(lastMapped) ? lastMapped : null });
+  }
+  result.first.sort((a, b) => b.area - a.area);
+  result.gone.sort((a, b) => b.area - a.area);
+  result.changed.sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta));
+  return result;
+}
+
+/** A change large enough to emphasise on the map: 50,000 km\u00b2 or a quarter of the territory. */
+export const majorChange = change => Math.abs(change.delta) >= 50000 || Math.abs(change.delta) >= change.from * 0.25;
+
+/** Record starts and ends in equal slices of a timeline window, for the scale's hatching. */
+export function timelineDensity(records, bins, toPosition, lo, hi) {
+  const counts = new Array(bins).fill(0);
+  for (const record of records) {
+    for (const year of [record.f, record.t + 1]) {
+      if (year <= lo || year > hi) continue;
+      const position = toPosition(year);
+      if (position >= 0 && position < 1) counts[Math.floor(position * bins)]++;
+    }
+  }
+  return counts;
+}
+
 /** Pure data access. Records and cached arrays are shared: consumers must not mutate them. */
-export function createAtlas({ polities = [], years = [], cities = [], land = null, borders = null, index = {}, worldPop = [] } = {}) {
+export function createAtlas({ polities = [], years = [], cities = [], land = null, borders = null, index = {}, worldPop = [], aliases = {} } = {}) {
   const byKey = new Map();
   for (const record of polities) {
     if (!byKey.has(record.k)) byKey.set(record.k, []);
@@ -108,12 +201,16 @@ export function createAtlas({ polities = [], years = [], cities = [], land = nul
     const entry = index[key];
     const name = entry?.n || records[0].n;
     const peak = records.reduce((best, record) => record.a > best.a ? record : best, records[0]);
+    const names = [...new Set([name, ...records.map(record => record.n)].map(folded))];
     catalog.push({
       key, name,
       first: entry?.first ?? Math.min(...records.map(record => record.f)),
       last: entry?.last ?? Math.max(...records.map(record => record.t)),
       peakYear: entry?.peak_year ?? peak.f,
-      names: [...new Set([name, ...records.map(record => record.n)].map(folded))],
+      peakArea: entry?.peak_area ?? peak.a,
+      names,
+      // Alternative names from sources/aliases.yaml, kept with their display text.
+      aliases: (aliases[key] || []).map(text => ({ text, folded: folded(text) })).filter(alias => alias.folded && !names.includes(alias.folded)),
       records,
     });
   }
@@ -123,10 +220,8 @@ export function createAtlas({ polities = [], years = [], cities = [], land = nul
   const cityEntries = memoizedYear(year => {
     const entries = [];
     for (const city of cities) {
-      const series = city.s;
-      // Preserve the source viewer's limited extrapolation window.
-      if (!series?.length || year < series[0][0] - 100 || year > series.at(-1)[0] + 50) continue;
-      const pop = interpolate(series, year);
+      if (!cityPresent(city.s, year)) continue;
+      const pop = interpolate(city.s, year);
       if (pop > 0) entries.push({ city, pop });
     }
     return entries.sort((a, b) => b.pop - a.pop);
@@ -134,23 +229,22 @@ export function createAtlas({ polities = [], years = [], cities = [], land = nul
   const population = year => interpolate(worldPop, year);
   const search = (query, year) => {
     const needle = folded(query);
-    const tokens = needle.split(' ').filter(Boolean);
+    if (!needle) return [];
     return catalog.flatMap(entry => {
-      let score = Infinity;
-      for (const name of entry.names) {
-        if (!needle) score = 4;
-        else if (name === needle) score = Math.min(score, 0);
-        else if (name.startsWith(needle)) score = Math.min(score, 1);
-        else if (name.includes(needle)) score = Math.min(score, 2);
-        else if (tokens.every(token => name.includes(token))) score = Math.min(score, 3);
+      let score = Infinity, alias = null;
+      for (const name of entry.names) score = Math.min(score, matchScore(name, needle));
+      // A canonical name outranks an alternative name at the same match strength.
+      for (const candidate of entry.aliases) {
+        const aliasScore = matchScore(candidate.folded, needle) + 0.25;
+        if (aliasScore < score) { score = aliasScore; alias = candidate.text; }
       }
       if (!Number.isFinite(score)) return [];
       const active = entry.records.some(record => record.f <= year && record.t >= year);
-      return [{ key: entry.key, name: entry.name, first: entry.first, last: entry.last, peakYear: entry.peakYear, active, score }];
-    }).sort((a, b) => a.score - b.score || Number(b.active) - Number(a.active) || a.name.localeCompare(b.name))
+      return [{ key: entry.key, name: entry.name, first: entry.first, last: entry.last, peakYear: entry.peakYear, peakArea: entry.peakArea, active, alias, score }];
+    }).sort((a, b) => a.score - b.score || Number(b.active) - Number(a.active) || b.peakArea - a.peakArea || a.name.localeCompare(b.name))
       .slice(0, 30).map(({ score, ...entry }) => entry);
   };
-  return { polities, years, cities, land, borders, index, worldPop, byKey, snapshot, cityEntries, population, search };
+  return { polities, years, cities, land, borders, index, worldPop, aliases, byKey, snapshot, cityEntries, population, search };
 }
 
 function dataURL(name) {
@@ -273,11 +367,16 @@ export async function loadAtlas({ onProgress = () => {}, onBase = () => {}, onRu
     const context = loadRulers(signal)
       .then(rulers => ({ rulers, rulersError: null }))
       .catch(error => ({ rulers: null, rulersError: error.message }));
-    const [baseData, polities, years, cities, index, population] = await Promise.all([
+    // Alternative names only widen search; the map loads without them.
+    const aliases = fetchJSON('aliases', signal).catch(error => {
+      if (error.name === 'AbortError') throw error;
+      return {};
+    });
+    const [baseData, polities, years, cities, index, population, aliasData] = await Promise.all([
       base, fetchPolities(signal, onProgress), fetchJSON('years', signal), fetchJSON('cities', signal),
-      fetchJSON('polity_index', signal), fetchJSON('population', signal),
+      fetchJSON('polity_index', signal), fetchJSON('population', signal), aliases,
     ]);
-    const atlas = createAtlas({ ...baseData, polities, years, cities, index, worldPop: population?.world || [] });
+    const atlas = createAtlas({ ...baseData, polities, years, cities, index, worldPop: population?.world || [], aliases: aliasData || {} });
     Object.assign(atlas, { rulers: null, rulersError: null, rulersLoading: true });
     atlas.rulersReady = context.then(result => {
       Object.assign(atlas, result, { rulersLoading: false });

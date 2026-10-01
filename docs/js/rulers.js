@@ -282,6 +282,8 @@ export function validateRulers(data, index) {
   return errors;
 }
 
+export const displayRole = role => role === 'Effective primary political leader (Archigos definition)' ? 'National political leader' : role;
+
 /** The UI receives accepted evidence only. Unknown dates never become infinite activity. */
 export function getRulers(data, key, selectedYear) {
   const polity = data?.polities?.[key], sources = data?.sources || {};

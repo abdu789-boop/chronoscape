@@ -1,14 +1,35 @@
 /* Canvas atlas renderer. Geometry arrives in d3's spherical winding convention. */
 const d3 = globalThis.d3;
 const SPHERE = { type: 'Sphere' };
+// Watercolour pigments of hand-coloured atlases: gamboge, rose madder, verdigris,
+// blue, violet, sienna, sap green, carmine, slate and terre verte. The dark
+// theme mixes each with 28% of its navy ground.
 const PALETTES = {
-  light: ['#aac4b1', '#d2b78e', '#b1bdce', '#c8a7a3', '#b0bba0', '#c9b5ce', '#a6c6c8', '#d3c8a0', '#c1beb4', '#d6ad88', '#a4b7a0', '#b2aec9', '#bdc7a5', '#a3bfbd', '#d1bec2', '#bac4d0', '#c1c69d', '#d0b6a4'],
-  dark: ['#526d61', '#637889', '#737b74', '#496777', '#738473', '#5b7378', '#687767', '#7a858d', '#4e665e', '#627f8d', '#7e867c', '#566b7e', '#607c6c', '#6f7d85', '#788c82', '#526a70', '#66796e', '#718694'],
+  light: ['#dcb751', '#d6877b', '#74a985', '#7fa3c6', '#a48cc0', '#c98f58', '#9fb35f', '#d184a0', '#8699b4', '#97bcae'],
+  dark: ['#a28943', '#9e6762', '#577f69', '#5f7b98', '#7a6a93', '#956d48', '#76864d', '#9a657c', '#64748b', '#718d86'],
 };
 const THEMES = {
-  light: { background: '#edf0ec', ocean: '#e4ecec', land: '#e5e0d2', coast: '#b8beb4', grid: '#c6d5d3', border: '#687b87', boundary: '#5b645b', ink: '#243933', halo: '#f8f5e8', oceanInk: '#748d91', city: '#344e46', cityHalo: '#faf8ed', selected: '#2f493e', selectedHalo: '#fffdf2', hover: '#445f52' },
-  dark: { background: '#111315', ocean: '#141719', land: '#343a3b', coast: '#626b6c', grid: '#2a3032', border: '#bbc7cb', boundary: '#202729', ink: '#f4f7f5', halo: '#18201f', oceanInk: '#a8b5b9', city: '#d5e6e5', cityHalo: '#1a2323', selected: '#d4f1e4', selectedHalo: '#151a19', hover: '#edf4f1' },
+  light: {
+    background: '#efe7d6', sea: '#d4ddd4', seaLine: '79,108,112', land: '#efe5cf', coast: '#4b3e2e', grid: 'rgba(92,72,46,0.17)',
+    frame: '#4b3e2e', ring: '#8a6a32', limb: 'rgba(75,55,30,0.28)', wash: 0.36, band: 0.8, veilWash: 0.13, veilBand: 0.22,
+    boundary: 'rgba(58,44,30,0.55)', border: '#5a4a39', ink: '#2a2117', veilInk: 'rgba(42,33,23,0.45)', halo: 'rgba(244,237,222,0.92)',
+    water: 'rgba(48,80,88,0.88)', cityFill: '#f3ead6', cityInk: '#2a2117', selected: '#a3341f', fresh: '#2f6e60', freshText: '#245a4e',
+    ghost: 'rgba(42,33,23,0.9)', hover: '#2a2117',
+  },
+  dark: {
+    background: '#0e1420', sea: '#132238', seaLine: '159,180,208', land: '#252b34', coast: 'rgba(224,204,156,0.6)', grid: 'rgba(212,190,140,0.12)',
+    frame: '#c9a45a', ring: '#c9a45a', limb: 'rgba(0,0,0,0.42)', wash: 0.6, band: 0.9, veilWash: 0.22, veilBand: 0.3,
+    boundary: 'rgba(6,9,15,0.8)', border: '#c0b7a2', ink: '#efe6cf', veilInk: 'rgba(239,230,207,0.45)', halo: 'rgba(10,14,24,0.86)',
+    water: 'rgba(176,196,222,0.62)', cityFill: '#e7c36f', cityInk: '#0b0f18', selected: '#d4a24e', fresh: '#7fc3b0', freshText: '#bfe6da',
+    ghost: 'rgba(239,230,207,0.85)', hover: '#efe6cf',
+  },
 };
+const SERIF = 'Georgia, "Times New Roman", serif';
+const OCEANS = [['North Atlantic', [-38, 27]], ['Pacific Ocean', [-135, -12]], ['Indian Ocean', [76, -27]], ['South Atlantic', [-20, -35]]];
+const SEAS = [['Mediterranean Sea', [18.5, 34.6]], ['Black Sea', [34.5, 43.2]], ['Red Sea', [38.4, 20.5], 0.95], ['Persian Gulf', [51.2, 27]],
+  ['Aegean Sea', [25.2, 38.9]], ['Arabian Sea', [63, 15]], ['Caspian Sea', [50.5, 42]], ['Baltic Sea', [19.5, 57]], ['North Sea', [3.5, 56]],
+  ['Bay of Bengal', [88, 15]], ['South China Sea', [114, 14]], ['Caribbean Sea', [-75, 15]], ['Gulf of Mexico', [-90, 25]]];
+
 export function getPolityColor(key, theme = 'light') {
   let hash = 2166136261;
   for (const character of String(key)) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619) >>> 0;
@@ -18,6 +39,42 @@ export function getPolityColor(key, theme = 'light') {
 const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
 const finite = value => value !== null && value !== '' && Number.isFinite(Number(value));
 
+/** Area-weighted centre of the mapped territories, for turning the globe toward them. */
+export function polityCenter(polities) {
+  let x = 0, y = 0, z = 0;
+  for (const polity of polities) {
+    const point = Array.isArray(polity.lp) ? polity.lp : d3.geoCentroid(polity.g);
+    if (!point?.every(Number.isFinite)) continue;
+    const [lambda, phi] = point.map(degrees => degrees * Math.PI / 180), weight = Math.max(1, polity.a || 1);
+    x += weight * Math.cos(phi) * Math.cos(lambda); y += weight * Math.cos(phi) * Math.sin(lambda); z += weight * Math.sin(phi);
+  }
+  const length = Math.hypot(x, y, z);
+  if (length < 1e-9) return null;
+  return [Math.atan2(y, x) * 180 / Math.PI, Math.atan2(z, Math.hypot(x, y)) * 180 / Math.PI];
+}
+
+/** A small plate of one territory, used by search previews. */
+export function renderThumbnail(canvas, { geometries = [], land = null, theme = 'light', color = PALETTES.light[0] } = {}) {
+  const context = canvas.getContext('2d'), palette = THEMES[theme] || THEMES.light;
+  const ratio = Math.min(globalThis.devicePixelRatio || 1, 2), width = canvas.clientWidth || 280, height = canvas.clientHeight || 164;
+  canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+  context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  const shape = { type: 'GeometryCollection', geometries };
+  const projection = d3.geoEqualEarth().fitExtent([[14, 12], [width - 14, height - 12]], shape);
+  const path = d3.geoPath(projection, context);
+  context.fillStyle = palette.sea; context.fillRect(0, 0, width, height);
+  if (land) {
+    context.beginPath(); path(land);
+    context.strokeStyle = `rgba(${palette.seaLine},0.28)`; context.lineWidth = 4; context.lineJoin = 'round'; context.stroke();
+    context.fillStyle = palette.land; context.fill();
+    context.strokeStyle = palette.coast; context.lineWidth = 0.6; context.stroke();
+  }
+  context.beginPath(); path(shape);
+  context.globalAlpha = palette.wash + 0.1; context.fillStyle = color; context.fill(); context.globalAlpha = 1;
+  context.strokeStyle = palette.halo; context.lineWidth = 3.2; context.stroke();
+  context.strokeStyle = palette.selected; context.lineWidth = 1.4; context.stroke();
+}
+
 export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onViewChange = () => {} } = {}) {
   if (!d3) throw new Error('Chronoscape needs the bundled d3 library.');
   const ctx = canvas.getContext('2d');
@@ -25,14 +82,18 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
   const baseCtx = baseCanvas.getContext('2d');
   const sceneCanvas = document.createElement('canvas');
   const sceneCtx = sceneCanvas.getContext('2d');
-  const graticule = d3.geoGraticule().step([30, 30])();
+  const graticule = d3.geoGraticule().step([15, 15])();
+  const fineGraticule = d3.geoGraticule().step([5, 5])();
   const state = { projection: 'flat', zoom: 1, panX: 0, panY: 0, rotation: [-10, -15, 0] };
   let width = 1, height = 1, pixelRatio = 1, projection, baseScale = 1, projectionFit = '';
-  let land = null, borders = null, polities = [], cityEntries = [], selectedKey = null;
+  let land = null, borders = null, polities = [], cityEntries = [], selectedKey = null, focus = null;
   let themeName = 'light', layers = { borders: 'off', cities: true, labels: true };
   let baseDirty = true, sceneDirty = true, geometryDirty = true, needsDraw = true;
-  let projected = [], cityDots = [], hoverKey = null, hoverPoint = null, hoverPending = false;
+  let projected = [], ghosts = [], cityDots = [], sphere = null, hoverKey = null, hoverPoint = null, hoverPending = false;
   let frameId = 0, destroyed = false, gestureMoved = false;
+  // While the camera moves, frames skip the engraved coastlines and border
+  // washes; a full-quality frame follows once it has been still briefly.
+  let detailed = true, settleTimer = 0;
   const pointers = new Map();
   const colors = new Map(), labelMetrics = new Map(), anchors = new WeakMap();
   const listeners = [];
@@ -46,18 +107,18 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     if (!destroyed && !frameId) frameId = requestAnimationFrame(frame);
   }
 
-  // Canvas does not repaint when a web font arrives. Remeasure collision boxes
-  // and redraw labels, while retaining the expensive projected geometry.
-  document.fonts?.load('500 16px "Space Grotesk"').then(() => {
-    if (destroyed) return;
-    labelMetrics.clear(); needsDraw = true; requestDraw();
-  }).catch(() => {}); // System sans remains readable if the font is unavailable.
-
   function invalidateView(notify = true) {
     setupProjection();
     baseDirty = sceneDirty = geometryDirty = needsDraw = true;
     hoverPending = false;
     if (hoverKey !== null) { hoverKey = null; onHover(null); }
+    detailed = false;
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(() => {
+      settleTimer = 0;
+      if (destroyed) return;
+      detailed = true; baseDirty = sceneDirty = needsDraw = true; requestDraw();
+    }, 160);
     requestDraw();
     if (notify) onViewChange(getView());
   }
@@ -67,7 +128,9 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     const factory = state.projection === 'globe' ? d3.geoOrthographic : d3.geoEqualEarth;
     const fit = `${state.projection}:${width}:${height}`;
     if (fit !== projectionFit) {
-      projection = factory().fitExtent([[padding, padding], [Math.max(padding + 1, width - padding), Math.max(padding + 1, height - padding)]], SPHERE);
+      // The globe leaves room for its graduated ring.
+      const inset = state.projection === 'globe' ? padding + Math.min(34, Math.min(width, height) * 0.06) : padding;
+      projection = factory().fitExtent([[inset, inset], [Math.max(inset + 1, width - inset), Math.max(inset + 1, height - inset)]], SPHERE);
       baseScale = projection.scale(); projectionFit = fit;
     }
     projection.scale(baseScale * state.zoom)
@@ -118,9 +181,7 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
 
   function colorFor(polity) {
     const key = `${themeName}:${polity.k || polity.n}`;
-    if (!colors.has(key)) {
-      colors.set(key, getPolityColor(polity.k || polity.n, themeName));
-    }
+    if (!colors.has(key)) colors.set(key, getPolityColor(polity.k || polity.n, themeName));
     return colors.get(key);
   }
 
@@ -143,13 +204,27 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     return { shape, bounds };
   }
 
+  const onScreen = bounds => bounds.every(Number.isFinite) && bounds[2] >= 0 && bounds[0] <= width && bounds[3] >= 0 && bounds[1] <= height;
+
   function prepareGeometry() {
     projected = [];
     for (const polity of polities) {
       const entry = projectGeometry(polity.g);
-      if (entry.bounds.every(Number.isFinite) && entry.bounds[2] >= 0 && entry.bounds[0] <= width && entry.bounds[3] >= 0 && entry.bounds[1] <= height) projected.push({ polity, ...entry });
+      if (onScreen(entry.bounds)) projected.push({ polity, ...entry });
+    }
+    sphere = projectGeometry(SPHERE).shape;
+    ghosts = [];
+    for (const ghost of focus?.ghosts || []) {
+      const entry = projectGeometry(ghost.geometry);
+      if (onScreen(entry.bounds)) ghosts.push({ ...ghost, ...entry });
     }
     geometryDirty = false;
+  }
+
+  // In a focus mode, territories outside it are veiled so the subject stands out.
+  function lit(polity) {
+    if (focus) return focus.fresh.has(polity.k) || focus.lit.has(polity.k);
+    return !selectedKey || polity.k === selectedKey;
   }
 
   function drawBorders(context, alpha) {
@@ -159,6 +234,31 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     context.strokeStyle = THEMES[themeName].border;
     context.globalAlpha = alpha;
     context.lineWidth = 0.8;
+    context.setLineDash([4, 3]);
+    context.stroke();
+    context.restore();
+  }
+
+  function sphereRadius() {
+    return state.projection === 'globe' ? projection.scale() : 0;
+  }
+
+  // The globe sits in a graduated ring, like the meridian ring of a library globe.
+  function drawRing(context) {
+    const theme = THEMES[themeName], [cx, cy] = projection.translate(), radius = sphereRadius();
+    if (radius > Math.max(width, height) * 1.5) return;
+    const inner = radius + 9, outer = radius + 25;
+    context.save();
+    context.beginPath(); context.arc(cx, cy, outer, 0, Math.PI * 2); context.arc(cx, cy, inner, 0, Math.PI * 2, true);
+    context.fillStyle = themeName === 'dark' ? 'rgba(201,164,90,0.07)' : 'rgba(138,106,50,0.08)'; context.fill();
+    context.strokeStyle = theme.ring; context.lineWidth = 1.1;
+    for (const r of [inner, outer]) { context.beginPath(); context.arc(cx, cy, r, 0, Math.PI * 2); context.stroke(); }
+    context.lineWidth = 0.6; context.beginPath();
+    for (let degree = 0; degree < 360; degree += 5) {
+      const angle = degree * Math.PI / 180, length = degree % 30 === 0 ? 12 : degree % 10 === 0 ? 8 : 4;
+      context.moveTo(cx + Math.cos(angle) * inner, cy + Math.sin(angle) * inner);
+      context.lineTo(cx + Math.cos(angle) * (inner + length), cy + Math.sin(angle) * (inner + length));
+    }
     context.stroke();
     context.restore();
   }
@@ -168,20 +268,28 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     baseCtx.clearRect(0, 0, width, height);
     baseCtx.fillStyle = theme.background; baseCtx.fillRect(0, 0, width, height);
     const path = d3.geoPath(projection, baseCtx);
+    if (state.projection === 'globe') drawRing(baseCtx);
     baseCtx.beginPath(); path(SPHERE);
-    baseCtx.fillStyle = theme.ocean; baseCtx.fill();
-    baseCtx.strokeStyle = theme.coast; baseCtx.lineWidth = 0.8; baseCtx.stroke();
+    baseCtx.fillStyle = theme.sea; baseCtx.fill();
     baseCtx.save();
     baseCtx.beginPath(); path(SPHERE); baseCtx.clip();
-    baseCtx.beginPath(); path(graticule);
-    baseCtx.strokeStyle = theme.grid; baseCtx.globalAlpha = 0.65;
-    baseCtx.lineWidth = 0.6; baseCtx.stroke();
-    baseCtx.restore();
-    if (land) {
-      baseCtx.beginPath(); path(land);
-      baseCtx.fillStyle = theme.land; baseCtx.fill();
-      baseCtx.strokeStyle = theme.coast; baseCtx.lineWidth = 0.7; baseCtx.stroke();
+    const coast = land ? projectGeometry(land).shape : null;
+    if (coast) {
+      baseCtx.lineJoin = 'round';
+      if (detailed) {
+        // Engraved water lines: concentric rings around every coast.
+        const rings = state.zoom < 2 ? 3 : 5, gap = state.zoom < 2 ? 2.3 : 3;
+        for (let k = rings; k >= 1; k--) {
+          baseCtx.strokeStyle = `rgba(${theme.seaLine},${Math.max(0.08, 0.5 - k * 0.075)})`; baseCtx.lineWidth = 2 * k * gap; baseCtx.stroke(coast);
+          baseCtx.strokeStyle = theme.sea; baseCtx.lineWidth = 2 * k * gap - 0.85; baseCtx.stroke(coast);
+        }
+      }
+      baseCtx.fillStyle = theme.land; baseCtx.fill(coast);
     }
+    baseCtx.beginPath(); path(state.zoom >= 3 ? fineGraticule : graticule);
+    baseCtx.strokeStyle = theme.grid; baseCtx.lineWidth = 0.55; baseCtx.stroke();
+    if (coast) { baseCtx.strokeStyle = theme.coast; baseCtx.lineWidth = 0.75; baseCtx.stroke(coast); }
+    baseCtx.restore();
     if (layers.borders === 'under') drawBorders(baseCtx, themeName === 'dark' ? 0.8 : 0.62);
     baseDirty = false;
   }
@@ -200,7 +308,7 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
       const cell = `${Math.floor(point[0] / 13)}:${Math.floor(point[1] / 13)}`;
       if (occupied.has(cell)) continue;
       occupied.add(cell);
-      const radius = clamp(Math.log10(Math.max(1, entry.pop)) - 2.5, 1.8, 4.5);
+      const radius = clamp(1.2 + Math.log10(Math.max(1, entry.pop) / 5000) * 0.75, 1.6, 3.1);
       cityDots.push({ city, point, radius });
       if (cityDots.length >= budget) break;
     }
@@ -208,42 +316,99 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
 
   function drawScene() {
     if (baseDirty) drawBase();
+    const theme = THEMES[themeName];
     sceneCtx.clearRect(0, 0, width, height);
     sceneCtx.drawImage(baseCanvas, 0, 0, width, height);
     sceneCtx.lineJoin = 'round';
     for (const entry of projected) {
+      sceneCtx.globalAlpha = lit(entry.polity) ? theme.wash : theme.veilWash;
       sceneCtx.fillStyle = colorFor(entry.polity); sceneCtx.fill(entry.shape);
-      sceneCtx.strokeStyle = THEMES[themeName].boundary; sceneCtx.globalAlpha = 0.63;
-      sceneCtx.lineWidth = 0.7; sceneCtx.stroke(entry.shape); sceneCtx.globalAlpha = 1;
+    }
+    if (detailed) {
+      // Pigment pooled along each border, as on hand-coloured plates.
+      const band = clamp(4.5 + state.zoom * 0.8, 5, 9);
+      for (const entry of projected) {
+        const strength = lit(entry.polity) ? theme.band : theme.veilBand;
+        sceneCtx.save(); sceneCtx.clip(entry.shape);
+        sceneCtx.strokeStyle = colorFor(entry.polity);
+        sceneCtx.globalAlpha = strength * 0.35; sceneCtx.lineWidth = band; sceneCtx.stroke(entry.shape);
+        sceneCtx.globalAlpha = strength * 0.45; sceneCtx.lineWidth = band * 0.55; sceneCtx.stroke(entry.shape);
+        sceneCtx.globalAlpha = strength * 0.5; sceneCtx.lineWidth = band * 0.25; sceneCtx.stroke(entry.shape);
+        sceneCtx.restore();
+      }
+    }
+    sceneCtx.strokeStyle = theme.boundary; sceneCtx.lineWidth = 0.6;
+    for (const entry of projected) {
+      sceneCtx.globalAlpha = lit(entry.polity) ? 1 : 0.45; sceneCtx.stroke(entry.shape);
+    }
+    sceneCtx.globalAlpha = 1;
+    for (const ghost of ghosts) {
+      sceneCtx.save(); sceneCtx.setLineDash([0.1, 3.4]); sceneCtx.lineCap = 'round';
+      sceneCtx.strokeStyle = theme.ghost; sceneCtx.lineWidth = 1.9; sceneCtx.stroke(ghost.shape); sceneCtx.restore();
+    }
+    if (focus) {
+      for (const entry of projected) {
+        if (!focus.fresh.has(entry.polity.k)) continue;
+        sceneCtx.strokeStyle = theme.halo; sceneCtx.lineWidth = 3.6; sceneCtx.stroke(entry.shape);
+        sceneCtx.strokeStyle = theme.fresh; sceneCtx.lineWidth = 1.5; sceneCtx.stroke(entry.shape);
+      }
     }
     if (layers.borders === 'over') drawBorders(sceneCtx, 0.7);
     prepareCities();
     for (const { point, radius } of cityDots) {
-      sceneCtx.beginPath(); sceneCtx.arc(point[0], point[1], radius, 0, Math.PI * 2);
-      sceneCtx.fillStyle = THEMES[themeName].city; sceneCtx.fill();
-      sceneCtx.strokeStyle = THEMES[themeName].cityHalo; sceneCtx.lineWidth = 1; sceneCtx.stroke();
+      // Engraved maps mark a town with a circle and centre point.
+      sceneCtx.beginPath(); sceneCtx.arc(point[0], point[1], themeName === 'dark' ? radius * 0.85 : radius, 0, Math.PI * 2);
+      sceneCtx.fillStyle = theme.cityFill; sceneCtx.fill();
+      sceneCtx.strokeStyle = theme.cityInk; sceneCtx.lineWidth = themeName === 'dark' ? 0.8 : 0.85; sceneCtx.stroke();
+      if (themeName !== 'dark') {
+        sceneCtx.beginPath(); sceneCtx.arc(point[0], point[1], Math.max(0.7, radius * 0.34), 0, Math.PI * 2);
+        sceneCtx.fillStyle = theme.cityInk; sceneCtx.fill();
+      }
+    }
+    if (!sphere) { sceneDirty = false; return; }
+    if (state.projection === 'globe') {
+      const [cx, cy] = projection.translate(), radius = sphereRadius();
+      const shade = sceneCtx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.35, radius * 0.15, cx, cy, radius);
+      shade.addColorStop(0, 'rgba(0,0,0,0)'); shade.addColorStop(0.7, 'rgba(0,0,0,0)'); shade.addColorStop(1, theme.limb);
+      sceneCtx.fillStyle = shade; sceneCtx.fill(sphere);
+      sceneCtx.strokeStyle = theme.ring; sceneCtx.lineWidth = 1.2; sceneCtx.stroke(sphere);
+    } else {
+      // A double neatline frames the plate.
+      sceneCtx.strokeStyle = theme.frame; sceneCtx.lineWidth = 4.6; sceneCtx.stroke(sphere);
+      sceneCtx.strokeStyle = theme.background; sceneCtx.lineWidth = 2.4; sceneCtx.stroke(sphere);
     }
     sceneDirty = false;
   }
 
-  function metrics(text, size, polityLabel = true) {
-    const key = `${polityLabel ? 'p' : 'u'}:${size}:${text}`;
+  function metrics(text, font, spacing, wrap = false) {
+    const key = `${font}:${spacing}:${wrap ? 2 : 1}:${text}`;
     if (labelMetrics.has(key)) return labelMetrics.get(key);
-    const font = polityLabel ? `500 ${size}px "Space Grotesk", system-ui, sans-serif` : `500 ${size}px system-ui, sans-serif`;
-    ctx.font = font;
-    let lines = [text];
+    ctx.font = font; ctx.letterSpacing = `${spacing}px`;
+    const measure = line => ctx.measureText(line).width - (spacing ? spacing : 0);
+    let lines = text.split('\n');
     const words = text.split(/\s+/);
-    if (polityLabel && text.length > 20 && words.length > 1) {
+    if (wrap && lines.length === 1 && words.length > 1) {
       let best = Infinity;
       for (let i = 1; i < words.length; i++) {
         const trial = [words.slice(0, i).join(' '), words.slice(i).join(' ')];
-        const length = Math.max(...trial.map(line => ctx.measureText(line).width));
+        const length = Math.max(...trial.map(measure));
         if (length < best) { best = length; lines = trial; }
       }
     }
-    const result = { font, lines, width: Math.max(...lines.map(line => ctx.measureText(line).width)), height: lines.length * (size + 3), size };
+    const result = { lines, width: Math.max(...lines.map(measure)) };
+    ctx.letterSpacing = '0px';
     labelMetrics.set(key, result);
     return result;
+  }
+
+  function writeLines(lines, x, y, { font, spacing = 0, color, halo, haloWidth = 3, lineHeight }) {
+    ctx.font = font; ctx.letterSpacing = `${spacing}px`;
+    lines.forEach((line, i) => {
+      const lineY = y + (i - (lines.length - 1) / 2) * lineHeight, lineX = x + spacing / 2;
+      if (halo) { ctx.strokeStyle = halo; ctx.lineWidth = haloWidth; ctx.strokeText(line, lineX, lineY); }
+      ctx.fillStyle = color; ctx.fillText(line, lineX, lineY);
+    });
+    ctx.letterSpacing = '0px';
   }
 
   function drawLabels() {
@@ -259,54 +424,82 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
       if (!box.width || !box.height) continue;
       placed.push([box.left - canvasBox.left - 6, box.top - canvasBox.top - 6, box.right - canvasBox.left + 6, box.bottom - canvasBox.top + 6]);
     }
-    function claim(box) {
+    function fits(box) {
       if (box[0] < 8 || box[1] < 8 || box[2] > width - 8 || box[3] > height - 8) return false;
-      if (placed.some(other => box[0] < other[2] && box[2] > other[0] && box[1] < other[3] && box[3] > other[1])) return false;
+      return !placed.some(other => box[0] < other[2] && box[2] > other[0] && box[1] < other[3] && box[3] > other[1]);
+    }
+    function claim(box) {
+      if (!fits(box)) return false;
       placed.push(box); return true;
     }
-    const candidates = projected.map(entry => ({ ...entry, priority: entry.polity.k === selectedKey ? Infinity : Math.max(0, entry.bounds[2] - entry.bounds[0]) * Math.max(0, entry.bounds[3] - entry.bounds[1]) }))
-      .sort((a, b) => b.priority - a.priority);
+    const emphasis = polity => polity.k === selectedKey ? 2 : focus?.fresh.has(polity.k) ? 1 : 0;
+    const candidates = projected.map(entry => ({ ...entry, priority: Math.max(0, entry.bounds[2] - entry.bounds[0]) * Math.max(0, entry.bounds[3] - entry.bounds[1]) }))
+      .sort((a, b) => emphasis(b.polity) - emphasis(a.polity) || b.priority - a.priority);
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineJoin = 'round';
+    for (const ghost of ghosts) {
+      if (!ghost.label) continue;
+      const point = screenPoint(ghost.anchor);
+      if (!point) continue;
+      const font = `italic 400 12px ${SERIF}`, label = metrics(ghost.label, font, 0, true);
+      const labelHeight = label.lines.length * 14.5;
+      if (!claim([point[0] - label.width / 2 - 4, point[1] - labelHeight / 2 - 3, point[0] + label.width / 2 + 4, point[1] + labelHeight / 2 + 3])) continue;
+      writeLines(label.lines, point[0], point[1], { font, color: theme.ink, halo: theme.halo, lineHeight: 14.5 });
+    }
+    // Territory names: spaced capitals for large territories, upper and lower
+    // case for smaller ones; the selected territory is bold.
     for (const { polity, bounds } of candidates) {
-      let point = screenPoint(labelPoint(polity));
+      const point = screenPoint(labelPoint(polity));
       if (!point) continue;
-      const selected = polity.k === selectedKey;
-      const size = selected ? 17 : Math.round(clamp(10 + Math.log10(Math.max(1, polity.a)), 12, 16));
-      const label = metrics(polity.n, size);
+      const selected = polity.k === selectedKey, fresh = focus?.fresh.has(polity.k);
       const screenWidth = bounds[2] - bounds[0], screenHeight = bounds[3] - bounds[1];
-      if (!selected && screenWidth < label.width * 0.6 && screenHeight < label.height * 1.6) continue;
+      const extent = Math.sqrt(Math.max(0, screenWidth * screenHeight));
+      let tier = extent >= 120 ? 1 : extent >= 52 ? 2 : extent >= 26 ? 3 : fresh ? 3 : 0;
+      if (selected) tier = 0;
+      else if (!tier) continue;
+      const size = selected ? 15.5 : tier === 1 ? 12.8 : tier === 2 ? 10.4 : 11.4;
+      const caps = tier <= 2;
+      const spacing = caps ? size * (selected ? 0.09 : tier === 1 ? 0.12 : 0.08) : 0;
+      const font = `${selected ? 700 : 400} ${size}px ${SERIF}`;
+      const text = caps ? polity.n.toUpperCase() : polity.n;
+      const single = metrics(text, font, spacing);
+      const label = single.width > Math.max(screenWidth * 1.15, 70) && text.includes(' ') ? metrics(text, font, spacing, true) : single;
+      const lineHeight = size * 1.2, labelHeight = label.lines.length * lineHeight;
+      if (!selected && !fresh && screenWidth < label.width * 0.6 && screenHeight < labelHeight * 1.6) continue;
       const padding = selected ? 7 : 3;
-      const positions = selected ? [point, [point[0], point[1] + label.height + 28], [point[0], point[1] - label.height - 28], [point[0] + label.width / 2 + 24, point[1]], [point[0] - label.width / 2 - 24, point[1]]] : [point];
-      point = positions.find(candidate => claim([candidate[0] - label.width / 2 - padding, candidate[1] - label.height / 2 - padding, candidate[0] + label.width / 2 + padding, candidate[1] + label.height / 2 + padding]));
-      if (!point) continue;
-      ctx.font = label.font;
-      ctx.strokeStyle = theme.halo; ctx.lineWidth = selected ? 3.5 : 2.5;
-      ctx.fillStyle = theme.ink;
-      label.lines.forEach((line, i) => {
-        const y = point[1] + (i - (label.lines.length - 1) / 2) * (size + 3);
-        ctx.strokeText(line, point[0], y); ctx.fillText(line, point[0], y);
-      });
+      const positions = selected || fresh ? [point, [point[0], point[1] + labelHeight + 22], [point[0], point[1] - labelHeight - 22], [point[0] + label.width / 2 + 24, point[1]], [point[0] - label.width / 2 - 24, point[1]]] : [point];
+      const at = positions.find(candidate => claim([candidate[0] - label.width / 2 - padding, candidate[1] - labelHeight / 2 - padding, candidate[0] + label.width / 2 + padding, candidate[1] + labelHeight / 2 + padding]));
+      if (!at) continue;
+      const color = selected ? theme.selected : fresh ? theme.freshText : lit(polity) ? theme.ink : theme.veilInk;
+      writeLines(label.lines, at[0], at[1], { font, spacing, color, halo: theme.halo, haloWidth: selected ? 4 : 3, lineHeight });
     }
     ctx.textAlign = 'left';
+    const cityFont = `400 11.5px ${SERIF}`;
     for (const { city, point, radius } of cityDots) {
-      const label = metrics(city.n, 12, false);
-      const positions = [point[0] + radius + 4, point[0] - radius - 4 - label.width];
+      const label = metrics(city.n, cityFont, 0);
+      const positions = [point[0] + radius + 3.5, point[0] - radius - 3.5 - label.width];
       for (const x of positions) {
-        if (!claim([x - 2, point[1] - 8, x + label.width + 2, point[1] + 8])) continue;
-        ctx.font = label.font; ctx.lineWidth = 3.5;
-        ctx.strokeStyle = theme.halo; ctx.fillStyle = theme.ink;
-        ctx.strokeText(city.n, x, point[1]); ctx.fillText(city.n, x, point[1]);
+        if (!claim([x - 2, point[1] - 7.5, x + label.width + 2, point[1] + 7.5])) continue;
+        writeLines([city.n], x, point[1] + 0.5, { font: cityFont, color: theme.ink, halo: theme.halo, lineHeight: 12 });
         break;
       }
     }
-    if (state.zoom < 2.2) {
-      ctx.font = '500 10px system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillStyle = theme.oceanInk;
-      for (const [name, coord] of [['NORTH ATLANTIC', [-38, 27]], ['PACIFIC OCEAN', [-135, -12]], ['INDIAN OCEAN', [76, -27]], ['SOUTH ATLANTIC', [-20, -35]]]) {
-        const point = screenPoint(coord);
-        if (!point) continue;
-        const textWidth = ctx.measureText(name).width;
-        if (claim([point[0] - textWidth / 2 - 4, point[1] - 9, point[0] + textWidth / 2 + 4, point[1] + 9])) ctx.fillText(name, point[0], point[1]);
+    // Water: italic, widely spaced capitals.
+    ctx.textAlign = 'center';
+    const waters = state.zoom < 2.2 ? OCEANS : SEAS;
+    for (const [name, coord, angle] of waters) {
+      const point = screenPoint(coord);
+      if (!point) continue;
+      const size = state.zoom < 2.2 ? 11 : 10.5, spacing = size * 0.18, font = `italic 400 ${size}px ${SERIF}`;
+      const text = name.toUpperCase(), label = metrics(text, font, spacing);
+      if (angle) {
+        const reach = label.width / 2 + 4;
+        const box = [point[0] - reach * Math.abs(Math.cos(angle)) - 6, point[1] - reach * Math.abs(Math.sin(angle)) - 6, point[0] + reach * Math.abs(Math.cos(angle)) + 6, point[1] + reach * Math.abs(Math.sin(angle)) + 6];
+        if (!claim(box)) continue;
+        ctx.save(); ctx.translate(point[0], point[1]); ctx.rotate(angle);
+        writeLines([text], 0, 0, { font, spacing, color: theme.water, lineHeight: size });
+        ctx.restore();
+      } else if (claim([point[0] - label.width / 2 - 4, point[1] - 8, point[0] + label.width / 2 + 4, point[1] + 8])) {
+        writeLines([text], point[0], point[1], { font, spacing, color: theme.water, lineHeight: size });
       }
     }
   }
@@ -316,10 +509,10 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     const theme = THEMES[themeName];
     ctx.lineJoin = 'round';
     if (selected) {
-      ctx.strokeStyle = theme.selectedHalo; ctx.lineWidth = 4.6; ctx.stroke(entry.shape);
-      ctx.strokeStyle = theme.selected; ctx.lineWidth = 2.2; ctx.stroke(entry.shape);
+      ctx.strokeStyle = theme.halo; ctx.lineWidth = 4.8; ctx.stroke(entry.shape);
+      ctx.strokeStyle = theme.selected; ctx.lineWidth = 2.1; ctx.stroke(entry.shape);
     } else {
-      ctx.strokeStyle = theme.hover; ctx.lineWidth = 1.6; ctx.stroke(entry.shape);
+      ctx.strokeStyle = theme.hover; ctx.lineWidth = 1.4; ctx.stroke(entry.shape);
     }
   }
 
@@ -493,12 +686,20 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     if (actions[event.key]) { event.preventDefault(); event.stopPropagation(); actions[event.key](); }
   });
 
+  // The globe opens toward the territories mapped in the current year.
+  function globeRotation(fallback) {
+    const center = polityCenter(polities) || fallback;
+    return [-center[0], clamp(-center[1], -60, 60), 0];
+  }
+
   function reset() {
-    state.zoom = 1; state.panX = 0; state.panY = 0; state.rotation = [-10, -15, 0];
+    state.zoom = 1; state.panX = 0; state.panY = 0;
+    state.rotation = state.projection === 'globe' ? globeRotation([10, 15]) : [-10, -15, 0];
     invalidateView();
   }
 
-  function focus(polity) {
+  // `bottom` reserves screen space covered by an overlay, such as a phone sheet.
+  function focusOn(polity, { bottom = 0 } = {}) {
     if (!polity?.g) return;
     state.zoom = 1; state.panX = 0; state.panY = 0;
     if (state.projection === 'globe') {
@@ -509,11 +710,23 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     const bounds = d3.geoPath(projection.clipExtent(null)).bounds(polity.g);
     const extentWidth = bounds[1][0] - bounds[0][0], extentHeight = bounds[1][1] - bounds[0][1];
     if (Number.isFinite(extentWidth) && extentWidth > 0 && extentHeight > 0) {
-      state.zoom = clamp(Math.min(width * 0.76 / extentWidth, height * 0.74 / extentHeight), 1.1, state.projection === 'globe' ? 6 : 18);
+      const available = Math.max(height * 0.3, height - bottom);
+      state.zoom = clamp(Math.min(width * 0.76 / extentWidth, available * 0.74 / extentHeight), 1.1, state.projection === 'globe' ? 6 : 18);
       if (state.projection === 'flat') {
         state.panX = (width / 2 - (bounds[0][0] + bounds[1][0]) / 2) * state.zoom;
-        state.panY = (height / 2 - (bounds[0][1] + bounds[1][1]) / 2) * state.zoom;
-      }
+        state.panY = (height / 2 - (bounds[0][1] + bounds[1][1]) / 2) * state.zoom - (height - available) / 2;
+      } else state.panY = -(height - available) / 2;
+    }
+    invalidateView();
+  }
+
+  function focusPoint(coord, zoom = 6) {
+    state.zoom = clamp(zoom, 0.85, 40); state.panX = 0; state.panY = 0;
+    if (state.projection === 'globe') state.rotation = [-coord[0], clamp(-coord[1], -89.9, 89.9), 0];
+    setupProjection();
+    if (state.projection === 'flat') {
+      const point = projection(coord);
+      state.panX = width / 2 - point[0]; state.panY = height / 2 - point[1];
     }
     invalidateView();
   }
@@ -539,7 +752,15 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
       sceneDirty = needsDraw = true;
       hoverKey = null; onHover(null); requestDraw();
     },
-    setSelected(key) { selectedKey = key || null; needsDraw = true; requestDraw(); },
+    setSelected(key) {
+      if ((key || null) === selectedKey) return;
+      selectedKey = key || null; sceneDirty = needsDraw = true; requestDraw();
+    },
+    /** Emphasise one map change: fresh and lit keys, plus dotted earlier extents. */
+    setFocus(next) {
+      focus = next ? { fresh: new Set(next.fresh || []), lit: new Set(next.lit || []), ghosts: next.ghosts || [] } : null;
+      geometryDirty = sceneDirty = needsDraw = true; requestDraw();
+    },
     setTheme(name) {
       if (!THEMES[name] || name === themeName) return;
       themeName = name; baseDirty = sceneDirty = needsDraw = true; requestDraw();
@@ -553,8 +774,11 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     setProjection(mode) {
       if (!['flat', 'globe'].includes(mode) || mode === state.projection) return;
       const center = getView().center || [-state.rotation[0], -state.rotation[1]];
+      // From the whole-world map, turn toward the year's territories; from a
+      // zoomed map, keep looking at the same place.
+      const overview = state.zoom <= 1.05 && Math.abs(state.panX) < 1 && Math.abs(state.panY) < 1;
       state.projection = mode; state.panX = state.panY = 0;
-      if (mode === 'globe') state.rotation = [-center[0], clamp(-center[1], -89.9, 89.9), 0];
+      if (mode === 'globe') state.rotation = overview && polities.length ? globeRotation(center) : [-center[0], clamp(-center[1], -89.9, 89.9), 0];
       setupProjection();
       if (mode === 'flat') {
         const point = projection(center);
@@ -562,9 +786,12 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
       }
       invalidateView();
     },
-    setView, getView, zoomBy: factor => zoomAt(factor), reset, focus, resize,
+    /** True when a coordinate is drawn inside the current view. */
+    inView(coord) { return Boolean(projection && screenPoint(coord)); },
+    setView, getView, zoomBy: factor => zoomAt(factor), reset, focus: focusOn, focusPoint, resize,
     destroy() {
       destroyed = true; clearPointers(); observer.disconnect();
+      clearTimeout(settleTimer);
       listeners.forEach(remove => remove());
       if (frameId) cancelAnimationFrame(frameId);
     },

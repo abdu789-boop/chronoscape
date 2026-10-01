@@ -19,10 +19,21 @@ QA_OUTPUT=/tmp/chronoscape-rulers-qa \
 node scripts/qa_rulers.cjs
 ```
 
+The atlas suite checks What changed, search by alternative name, place, ruler
+and year, polity playback, globe orientation, themes and the phone sheet. Run it
+the same way, with its own output directory:
+
+```sh
+PLAYWRIGHT_MODULE=/tmp/chronoscape-browser-qa/node_modules/playwright \
+QA_BASE_URL=http://127.0.0.1:8451/ \
+QA_OUTPUT=/tmp/chronoscape-atlas-qa \
+node scripts/qa_atlas.cjs
+```
+
 Alternatively, set `CHROME_PATH` to an installed Chrome executable and omit the
 Chromium download. `QA_BASE_URL` must end in `/`; the script defaults to port
 8337, so set it explicitly when following the README server command. The suite
-writes `report.json` and five screenshots. Inspect those images; assertions alone
+writes `report.json` and six screenshots; the atlas suite writes six more. Inspect those images; assertions alone
 do not establish visual quality. Retain results in the task's `qa/` directory
 when recording a release or handover, rather than relying on temporary files.
 

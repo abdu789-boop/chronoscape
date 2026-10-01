@@ -1,0 +1,10 @@
+Frame timing method (scratch harness, not committed): headless Chrome at 1440 x 900 CSS
+pixels and device pixel ratio 2. The current site (git archive of HEAD before this change)
+and the working tree were served from disk through Playwright request routing. Each
+requestAnimationFrame callback's CPU time was recorded while the mouse dragged the map for
+40 moves, then for 500 ms after release (the full-detail frame that follows movement), and
+for one previous/next year step. Two views: 1200 CE at world scale, and 1700 CE at zoom 3.5
+over central Europe. Values are single local runs and vary between runs (an earlier run gave
+5.5 ms and 12.1 ms for the settle frame and 15.6 ms and 25.1 ms for the year step). They
+measure canvas command time on this machine, not GPU completion, end-to-end load time or a
+frame-rate guarantee. "settle: null" for the current site means it has no separate frame.

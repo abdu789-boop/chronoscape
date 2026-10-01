@@ -115,13 +115,9 @@ do not supply unchecked tenure dates to the public collection.
 
 ## Typeface
 
-**Space Grotesk** — Copyright 2020 The Space Grotesk Project Authors.
-The variable WOFF2 is self-hosted at
-`docs/fonts/space-grotesk-variable.woff2` (49,256 bytes), from the
-[official font distribution](https://github.com/floriankarsten/space-grotesk/tree/master/fonts/woff2).
-It is licensed under the **SIL Open Font License 1.1**; the copyright notice and
-complete license are included in
-[docs/fonts/OFL-Space-Grotesk.txt](docs/fonts/OFL-Space-Grotesk.txt).
+The interface uses Georgia, a system font on the reader's device. No font files
+are distributed. (Earlier versions shipped Space Grotesk under the SIL Open Font
+License; it was removed with the 2026-10-01 interface change.)
 
 ## Consulted but not redistributed
 
@@ -143,8 +139,6 @@ text: adding exceptions to it prevents GitHub from recognizing the licence.
 - **D3** (`docs/lib/d3.v7.min.js`, version 7.9.0): ISC licence, copyright
   2010–2023 Mike Bostock. Its required notice ships alongside it in
   [docs/lib/LICENSE-d3.txt](docs/lib/LICENSE-d3.txt).
-- **Font** (`docs/fonts/`): SIL Open Font License 1.1, as described above;
-  the repository's MIT code license does not replace the font license.
 - **Derived geometry data** (`docs/data/`, excluding the independent ruler
   collection `rulers.json`): **ODbL 1.0**. It contains geometry derived
   from AWMC's ODbL database, and ODbL's share-alike terms carry over to any

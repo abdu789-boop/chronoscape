@@ -1,5 +1,21 @@
 # Knowledge and handover changes
 
+## 2026-10-01 — Folio interface
+
+Built the approved "Folio" design and its features into the viewer:
+- Georgia type, with paper and navy themes.
+- A hand-coloured map and a scale-of-years timeline.
+- What changed, wider search with published aliases, polity playback and a reign
+  chart.
+- Globe orientation, and a phone sheet that keeps the map visible.
+- City visibility starts at the first population figure.
+
+Removed the unused Space Grotesk font. Updated ARCHITECTURE, HANDOVER, README,
+CREDITS, BACKLOG, the browser QA guide and release records.
+
+Provenance: [Folio handoff](../workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).
+
+
 ## 2026-09-30 — follow-up fixes
 
 Removed the thousands separator from displayed years, restored a detectable MIT

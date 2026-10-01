@@ -26,7 +26,7 @@ class Canvas extends EventTarget {
     this.classList = { add() {}, remove() {} };
     this.box = { left: 20, top: 50, width: 800, height: 500 };
     this.parentElement = { getBoundingClientRect: () => this.box };
-    this.context = new Proxy({ measureText: text => ({ width: text.length * 7 }) }, {
+    this.context = new Proxy({ measureText: text => ({ width: text.length * 7 }), createRadialGradient: () => ({ addColorStop() {} }) }, {
       get(target, key) { return key in target ? target[key] : () => {}; },
       set(target, key, value) { target[key] = value; return true; },
     });
@@ -39,7 +39,7 @@ class Canvas extends EventTarget {
   focus() { document.activeElement = this; }
 }
 globalThis.document = { createElement: () => new Canvas(), activeElement: null };
-const { createMap } = await import('../docs/js/map.js');
+const { createMap, polityCenter } = await import('../docs/js/map.js');
 
 function flush() {
   for (let attempts = 0; frames.size && attempts < 10; attempts++) {
@@ -63,8 +63,10 @@ function near(actual, expected, tolerance = 1e-6) { assert.ok(Math.abs(actual - 
 function camera(view, canvas) {
   const { width, height } = canvas.box;
   const padding = width < 600 ? 12 : 26;
+  // The globe leaves room for its graduated ring.
+  const inset = view.projection === 'globe' ? padding + Math.min(34, Math.min(width, height) * 0.06) : padding;
   const projection = (view.projection === 'globe' ? d3.geoOrthographic() : d3.geoEqualEarth())
-    .fitExtent([[padding, padding], [width - padding, height - padding]], { type: 'Sphere' });
+    .fitExtent([[inset, inset], [width - inset, height - inset]], { type: 'Sphere' });
   projection.scale(projection.scale() * view.zoom).translate([width / 2 + view.panX, height / 2 + view.panY]);
   if (view.projection === 'globe') projection.rotate(view.rotation);
   return projection;
@@ -194,26 +196,33 @@ test('keyboard controls affect the focused canvas without hijacking page keys', 
   map.destroy();
 });
 
-test('late font loading remeasures labels without rebuilding geometry', async () => {
-  let finishFont, measurements = 0;
-  document.fonts = { load: () => new Promise(resolve => { finishFont = resolve; }) };
+test('the globe opens toward the year\'s territories from the whole-world map', () => {
+  assert.deepEqual(polityCenter([]), null);
+  const east = { k: 'East', n: 'East', a: 3000, lp: [60, 30], g: { type: 'Polygon', coordinates: [[[50, 20], [50, 40], [70, 40], [70, 20], [50, 20]]] } };
+  const west = { k: 'West', n: 'West', a: 1000, lp: [0, 30], g: { type: 'Polygon', coordinates: [[[-10, 20], [-10, 40], [10, 40], [10, 20], [-10, 20]]] } };
+  const [lon, lat] = polityCenter([east, west]);
+  assert.ok(lon > 30 && lon < 60, `area weighting pulls the centre east: ${lon}`);
+  assert.ok(lat > 25 && lat < 35);
   const canvas = new Canvas(), map = createMap(canvas);
-  canvas.context.measureText = text => { measurements++; return { width: text.length * 7 }; };
-  map.setSnapshot([polity('Empire', 30, 10000)]); flush();
-  const before = measurements, paths = pathCount;
-  assert.ok(before > 0, 'fallback text was measured');
-  finishFont([]); await Promise.resolve(); flush();
-  assert.ok(measurements > before, 'loaded font invalidates cached collision boxes');
-  assert.equal(pathCount, paths, 'font loading retains projected territory paths');
+  map.setSnapshot([east, west]); flush();
+  map.setProjection('globe'); flush();
+  near(map.getView().rotation[0], -lon, 1e-6); near(map.getView().rotation[1], -lat, 1e-6);
+  map.setProjection('flat'); map.setView({ zoom: 3, center: [-40, 10] }); flush();
+  map.setProjection('globe'); flush();
+  near(map.getView().center[0], -40, 1e-6); near(map.getView().center[1], 10, 1e-6);
+  map.reset(); flush();
+  near(map.getView().rotation[0], -lon, 1e-6);
   map.destroy();
-  delete document.fonts;
 });
 
-test('font completion after disposal does not schedule a new frame', async () => {
-  let finishFont;
-  document.fonts = { load: () => new Promise(resolve => { finishFont = resolve; }) };
-  const map = createMap(new Canvas()); flush(); map.destroy();
-  finishFont([]); await Promise.resolve();
-  assert.equal(frames.size, 0);
-  delete document.fonts;
+test('focusing a territory can leave room for an overlay such as a phone sheet', () => {
+  const canvas = new Canvas(), map = createMap(canvas);
+  const target = polity('Target', 8, 1000);
+  map.setSnapshot([target]); flush();
+  map.focus(target, { bottom: 200 }); flush();
+  const projection = camera(map.getView(), canvas);
+  const [x, y] = projection([0, 0]);
+  near(x, canvas.box.width / 2, 1e-6);
+  near(y, (canvas.box.height - 200) / 2, 1e-6);
+  map.destroy();
 });

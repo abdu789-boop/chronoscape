@@ -45,12 +45,12 @@ knowledge/                current-state pointer and documentation audit history
 deliverables/             canonical artifact index (no duplicate data copies)
 workstreams/              handover records and retained QA evidence
 CREDITS.md                sources and licence obligations
-LICENSE                   MIT, project code only; data/D3/font licences in CREDITS
+LICENSE                   MIT, project code only; data and D3 licences in CREDITS
 requirements.txt          pinned — the build needs Shapely 2.x semantics
 
 sources/
   registry.yaml           every source: tier, grade, and spatial/temporal authority
-  aliases.yaml            cross-source name reconciliation
+  aliases.yaml            cross-source name reconciliation; also published for search
   rulers/                 committed extracted evidence, comparisons and audits
 
 arbitration/
@@ -61,16 +61,20 @@ scripts/
   fetch_sources.sh        download missing map inputs (not ruler snapshots)
   resolve.py              the precedence engine + a year-auditing CLI
   build_app_data.py       raw sources -> docs/data/*.json
+  build_aliases.py        sources/aliases.yaml -> docs/data/aliases.json (search)
   update_data_versions.py SHA256 cache fingerprints for published JSON
   validate.py             checks that a rebuild still holds
   render_slice.py         static PNG renders for comparing sources by eye
+  qa_rulers.cjs, qa_atlas.cjs  optional Playwright browser suites
 
 docs/                     the site GitHub Pages serves
   index.html              semantic application shell and controls
-  style.css               atlas themes, layout, responsive bottom sheet
-  js/app.js               sidebar, search, timeline, playback, coordination
-  js/map.js               projections, canvas layers, labels, pointer gestures
-  js/data.js              loading, interpolation, search, cached snapshots
+  style.css               Folio atlas themes, layout, responsive bottom sheet
+  js/app.js               sidebar, What changed, search UI, timeline, playback, coordination
+  js/map.js               projections, canvas layers, labels, pointer gestures, thumbnails
+  js/data.js              loading, interpolation, cached snapshots, map changes, polity search
+  js/search.js            grouped search: polities, alternative names, places, rulers, years
+  js/paper.js             generated paper grain for the light theme
   js/rulers.js            source admission, sampled/individual checks, dated roster selection
   js/rulers-view.js       ruler panel, evidence links, coverage and uncertainty labels
   js/data-worker.js       historical JSON parsing and geometry winding
@@ -126,7 +130,8 @@ Runs in stages. Each is independent and prints a progress line:
 | index | lifespan and peak extent per polity | seconds |
 | succession | infers predecessors and successors geometrically | ~3 min |
 | modern countries | which countries each polity covered at peak | ~1 min |
-| cache fingerprints | hashes all eight published JSON files, including the independent ruler file | seconds |
+| search aliases | publishes `sources/aliases.yaml` as `aliases.json` for search | instant |
+| cache fingerprints | hashes all nine published JSON files, including the independent ruler file | seconds |
 
 Roughly ten minutes end to end. `--skip-cities` skips the (unchanging) city
 rebuild.
@@ -134,8 +139,8 @@ rebuild.
 ### `scripts/validate.py`
 Assertions covering the built data, the arbitration decisions, the tier-1
 windows, the label-placement regressions, the derived index facts, and source
-agreement. Run it after every build. Checks needing `data/raw/` are skipped, not
-failed, on a fresh clone.
+agreement, and that `aliases.json` matches `sources/aliases.yaml`. Run it after
+every build. Checks needing `data/raw/` are skipped, not failed, on a fresh clone.
 
 `python3 scripts/validate.py --quick` explicitly omits raw-source checks.
 `node --test tests/*.test.mjs` checks viewer data behavior, state/timeline math,
@@ -176,6 +181,10 @@ appear at a given year.
 
 **`borders.json`**, **`land.json`** — Natural Earth reference geometry.
 
+**`aliases.json`** — alternative names for search, keyed by identity: generated
+from `sources/aliases.yaml` by `scripts/build_aliases.py`. A canonical name is
+attached to every identity with exactly that display name.
+
 **`rulers.json`** — independent schema-versioned ruler collection, approximately
 27 MB: `calendar`, `sources`, `polities` keyed by exact atlas identity, and
 `summary`. Each polity stores its scope, coverage, research leads and accepted
@@ -188,27 +197,35 @@ rules are in [the ruler guide](docs/data/RULERS.md).
 The shell and stylesheet load native ES modules with vendored D3. A simple HTTP
 server is enough; direct `file://` loading is unsuitable for modules and fetch.
 
-**Reading and navigation.** `app.js` coordinates search across all polity
-identities, an explorer, and a persistent detail panel. Details include the
-selected year's mapped area, a stepped extent chart, a maximum-extent jump,
-inferred relationships, and an expandable list of present-day countries. The
-country percentages explain their denominator; relationship labels identify
-geometric inference. A selected polity can remain selected in a year when it is
-not mapped, with that absence stated explicitly. On narrow screens the sidebar
-becomes a bottom sheet. System sans-serif text supports controls and facts;
-self-hosted Space Grotesk at medium weight is used for polity labels and detail
-headings. All interface text must be informative or instructive; slogans and
+**Reading and navigation.** `app.js` coordinates search, an explorer with two
+lists (largest polities, and What changed), and a persistent detail panel.
+What changed compares the map in force with the one before it; see §5a. Details
+include the selected year's mapped area, a lifespan scale, a stepped extent
+chart, a maximum-extent jump, rulers in office with a reign chart, inferred
+relationships with divided bars, and present-day countries. Play steps through
+one polity's mapped years and stops at its last. The country percentages explain
+their denominator; relationship labels identify geometric inference. A selected
+polity can remain selected in a year when it is not mapped, with that absence
+stated explicitly. On narrow screens the sidebar becomes a bottom sheet that
+covers at most three fifths of the map, and focusing a territory frames it above
+the sheet. The "Folio" design sets all text in Georgia, a system serif, so no
+web font is loaded: uppercase only for small labels, dotted leaders for facts.
+The light theme uses paper and ink with a red accent; the dark theme uses navy
+and gold. All interface text must be informative or instructive; slogans and
 promotional descriptions are excluded.
 
 **Loading and caching.** `data.js` fetches seven core same-origin JSON files in
-parallel. Land and modern borders can render before historical geometry is
+parallel, plus the optional `aliases.json`; search works without it. Land and modern borders can render before historical geometry is
 ready. A dedicated worker streams, parses, and rewinds the large polity file;
 download progress reports actual bytes and uses an unknown total when a
 compressed response prevents a reliable denominator. A worker-unavailable
 fallback yields between winding batches. Fetch/parse errors lead to an explicit
 retry. Snapshots and city rankings each use a 32-year LRU cache; panning does not
-recompute population interpolation. Search indexes identity names and their
-record aliases, folds accents, and marks activity from actual record intervals.
+recompute population interpolation. Polity search indexes identity names,
+record names and published alternative names, folds accents, and marks activity
+from actual record intervals. `search.js` groups those results with places
+(city names), accepted rulers and typed years. The ruler index is built while
+idle once `rulers.json` arrives, using the cached source indexes.
 
 The optional eighth file, `rulers.json`, loads independently with a separate
 15-second timeout and retry. `atlas.rulersReady` and `onRulers` update the open
@@ -248,12 +265,14 @@ what needs redrawing. It reuses a basemap canvas, a filled-scene canvas, project
 `Path2D` shapes and bounds, and measured label text. Hover/selection outlines do
 not repaint all territory fills. Camera or year changes rebuild the necessary
 projection data. Canvas resolution follows display density up to a 2× cap.
-Draw order is sphere/graticule/land, underlaid borders, polity fills, overlaid
-borders, city dots, selection outlines, and labels. The Space Grotesk variable
-WOFF2 is served from `docs/fonts/`, with a system sans-serif fallback and no
-external font request. Once the font loads, the renderer clears measured label
-metrics, recomputes collision boxes, and schedules a redraw. Existing geometry,
-projected paths, and filled canvas layers remain cached.
+Draw order is the globe's graduated ring, sea, engraved water lines around the
+coasts, land, graticule, coastline, underlaid borders, territory washes, pigment
+pooled inside each border, boundary lines, dotted earlier extents and outlines
+for What changed, overlaid borders, city symbols, the double neatline or globe
+limb, selection outlines and labels. While the camera moves, frames skip the
+water lines and pooled borders; 160 ms after it stops, a full-detail frame
+follows. Year changes draw full detail. A paper grain generated once by
+`paper.js` and a vignette sit over the map in CSS, not in the canvas.
 
 **Selection and input.** Hit-testing first rejects out-of-bounds projected
 features, then tests spherical containment from smallest territory to largest.
@@ -304,32 +323,57 @@ The upper bound is 2024, not the current calendar year or the terminal 2025
 boundary in `years.json`.
 
 **City visibility.** A city's population at the current year is interpolated in
-log space from its Reba series, and it is considered alive from 100 years before
-its first data point to 50 years after its last. Population ranking is cached by
-year. The renderer culls off-screen cities before applying a viewport-sized
-budget and a 13px density grid, so zooming into a region can reveal local cities.
-Dot radius is `log10(pop) - 2.5`, clamped to 1.8–4.5px. Names share the polity
-label collision system.
+log space from its Reba series. It is shown from its first population figure to
+50 years after its last; it is hidden inside a gap of more than 300 years
+between figures, where its presence is not recorded (several series jump from
+antiquity to 1975). Population ranking is cached by year. The renderer culls
+off-screen cities before applying a viewport-sized budget and a 13px density
+grid, so zooming into a region can reveal local cities. A city is a circle with a
+centre point (a gold dot in the dark theme), radius
+`1.2 + 0.75 · log10(pop / 5000)` clamped to 1.6–3.1px. Names share the polity
+label collision system. Historical city names are not tracked: the data stores
+current names.
 
-**Polity colour.** A stable identity-key hash selects from a curated palette for
-each theme. The shared `getPolityColor(key, theme)` function supplies both map
-fills and sidebar swatches; changing themes updates existing swatches as well as
-the map. Dark mode combines charcoal/gray interface surfaces with subdued slate
-and sage territory colors, a mint selection outline, and stronger contrast
-between the map and surrounding interface. Identity colors stay consistent
-across years without implying a historical relationship. Neighboring territories
+**Polity colour.** A stable identity-key hash selects one of ten watercolour
+pigments; the dark theme mixes each pigment with its navy ground. The shared
+`getPolityColor(key, theme)` function supplies map washes, pooled borders and
+sidebar swatches; changing themes updates existing swatches as well as the map.
+A selected polity or a What changed view fades the other territories. Identity
+colors stay consistent across years without implying a historical relationship. Neighboring territories
 may still share a color; adjacency-aware allocation and successor color
 inheritance are not implemented. The latter needs the ontology's continuity edges.
 
 **Label placement.** One shared collision system; every label claims a rectangle
 and anything overlapping an existing claim, or falling off-screen, is dropped.
 The selected polity has first priority, then other visible territories ranked by
-projected area, then cities. Long polity names can split over two lines. Polity
-labels use medium-weight Space Grotesk with thin text halos for contrast; font
-loading refreshes their measured widths before collision decisions. The old
-global limits of 26 polity labels and 22 city
-names belong to the saved baseline. Anchors are still precomputed by the build
+projected area, then cities and sea names; in What changed, the two largest
+earlier extents are labelled first. A label is tiered by its territory's
+on-screen size: spaced capitals for large territories, smaller spaced capitals
+for medium ones, upper and lower case for small ones, bold for the selection.
+A name wider than its territory splits over two lines. Seas are italic spaced
+capitals; ocean names show at world scale and regional seas when zoomed. The old
+global limits of 26 polity labels and 22 city names belong to the saved
+baseline. Anchors are still precomputed by the build
 (METHOD §6); the redesign does not change their historical interpretation.
+
+**What changed.** `mapChanges` compares the map in force at the selected year
+(the last change year at or before it) with the previous change year. It sums
+areas per identity and lists identities first mapped, no longer mapped (with
+the year they are mapped again, if any) and changed by at least 1,000 km². On
+the map, first-mapped territories are outlined; a change of 50,000 km² or a
+quarter of the territory keeps its colour while others fade; no-longer-mapped
+territories and large losses show their earlier extent as a dotted outline.
+"In this view" keeps changes whose label point is on screen. Dates come from the
+boundary data and are not dates of founding or collapse.
+
+**Timeline hatching.** Above the scale of years, each slice's hatch height is the
+square root of the number of record starts and ends in it, relative to the
+busiest slice. Dataset edges are excluded. Narrow windows recount for their own
+range.
+
+**Globe orientation.** Switching to the globe from the whole-world map, or
+resetting the globe, turns it toward the area-weighted centre of the mapped
+territories; from a zoomed map it keeps the same centre.
 
 **Geometry winding.** Input polygons use the opposite winding order from D3's
 spherical convention. Every ring whose spherical area exceeds half the globe is

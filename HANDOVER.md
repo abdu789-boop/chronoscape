@@ -1,7 +1,8 @@
 # Developer handover
 
-Reviewed 2026-09-30 (America/New_York), including the ruler expansion following
-`3c69275` and the year-format, licence and count fixes following `3dd9e62`.
+Reviewed 2026-10-01 (America/New_York), including the ruler expansion following
+`3c69275`, the year-format, licence and count fixes following `3dd9e62`, and the
+Folio interface change following `079d818`.
 The repository is ready for a developer to run, test and continue the current
 application. This handover does not certify complete historical coverage or a
 fresh deployment. The latest work expands the ruler collection, adds incomplete
@@ -47,14 +48,15 @@ node --test tests/*.test.mjs
 node scripts/build_rulers.mjs --check
 .venv/bin/python scripts/audit_ruler_coverage.py --check
 python3 scripts/update_data_versions.py --check
+.venv/bin/python scripts/build_aliases.py --check
 git diff --check
 ```
 
 For data rebuilds and releases, run `.venv/bin/python scripts/validate.py`
 with raw map sources available and inspect its skipped count. A successful exit
 with skipped raw-source checks is not full historical validation. For interface
-changes, follow [browser QA setup](tests/browser/README.md) and the manual checks
-in [QA_REPORT.md](QA_REPORT.md). No CI workflow is tracked; these checks are manual.
+changes, run both browser suites in [browser QA setup](tests/browser/README.md),
+inspect their screenshots, and follow the manual checks in [QA_REPORT.md](QA_REPORT.md). No CI workflow is tracked; these checks are manual.
 
 ## Current state and boundaries
 
@@ -64,7 +66,7 @@ in [QA_REPORT.md](QA_REPORT.md). No CI workflow is tracked; these checks are man
 | Rulers | 13,309 accepted reigns across 945 identities; 599 without accepted rulers; no complete roster |
 | Ruler evidence | 270 individually cross-checked, 12,278 sampled-source, 501 approximate, 21 disputed and 239 incomplete-date records |
 | Ruler work | 547 source-acquisition/extraction, 49 scope/evidence-review and 3 identity-review cases without accepted rulers |
-| UI | Search across eras, exact year navigation, flat/globe views, themes, share links, mobile detail sheet, ruler evidence tooltips |
+| UI | Folio design (Georgia; paper and navy themes); search by name, alternative name, place, ruler and year; What changed between maps; polity playback; reign chart; flat/globe views; share links; mobile detail sheet; ruler evidence tooltips |
 | Ontology | Designed in ONTOLOGY.md, not implemented; no dependency edges or tinting |
 | Removed features | No polity shortcuts, languages, religions or per-polity population; world population remains |
 

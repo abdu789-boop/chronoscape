@@ -1,4 +1,4 @@
-import { getRulers } from './rulers.js';
+import { displayRole, getRulers } from './rulers.js';
 import { fmtYear } from './data.js';
 
 const labels = {
@@ -31,7 +31,6 @@ function reignDates(claim) {
   return `${prefix}${first} – ${fmtYear(claim.to)}`;
 }
 
-const displayRole = role => role === 'Effective primary political leader (Archigos definition)' ? 'National political leader' : role;
 
 /** A shared, floating detail panel keeps long evidence out of the roster layout. */
 function createRulerTooltip() {
@@ -130,8 +129,106 @@ function createRulerTooltip() {
   };
 }
 
+function compactYear(year) {
+  return year < 0 ? `${-year} BCE` : String(year);
+}
+
+/** Reign dates written compactly: "1200–1218", "247–211 BCE", "31 BCE–14 CE". */
+function compactReign(claim) {
+  const prefix = claim.precision === 'approximate' || ['approximate', 'semi-legendary', 'legendary'].includes(claim.assessment.status) ? 'c. ' : '';
+  if (claim.from === null && claim.to === null) return 'dates unknown';
+  if (claim.from === null || claim.to === null) return prefix + reignDates(claim).replace(/^c\. /, '');
+  if (claim.from > 0 && claim.to > 0) return `${prefix}${claim.from}–${claim.to}`;
+  if (claim.from < 0 && claim.to < 0) return `${prefix}${-claim.from}–${-claim.to} BCE`;
+  return `${prefix}${fmtYear(claim.from)}–${fmtYear(claim.to)}`;
+}
+
+/** The name a chart bar can carry: a parenthesised common name, else the name before a patronymic. */
+function shortName(name) {
+  const common = name.match(/\(([^)]+)\)\s*$/);
+  if (common) return common[1];
+  return name.split(/,| b\. | bin | ibn /)[0].trim();
+}
+
+/** Rulers in office in the selected year, each with title, reign and evidence label. */
+function renderCurrent(box, result, loading) {
+  box.replaceChildren();
+  const active = result.rulers.filter(claim => claim.active);
+  const possible = result.rulers.filter(claim => claim.possiblyActive);
+  if (loading || !active.length) {
+    box.append(element('p', 'ruler-current-empty', loading ? 'Loading ruler records…' : possible.length
+      ? `Possible for this year: ${possible.map(claim => claim.name).join('; ')}`
+      : 'No checked ruler is documented for this year.'));
+    return;
+  }
+  const list = element('ul', 'leader-list ruler-current-list');
+  for (const claim of active) {
+    const item = element('li', 'leader-row');
+    const line = element('span', 'leader-line');
+    line.append(element('span', 'leader-name', claim.name), element('span', 'leader-dots'), element('span', 'leader-value', compactReign(claim)));
+    const label = labels[claim.assessment.status];
+    item.append(line, element('span', 'leader-note', `${displayRole(claim.role)}${label ? ` · ${label.charAt(0).toLowerCase()}${label.slice(1)}` : ''}`));
+    list.append(item);
+  }
+  box.append(list);
+}
+
+/**
+ * Reigns on a shared time axis, one lane per title, in the manner of an
+ * eighteenth-century chart of biography. Reigns in the selected year are marked.
+ */
+function buildReignChart(figure, rulers) {
+  figure.replaceChildren();
+  const dated = rulers.filter(claim => Number.isFinite(claim.from) && Number.isFinite(claim.to));
+  figure.hidden = dated.length < 2;
+  if (figure.hidden) return { bars: new Map(), lo: 0, hi: 0 };
+  let lo = Math.min(...dated.map(claim => claim.from)), hi = Math.max(...dated.map(claim => claim.to));
+  const pad = Math.max(1, Math.round((hi - lo) * 0.03)); lo -= pad; hi += pad;
+  const x = year => (year - lo) / (hi - lo) * 100;
+  const roles = new Map();
+  for (const claim of dated) {
+    const role = displayRole(claim.role);
+    if (!roles.has(role)) roles.set(role, []);
+    roles.get(role).push(claim);
+  }
+  const ordered = [...roles].sort((a, b) => b[1].length - a[1].length);
+  const lanes = ordered.slice(0, 3);
+  if (ordered.length > 3) lanes.push(['Other', ordered.slice(3).flatMap(([, claims]) => claims)]);
+  const bars = new Map();
+  for (const [role, claims] of lanes) {
+    const rows = [];
+    for (const claim of [...claims].sort((a, b) => a.from - b.from || a.to - b.to)) {
+      const row = rows.find(row => row.at(-1).to <= claim.from) || (rows.length < 4 ? rows[rows.push([]) - 1] : rows.at(-1));
+      row.push(claim);
+    }
+    const lane = element('div', 'reign-lane');
+    lane.append(element('span', 'reign-role', role));
+    const track = element('div', 'reign-track'); track.style.height = `${rows.length * 19 + 2}px`;
+    rows.forEach((row, index) => {
+      for (const claim of row) {
+        const bar = element('span', 'reign-bar');
+        if (claim.precision === 'approximate' || ['approximate', 'disputed'].includes(claim.assessment.status)) bar.classList.add('approximate');
+        bar.style.left = `${x(claim.from)}%`; bar.style.width = `${Math.max(0.6, x(claim.to) - x(claim.from))}%`;
+        bar.style.top = `${index * 19 + 12}px`;
+        bar.title = `${claim.name}, ${displayRole(claim.role)}, ${reignDates(claim)}`;
+        if (x(claim.to) - x(claim.from) >= 14) bar.append(element('span', 'reign-label', shortName(claim.name)));
+        track.append(bar); bars.set(claim.id, bar);
+      }
+    });
+    lane.append(track); figure.append(lane);
+  }
+  const axis = element('div', 'reign-axis'), track = element('div', 'reign-axis-track');
+  const now = element('span', 'reign-axis-now');
+  track.append(element('span', 'reign-axis-start', compactYear(lo + pad)), now, element('span', 'reign-axis-end', compactYear(hi - pad)));
+  axis.append(element('span'), track);
+  const line = element('span', 'reign-now');
+  figure.append(axis, line);
+  return { bars, lo, hi, now, line };
+}
+
 /** Keep the roster DOM stable while the timeline moves (focus, scroll, expansion). */
 export function createRulersView({ onRetry } = {}) {
+  let chart = { bars: new Map(), lo: 0, hi: 0 };
   let previousData, previousKey, previousError, previousLoading, previousYear;
   const tooltip = createRulerTooltip();
   const rows = new Map();
@@ -143,12 +240,7 @@ export function createRulersView({ onRetry } = {}) {
     if (changed || year !== previousYear) tooltip.close();
     previousYear = year;
     $('detail-ruler-year').textContent = fmtYear(year);
-    const active = result.rulers.filter(claim => claim.active);
-    const possible = result.rulers.filter(claim => claim.possiblyActive);
-    $('detail-ruler-current').textContent = loading ? 'Loading ruler records…' : active.length
-      ? active.map(claim => `${claim.name} · ${displayRole(claim.role)}`).join('; ')
-      : possible.length ? `Possible for this year: ${possible.map(claim => claim.name).join('; ')}`
-        : 'No checked ruler is documented for this year.';
+    renderCurrent($('detail-ruler-current'), result, loading);
     if (changed) {
       previousData = data; previousKey = key; previousError = error; previousLoading = loading;
       const errorBox = $('detail-history-error'); errorBox.replaceChildren(); errorBox.hidden = !error;
@@ -164,7 +256,8 @@ export function createRulersView({ onRetry } = {}) {
       const list = $('detail-ruler-list'); list.replaceChildren(); rows.clear();
       $('detail-ruler-roster').hidden = result.rulers.length === 0;
       $('detail-ruler-roster').open = false;
-      $('detail-ruler-count').textContent = `${result.rulers.length} sourced reign${result.rulers.length === 1 ? '' : 's'} · succession list`;
+      $('detail-ruler-count').textContent = `Succession list · ${result.rulers.length} sourced reign${result.rulers.length === 1 ? '' : 's'}`;
+      chart = buildReignChart($('detail-ruler-chart'), result.rulers);
       for (const claim of result.rulers) {
         const row = element('li', 'ruler-row'); row.dataset.rulerId = claim.id;
         const trigger = element('button', 'ruler-trigger'); trigger.type = 'button'; trigger.rulerClaim = claim;
@@ -219,9 +312,17 @@ export function createRulersView({ onRetry } = {}) {
       }
     }
     for (const claim of result.rulers) {
+      chart.bars.get(claim.id)?.classList.toggle('active', claim.active);
       const row = rows.get(claim.id); if (!row) continue;
       row.classList.toggle('active', claim.active);
       row.querySelector('.ruler-trigger').rulerClaim = claim;
+    }
+    if (chart.line) {
+      const inside = Number.isFinite(year) && year >= chart.lo && year <= chart.hi;
+      chart.line.hidden = chart.now.hidden = !inside;
+      const at = inside ? (year - chart.lo) / (chart.hi - chart.lo) : 0;
+      chart.line.style.setProperty('--at', at); chart.now.style.left = `${at * 100}%`;
+      chart.now.textContent = at > 0.12 && at < 0.88 ? compactYear(year) : '';
     }
   };
 }

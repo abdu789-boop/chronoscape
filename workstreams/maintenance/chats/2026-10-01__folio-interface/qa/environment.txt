@@ -1,0 +1,8 @@
+Recorded 2026-10-01 19:18 EDT
+Base commit: 079d818 (working tree with the Folio interface changes)
+Node: v24.19.0
+Python: Python 3.10.9
+Chrome: Google Chrome 154.0.8037.92 
+Playwright: 1.62.1
+OS: macOS 26.6.2 arm64
+Local server: python3 -m http.server 8451 --directory docs (browser suites used QA_BASE_URL=http://127.0.0.1:8451/)

@@ -1,0 +1,38 @@
+id: 2026-10-01__folio-interface
+workstream: maintenance
+status: complete
+started: 2026-10-01
+objective: Build the approved "Folio" interface (Georgia, paper and navy themes, hand-coloured map) and the new features from its mockup into the viewer
+source_ids:
+  - repo-079d818
+  - folio-qa-20261001
+canonical_outputs:
+  - ../../../../docs/index.html
+  - ../../../../docs/style.css
+  - ../../../../docs/js/app.js
+  - ../../../../docs/js/map.js
+  - ../../../../docs/js/data.js
+  - ../../../../docs/js/search.js
+  - ../../../../docs/js/paper.js
+  - ../../../../docs/js/rulers-view.js
+  - ../../../../docs/data/aliases.json
+  - ../../../../scripts/build_aliases.py
+  - ../../../../scripts/qa_atlas.cjs
+  - qa/
+knowledge_updates:
+  - ../../../../knowledge/CURRENT.md
+  - ../../../../knowledge/CHANGELOG.md
+  - ../../../../README.md
+  - ../../../../ARCHITECTURE.md
+  - ../../../../HANDOVER.md
+  - ../../../../BACKLOG.md
+  - ../../../../CREDITS.md
+  - ../../../../QA_REPORT.md
+  - ../../../../VERSION_HISTORY.md
+  - ../../../../tests/browser/README.md
+  - ../../../../sources/SOURCE_REGISTER.tsv
+known_gaps:
+  - Historical city names are not tracked; labels use current names
+  - No shaded relief or rivers; no adjacency-aware or successor colours
+  - No accessibility, physical-device or cross-browser audit beyond Chrome
+superseded_by: null

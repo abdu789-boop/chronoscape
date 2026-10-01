@@ -218,6 +218,15 @@ def check_sources(quick):
               bool(ious) and ious[0] >= floor, f"got {ious}")
 
 
+def check_aliases():
+    print("\nSearch aliases")
+    import subprocess
+    result = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "build_aliases.py"), "--check"],
+                            capture_output=True, text=True)
+    check("aliases.json matches sources/aliases.yaml and the polity index", result.returncode == 0,
+          (result.stdout + result.stderr).strip())
+
+
 def main():
     quick = "--quick" in sys.argv
     print("Validating Chronoscape build" + (" (quick)" if quick else ""))
@@ -227,6 +236,7 @@ def main():
     check_labels(pol)
     check_index(idx)
     check_population()
+    check_aliases()
     check_sources(quick)
 
     print(f"\n{len(PASS)} passed, {len(FAIL)} failed, {len(SKIP)} skipped")

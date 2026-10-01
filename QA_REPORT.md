@@ -1,5 +1,33 @@
 # Verification record
 
+## Folio interface — 2026-10-01
+
+Interface, search and display changes; geometry and ruler data unchanged. A new
+derived file, `docs/data/aliases.json`, is generated from `sources/aliases.yaml`.
+Passed:
+
+- 102 JavaScript tests, including new tests for search ranking and aliases, map
+  changes, timeline hatching, the city rule, globe orientation and framing above
+  an overlay, and 55 Python tests.
+- 47 full historical/data checks with no failures or skipped raw-source checks,
+  including a new check that `aliases.json` matches its source.
+- Reproducible public ruler build, coverage audit, alias file and cache
+  fingerprints.
+- 17 ruler and 13 atlas browser checks in Chrome without page errors.
+  - The atlas suite checks What changed for 1206 CE and search by alternative
+    name, place, ruler and year.
+  - It also checks polity playback stopping at its last year, globe orientation,
+    the dark theme, and the phone sheet framing the polity.
+  - All 12 screenshots were inspected.
+- Local frame timing against the previous site (one run per view): drag frames
+  9–12 ms median in both versions. A year step is 18 / 24 ms against 15 / 21 ms
+  (world / zoomed). A full-detail frame of 13–15 ms follows camera movement.
+  These are single local measurements, not a frame-rate guarantee.
+
+Not checked: accessibility conformance, physical devices, browsers other than
+Chrome. Evidence is in the
+[workstream record](workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).
+
 ## Year format, licence and count fixes — 2026-09-30
 
 Application code changed only in the year formatter; data and geometry were

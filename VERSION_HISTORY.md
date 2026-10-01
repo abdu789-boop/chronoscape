@@ -1,5 +1,31 @@
 # Version history
 
+## Folio interface — 2026-10-01
+
+- **Design.** The "Folio" design replaces the previous look.
+  - Georgia throughout, so no web font is loaded.
+  - Light theme: paper and ink with a red accent. Dark theme: navy and gold.
+  - Map: hand-coloured territories, engraved coastlines and a double neatline.
+    The globe sits in a graduated ring.
+  - Timeline: a scale of years with hatching for how often the map changes.
+- **What changed.** A sidebar tab compares the current map with the previous one:
+  first mapped, no longer mapped and changed in area, optionally limited to the
+  view. The map outlines new territories and dots earlier extents.
+- **Search.** Search finds polities by name or alternative name
+  (`docs/data/aliases.json`, generated from `sources/aliases.yaml`), places,
+  sourced rulers and typed years, with a preview of the selected entry.
+- **Polity detail.** Play steps through one polity's mapped years. Details add a
+  lifespan scale, rulers in office with a reign chart, and divided bars for
+  inferred relationships.
+- **Globe and phone.** The globe opens toward the year's territories. On phones
+  the detail sheet leaves the map visible, with the territory framed above it.
+- **Cities.** A city appears from its first population figure, not 100 years
+  earlier, and is hidden inside gaps of more than 300 years between figures.
+- **No data changes.** Geometry, rulers and historical data are unchanged.
+- **Checks.** 102 JavaScript tests, 55 Python tests, 47 full historical checks
+  with no skips, and 17 + 13 browser checks pass. See the
+  [workstream record](workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).
+
 ## Year format, licence and current-state counts — 2026-09-30
 
 - Years display without a thousands separator ("1970 CE", "3400 BCE") in the

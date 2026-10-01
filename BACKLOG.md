@@ -53,12 +53,18 @@ that order. The current viewer implements:
 The whole-history slider still snaps to map-change years; direct entry and
 zoomed windows allow individual years. Source data and historical methodology
 are unchanged. Viewer revision `032bc9a` was published on 2026-09-08 (UTC),
-including the Space Grotesk labels, factual interface text, and charcoal dark
-theme. See [QA_REPORT.md](QA_REPORT.md) for release checks and the scoped
+including factual interface text and a charcoal dark theme. On 2026-10-01 the
+"Folio" design replaced that look: Georgia throughout, paper and navy themes,
+hand-coloured territories and engraved coastlines. It added What changed,
+search by alternative name, place, ruler and year, playing one polity's mapped
+years, a reign chart, globe orientation toward the mapped territories and a
+phone sheet that leaves the map visible. See [QA_REPORT.md](QA_REPORT.md) for release checks and the scoped
 rendering comparison, and [ARCHITECTURE.md](ARCHITECTURE.md) for mechanisms.
 
 Remaining UI/performance work should start from measurements: era-based geometry
 loading, adjacency-aware colors, and a WebGL renderer are not implemented.
+Historical city names (renames) are not tracked; that needs a sourced rename
+dataset. Shaded relief and rivers would need new Natural Earth downloads.
 Successor color inheritance still needs the ontology. The original floating
 card, dense global label limits, and timestamped data requests remain inspectable
 at the baseline tag rather than describing the current UI.
