@@ -150,3 +150,10 @@ the extracted evidence, sample comparisons, source-discovery inventory and
 coverage report. Rebuild the public ruler file with `node scripts/build_rulers.mjs`,
 then refresh cache fingerprints. This requires no network when the committed
 evidence files are present. The browser never queries Wikidata or other sources.
+
+## Licensing
+
+The project's own code is MIT ([LICENSE](LICENSE)). The data, the vendored D3
+library and the font keep their own licences, including ODbL for the map
+geometry and CC BY-SA 4.0 for Wikipedia-derived ruler records. See
+[CREDITS.md](CREDITS.md#licensing-of-this-repository).

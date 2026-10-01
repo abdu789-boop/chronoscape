@@ -45,7 +45,7 @@ knowledge/                current-state pointer and documentation audit history
 deliverables/             canonical artifact index (no duplicate data copies)
 workstreams/              handover records and retained QA evidence
 CREDITS.md                sources and licence obligations
-LICENSE                   MIT for code; docs/data is ODbL (see CREDITS)
+LICENSE                   MIT, project code only; data/D3/font licences in CREDITS
 requirements.txt          pinned — the build needs Shapely 2.x semantics
 
 sources/
@@ -77,7 +77,8 @@ docs/                     the site GitHub Pages serves
   js/data-version.js      generated data cache fingerprints
   js/state.js             URL state and timeline math
   js/package.json         ES module declaration for Node-based tests
-  lib/d3.v7.min.js        vendored
+  lib/d3.v7.min.js        vendored D3 7.9.0 (ISC)
+  lib/LICENSE-d3.txt      D3's required licence notice, shipped with the copy
   data/*.json             the built map
 
 data/raw/                 ignored map/ruler snapshots; separate acquisition paths

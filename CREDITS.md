@@ -133,14 +133,27 @@ included in this repository.
 
 ## Licensing of this repository
 
-- **Code** (`scripts/`, `docs/index.html`, `docs/style.css`, `docs/js/`): MIT,
-  see LICENSE.
+No single licence covers the repository. [LICENSE](LICENSE) is the MIT licence
+and applies to the project's own code only; this section is the authoritative
+record for everything else. LICENSE deliberately holds only the standard MIT
+text: adding exceptions to it prevents GitHub from recognizing the licence.
+
+- **Code** (`scripts/`, `tests/`, `docs/index.html`, `docs/style.css`,
+  `docs/js/`): MIT, see LICENSE.
+- **D3** (`docs/lib/d3.v7.min.js`, version 7.9.0): ISC licence, copyright
+  2010–2023 Mike Bostock. Its required notice ships alongside it in
+  [docs/lib/LICENSE-d3.txt](docs/lib/LICENSE-d3.txt).
 - **Font** (`docs/fonts/`): SIL Open Font License 1.1, as described above;
   the repository's MIT code license does not replace the font license.
 - **Derived geometry data** (`docs/data/`, excluding the independent ruler
   collection `rulers.json`): **ODbL 1.0**. It contains geometry derived
   from AWMC's ODbL database, and ODbL's share-alike terms carry over to any
   derived database that is publicly used.
+- **Ruler collection and its evidence** (`docs/data/rulers.json`,
+  `sources/rulers/`): each record keeps the terms of its source, as listed
+  under [Ruler chronology](#ruler-chronology). Wikipedia- and Islamic
+  Civilization Atlas-derived records are **CC BY-SA 4.0**; Archigos states no
+  explicit licence.
 
 If you reuse the data, credit Cliopatria (CC BY 4.0), AWMC/Barrington and
 OpenStreetMap contributors (ODbL), and Reba et al. (CC BY 4.0).
