@@ -1,0 +1,14 @@
+Publication check — 2026-10-01 07:44 EDT
+
+Pushed: 3dd9e62..5200e2b to origin/main (previously deployed SHA: 3dd9e62)
+GitHub Pages deployment 6783340407: 5200e2b state=success
+Pages workflow run: 5200e2b success https://github.com/abdu789-boop/chronoscape/actions/runs/36857034663
+
+GitHub licence detection: MIT from LICENSE blob 641a5f0 (pushed LICENSE blob 641a5f0; before this release the API reported Other/NOASSERTION)
+
+Live js/data.js serves the new formatter: 1 matching line
+Live lib/LICENSE-d3.txt: HTTP 200
+Live data-version.js identical to committed: yes
+
+Browser suite against https://abdu789-boop.github.io/chronoscape/: passed 17 checks, 6 screenshots
+Screenshots inspected: mughal.png (1650 CE; 1628 CE – 1658 CE) and incomplete-tenure.png (2500 BCE).

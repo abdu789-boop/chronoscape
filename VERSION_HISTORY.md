@@ -13,7 +13,9 @@
   `tests/current-state.test.mjs` fails if it disagrees with the committed data.
 - No data changed. Passed 97 JavaScript tests, 55 Python tests, 46 full
   historical checks with no skips and 17 browser checks; six screenshots were
-  inspected. Not yet published. See the
+  inspected. Published 2026-10-01 as `5200e2b`: the Pages deployment succeeded,
+  the browser suite passed against the live site, and GitHub identifies the
+  licence as MIT. See the
   [workstream record](workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/handoff.md).
 
 ## Ruler coverage expansion — 2026-09-30

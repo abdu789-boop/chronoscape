@@ -13,7 +13,10 @@ unchanged. Passed:
 - Mutation check: the current-state guard fails on a one-reign table change and
   on comma-formatted years.
 
-Not published when recorded. Logs, screenshots and environment are in the
+Published 2026-10-01 as `5200e2b`. The Pages deployment succeeded, all 17
+browser checks passed against the live site with the year-format screenshots
+inspected, and GitHub identifies the licence as MIT. Logs, screenshots and
+environment are in the
 [workstream record](workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/handoff.md).
 
 ## Ruler expansion — 2026-09-30

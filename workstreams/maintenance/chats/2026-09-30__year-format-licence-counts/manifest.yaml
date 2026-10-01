@@ -6,6 +6,7 @@ objective: Fix four-digit year formatting, make LICENSE accurate and detectable,
 source_ids:
   - repo-3dd9e62
   - fixes-qa-20260930
+  - live-qa-20261001
 canonical_outputs:
   - ../../../../docs/js/data.js
   - ../../../../tests/current-state.test.mjs
@@ -25,7 +26,6 @@ knowledge_updates:
   - ../../../../VERSION_HISTORY.md
   - ../../../../sources/SOURCE_REGISTER.tsv
 known_gaps:
-  - Not yet pushed; GitHub licence detection and the Pages deployment are unverified until published
   - France 1961-2023 record still includes Algeria (OQ-6); Hashemite Arab Federation 1415-1439 label not filed in arbitration
   - No geometry rebuild, performance measurement, accessibility or cross-browser audit
 superseded_by: null

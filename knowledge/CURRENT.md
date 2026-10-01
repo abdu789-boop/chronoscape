@@ -20,6 +20,7 @@ independently corroborate dates. Map geometry is unchanged; the ontology remains
 unimplemented. Ignored raw source snapshots need a separate transfer for exact
 re-extraction, and map sources remain unpinned.
 
-GitHub Pages was serving `3dd9e62` when checked on 2026-09-30: the deployment
-record and the live data fingerprints both matched. A Git push alone does not
-verify a later deployment or successor access.
+GitHub Pages was serving `5200e2b` when checked on 2026-10-01: the deployment
+succeeded, the live files and data fingerprints matched, and the browser suite
+passed against the live site. Later documentation-only commits record that
+check. A Git push alone does not verify a later deployment or successor access.

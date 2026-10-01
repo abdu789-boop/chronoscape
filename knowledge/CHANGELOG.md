@@ -5,7 +5,9 @@
 Removed the thousands separator from displayed years, restored a detectable MIT
 LICENSE with its scope recorded in CREDITS.md (adding D3's required notice), and
 made HANDOVER.md's current-state table the single tested home for headline
-counts. Current-state and deliverable indexes now link to that table.
+counts. Current-state and deliverable indexes now link to that table. Published
+2026-10-01 as `5200e2b` at the user's request; the deployment, licence
+detection and live browser checks were verified.
 
 Provenance: [fixes handoff](../workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/handoff.md).
 

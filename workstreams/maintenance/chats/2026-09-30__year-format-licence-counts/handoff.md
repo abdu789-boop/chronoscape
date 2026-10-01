@@ -1,8 +1,8 @@
 # Year format, licence and current-state counts — 2026-09-30
 
-Three follow-up fixes from a review of the September changes. Committed locally,
-**not yet pushed or deployed**. Baseline `3dd9e62`, which was live on GitHub
-Pages when checked.
+Three follow-up fixes from a review of the September changes. **Published
+2026-10-01 as `5200e2b`**; the previous deployment was `3dd9e62`. See
+[Publication](#publication) for the production checks.
 
 ## Changes
 
@@ -53,10 +53,23 @@ Node.js is not on this machine's PATH; the Codex-bundled Node 24.19.0 and
 Playwright 1.62.1 were used with installed Chrome
 ([environment.txt](qa/environment.txt)).
 
+## Publication
+
+Pushed `3dd9e62..5200e2b` at the user's request. Evidence is in
+[qa/live/](qa/live/), summarized in
+[publication-check.txt](qa/live/publication-check.txt).
+
+- GitHub Pages deployment `6783340407` for `5200e2b` succeeded
+  ([workflow run](https://github.com/abdu789-boop/chronoscape/actions/runs/36857034663)).
+- GitHub now identifies the licence as **MIT**, detected from the pushed LICENSE
+  blob `641a5f0`; before this release its API reported "Other".
+- The live site serves the new `fmtYear` and `lib/LICENSE-d3.txt`, and its data
+  fingerprints match the committed data.
+- The 17-check browser suite passed against the live site. Its Mughal and Old
+  Kingdom screenshots were inspected: "1650 CE", "1628 CE – 1658 CE", "2500 BCE".
+
 ## Not done
 
-- Not pushed. GitHub's licence detection and the Pages deployment can only be
-  checked after publishing.
 - No geometry rebuild, performance measurement, or accessibility/cross-browser audit.
 - The map defects raised in the same review remain open: the French Fifth
   Republic's 1961–2023 record still includes Algeria (OQ-6), and the

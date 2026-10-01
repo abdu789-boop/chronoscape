@@ -9,3 +9,4 @@ ruler-additional-20260930	additional explicit crosswalks	sources/rulers/addition
 ruler-qa-20260930	local verification	workstreams/rulers/chats/2026-09-29__complete-ruler-coverage/qa/	2026-09-30	Extraction inspections, sample failures, full map validation, tests and browser evidence; not a completeness certificate
 repo-3dd9e62	local repository	git:3dd9e62	2026-09-30	Baseline for year-format, licence and count fixes; live on GitHub Pages when checked
 fixes-qa-20260930	local verification	workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/qa/	2026-09-30 America/New_York	Automated checks, browser suite and inspected screenshots; not yet published
+live-qa-20261001	remote verification	workstreams/maintenance/chats/2026-09-30__year-format-licence-counts/qa/live/	2026-10-01 America/New_York	Pages deployment, licence detection and browser suite against the published site at 5200e2b
