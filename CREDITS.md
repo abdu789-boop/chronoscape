@@ -44,7 +44,10 @@ longer ships or depends on. See BACKLOG.md, and git history at 5c15486.
 
 ## Basemap
 
-**Natural Earth** — land polygons and present-day country boundary lines.
+**Natural Earth** — land polygons and present-day country boundary lines
+(1:110m), and for the optional terrain and river layers the 1:50m rivers and
+lake centrelines, 1:50m lakes and 1:50m shaded relief (SR_50M). `rivers.json`
+and `terrain.webp` are derived from these inputs alone; reservoirs are omitted.
 Public domain. https://www.naturalearthdata.com/
 
 ## Ruler chronology

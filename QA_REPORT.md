@@ -1,5 +1,36 @@
 # Verification record
 
+## Terrain shading and rivers — 2026-10-03
+
+New optional layers and two derived files, `docs/data/rivers.json` and
+`docs/data/terrain.webp`; historical geometry and ruler data unchanged. Passed:
+
+- 109 JavaScript tests and 55 Python tests. New tests cover the URL state of the
+  layers, the published files, versioned loading and lake winding, rivers
+  switching off, path reuse while panning, rivers kept at the globe's edge, and
+  drawing without WebGL 2. Breaking the path reuse or the globe culling makes the
+  corresponding test fail.
+- 51 full historical/data checks with no failures or skips, including four new
+  geography checks (a rebuild matches the published layers).
+- Reproducible public ruler build, coverage audit, alias file, geography layers
+  and cache fingerprints.
+- 17 ruler and 15 atlas browser checks in Chrome without page errors. The two new
+  atlas checks sample the map: relief changes the Himalaya and leaves the Pacific
+  unchanged; the Nile is drawn at its present-day course; each layer switches off
+  and is downloaded only when switched on. All 13 screenshots were inspected.
+- Registration: panning, zooming and turning the globe, then opening the
+  resulting link directly, gives matching maps (under 1% of pixels differ, at
+  edges, from the link's rounded coordinates).
+- Frame timing against the published site, two local runs per view: drag frames
+  are unchanged on the flat map and 0.7–1.8 ms slower on the globe; a year step
+  is unchanged; the full-detail frame after the globe stops is 2–6 ms slower.
+  Zooming in with the wheel on the zoomed flat view raises the 90th-percentile
+  frame from about 15 to 24 ms, when a zoom level that adds rivers is crossed.
+
+Not checked: browsers other than Chrome (WebGL 2 relief in Safari and Firefox),
+physical devices, accessibility conformance. Not yet published. Evidence is in
+the [workstream record](workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
+
 ## Folio interface — 2026-10-01
 
 Interface, search and display changes; geometry and ruler data unchanged. A new
@@ -23,6 +54,9 @@ Passed:
   9–12 ms median in both versions. A year step is 18 / 24 ms against 15 / 21 ms
   (world / zoomed). A full-detail frame of 13–15 ms follows camera movement.
   These are single local measurements, not a frame-rate guarantee.
+  *Correction (2026-10-03):* the "year step" was an arrow key pressed while the
+  map still had focus from the drag, which pans the map; the terrain record
+  measures a year step separately.
 
 Published 2026-10-01 as `9664250`. The Pages deployment succeeded, the live
 files matched the commit, and both browser suites passed against the live site

@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { cityPresent, createAtlas, fmtArea, fmtAreaWords, fmtPop, fmtPopulation, fmtYear, loadAtlas, loadRulers, majorChange, mapChanges, matchScore, nearestYear, parseYear, timelineDensity } from '../docs/js/data.js';
+import vm from 'node:vm';
+import { cityPresent, createAtlas, fmtArea, fmtAreaWords, fmtPop, fmtPopulation, fmtYear, loadAtlas, loadRelief, loadRivers, loadRulers, majorChange, mapChanges, matchScore, nearestYear, parseYear, timelineDensity } from '../docs/js/data.js';
 import { DATA_VERSIONS } from '../docs/js/data-version.js';
 
 const records = [
@@ -166,11 +167,15 @@ test('timeline density counts record starts and ends inside the window', () => {
 });
 
 test('versioned request fingerprints match all published data files', async () => {
+  // Each fingerprint is keyed by its file's name without the extension.
+  const files = await readdir(new URL('../docs/data/', import.meta.url));
   for (const [name, fingerprint] of Object.entries(DATA_VERSIONS)) {
-    const bytes = await readFile(new URL(`../docs/data/${name}.json`, import.meta.url));
+    const matches = files.filter(file => file.replace(/\.[^.]+$/, '') === name);
+    assert.equal(matches.length, 1, `${name}: one published file`);
+    const bytes = await readFile(new URL(`../docs/data/${matches[0]}`, import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex').slice(0, 16), fingerprint, name);
   }
-  assert.equal(Object.keys(DATA_VERSIONS).length, 9);
+  assert.equal(Object.keys(DATA_VERSIONS).length, 11);
 });
 
 test('loading exposes the basemap before historical geometry and uses stable URLs', async () => {
@@ -296,5 +301,52 @@ test('ruler timeout aborts only its request and allows a fresh independent retry
       return { ok: true, json: async () => details };
     };
     assert.equal(await loadRulers(parent.signal), details);
+  } finally { globalThis.fetch = oldFetch; }
+});
+
+test('the published geography layers are ranked lines and lakes, and an 8192 × 4096 WebP relief', async () => {
+  const { rivers, lakes } = JSON.parse(await readFile(new URL('../docs/data/rivers.json', import.meta.url), 'utf8'));
+  assert.ok(rivers.features.length > 400 && lakes.features.length > 300);
+  for (const feature of rivers.features) {
+    assert.ok(['LineString', 'MultiLineString'].includes(feature.geometry.type));
+    assert.ok(Number.isInteger(feature.properties.r) && feature.properties.r >= 0 && feature.properties.r <= 6);
+  }
+  for (const feature of lakes.features) {
+    assert.equal(feature.geometry.type, 'Polygon');
+    assert.ok(Number.isInteger(feature.properties.r) && feature.properties.r >= 0 && feature.properties.r <= 6);
+  }
+  const relief = await readFile(new URL('../docs/data/terrain.webp', import.meta.url));
+  assert.equal(relief.toString('latin1', 0, 4), 'RIFF'); assert.equal(relief.toString('latin1', 8, 16), 'WEBPVP8 ');
+  // A lossy VP8 frame stores 14-bit dimensions after its start code.
+  assert.deepEqual([...relief.subarray(23, 26)], [0x9d, 0x01, 0x2a]);
+  assert.deepEqual([relief.readUInt16LE(26) & 0x3fff, relief.readUInt16LE(28) & 0x3fff], [8192, 4096]);
+});
+
+test('geography layers download on request with versioned URLs; lakes follow d3 winding', async () => {
+  if (!globalThis.d3) vm.runInThisContext(await readFile(new URL('../docs/lib/d3.v7.min.js', import.meta.url), 'utf8'));
+  const oldFetch = globalThis.fetch;
+  const calls = [];
+  // Clockwise is d3's winding for a small polygon; the reversed ring would cover the rest of the globe.
+  const ring = [[10, 10], [10, 11], [11, 11], [11, 10], [10, 10]];
+  const lake = coordinates => ({ type: 'Feature', properties: { r: 0 }, geometry: { type: 'Polygon', coordinates: [coordinates] } });
+  const body = { rivers: { type: 'FeatureCollection', features: [] }, lakes: { type: 'FeatureCollection', features: [lake(ring), lake([...ring].reverse())] } };
+  const image = new Blob([new Uint8Array([82, 73, 70, 70])], { type: 'image/webp' });
+  globalThis.fetch = async url => {
+    const parsed = new URL(url);
+    calls.push(parsed);
+    if (parsed.pathname.endsWith('/rivers.json')) return { ok: true, json: async () => structuredClone(body) };
+    if (parsed.pathname.endsWith('/terrain.webp')) return { ok: true, blob: async () => image };
+    return { ok: false, status: 404 };
+  };
+  try {
+    const rivers = await loadRivers();
+    for (const feature of rivers.lakes.features) assert.ok(d3.geoArea(feature.geometry) < 2 * Math.PI, 'each lake is its small side');
+    assert.equal(await loadRelief(), image);
+    assert.deepEqual(calls.map(url => url.pathname.split('/').at(-1)), ['rivers.json', 'terrain.webp']);
+    assert.equal(calls[0].searchParams.get('v'), DATA_VERSIONS.rivers);
+    assert.equal(calls[1].searchParams.get('v'), DATA_VERSIONS.terrain);
+    globalThis.fetch = async () => ({ ok: false, status: 404 });
+    await assert.rejects(loadRelief(), /Could not load terrain \(HTTP 404\)/);
+    await assert.rejects(loadRivers(), /Could not load rivers \(HTTP 404\)/);
   } finally { globalThis.fetch = oldFetch; }
 });

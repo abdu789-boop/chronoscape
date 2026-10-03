@@ -58,13 +58,18 @@ including factual interface text and a charcoal dark theme. On 2026-10-01 the
 hand-coloured territories and engraved coastlines. It added What changed,
 search by alternative name, place, ruler and year, playing one polity's mapped
 years, a reign chart, globe orientation toward the mapped territories and a
-phone sheet that leaves the map visible. See [QA_REPORT.md](QA_REPORT.md) for release checks and the scoped
+phone sheet that leaves the map visible. On 2026-10-03 present-day terrain
+shading and rivers and lakes were added as layers that can be switched off,
+from public-domain Natural Earth data. See [QA_REPORT.md](QA_REPORT.md) for release checks and the scoped
 rendering comparison, and [ARCHITECTURE.md](ARCHITECTURE.md) for mechanisms.
 
 Remaining UI/performance work should start from measurements: era-based geometry
-loading, adjacency-aware colors, and a WebGL renderer are not implemented.
-Historical city names (renames) are not tracked; that needs a sourced rename
-dataset. Shaded relief and rivers would need new Natural Earth downloads.
+loading, adjacency-aware colors, and a WebGL renderer for the territories are not
+implemented (only the relief layer uses WebGL). Historical city names (renames)
+are not tracked; that needs a sourced rename dataset. Rivers, lakes and
+coastlines are drawn as they are today: historical courses and shorelines (the
+Yellow River's mouths, the Mesopotamian coast, the Aral Sea) would need sourced
+reconstructions for each period.
 Successor color inheritance still needs the ontology. The original floating
 card, dense global label limits, and timestamped data requests remain inspectable
 at the baseline tag rather than describing the current UI.

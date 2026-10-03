@@ -43,8 +43,9 @@ It is a personal project, built for curiosity rather than publication.
   buttons name the year they move to; they and playback follow the source
   chronology.
 - **A responsive map** — Equal Earth and globe views, pointer-anchored zoom,
-  pinch gestures, explicit city/label/border layers, keyboard controls, and
-  shareable links containing year, selection, camera, and layers. City sizes and
+  pinch gestures, explicit city/label/border layers, present-day terrain shading
+  and rivers that can be switched off, keyboard controls, and shareable links
+  containing year, selection, camera, and layers. City sizes and
   the world population estimate follow the historical population series.
 - **Less repeated work** — content-versioned data URLs, progressive basemap
   loading, a geometry worker, cached year snapshots and city rankings, and

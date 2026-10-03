@@ -1,5 +1,16 @@
 # Knowledge and handover changes
 
+## 2026-10-03 — terrain shading and rivers
+
+Added present-day terrain shading and rivers and lakes as map layers that can be
+switched off, built from public-domain Natural Earth data by
+`scripts/build_geography.py` and drawn with a new WebGL 2 relief renderer.
+Updated ARCHITECTURE, HANDOVER, README, CREDITS, BACKLOG, requirements, the
+browser QA guide and release records, and corrected the Folio record's
+"year step" timing, which measured a keyboard pan.
+
+Provenance: [terrain handoff](../workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
+
 ## 2026-10-01 — Folio interface
 
 Built the approved "Folio" design and its features into the viewer:

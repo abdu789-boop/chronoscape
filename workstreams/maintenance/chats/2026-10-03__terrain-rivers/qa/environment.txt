@@ -1,0 +1,9 @@
+Recorded 2026-10-03 09:02 EDT
+Base commit: f752a39 (working tree with the terrain and river layers)
+Node: v24.19.0 (Codex-bundled; not on PATH)
+Python: Python 3.10.9 (.venv; Pillow 12.3.0 with WebP, NumPy 2.2.6, Shapely 2.1.2)
+Chrome: 154.0.8037.93 (installed Google Chrome, headless)
+WebGL 2 in headless Chrome: WebGL 2.0 (OpenGL ES 3.0 Chromium); renderer ANGLE (Apple, ANGLE Metal Renderer: Apple M3 Pro); MAX_TEXTURE_SIZE 16384
+Playwright: 1.62.1
+OS: macOS 26.6.2 arm64
+Local server: python3 -m http.server 8451 --directory docs (browser suites used QA_BASE_URL=http://127.0.0.1:8451/)

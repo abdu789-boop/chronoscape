@@ -1,0 +1,23 @@
+Registration check (scratch harness, not committed), 2026-10-03.
+Headless Chrome, 1440 x 900, device pixel ratio 1, local server, light theme,
+labels and cities off. Each case loads a view, moves it with the pointer, moves
+the pointer off the map and removes keyboard focus (so no hover outline or focus
+ring), waits 1.2 s for the full-detail frame and captures the map area. It then
+opens the resulting link in a new page and captures the same area. Cached river
+paths, the relief and the other layers must land in the same place.
+
+Cases and resulting links:
+  flat pan    #year=1700&zoom=3.5&lon=15&lat=48, dragged 180 x 80 px
+              -> #year=1700&zoom=3.5&lon=-6.71&lat=55.748&cities=0&labels=0
+  flat wheel  #year=1700&zoom=2&lon=15&lat=48, six wheel steps in
+              -> #year=1700&zoom=3.432&lon=11.041&lat=47.13&cities=0&labels=0
+  globe drag  #year=1700&view=globe&zoom=2&rx=-20&ry=-40, dragged 160 x 60 px
+              -> #year=1700&view=globe&zoom=2&lon=-16.656&lat=5.83&rx=-3.452&ry=-46.205&cities=0&labels=0
+
+Results (1090 x 674 map area):
+flat-pan: 218 of 734660 pixels differ by more than 24 levels (0.0297%), 11568 differ at all; largest difference 44
+flat-wheel: 111 of 734660 pixels differ by more than 24 levels (0.0151%), 7218 differ at all; largest difference 47
+globe-drag: 75 of 734660 pixels differ by more than 24 levels (0.0102%), 7367 differ at all; largest difference 41
+
+The remaining differences are anti-aliased edge pixels. A misregistered river or
+relief layer would differ along whole river courses or slopes.

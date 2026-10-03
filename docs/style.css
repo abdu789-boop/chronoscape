@@ -269,6 +269,8 @@ button.relation-link:hover .leader-name { color: var(--rubric); }
 .map-context .eyebrow { font-size: 11.5px; color: var(--rubric); letter-spacing: .14em; }
 .map-count { color: var(--ink-2); font-size: 15px; font-style: italic; }
 .map-toolbar { position: absolute; top: 18px; right: 20px; display: flex; gap: 8px; align-items: start; }
+/* The layers panel opens over the zoom controls and key on short screens. */
+.map-stage > .map-toolbar { z-index: 3; }
 .segmented-control, .map-button, .map-navigation, .map-legend { border: 1px solid var(--rule-strong); background: var(--leaf); box-shadow: var(--shadow); }
 .segmented-control { display: flex; gap: 2px; padding: 3px; border-radius: 3px; }
 .segmented-control button { display: flex; align-items: center; gap: 7px; height: 34px; padding: 0 12px; border-radius: 2px; color: var(--ink-2); font-size: 15px; }
@@ -282,7 +284,11 @@ button.relation-link:hover .leader-name { color: var(--rubric); }
 .layers-panel h2 { margin-bottom: 10px; font-size: 16px; font-weight: 700; }
 .layer-check { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; font-size: 15px; cursor: pointer; }
 .layer-check input { accent-color: var(--rubric); width: 17px; height: 17px; cursor: pointer; }
-.layer-select { display: grid; gap: 8px; margin-top: 8px; border-top: 1px solid var(--rule); padding-top: 14px; font-size: 15px; }
+.layer-select { display: grid; gap: 8px; margin-top: 6px; padding-top: 4px; font-size: 15px; }
+.layer-group { margin: 12px 0 2px; padding-top: 14px; border-top: 1px solid var(--rule); font-size: 10.5px; font-weight: 400; text-transform: uppercase; letter-spacing: .14em; color: var(--rubric); }
+.layers-panel h2 + .layer-group { margin-top: 0; padding-top: 0; border-top: 0; }
+.layer-check:has(input:disabled) { color: var(--ink-3); cursor: default; }
+.layers-panel .layer-status { font-style: normal; color: var(--rubric); }
 .layer-select select, .scope-control select { min-height: 34px; padding: 0 8px; border: 1px solid var(--rule-strong); border-radius: 3px; background: var(--leaf); font-size: 14.5px; }
 .layers-panel p { font-size: 13.5px; font-style: italic; color: var(--ink-3); line-height: 1.5; margin-top: 10px; }
 .map-navigation { position: absolute; right: 20px; bottom: 20px; display: flex; flex-direction: column; padding: 3px; border-radius: 4px; }
@@ -298,6 +304,9 @@ button.relation-link:hover .leader-name { color: var(--rubric); }
 .legend-fresh { border: 2px solid var(--fresh); background: color-mix(in srgb, #dcb751 var(--wash), var(--leaf)); }
 .legend-ghost { border: 2px dotted var(--ink); }
 .legend-veiled { --swatch: #7fa3c6; background: color-mix(in srgb, var(--swatch) 15%, var(--leaf)); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--swatch) 28%, var(--leaf)); }
+.legend-short { display: none; }
+.legend-river { width: 18px; height: 8px; background: center / 100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 8'%3E%3Cpath d='M1 5.5C4 1.5 6 7.5 9 4s5 2.5 8-1.5' fill='none' stroke='%233a6276' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E"); }
+[data-theme="dark"] .legend-river { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 8'%3E%3Cpath d='M1 5.5C4 1.5 6 7.5 9 4s5 2.5 8-1.5' fill='none' stroke='%2396b6da' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E"); }
 .legend-city { width: 9px; height: 9px; border-radius: 50%; border: 1.2px solid var(--ink); background: radial-gradient(circle, var(--ink) 0 1.4px, var(--raised) 1.6px); }
 [data-theme="dark"] .legend-city { width: 7px; height: 7px; border: 1px solid #0b0f18; background: #e7c36f; }
 .map-tooltip { position: absolute; z-index: 10; max-width: 260px; padding: 8px 12px; background: var(--raised); border: 1px solid var(--rule-strong); border-radius: 3px; box-shadow: var(--shadow-pop); pointer-events: none; font-size: 14.5px; line-height: 1.5; }
@@ -510,6 +519,8 @@ dialog p { font-size: 15.5px; line-height: 1.65; color: var(--ink-2); }
   .map-navigation .icon-button { width: 40px; height: 40px; }
   .map-legend { left: 12px; bottom: 12px; gap: 10px; font-size: 13px; padding: 0 10px; }
   .legend-title { display: none !important; }
+  .legend-long { display: none; }
+  .legend-short { display: inline; }
   .timeline { position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: 56px 1fr; padding: 0 14px env(safe-area-inset-bottom); min-height: calc(var(--timeline-height) + env(safe-area-inset-bottom)); height: calc(var(--timeline-height) + env(safe-area-inset-bottom)); }
   .timeline-year { padding: 8px 0 0; border: 0; min-width: 0; }
   .timeline-year > .eyebrow, .year-input-hint, .timeline-population .small-caption, .timeline-population .icon { display: none; }

@@ -11,8 +11,8 @@ const frames = new Map();
 globalThis.requestAnimationFrame = callback => { frames.set(++nextFrame, callback); return nextFrame; };
 globalThis.cancelAnimationFrame = id => frames.delete(id);
 globalThis.Path2D = class {
-  constructor() { pathCount++; }
-  moveTo() {} lineTo() {} closePath() {} arc() {}
+  constructor() { pathCount++; this.moves = 0; }
+  moveTo() { this.moves++; } lineTo() {} closePath() {} arc() {}
 };
 globalThis.ResizeObserver = class { observe() {} disconnect() {} };
 globalThis.devicePixelRatio = 2;
@@ -224,5 +224,81 @@ test('focusing a territory can leave room for an overlay such as a phone sheet',
   const [x, y] = projection([0, 0]);
   near(x, canvas.box.width / 2, 1e-6);
   near(y, (canvas.box.height - 200) / 2, 1e-6);
+  map.destroy();
+});
+
+// Present-day geography: one ranked river, one lake and land beneath them.
+const land = polity('Land', 60, 1).g;
+const river = (r, coordinates) => ({ type: 'Feature', properties: { r }, geometry: { type: 'LineString', coordinates } });
+const geography = {
+  rivers: { type: 'FeatureCollection', features: [river(1, [[0, 0], [5, 5]])] },
+  lakes: { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { r: 0 }, geometry: polity('Lake', 1, 1).g }] },
+};
+const RIVER = 'rgba(58,98,118,0.82)';
+// The map draws its base layer on an internal canvas; record that canvas's strokes.
+function mapWithBase() {
+  const created = [], original = document.createElement;
+  document.createElement = () => { const surface = new Canvas(); created.push(surface); return surface; };
+  const canvas = new Canvas(), map = createMap(canvas);
+  document.createElement = original;
+  const strokes = [];
+  created[0].context.stroke = function (path) { strokes.push({ style: this.strokeStyle, path }); };
+  return { canvas, map, strokes };
+}
+
+test('rivers and lakes draw on the base layer and switch off with their layer', () => {
+  const { map, strokes } = mapWithBase();
+  map.setData({ land, rivers: geography }); flush();
+  const rivers = strokes.filter(item => item.style === RIVER);
+  assert.equal(rivers.length, 1, 'one stroke per scale rank');
+  assert.ok(rivers[0].path.moves >= 1);
+  strokes.length = 0;
+  map.setLayers({ rivers: false }); flush();
+  assert.equal(strokes.filter(item => item.style === RIVER).length, 0);
+  map.setLayers({ rivers: true, terrain: false }); flush();
+  assert.equal(strokes.filter(item => item.style === RIVER).length, 1);
+  map.destroy();
+});
+
+test('the flat map reuses projected rivers while panning and zooming, and refreshes them when still', async () => {
+  const deltas = [];
+  for (const rivers of [null, geography]) {
+    const canvas = new Canvas(), map = createMap(canvas), steps = [];
+    map.setData({ land, ...(rivers ? { rivers } : {}) }); flush();
+    await new Promise(resolve => setTimeout(resolve, 200)); flush();
+    const measure = action => { const before = pathCount; action(); flush(); steps.push(pathCount - before); };
+    measure(() => map.setView({ panX: 40, panY: -25 }));
+    measure(() => map.zoomBy(1.3));
+    await new Promise(resolve => setTimeout(resolve, 200));
+    measure(() => {});
+    deltas.push(steps);
+    map.destroy();
+  }
+  const [plain, withRivers] = deltas;
+  assert.equal(withRivers[0], plain[0], 'a pan reuses the river paths');
+  assert.equal(withRivers[1], plain[1], 'a zoom frame reuses the river paths');
+  assert.ok(withRivers[2] > plain[2], 'the still frame after a zoom projects them again');
+});
+
+test('the globe keeps rivers that cross its visible edge', () => {
+  const { map, strokes } = mapWithBase();
+  const limb = { rivers: { type: 'FeatureCollection', features: [river(1, [[80, 5], [100, 5]]), river(1, [[170, 5], [175, 5]])] }, lakes: { type: 'FeatureCollection', features: [] } };
+  map.setData({ land: { type: 'Sphere' }, rivers: limb });
+  map.setView({ projection: 'globe', rotation: [0, 0, 0], zoom: 1 }); flush();
+  const [stroke] = strokes.filter(item => item.style === RIVER);
+  assert.equal(stroke.path.moves, 1, 'the near river is drawn up to the edge; the far one is hidden');
+  strokes.length = 0;
+  // Zoomed in, the visible cap narrows but still reaches the screen corners.
+  const near = { rivers: { type: 'FeatureCollection', features: [river(1, [[30, 0], [35, 0]])] }, lakes: { type: 'FeatureCollection', features: [] } };
+  map.setData({ rivers: near }); map.setView({ projection: 'globe', rotation: [0, 0, 0], zoom: 4 }); flush();
+  assert.equal(strokes.filter(item => item.style === RIVER)[0].path.moves, 1);
+  map.destroy();
+});
+
+test('terrain is omitted, not broken, without WebGL 2', async () => {
+  const { map, strokes } = mapWithBase();
+  assert.equal(await map.setRelief(new Blob([new Uint8Array([1])])), 'unsupported');
+  map.setData({ land, rivers: geography }); flush();
+  assert.equal(strokes.filter(item => item.style === RIVER).length, 1);
   map.destroy();
 });

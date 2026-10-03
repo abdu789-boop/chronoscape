@@ -19,7 +19,8 @@ data/raw/           map source snapshots, never edited by hand, never committed
     |  scripts/resolve.py          the precedence engine: which source wins where
     |  scripts/build_app_data.py   runs the engine, derives everything else
     v
-docs/data/*.json    map + independent ruler data, ~62 MB total, committed
+docs/data/          map, independent ruler data and present-day geography,
+                    ~64 MB total, committed
     |
     |  docs/index.html + js/       native ES modules + D3/Canvas, no frontend build
     v
@@ -62,7 +63,8 @@ scripts/
   resolve.py              the precedence engine + a year-auditing CLI
   build_app_data.py       raw sources -> docs/data/*.json
   build_aliases.py        sources/aliases.yaml -> docs/data/aliases.json (search)
-  update_data_versions.py SHA256 cache fingerprints for published JSON
+  build_geography.py      Natural Earth rivers, lakes, relief -> rivers.json, terrain.webp
+  update_data_versions.py SHA256 cache fingerprints for published data files
   validate.py             checks that a rebuild still holds
   render_slice.py         static PNG renders for comparing sources by eye
   qa_rulers.cjs, qa_atlas.cjs  optional Playwright browser suites
@@ -72,6 +74,7 @@ docs/                     the site GitHub Pages serves
   style.css               Folio atlas themes, layout, responsive bottom sheet
   js/app.js               sidebar, What changed, search UI, timeline, playback, coordination
   js/map.js               projections, canvas layers, labels, pointer gestures, thumbnails
+  js/terrain.js           WebGL 2 shaded relief, reprojected per pixel for both projections
   js/data.js              loading, interpolation, cached snapshots, map changes, polity search
   js/search.js            grouped search: polities, alternative names, places, rulers, years
   js/paper.js             generated paper grain for the light theme
@@ -83,7 +86,7 @@ docs/                     the site GitHub Pages serves
   js/package.json         ES module declaration for Node-based tests
   lib/d3.v7.min.js        vendored D3 7.9.0 (ISC)
   lib/LICENSE-d3.txt      D3's required licence notice, shipped with the copy
-  data/*.json             the built map
+  data/                   the built map (JSON) and the relief image (terrain.webp)
 
 data/raw/                 ignored map/ruler snapshots; separate acquisition paths
 renders/                  static comparison images
@@ -131,16 +134,29 @@ Runs in stages. Each is independent and prints a progress line:
 | succession | infers predecessors and successors geometrically | ~3 min |
 | modern countries | which countries each polity covered at peak | ~1 min |
 | search aliases | publishes `sources/aliases.yaml` as `aliases.json` for search | instant |
-| cache fingerprints | hashes all nine published JSON files, including the independent ruler file | seconds |
+| geography | runs `build_geography.py`: rivers, lakes and relief from Natural Earth | ~5 s |
+| cache fingerprints | hashes all eleven published files, including the independent ruler file | seconds |
 
 Roughly ten minutes end to end. `--skip-cities` skips the (unchanging) city
 rebuild.
 
+### `scripts/build_geography.py` — present-day geography
+Builds the optional terrain and river layers from three public-domain Natural
+Earth inputs: 1:50m rivers with their courses through lakes, 1:50m lakes and the
+1:50m shaded relief raster. Rivers and natural lakes keep Natural Earth's scale
+rank as `r`; reservoirs are left out because most are twentieth-century dams,
+and the river's course through each one is drawn instead. The relief is
+re-centred so that level ground, the raster's most common value, is mid-grey,
+then resampled to 8192 × 4096 and saved as WebP. `--check` rebuilds in memory
+and compares: `rivers.json` byte for byte and the relief within a small decoded
+tolerance, because WebP encoders differ slightly between library versions.
+
 ### `scripts/validate.py`
 Assertions covering the built data, the arbitration decisions, the tier-1
 windows, the label-placement regressions, the derived index facts, and source
-agreement, and that `aliases.json` matches `sources/aliases.yaml`. Run it after
-every build. Checks needing `data/raw/` are skipped, not failed, on a fresh clone.
+agreement, that `aliases.json` matches `sources/aliases.yaml`, and that the
+geography layers are well formed and match a rebuild. Run it after every build.
+Checks needing `data/raw/` are skipped, not failed, on a fresh clone.
 
 `python3 scripts/validate.py --quick` explicitly omits raw-source checks.
 `node --test tests/*.test.mjs` checks viewer data behavior, state/timeline math,
@@ -181,6 +197,16 @@ appear at a given year.
 
 **`borders.json`**, **`land.json`** — Natural Earth reference geometry.
 
+**`rivers.json`** — present-day `rivers` (lines, including river courses through
+lakes) and natural `lakes` (polygons in d3's winding) as GeoJSON feature
+collections. Each feature's only property is `r`, Natural Earth's scale rank
+from 0 to 6; lower ranks are drawn at smaller scales. Coordinates are rounded to
+0.001° after simplification to about 1 km.
+
+**`terrain.webp`** — present-day shaded relief, 8192 × 4096, plate carrée from
+180°W and 90°N. Level ground is mid-grey (128); darker values are slopes facing
+away from the light, lighter values slopes facing it.
+
 **`aliases.json`** — alternative names for search, keyed by identity: generated
 from `sources/aliases.yaml` by `scripts/build_aliases.py`. A canonical name is
 attached to every identity with exactly that display name.
@@ -216,7 +242,9 @@ promotional descriptions are excluded.
 
 **Loading and caching.** `data.js` fetches seven core same-origin JSON files in
 parallel, plus the optional `aliases.json`; search works without it. Land and modern borders can render before historical geometry is
-ready. A dedicated worker streams, parses, and rewinds the large polity file;
+ready. Once they have arrived, `app.js` requests the present-day geography,
+`rivers.json` and `terrain.webp`, for whichever of those layers are switched on;
+a layer switched off is not downloaded until it is switched on. A dedicated worker streams, parses, and rewinds the large polity file;
 download progress reports actual bytes and uses an unknown total when a
 compressed response prevents a reliable denominator. A worker-unavailable
 fallback yields between winding batches. Fetch/parse errors lead to an explicit
@@ -227,7 +255,7 @@ from actual record intervals. `search.js` groups those results with places
 (city names), accepted rulers and typed years. The ruler index is built while
 idle once `rulers.json` arrives, using the cached source indexes.
 
-The optional eighth file, `rulers.json`, loads independently with a separate
+The optional `rulers.json` loads independently with a separate
 15-second timeout and retry. `atlas.rulersReady` and `onRulers` update the open
 panel without delaying the map. Its immutable source registry caches comparison
 indexes; timeline changes preserve the roster's DOM, expansion and scroll.
@@ -266,13 +294,30 @@ what needs redrawing. It reuses a basemap canvas, a filled-scene canvas, project
 not repaint all territory fills. Camera or year changes rebuild the necessary
 projection data. Canvas resolution follows display density up to a 2× cap.
 Draw order is the globe's graduated ring, sea, engraved water lines around the
-coasts, land, graticule, coastline, underlaid borders, territory washes, pigment
-pooled inside each border, boundary lines, dotted earlier extents and outlines
-for What changed, overlaid borders, city symbols, the double neatline or globe
-limb, selection outlines and labels. While the camera moves, frames skip the
-water lines and pooled borders; 160 ms after it stops, a full-detail frame
-follows. Year changes draw full detail. A paper grain generated once by
-`paper.js` and a vignette sit over the map in CSS, not in the canvas.
+coasts, land, relief, rivers, lakes with their own water lines, graticule,
+coastline, underlaid borders, territory washes, pigment pooled inside each
+border, boundary lines, dotted earlier extents and outlines for What changed,
+overlaid borders, city symbols, the double neatline or globe limb, selection
+outlines and labels. Relief, rivers and lakes are on the basemap, so the
+historical washes are laid over them as on a hand-coloured plate, and year
+changes do not redraw them. While the camera moves, frames skip the water lines
+and pooled borders; 160 ms after it stops, a full-detail frame follows. Year
+changes draw full detail. A paper grain generated once by `paper.js` and a
+vignette sit over the map in CSS, not in the canvas.
+
+**Relief, rivers and lakes.** `terrain.js` draws the relief with WebGL 2: for
+each screen pixel, a fragment shader inverts the current Equal Earth or
+orthographic projection with d3's formulas and samples the mipmapped relief
+texture, with the longitude gradient unwrapped at the antimeridian. `map.js`
+blends that canvas over the land with `hard-light` at half strength, clipped to
+the coastline; mid-grey leaves the colour beneath unchanged. Without WebGL 2 the
+layer is unavailable and the Layers panel says so. Rivers and lakes are drawn by
+scale rank: ranks up to 3 (rivers) and 1 (lakes) on the whole-world map, and all
+of them from 6× zoom. On the flat map their paths are projected once per scale
+and reused through an affine transform while panning and zooming, because Equal
+Earth is linear in scale and translation; a still frame at a new scale projects
+them again. The globe projects them for each rotation, after skipping features
+whose bounding cap lies outside the visible part of the sphere.
 
 **Selection and input.** Hit-testing first rejects out-of-bounds projected
 features, then tests spherical containment from smallest territory to largest.

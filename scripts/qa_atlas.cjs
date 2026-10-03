@@ -1,6 +1,7 @@
 /* Local browser checks for atlas navigation: What changed, search, polity
- * playback, globe orientation, the phone sheet and themes. Requires Playwright
- * and an installed Chromium/Chrome; see tests/browser/README.md.
+ * playback, globe orientation, the phone sheet, themes and the present-day
+ * terrain and river layers. Requires Playwright and an installed
+ * Chromium/Chrome with WebGL 2; see tests/browser/README.md.
  * QA_BASE_URL defaults to the local static server; no deployment is performed.
  */
 const assert = require('node:assert/strict');
@@ -12,6 +13,18 @@ const output = process.env.QA_OUTPUT || '/private/tmp/chronoscape-atlas-qa';
 async function ready(page) {
   await page.waitForFunction(() => document.getElementById('loading-status')?.hidden === true, null, { timeout: 60000 });
 }
+// Map pixels in a 16 px square around each [lon, lat], for the default
+// whole-world view (Equal Earth fitted inside a 26 px margin).
+const around = (page, points) => page.evaluate(points => {
+  const canvas = document.getElementById('map'), ratio = canvas.width / canvas.clientWidth;
+  const projection = d3.geoEqualEarth().fitExtent([[26, 26], [canvas.clientWidth - 26, canvas.clientHeight - 26]], { type: 'Sphere' });
+  const context = canvas.getContext('2d');
+  return points.map(point => {
+    const [x, y] = projection(point);
+    return Array.from(context.getImageData(Math.round((x - 8) * ratio), Math.round((y - 8) * ratio), Math.round(16 * ratio), Math.round(16 * ratio)).data).join(',');
+  });
+}, points);
+const hashParam = (page, key) => page.evaluate(key => new URLSearchParams(location.hash.slice(1)).get(key), key);
 // The displayed year; the URL is written a moment later.
 const year = page => page.evaluate(() => {
   const number = Number(document.getElementById('year-number').textContent.replace(/,/g, ''));
@@ -38,6 +51,54 @@ const year = page => page.evaluate(() => {
     pass('year face, step labels, population and largest polities');
     await page.screenshot({ path: output + '/explore.png' });
 
+    // Present-day geography loads by default; each layer draws only where it
+    // belongs and switches off, and a switched-off layer is not downloaded.
+    await page.waitForFunction(() => !document.getElementById('river-legend').hidden, null, { timeout: 30000 });
+    await page.waitForFunction(() => performance.getEntriesByType('resource').some(entry => /terrain\.webp\?v=/.test(entry.name)), null, { timeout: 30000 });
+    await page.waitForTimeout(2000);
+    assert.equal(await page.locator('#geography-status').isHidden(), true);
+    assert.equal(await page.locator('#terrain-toggle').isEnabled(), true, 'WebGL 2 relief is available in the QA browser');
+    const himalaya = [86.9, 28], pacific = [-150, -10], nile = [32.64, 25.69];
+    const withLayers = await around(page, [himalaya, pacific, nile]);
+    await page.locator('#layers-toggle').click();
+    await page.locator('#terrain-toggle').uncheck();
+    await page.waitForTimeout(600);
+    const noTerrain = await around(page, [himalaya, pacific, nile]);
+    assert.notEqual(noTerrain[0], withLayers[0], 'relief shades the Himalaya');
+    assert.equal(noTerrain[1], withLayers[1], 'relief leaves the sea unchanged');
+    assert.equal(await hashParam(page, 'terrain'), '0');
+    await page.locator('#rivers-toggle').uncheck();
+    await page.waitForTimeout(600);
+    const noRivers = await around(page, [himalaya, pacific, nile]);
+    assert.notEqual(noRivers[2], noTerrain[2], 'the Nile is drawn at its present-day course');
+    assert.equal(await page.locator('#river-legend').isHidden(), true);
+    assert.equal(await hashParam(page, 'rivers'), '0');
+    pass('terrain and rivers draw in place and switch off');
+    await page.locator('#terrain-toggle').check(); await page.locator('#rivers-toggle').check();
+    await page.locator('#layers-toggle').click();
+    await page.goto(base + '#year=-450&zoom=4.2&lon=27&lat=36');
+    await ready(page);
+    await page.waitForFunction(() => !document.getElementById('river-legend').hidden, null, { timeout: 30000 });
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: output + '/geography.png' });
+    const quiet = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    quiet.on('pageerror', error => errors.push(error.message));
+    const downloads = [];
+    quiet.on('request', request => downloads.push(new URL(request.url()).pathname.split('/').at(-1)));
+    await quiet.goto(base + '#year=1200&terrain=0&rivers=0');
+    await ready(quiet);
+    await quiet.waitForTimeout(1500);
+    assert.equal(await quiet.locator('#terrain-toggle').isChecked(), false);
+    assert.ok(!downloads.includes('rivers.json') && !downloads.includes('terrain.webp'), 'switched-off layers are not downloaded');
+    await quiet.locator('#layers-toggle').click();
+    await quiet.locator('#rivers-toggle').check();
+    await quiet.waitForFunction(() => !document.getElementById('river-legend').hidden, null, { timeout: 30000 });
+    assert.ok(downloads.includes('rivers.json') && !downloads.includes('terrain.webp'), 'switching a layer on downloads only that layer');
+    await quiet.close();
+    pass('switched-off geography is downloaded only when switched on');
+
+    await page.goto(base + '#year=1200');
+    await ready(page);
     await page.locator('#year-input').fill('500 BCE');
     await page.locator('#year-input').press('Enter');
     await page.waitForFunction(() => document.getElementById('year-era').textContent === 'BCE');
@@ -161,7 +222,7 @@ const year = page => page.evaluate(() => {
 
     assert.deepEqual(errors, []);
     pass('no page errors');
-    const report = { passed: true, checks, screenshots: ['explore.png', 'changes.png', 'search.png', 'selected.png', 'globe-dark.png', 'mobile.png'] };
+    const report = { passed: true, checks, screenshots: ['explore.png', 'geography.png', 'changes.png', 'search.png', 'selected.png', 'globe-dark.png', 'mobile.png'] };
     fs.writeFileSync(output + '/report.json', JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report));
   } finally { await browser.close(); }

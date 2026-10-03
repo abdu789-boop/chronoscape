@@ -1,4 +1,6 @@
 /* Canvas atlas renderer. Geometry arrives in d3's spherical winding convention. */
+import { createTerrain } from './terrain.js';
+
 const d3 = globalThis.d3;
 const SPHERE = { type: 'Sphere' };
 // Watercolour pigments of hand-coloured atlases: gamboge, rose madder, verdigris,
@@ -15,6 +17,7 @@ const THEMES = {
     boundary: 'rgba(58,44,30,0.55)', border: '#5a4a39', ink: '#2a2117', veilInk: 'rgba(42,33,23,0.45)', halo: 'rgba(244,237,222,0.92)',
     water: 'rgba(48,80,88,0.88)', cityFill: '#f3ead6', cityInk: '#2a2117', selected: '#a3341f', fresh: '#2f6e60', freshText: '#245a4e',
     ghost: 'rgba(42,33,23,0.9)', hover: '#2a2117',
+    relief: ['hard-light', 0.5], river: 'rgba(58,98,118,0.82)', shore: 'rgba(75,62,46,0.7)',
   },
   dark: {
     background: '#0e1420', sea: '#132238', seaLine: '159,180,208', land: '#252b34', coast: 'rgba(224,204,156,0.6)', grid: 'rgba(212,190,140,0.12)',
@@ -22,9 +25,13 @@ const THEMES = {
     boundary: 'rgba(6,9,15,0.8)', border: '#c0b7a2', ink: '#efe6cf', veilInk: 'rgba(239,230,207,0.45)', halo: 'rgba(10,14,24,0.86)',
     water: 'rgba(176,196,222,0.62)', cityFill: '#e7c36f', cityInk: '#0b0f18', selected: '#d4a24e', fresh: '#7fc3b0', freshText: '#bfe6da',
     ghost: 'rgba(239,230,207,0.85)', hover: '#efe6cf',
+    relief: ['hard-light', 0.5], river: 'rgba(150,182,218,0.66)', shore: 'rgba(224,204,156,0.45)',
   },
 };
 const SERIF = 'Georgia, "Times New Roman", serif';
+// Natural Earth scale ranks drawn at each zoom (rivers, lakes) and river widths by rank.
+const GEOGRAPHY_RANKS = [[1.6, 3, 1], [3, 4, 3], [6, 5, 5], [Infinity, 6, 6]];
+const RIVER_WIDTHS = [1.3, 1.3, 1.05, 0.9, 0.75, 0.62, 0.52];
 const OCEANS = [['North Atlantic', [-38, 27]], ['Pacific Ocean', [-135, -12]], ['Indian Ocean', [76, -27]], ['South Atlantic', [-20, -35]]];
 const SEAS = [['Mediterranean Sea', [18.5, 34.6]], ['Black Sea', [34.5, 43.2]], ['Red Sea', [38.4, 20.5], 0.95], ['Persian Gulf', [51.2, 27]],
   ['Aegean Sea', [25.2, 38.9]], ['Arabian Sea', [63, 15]], ['Caspian Sea', [50.5, 42]], ['Baltic Sea', [19.5, 57]], ['North Sea', [3.5, 56]],
@@ -87,7 +94,9 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
   const state = { projection: 'flat', zoom: 1, panX: 0, panY: 0, rotation: [-10, -15, 0] };
   let width = 1, height = 1, pixelRatio = 1, projection, baseScale = 1, projectionFit = '';
   let land = null, borders = null, polities = [], cityEntries = [], selectedKey = null, focus = null;
-  let themeName = 'light', layers = { borders: 'off', cities: true, labels: true };
+  // terrain: undefined until relief is supplied, then a renderer or null (no WebGL 2).
+  let riverRanks = [], lakeRanks = [], terrain, geographyCache = null;
+  let themeName = 'light', layers = { borders: 'off', cities: true, labels: true, terrain: true, rivers: true };
   let baseDirty = true, sceneDirty = true, geometryDirty = true, needsDraw = true;
   let projected = [], ghosts = [], cityDots = [], sphere = null, hoverKey = null, hoverPoint = null, hoverPending = false;
   let frameId = 0, destroyed = false, gestureMoved = false;
@@ -263,6 +272,104 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     context.restore();
   }
 
+  // Group features by scale rank so each rank is one path and one stroke. Each
+  // keeps a bounding cap (centre and angular radius) for culling on the globe.
+  function byRank(collection) {
+    const groups = [];
+    for (const feature of collection?.features || []) {
+      const rank = clamp(Math.round(feature.properties?.r ?? 6), 0, 6), geometry = feature.geometry;
+      if (!geometry) continue;
+      const center = d3.geoCentroid(geometry);
+      let radius = 0;
+      (function visit(coordinates) {
+        if (typeof coordinates[0] === 'number') radius = Math.max(radius, d3.geoDistance(center, coordinates));
+        else coordinates.forEach(visit);
+      })(geometry.coordinates);
+      (groups[rank] ||= []).push({ geometry, center, radius });
+    }
+    return groups;
+  }
+
+  function reliefImage() {
+    if (!terrain?.ready) return null;
+    return terrain.render({ globe: state.projection === 'globe', width, height, ratio: pixelRatio,
+      translate: projection.translate(), scale: projection.scale(), rotation: projection.rotate() });
+  }
+
+  // Rivers and lakes as screen paths. Equal Earth is linear in scale and
+  // translation, so on the flat map one projection is reused through an affine
+  // transform while panning and zooming, and redone when a still frame's scale
+  // has changed. The globe re-projects them for every rotation.
+  function geographyPaths(riverRank, lakeRank) {
+    const globe = state.projection === 'globe', scale = projection.scale(), [tx, ty] = projection.translate();
+    const cached = geographyCache;
+    const reusable = cached && !globe && !cached.globe && cached.riverRank === riverRank && cached.lakeRank === lakeRank
+      && cached.width === width && cached.height === height && (!detailed || Math.abs(scale / cached.scale - 1) < 0.005);
+    if (!reusable) {
+      // The lines are already dense, so d3's adaptive resampling is skipped. The
+      // flat paths are not clipped to the view, which lets panning reuse them.
+      // On the globe, features wholly outside the visible cap are skipped: the
+      // cap is centred on the globe's centre and reaches the farthest corner.
+      const target = (globe ? d3.geoOrthographic().rotate(projection.rotate()).clipExtent(projection.clipExtent()) : d3.geoEqualEarth())
+        .scale(scale).translate([tx, ty]).precision(0);
+      const reach = Math.hypot(Math.max(tx, width - tx), Math.max(ty, height - ty));
+      const center = [-projection.rotate()[0], -projection.rotate()[1]], view = reach >= scale ? Math.PI / 2 : Math.asin(reach / scale);
+      const shown = items => ({ type: 'GeometryCollection', geometries: (items || [])
+        .filter(item => !globe || d3.geoDistance(center, item.center) < view + item.radius + 0.01).map(item => item.geometry) });
+      const rivers = [];
+      for (let rank = 0; rank <= riverRank; rank++) {
+        if (!riverRanks[rank]) continue;
+        const path = new Path2D();
+        d3.geoPath(target, path)(shown(riverRanks[rank]));
+        rivers.push([rank, path]);
+      }
+      const lakes = new Path2D(), lakePath = d3.geoPath(target, lakes);
+      for (let rank = 0; rank <= lakeRank; rank++) if (lakeRanks[rank]) lakePath(shown(lakeRanks[rank]));
+      geographyCache = { globe, scale, origin: [tx, ty], riverRank, lakeRank, width, height, rivers, lakes };
+    }
+    const k = scale / geographyCache.scale, [ox, oy] = geographyCache.origin;
+    return { ...geographyCache, k, dx: tx - k * ox, dy: ty - k * oy };
+  }
+
+  // Present-day relief, rivers and lakes are part of the engraved plate: the
+  // historical washes are laid over them.
+  function drawGeography(context, coast) {
+    const theme = THEMES[themeName];
+    const shade = layers.terrain ? reliefImage() : null;
+    const [, riverRank, lakeRank] = GEOGRAPHY_RANKS.find(([zoom]) => state.zoom < zoom);
+    const paths = layers.rivers && (riverRanks.length || lakeRanks.length) ? geographyPaths(riverRank, lakeRank) : null;
+    if (shade || paths) {
+      context.save(); context.clip(coast);
+      if (shade) {
+        context.globalCompositeOperation = theme.relief[0]; context.globalAlpha = theme.relief[1];
+        context.drawImage(shade, 0, 0, width, height);
+        context.globalCompositeOperation = 'source-over'; context.globalAlpha = 1;
+      }
+      if (paths) {
+        const widen = clamp(0.9 + Math.log2(state.zoom) * 0.14, 0.85, 1.45) / paths.k;
+        context.transform(paths.k, 0, 0, paths.k, paths.dx, paths.dy);
+        context.strokeStyle = theme.river; context.lineCap = 'round'; context.lineJoin = 'round';
+        for (const [rank, path] of paths.rivers) { context.lineWidth = RIVER_WIDTHS[rank] * widen; context.stroke(path); }
+      }
+      context.restore();
+    }
+    if (!paths) return;
+    const { lakes, k } = paths;
+    context.save(); context.transform(k, 0, 0, k, paths.dx, paths.dy);
+    context.fillStyle = theme.sea; context.fill(lakes);
+    if (detailed) {
+      // The coast's engraved water lines, repeated inside each lake.
+      context.save(); context.clip(lakes);
+      for (let ring = 2; ring >= 1; ring--) {
+        context.strokeStyle = `rgba(${theme.seaLine},${0.5 - ring * 0.12})`; context.lineWidth = 2 * ring * 2.2 / k; context.stroke(lakes);
+        context.strokeStyle = theme.sea; context.lineWidth = (2 * ring * 2.2 - 0.8) / k; context.stroke(lakes);
+      }
+      context.restore();
+    }
+    context.strokeStyle = theme.shore; context.lineWidth = 0.6 / k; context.stroke(lakes);
+    context.restore();
+  }
+
   function drawBase() {
     const theme = THEMES[themeName];
     baseCtx.clearRect(0, 0, width, height);
@@ -285,6 +392,7 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
         }
       }
       baseCtx.fillStyle = theme.land; baseCtx.fill(coast);
+      drawGeography(baseCtx, coast);
     }
     baseCtx.beginPath(); path(state.zoom >= 3 ? fineGraticule : graticule);
     baseCtx.strokeStyle = theme.grid; baseCtx.lineWidth = 0.55; baseCtx.stroke();
@@ -740,7 +848,21 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
     setData(data = {}) {
       if ('land' in data) land = data.land;
       if ('borders' in data) borders = data.borders;
+      if ('rivers' in data) {
+        riverRanks = byRank(data.rivers?.rivers);
+        lakeRanks = byRank(data.rivers?.lakes);
+        geographyCache = null;
+      }
       baseDirty = sceneDirty = needsDraw = true; requestDraw();
+    },
+    /** Supply the shaded-relief image (a Blob). Resolves to 'ready', or 'unsupported' without WebGL 2. */
+    async setRelief(blob) {
+      const redraw = () => { baseDirty = sceneDirty = needsDraw = true; requestDraw(); };
+      if (terrain === undefined) terrain = createTerrain({ onChange: redraw });
+      if (!terrain) return 'unsupported';
+      await terrain.setImage(blob);
+      redraw();
+      return 'ready';
     },
     setSnapshot(nextPolities = [], nextCityEntries = []) {
       const ordered = [...nextPolities].sort((a, b) => (b.a || 0) - (a.a || 0));
@@ -769,6 +891,8 @@ export function createMap(canvas, { onSelect = () => {}, onHover = () => {}, onV
       if (['off', 'under', 'over'].includes(next.borders)) layers.borders = next.borders;
       if (typeof next.cities === 'boolean') layers.cities = next.cities;
       if (typeof next.labels === 'boolean') layers.labels = next.labels;
+      if (typeof next.terrain === 'boolean') layers.terrain = next.terrain;
+      if (typeof next.rivers === 'boolean') layers.rivers = next.rivers;
       baseDirty = sceneDirty = needsDraw = true; requestDraw();
     },
     setProjection(mode) {

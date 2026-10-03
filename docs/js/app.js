@@ -1,4 +1,4 @@
-import { loadAtlas, loadRulers, fmtYear, fmtArea, fmtAreaWords, fmtPopulation, nearestYear, parseYear, cityPresent, mapChanges, majorChange, timelineDensity } from './data.js';
+import { loadAtlas, loadRulers, loadRivers, loadRelief, fmtYear, fmtArea, fmtAreaWords, fmtPopulation, nearestYear, parseYear, cityPresent, mapChanges, majorChange, timelineDensity } from './data.js';
 import { createMap, getPolityColor, renderThumbnail } from './map.js';
 import { createRulersView } from './rulers-view.js';
 import { displayRole } from './rulers.js';
@@ -13,7 +13,9 @@ let timelineBounds = [-3400, 2024], searchItems = [], activeSearch = -1, searchE
 let persistenceTimer, toastTimer, viewTimer, scrubbing = false;
 let selectedChartKey = null, yearFrame = 0, pendingYear = null;
 let panel = 'largest', changesFilter = 'all', changesExpanded = new Set(), countriesExpanded = false;
-let scaleSignature = '', grain = null, focusSignature = '';
+let scaleSignature = '', grain = null, focusSignature = '', changesLegend = false;
+// Loading state of the optional geography layers: null, 'loading', 'ready' or 'unsupported'.
+const geography = { base: false, rivers: null, relief: null };
 const MIN = -3400, MAX = 2024;
 const SCALE_BLOCKS = [-3400, -3000, -2000, -1000, 1, 500, 1000, 1250, 1500, 1650, 1800, 1900, 2024];
 const storage = {
@@ -224,7 +226,7 @@ function updateChanges() {
   const showing = panel === 'changes' && !state.selected && result;
   for (const item of document.querySelectorAll('.legend-changes')) item.hidden = !showing;
   for (const item of document.querySelectorAll('.legend-default')) item.hidden = Boolean(showing);
-  $('city-legend').hidden = Boolean(showing) || !state.cities;
+  changesLegend = Boolean(showing); syncLegend();
   if (!showing) { if (focusSignature) { focusSignature = ''; map?.setFocus(null); } return; }
   if (result.previous === null) {
     $('explore-title').textContent = 'What changed';
@@ -703,9 +705,36 @@ function activateSearch(item) {
 
 function applyLayers() {
   $('borders-mode').value = state.borders; $('cities-toggle').checked = state.cities; $('labels-toggle').checked = state.labels;
-  $('city-legend').hidden = !state.cities;
-  map.setLayers({ borders: state.borders, cities: state.cities, labels: state.labels });
+  $('terrain-toggle').checked = state.terrain; $('rivers-toggle').checked = state.rivers;
+  map.setLayers({ borders: state.borders, cities: state.cities, labels: state.labels, terrain: state.terrain, rivers: state.rivers });
+  loadGeography(); syncLegend();
   if (atlas) updateChanges();
+}
+function syncLegend() {
+  $('city-legend').hidden = changesLegend || !state.cities;
+  $('river-legend').hidden = changesLegend || !state.rivers || geography.rivers !== 'ready';
+}
+// Present-day geography is requested once the basemap has arrived, and only
+// for layers that are switched on. A failed request is retried by switching
+// the layer off and on again.
+function loadGeography() {
+  if (!geography.base) return;
+  if (state.rivers && !geography.rivers) {
+    geography.rivers = 'loading';
+    loadRivers().then(data => { geography.rivers = 'ready'; map.setData({ rivers: data }); geographyStatus(); syncLegend(); })
+      .catch(error => { geography.rivers = null; geographyStatus(`${error.message} Switch rivers off and on to retry.`); });
+  }
+  if (state.terrain && !geography.relief) {
+    geography.relief = 'loading';
+    loadRelief().then(blob => map.setRelief(blob)).then(status => { geography.relief = status; geographyStatus(); })
+      .catch(error => { geography.relief = null; geographyStatus(`${error.message} Switch terrain off and on to retry.`); });
+  }
+}
+function geographyStatus(message = '') {
+  const unsupported = geography.relief === 'unsupported';
+  $('terrain-toggle').disabled = unsupported;
+  const text = message || (unsupported ? 'Terrain shading needs WebGL 2, which this browser does not provide.' : '');
+  $('geography-status').textContent = text; $('geography-status').hidden = !text;
 }
 function applyProjection() {
   map.setProjection(state.projection);
@@ -769,7 +798,7 @@ $('zoom-in').addEventListener('click', () => map.zoomBy(1.45));
 $('zoom-out').addEventListener('click', () => map.zoomBy(1 / 1.45));
 $('reset-view').addEventListener('click', () => { map.reset(); persist(); });
 $('layers-toggle').addEventListener('click', () => { $('layers-panel').hidden = !$('layers-panel').hidden; $('layers-toggle').setAttribute('aria-expanded', String(!$('layers-panel').hidden)); });
-for (const [id, key] of [['borders-mode', 'borders'], ['cities-toggle', 'cities'], ['labels-toggle', 'labels']]) {
+for (const [id, key] of [['borders-mode', 'borders'], ['cities-toggle', 'cities'], ['labels-toggle', 'labels'], ['terrain-toggle', 'terrain'], ['rivers-toggle', 'rivers']]) {
   $(id).addEventListener('change', e => { state[key] = key === 'borders' ? e.target.value : e.target.checked; applyLayers(); persist(); });
 }
 $('search').addEventListener('input', () => { searchExpanded.clear(); runSearch(); });
@@ -878,7 +907,7 @@ async function boot() {
   $('search').disabled = true;
   try {
     atlas = await loadAtlas({
-      onBase(data) { map.setData(data); },
+      onBase(data) { map.setData(data); geography.base = true; loadGeography(); },
       onRulers(loadedAtlas) {
         // A cached response may settle before the await assigns atlas. Boot
         // renders that state; a later response refreshes the current selection.

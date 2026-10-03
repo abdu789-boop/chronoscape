@@ -1,0 +1,2 @@
+geography: rivers.json current; terrain.webp within tolerance (mean difference 0.00, largest 0)
+exit 0

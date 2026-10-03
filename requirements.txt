@@ -12,3 +12,4 @@ PyYAML==6.0.3
 matplotlib==3.10.9        # only scripts/render_slice.py needs this
 lxml==6.1.1              # ruler Wikipedia extraction and parser tests
 pypdf==6.10.0            # Archigos ruler reference codebook extraction
+Pillow==12.3.0           # scripts/build_geography.py: relief resampling and WebP encoding

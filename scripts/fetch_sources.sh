@@ -35,6 +35,11 @@ NE=https://raw.githubusercontent.com/martynafford/natural-earth-geojson/master
 [ -f ne_110m_admin_0_boundary_lines_land.json ] || curl -sL -o ne_110m_admin_0_boundary_lines_land.json $NE/110m/cultural/ne_110m_admin_0_boundary_lines_land.json
 [ -f ne_50m_admin_0_countries.json ]         || curl -sL -o ne_50m_admin_0_countries.json         $NE/50m/cultural/ne_50m_admin_0_countries.json
 
+echo "==> Natural Earth (public domain) — rivers, lakes and shaded relief for the terrain and river layers"
+[ -f ne_50m_rivers_lake_centerlines.json ]   || curl -sL -o ne_50m_rivers_lake_centerlines.json   $NE/50m/physical/ne_50m_rivers_lake_centerlines.json
+[ -f ne_50m_lakes.json ]                     || curl -sL -o ne_50m_lakes.json                     $NE/50m/physical/ne_50m_lakes.json
+[ -f SR_50M.zip ]                            || curl -sL -o SR_50M.zip                            https://naciscdn.org/naturalearth/50m/raster/SR_50M.zip
+
 echo "==> OWID long-run population (CC BY 4.0) — world totals and per-country"
 [ -f owid_population_historical.csv ] || curl -sL -o owid_population_historical.csv \
   "https://ourworldindata.org/grapher/population.csv?v=1&csvType=full&useColumnShortNames=true"

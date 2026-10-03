@@ -1,0 +1,41 @@
+id: 2026-10-03__terrain-rivers
+workstream: maintenance
+status: complete
+started: 2026-10-01
+objective: Add present-day terrain shading and rivers as map layers that can be switched on and off
+source_ids:
+  - repo-f752a39
+  - natural-earth-50m-geography
+  - terrain-qa-20261003
+canonical_outputs:
+  - ../../../../docs/data/rivers.json
+  - ../../../../docs/data/terrain.webp
+  - ../../../../docs/js/terrain.js
+  - ../../../../docs/js/map.js
+  - ../../../../docs/js/app.js
+  - ../../../../docs/js/data.js
+  - ../../../../docs/js/state.js
+  - ../../../../docs/index.html
+  - ../../../../docs/style.css
+  - ../../../../scripts/build_geography.py
+  - ../../../../scripts/update_data_versions.py
+  - ../../../../scripts/validate.py
+  - ../../../../scripts/qa_atlas.cjs
+  - qa/
+knowledge_updates:
+  - ../../../../knowledge/CHANGELOG.md
+  - ../../../../README.md
+  - ../../../../ARCHITECTURE.md
+  - ../../../../HANDOVER.md
+  - ../../../../BACKLOG.md
+  - ../../../../CREDITS.md
+  - ../../../../QA_REPORT.md
+  - ../../../../VERSION_HISTORY.md
+  - ../../../../requirements.txt
+  - ../../../../tests/browser/README.md
+  - ../../../../sources/SOURCE_REGISTER.tsv
+known_gaps:
+  - Rivers, lakes and coastlines are present-day; historical courses and shorelines are not modelled
+  - Relief softens beyond about 8x zoom (8192 px texture, about 23 px per degree)
+  - WebGL 2 relief tested only in Chrome; no accessibility or physical-device audit
+superseded_by: null

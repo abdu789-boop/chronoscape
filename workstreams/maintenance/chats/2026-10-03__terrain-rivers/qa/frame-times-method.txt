@@ -1,0 +1,22 @@
+Frame timing method (scratch harness, not committed): headless Chrome at 1440 x 900 CSS
+pixels and device pixel ratio 2, GPU rendering. The published site (git archive of f752a39)
+and the working tree were served from disk through Playwright request routing, with .webp
+served as image/webp. This change was measured with its default layers, terrain and rivers
+on, after waiting for the river key to appear and then 2.5 s for the relief.
+
+Each requestAnimationFrame callback's CPU time was recorded for, in order:
+  drag         40 pointer moves across the map
+  still frame  500 ms after release: the full-detail frame that follows movement
+  key pan      an arrow key while the map still has focus from the drag, which pans the
+               map: a fast frame and, within 400 ms, its full-detail frame
+  year step    the same key after removing focus from the map, which steps to the next map
+               year; the harness checks that the year face changed
+  wheel        12 wheel steps zooming in, 20 ms apart
+Four views: 1200 CE at world scale; 1700 CE at zoom 3.5 over central Europe; the globe in
+1200 CE; the globe at zoom 3. Two runs per view and version.
+
+Values are local runs and vary between runs. They measure canvas command time on this
+machine, not GPU completion, load time or a frame-rate guarantee.
+
+Correction to the 2026-10-01 Folio method: it pressed the arrow key immediately after the
+drag, while the map had focus, so its "year step" was a keyboard pan.

@@ -34,11 +34,20 @@ test('shared state safely defaults malformed numeric and enum fields', () => {
 });
 
 test('shared camera and selected polity survive encoded URL round-trip', () => {
-  const state = { year: -513, selected: 'nm:test & polity/é', projection: 'globe', borders: 'over', cities: false, labels: false, scope: '100' };
+  const state = { year: -513, selected: 'nm:test & polity/é', projection: 'globe', borders: 'over', cities: false, labels: false, terrain: false, rivers: false, scope: '100' };
   const view = { zoom: 2.5, center: [36.23, 28.1], rotation: [-36.23, -28.1] };
   const decoded = readHash(writeHash(state, view));
   for (const key of Object.keys(state)) assert.equal(decoded[key], state[key]);
   assert.equal(decoded.zoom, view.zoom);
   assert.deepEqual(decoded.center, view.center);
   assert.deepEqual(decoded.rotation, view.rotation);
+});
+
+test('geography layers are on by default and only switched-off layers enter the link', () => {
+  const defaults = readHash('#year=1200');
+  assert.equal(defaults.terrain, true); assert.equal(defaults.rivers, true);
+  const on = { year: 1200, selected: null, projection: 'flat', borders: 'off', cities: true, labels: true, terrain: true, rivers: true, scope: 'all' };
+  assert.doesNotMatch(writeHash(on), /terrain|rivers/);
+  const off = readHash(writeHash({ ...on, terrain: false }));
+  assert.equal(off.terrain, false); assert.equal(off.rivers, true);
 });

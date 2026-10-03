@@ -1,0 +1,2 @@
+{"polities": 1544, "withAcceptedRulers": 945, "withoutAcceptedRulers": 599, "completeScopedRosters": 0, "dispositions": {"identity-review": 3, "partial-roster": 945, "scope-or-evidence-review": 49, "source-acquisition-or-extraction": 547}, "acceptedStatuses": {"approximate": 501, "corroborated": 270, "dates-unknown": 239, "disputed": 21, "source-reviewed": 12278}}
+exit 0

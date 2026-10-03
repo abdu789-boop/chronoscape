@@ -1,5 +1,28 @@
 # Version history
 
+## Terrain shading and rivers — 2026-10-03
+
+- **Layers.** Terrain shading and rivers and lakes are new map layers under
+  "Present-day geography" in the Layers panel, switched on by default. Links
+  record only a layer that is switched off (`terrain=0`, `rivers=0`), and a
+  switched-off layer is not downloaded.
+- **Data.** `scripts/build_geography.py` derives `docs/data/rivers.json` (461
+  river lines and 357 natural lakes with their scale ranks; reservoirs omitted)
+  and `docs/data/terrain.webp` (8192 × 4096 relief, 1.5 MB) from public-domain
+  Natural Earth 1:50m data. The full data build runs it; fingerprints now cover
+  eleven files.
+- **Drawing.** WebGL 2 reprojects the relief for both projections
+  (`docs/js/terrain.js`); it is blended over the land, and rivers and lakes are
+  drawn beneath the historical washes. More rivers appear as you zoom in.
+  Without WebGL 2 the terrain layer is disabled with a note.
+- **Wording.** The panel and key state that relief, rivers, lakes and borders are
+  present-day and that coastlines and river courses have changed.
+- **Historical data unchanged.** Geometry, rulers and other published files are
+  as before.
+- **Checks.** 109 JavaScript tests, 55 Python tests, 51 full historical checks
+  with no skips, and 17 + 15 browser checks pass. Not yet published. See the
+  [workstream record](workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
+
 ## Folio interface — 2026-10-01
 
 - **Design.** The "Folio" design replaces the previous look.

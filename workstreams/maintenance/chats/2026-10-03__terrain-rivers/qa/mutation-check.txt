@@ -1,0 +1,13 @@
+Mutation check, 2026-10-03: each change below was made to docs/js/map.js, the named test run, and the file restored (cmp confirms).
+
+1. Never reuse cached river paths: 'const reusable = false && cached && ...'
+✖ the flat map reuses projected rivers while panning and zooming, and refreshes them when still (849.166041ms)
+ℹ pass 0
+ℹ fail 1
+
+2. Over-cull the globe: visible cap radius fixed at 0.1 rad
+✖ the globe keeps rivers that cross its visible edge (6.286792ms)
+ℹ pass 0
+ℹ fail 1
+
+map.js restored

@@ -1,8 +1,9 @@
 # Developer handover
 
-Reviewed 2026-10-01 (America/New_York), including the ruler expansion following
-`3c69275`, the year-format, licence and count fixes following `3dd9e62`, and the
-Folio interface change following `079d818`.
+Reviewed 2026-10-03 (America/New_York), including the ruler expansion following
+`3c69275`, the year-format, licence and count fixes following `3dd9e62`, the
+Folio interface change following `079d818`, and the terrain and river layers
+following `f752a39`.
 The repository is ready for a developer to run, test and continue the current
 application. This handover does not certify complete historical coverage or a
 fresh deployment. The latest work expands the ruler collection, adds incomplete
@@ -66,7 +67,7 @@ inspect their screenshots, and follow the manual checks in [QA_REPORT.md](QA_REP
 | Rulers | 13,309 accepted reigns across 945 identities; 599 without accepted rulers; no complete roster |
 | Ruler evidence | 270 individually cross-checked, 12,278 sampled-source, 501 approximate, 21 disputed and 239 incomplete-date records |
 | Ruler work | 547 source-acquisition/extraction, 49 scope/evidence-review and 3 identity-review cases without accepted rulers |
-| UI | Folio design (Georgia; paper and navy themes); search by name, alternative name, place, ruler and year; What changed between maps; polity playback; reign chart; flat/globe views; share links; mobile detail sheet; ruler evidence tooltips |
+| UI | Folio design (Georgia; paper and navy themes); search by name, alternative name, place, ruler and year; What changed between maps; polity playback; reign chart; flat/globe views; present-day terrain shading (WebGL 2) and rivers/lakes layers; share links; mobile detail sheet; ruler evidence tooltips |
 | Ontology | Designed in ONTOLOGY.md, not implemented; no dependency edges or tinting |
 | Removed features | No polity shortcuts, languages, religions or per-polity population; world population remains |
 
@@ -77,7 +78,8 @@ QA_REPORT sections and `workstreams/`) keep their counts as of their date.
 
 Preserve factual/instructive interface text, uncertainty labels, original ruler
 observations, repeated reigns and separate offices. Identity matching does not
-independently corroborate dates. Present-day borders are reference geometry.
+independently corroborate dates. Present-day borders, relief, rivers and lakes
+are reference geometry, labelled as present-day in the interface.
 See [CREDITS.md](CREDITS.md) for the existing source-specific attribution and
 licensing record; application code and all datasets do not share a single licence.
 
@@ -88,6 +90,9 @@ licensing record; application code and all datasets do not share a single licenc
   exact commands and dependency order are in [RULERS.md](docs/data/RULERS.md).
 - **Rebuild geometry:** install Python requirements, fetch map sources with
   `scripts/fetch_sources.sh`, run `scripts/build_app_data.py`, then full validation.
+  The terrain and river layers rebuild on their own with
+  `scripts/build_geography.py` once its three Natural Earth inputs are in
+  `data/raw/`; full validation compares them with a rebuild.
   Downloads use mutable upstream branches/latest URLs and skip existing files.
   There is no pinned map-source snapshot lock, so a later fresh download can
   change results. Review output and attribution before accepting it.
@@ -153,4 +158,5 @@ cross-browser and physical-device testing remain outside this audit.
 | Browser connection refused | Start the server and match `QA_BASE_URL`, including its trailing slash |
 | `Stale compared input` or `Stale ruler identity audit` | Follow the evidence → comparisons → identity audit → public build → fingerprints order in RULERS.md |
 | Cache fingerprint check fails | Regenerate with `python3 scripts/update_data_versions.py` after intentional data edits |
+| Layers panel says terrain needs WebGL 2 | The browser has WebGL 2 disabled or unavailable; the other layers still work. Headless QA uses the GPU, not SwiftShader |
 | Missing `pre-ui-redesign` | Restore the documented local tag from the baseline commit; fetch missing history if necessary |

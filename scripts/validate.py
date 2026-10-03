@@ -227,6 +227,37 @@ def check_aliases():
           (result.stdout + result.stderr).strip())
 
 
+def check_geography(quick):
+    print("\nPresent-day geography layers")
+    rivers_path, relief_path = os.path.join(OUT, "rivers.json"), os.path.join(OUT, "terrain.webp")
+    if not check("rivers.json and terrain.webp exist", os.path.exists(rivers_path) and os.path.exists(relief_path)):
+        return
+    data = load("rivers.json")
+    rivers, lakes = data["rivers"]["features"], data["lakes"]["features"]
+    ranks = {f["properties"]["r"] for f in rivers + lakes}
+    check("rivers and lakes carry Natural Earth scale ranks 0-6",
+          len(rivers) > 400 and len(lakes) > 300 and ranks <= set(range(7)),
+          f"{len(rivers)} rivers, {len(lakes)} lakes, ranks {sorted(ranks)}")
+    from PIL import Image
+    import numpy as np
+    with Image.open(relief_path) as image:
+        size = image.size
+        median = float(np.median(np.asarray(image.convert("L"))))
+    # Level ground is mid-grey, so the blend leaves it unchanged.
+    check("relief is 8192 x 4096 with level ground at mid-grey", size == (8192, 4096) and median == 128,
+          f"size {size}, median {median}")
+    if quick:
+        return skip("geography rebuild matches published layers", "--quick")
+    if not all(os.path.exists(os.path.join(RAW, name)) for name in
+               ("ne_50m_rivers_lake_centerlines.json", "ne_50m_lakes.json", "SR_50M.zip")):
+        return skip("geography rebuild matches published layers",
+                    "Natural Earth rivers, lakes or relief absent from data/raw; run scripts/fetch_sources.sh")
+    import subprocess
+    result = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "build_geography.py"), "--check"],
+                            capture_output=True, text=True)
+    check("geography rebuild matches published layers", result.returncode == 0, (result.stdout + result.stderr).strip())
+
+
 def main():
     quick = "--quick" in sys.argv
     print("Validating Chronoscape build" + (" (quick)" if quick else ""))
@@ -237,6 +268,7 @@ def main():
     check_index(idx)
     check_population()
     check_aliases()
+    check_geography(quick)
     check_sources(quick)
 
     print(f"\n{len(PASS)} passed, {len(FAIL)} failed, {len(SKIP)} skipped")

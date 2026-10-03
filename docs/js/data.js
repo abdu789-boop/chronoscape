@@ -247,8 +247,8 @@ export function createAtlas({ polities = [], years = [], cities = [], land = nul
   return { polities, years, cities, land, borders, index, worldPop, aliases, byKey, snapshot, cityEntries, population, search };
 }
 
-function dataURL(name) {
-  const url = new URL(`../data/${name}.json`, import.meta.url);
+function dataURL(name, extension = 'json') {
+  const url = new URL(`../data/${name}.${extension}`, import.meta.url);
   url.searchParams.set('v', DATA_VERSIONS[name]);
   return url.href;
 }
@@ -349,6 +349,25 @@ async function fetchPolities(signal, onProgress) {
     await new Promise(resolve => setTimeout(resolve, 0));
   }
   return polities;
+}
+
+/** Present-day rivers and lakes for the optional river layer. */
+export async function loadRivers(signal) {
+  const rivers = await fetchJSON('rivers', signal);
+  rivers.lakes?.features?.forEach(feature => rewindGeometry(feature.geometry));
+  return rivers;
+}
+
+/** The shaded-relief image (a WebP Blob) for the optional terrain layer. */
+export async function loadRelief(signal) {
+  let response;
+  try { response = await fetch(dataURL('terrain', 'webp'), { signal }); }
+  catch (error) {
+    if (error.name === 'AbortError') throw error;
+    throw new Error('Could not download terrain. Check your connection and retry.', { cause: error });
+  }
+  if (!response.ok) throw new Error(`Could not load terrain (HTTP ${response.status}). Please retry.`);
+  return response.blob();
 }
 
 /** Fetch once with content-versioned URLs; the caller can retry after an error. */

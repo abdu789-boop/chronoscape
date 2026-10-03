@@ -37,6 +37,8 @@ export function readHash(hash) {
     borders: ['off', 'over', 'under'].includes(p.get('borders')) ? p.get('borders') : 'off',
     cities: p.get('cities') !== '0',
     labels: p.get('labels') !== '0',
+    terrain: p.get('terrain') !== '0',
+    rivers: p.get('rivers') !== '0',
     scope: ['all', '1000', '500', '100', '25'].includes(p.get('scope')) ? p.get('scope') : 'all',
   };
 }
@@ -56,6 +58,8 @@ export function writeHash(state, view) {
   if (state.borders !== 'off') p.set('borders', state.borders);
   if (!state.cities) p.set('cities', '0');
   if (!state.labels) p.set('labels', '0');
+  if (state.terrain === false) p.set('terrain', '0');
+  if (state.rivers === false) p.set('rivers', '0');
   if (state.scope !== 'all') p.set('scope', state.scope);
   return '#' + p.toString();
 }

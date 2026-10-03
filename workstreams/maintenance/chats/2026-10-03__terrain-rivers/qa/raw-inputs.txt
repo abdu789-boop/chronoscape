@@ -1,0 +1,21 @@
+Natural Earth inputs for scripts/build_geography.py, downloaded by scripts/fetch_sources.sh
+on 2026-10-01 (America/New_York) into the ignored data/raw/ directory. Public domain.
+
+file                                   bytes       sha256
+ne_50m_rivers_lake_centerlines.json    1259797   8878c9b0dcf10c92b631408f92b599b320517561a3cc83f40e2024050255af5f
+ne_50m_lakes.json                      911795      eefade02355ffc5d48a6a001804fb28e01a56c12fe844af937307a00d0d1f62d
+SR_50M.zip                             11380369    ff810f5f2747463fd8ffa612b23e5f5e5d593a345218976872b6749610976ab7
+
+Sources:
+  https://raw.githubusercontent.com/martynafford/natural-earth-geojson/master/50m/physical/ne_50m_rivers_lake_centerlines.json
+  https://raw.githubusercontent.com/martynafford/natural-earth-geojson/master/50m/physical/ne_50m_lakes.json
+  https://naciscdn.org/naturalearth/50m/raster/SR_50M.zip (contains SR_50M.tif, 10800 x 5400, 8-bit grey, plate carree)
+
+Inspection before building:
+  rivers: 462 features (359 River, 103 Lake Centerline), scale ranks 1-6; 461 have geometry
+  lakes: 405 features (316 Lake, 41 Alkaline Lake, 48 Reservoir), scale ranks 0-6; reservoirs omitted
+  relief: most common value 206 (69% of pixels: level ground and sea); 1st/99th percentiles 179/214
+
+Published outputs (docs/data/):
+  rivers.json   606388 bytes   sha256 aec1365025420456ba258b371f55b5efca3062449e7ff35676ec8aa01e61ba07
+  terrain.webp  1508824 bytes  sha256 ea62691540e161d7f06344b5e9b3daa1d4de5e01a0f418ee32624703f9085216
