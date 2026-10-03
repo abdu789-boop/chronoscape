@@ -20,7 +20,9 @@
 - **Historical data unchanged.** Geometry, rulers and other published files are
   as before.
 - **Checks.** 109 JavaScript tests, 55 Python tests, 51 full historical checks
-  with no skips, and 17 + 15 browser checks pass. Not yet published. See the
+  with no skips, and 17 + 15 browser checks pass. Published 2026-10-03 as
+  `71b05fb`: the Pages deployment succeeded and both browser suites passed
+  against the live site. See the
   [workstream record](workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
 
 ## Folio interface — 2026-10-01

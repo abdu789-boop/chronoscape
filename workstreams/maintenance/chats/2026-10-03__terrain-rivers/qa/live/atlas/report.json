@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    "year face, step labels, population and largest polities",
+    "terrain and rivers draw in place and switch off",
+    "switched-off geography is downloaded only when switched on",
+    "typed BCE year updates the year face",
+    "What changed lists first mapped, no longer mapped and area changes for 1206 CE",
+    "In this view follows the map camera",
+    "search finds alternative names, places and rulers with a preview",
+    "Enter opens the highlighted polity",
+    "a typed year is offered and opens",
+    "a ruler result opens the polity at the reign",
+    "Play steps through the polity's mapped years and stops",
+    "the globe opens toward the year's territories",
+    "dark theme",
+    "phone sheet leaves the map visible above it, with the polity framed",
+    "no page errors"
+  ],
+  "screenshots": [
+    "explore.png",
+    "geography.png",
+    "changes.png",
+    "search.png",
+    "selected.png",
+    "globe-dark.png",
+    "mobile.png"
+  ]
+}

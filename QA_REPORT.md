@@ -27,9 +27,13 @@ New optional layers and two derived files, `docs/data/rivers.json` and
   Zooming in with the wheel on the zoomed flat view raises the 90th-percentile
   frame from about 15 to 24 ms, when a zoom level that adds rivers is crossed.
 
+Published 2026-10-03 as `71b05fb`. The Pages deployment succeeded, the live
+files matched the commit (the relief served as `image/webp`), and both browser
+suites passed against the live site with their screenshots inspected.
+
 Not checked: browsers other than Chrome (WebGL 2 relief in Safari and Firefox),
-physical devices, accessibility conformance. Not yet published. Evidence is in
-the [workstream record](workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
+physical devices, accessibility conformance. Evidence is in the
+[workstream record](workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
 
 ## Folio interface — 2026-10-01
 

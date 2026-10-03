@@ -20,9 +20,12 @@ independently corroborate dates. Map geometry is unchanged; the ontology remains
 unimplemented. Ignored raw source snapshots need a separate transfer for exact
 re-extraction, and map sources remain unpinned.
 
-GitHub Pages was serving `9664250`, the Folio interface, when checked on
-2026-10-01: the deployment succeeded, the live files and data fingerprints
-matched, and both browser suites passed against the live site. See the
+GitHub Pages was serving `71b05fb`, the Folio interface with present-day
+terrain shading and rivers, when checked on 2026-10-03: the deployment
+succeeded, the live files and data fingerprints matched, and both browser
+suites passed against the live site. See the
+[terrain and rivers record](../workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md)
+and, for the interface, the
 [Folio record](../workstreams/maintenance/chats/2026-10-01__folio-interface/handoff.md).
 Later documentation-only commits record that check. A Git push alone does not
 verify a later deployment or successor access.

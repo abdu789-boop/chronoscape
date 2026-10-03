@@ -2,7 +2,8 @@
 
 The user asked for "terrain shading and rivers as geographical options that can
 be turned on and off". Both are new map layers, switched on by default, under
-"Present-day geography" in the Layers panel. Base: `f752a39`. Not yet published.
+"Present-day geography" in the Layers panel. Base: `f752a39`. **Published
+2026-10-03 as `71b05fb`**; see [Publication](#publication).
 
 ## Changes
 
@@ -103,6 +104,20 @@ All relative links in the edited documents resolve ([link-check.txt](qa/link-che
 Node.js is not on this machine's PATH; the Codex-bundled Node 24.19.0 and
 Playwright 1.62.1 were used with installed Chrome, whose headless WebGL 2 ran on
 the GPU ([environment.txt](qa/environment.txt)).
+
+## Publication
+
+Pushed `f752a39..71b05fb` to `main`. Evidence is in [qa/live/](qa/live/),
+summarized in [publication-check.txt](qa/live/publication-check.txt).
+
+- Pages run 37125350663 (deployment 6828001521) for `71b05fb` succeeded.
+- The live `index.html`, stylesheet, changed modules, `terrain.js` and
+  `data-version.js` match the commit byte for byte, as do `rivers.json` and
+  `terrain.webp` at their versioned URLs; the relief is served as `image/webp`.
+- Both browser suites (17 ruler and 15 atlas checks) passed against the live
+  site without page errors, including the relief, river and download checks.
+  Their 13 screenshots were inspected and are stored as WebP; the reports keep
+  the suites' original `.png` names.
 
 ## Not done
 

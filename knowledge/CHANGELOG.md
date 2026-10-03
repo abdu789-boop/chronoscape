@@ -7,7 +7,8 @@ switched off, built from public-domain Natural Earth data by
 `scripts/build_geography.py` and drawn with a new WebGL 2 relief renderer.
 Updated ARCHITECTURE, HANDOVER, README, CREDITS, BACKLOG, requirements, the
 browser QA guide and release records, and corrected the Folio record's
-"year step" timing, which measured a keyboard pan.
+"year step" timing, which measured a keyboard pan. Published 2026-10-03 as
+`71b05fb`; the deployment and live browser checks were verified.
 
 Provenance: [terrain handoff](../workstreams/maintenance/chats/2026-10-03__terrain-rivers/handoff.md).
 
